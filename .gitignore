@@ -2,12 +2,15 @@
 ## Unity
 #################
 
-/Temp
-/obj
-/library
+Temp/
+obj/
+Library/
+library/
 *.csproj
 *.unityproj
 *.sln
+*.userprefs
+*.pidb
 
 #################
 ## Eclipse
