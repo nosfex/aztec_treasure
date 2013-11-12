@@ -2,9 +2,10 @@
 ## Unity
 #################
 
-/Temp
-/obj
-/Library
+Temp/
+obj/
+Library/
+library/
 *.csproj
 *.unityproj
 *.sln
