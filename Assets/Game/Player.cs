@@ -250,6 +250,8 @@ public class Player : BaseObject
 	
 	void OnTrigger( Collider other )
 	{
+		if ( other.tag != "Wall" )
+			return;
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
 

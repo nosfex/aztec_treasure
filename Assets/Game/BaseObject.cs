@@ -53,7 +53,6 @@ public class BaseObject : MonoBehaviour
 			}
 			else 
 			{
-				print ("what");
 				transform.position = new Vector3( transform.position.x, 0.2f, transform.position.z );
 				gravity *= -0.7f;//Vector3.zero;
 				

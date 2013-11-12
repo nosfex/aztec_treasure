@@ -7,7 +7,7 @@ public class BaseObjectSensor : MonoBehaviour
 	
 	void OnTriggerEnter( Collider other )
 	{
-		print ("enter");
+		//print ("enter");
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 		
 		if ( bo )
@@ -16,7 +16,7 @@ public class BaseObjectSensor : MonoBehaviour
 
 	void OnTriggerExit( Collider other )
 	{
-		print ("exit");
+		//print ("exit");
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 		
 		if ( bo && bo == sensedObject )
