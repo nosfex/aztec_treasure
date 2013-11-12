@@ -4,10 +4,12 @@
 
 /Temp
 /obj
-/library
+/Library
 *.csproj
 *.unityproj
 *.sln
+*.userprefs
+*.pidb
 
 #################
 ## Eclipse
