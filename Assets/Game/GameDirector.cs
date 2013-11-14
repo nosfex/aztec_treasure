@@ -3,13 +3,16 @@ using System.Collections;
 
 public class GameDirector : MonoBehaviour {
 	
+	public static GameDirector i { get { return instance; } }
+	private static GameDirector instance;
+	
 	public World worldContainer;
 	
 	public GameObject playerLeftPrefab;
 	public GameObject playerRightPrefab;
 	
-	GameObject playerLeft;
-	GameObject playerRight;
+	[HideInInspector] public Player playerLeft;
+	[HideInInspector] public Player playerRight;
 	
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
@@ -27,6 +30,11 @@ public class GameDirector : MonoBehaviour {
             SetLayerRecursively(child.gameObject, newLayer);
         }
     }
+	
+	void Awake ()
+	{
+		instance = this;
+	}
 	// Use this for initialization
 	void Start () 
 	{
@@ -40,15 +48,19 @@ public class GameDirector : MonoBehaviour {
 		World world2 = go.GetComponent<World>();
 		
 		// Create past player
-		playerLeft = (GameObject)Instantiate ( playerLeftPrefab );
+		GameObject gol = (GameObject)Instantiate( playerLeftPrefab );
+		playerLeft = gol.GetComponentInChildren<Player>();
 		
 		// Create future player
-		playerRight = (GameObject)Instantiate ( playerRightPrefab );
+		GameObject gor = (GameObject)Instantiate ( playerRightPrefab );
+		playerRight = gor.GetComponentInChildren<Player>();
 		
-		worldContainer.playerContainer = playerLeft.transform;
+		worldContainer.playerContainer = gol.transform;
+		worldContainer.player = playerLeft;
 		worldContainer.InitPlayer();
 		
-		world2.playerContainer = playerRight.transform;
+		world2.playerContainer = gor.transform;
+		world2.player = playerRight;
 		world2.InitPlayer();
 		
 		SetLayerRecursively( go, LayerMask.NameToLayer( "Future" ) );

@@ -12,7 +12,7 @@ public class Player : BaseObject
 	
 	override protected void Start () 
 	{
-		animator = GetComponent<SpriteAnimator>();
+		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
 		direction = Vector3.right;
 	}
@@ -49,10 +49,11 @@ public class Player : BaseObject
 	
 	void Update () 
 	{
+		
 		float dx = 0, dy = 0;
 		
 		
-		if ( !animator.isAnimPlaying("Attack") )
+		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
 		{
 			if ( Input.GetKey(leftKey) && lockLeft < 0 )
 			{
@@ -94,6 +95,7 @@ public class Player : BaseObject
 		//print ("timer = " + straightTimer );
 		
 		accel += speed * new Vector3( dx, 0, dy );
+		
 		
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;
 		
@@ -240,16 +242,35 @@ public class Player : BaseObject
 		lockUp--;
 	}
 	
-	void OnTriggerEnter( Collider other )
+	override protected void OnTriggerEnter( Collider other )
 	{
+		base.OnTriggerEnter( other );
 		//print ( "caca = " + velocity.magnitude );
 		OnTrigger ( other ); 
 	}
 
-	void OnTriggerStay( Collider other ){	OnTrigger ( other ); }
+	void OnTriggerStay( Collider other )
+	{	
+		base.OnTriggerStay( other );
+		OnTrigger ( other ); 
+	}
 	
 	void OnTrigger( Collider other )
 	{
+		if ( other.tag == "Floor" )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+//			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
+			
+			if ( yDif < 0.3f && currentFloor != null ) // Enough to climb
+				return;
+			
+			// Not enough to climb, treat floor as wall.
+		}
+		else 
 		if ( other.tag != "Wall" )
 			return;
 		
@@ -263,7 +284,7 @@ public class Player : BaseObject
 			}
 		}
 		
-		float margin = ((SphereCollider)collider).radius - 0.01f;
+		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
 		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
 		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
 		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * margin);
@@ -317,9 +338,9 @@ public class Player : BaseObject
 			animator.StopAnim();
 			velocity *= -2.0f;
 		}
-		else 
-		if ( straightTimer > 0.7f )
-			velocity *= -2.0f;
+//		else 
+//		if ( straightTimer > 0.7f )
+//			velocity *= -2.0f;
 		
 		straightTimer = 0;
 		
