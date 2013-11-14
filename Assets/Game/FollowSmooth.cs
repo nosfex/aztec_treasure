@@ -7,13 +7,18 @@ public class FollowSmooth : MonoBehaviour {
 	public float frictionCoef = 0.99f;
 	public Vector3 offset;
 	
+	Vector3 originalPosition;
 	void Start()
 	{
+		originalPosition = transform.position;
+		
 		offset = transform.position - target.position;
 	}
 	
-	void Update () 
+	void Update() 
 	{
 		transform.position += ((target.position + offset) - transform.position) * frictionCoef;
+		
+		transform.position = new Vector3( transform.position.x, originalPosition.y, transform.position.z );
 	}
 }

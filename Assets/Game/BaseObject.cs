@@ -14,13 +14,16 @@ public class BaseObject : MonoBehaviour
 	//[HideInInspector] 
 	public bool gravityEnabled = true;
 	
-	Vector3 gravity;
+	Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;
-	
+	public BoxCollider currentFloor;
+
 	virtual protected void Start()
 	{
-	
+		velocity = Vector3.zero;
+		accel = Vector3.zero;
+		
 		if ( transform.root != transform )
 		{
 			
@@ -38,37 +41,119 @@ public class BaseObject : MonoBehaviour
 		}
 	}
 	
+	float floorY = 0;
+	
 	protected void LateUpdate()
 	{
-		float frameRatio = (Time.deltaTime / 0.016f);
+		
+		float frameRatio = Mathf.Clamp01(Time.deltaTime / 0.016f);
 		
 		if ( gravityEnabled )
 		{
 			transform.position -= gravity * frameRatio;
-
-			if ( transform.position.y > 0.2f )
+			
+			if ( currentFloor != null )
+			{
+				// Si el nuevo esta mas abajo o igual, lo asigna.
+				if ( ( currentFloor.transform.position.y + currentFloor.bounds.extents.y ) < floorY + 0.4f || floorY == -100f )
+					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + collider.bounds.extents.y;
+			}
+			else
+			{
+				floorY = -100f;
+			}
+			
+			//print ("floorY " + floorY );
+			if ( transform.position.y > floorY )
 			{
 				
-				gravity += ( Vector3.up * 0.0015f );
+				gravity += ( Vector3.up * 0.01f );
+				gravity *= 0.9f;
 			}
 			else 
 			{
-				transform.position = new Vector3( transform.position.x, 0.2f, transform.position.z );
-				gravity *= -0.7f;//Vector3.zero;
+				if ( floorY > transform.position.y && floorY < (transform.position.y + 0.4f) )
+				{
+					//if ( gravity.y >= 0 )
+					{
+						float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
+						//gravity -= Vector3.up * dif;
+						transform.position += Vector3.up * Mathf.Min( 0.1f, dif );
+					}
+					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
+				}
+				else 
+				{
+					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+				}
 				
-				if ( gravity.magnitude < 0.001f )
+				gravity *= -0.5f;//Vector3.zero;
+				
+				if ( gravity.magnitude < 0.1f )
 					gravity = Vector3.zero;
 				
 				collisionEnabled = true;				
 			}
 			
 		}
+		
+		
 
 		velocity += accel * frameRatio;
 		Vector3 velocityDif = (velocity * frictionCoef) - velocity;
 		velocity += velocityDif * frameRatio;
+		//print ("coef = " + velocityDif );
+		//velocity *= frictionCoef;
 		transform.position += velocity * frameRatio;
-
+		
+//		if ( velocity.x != 0 )
+		//	print (" v = "  + velocity.x  + " * " + frameRatio );
+		
 		accel = Vector3.zero;
+	}
+	
+	
+	virtual protected void OnTriggerExit( Collider other )
+	{
+		if ( other.tag == "Floor" )
+		{
+			if ( other == currentFloor )
+				currentFloor = null;
+		}
+	}
+	
+	virtual protected void OnTriggerStay( Collider other )
+	{
+		if ( other.tag == "Floor" )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
+			
+			if ( yDif >= 0.3f ) // Enough to climb
+				return;
+
+			currentFloor = (BoxCollider)other;
+		}		
+	}
+	
+	
+	virtual protected void OnTriggerEnter( Collider other )
+	{
+		if ( other.tag == "Floor" )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
+			
+			if ( yDif >= 0.3f ) // Enough to climb
+				return;
+			
+			currentFloor = (BoxCollider)other;
+		}
 	}
 }

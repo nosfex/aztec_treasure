@@ -10,10 +10,12 @@ public class World : MonoBehaviour {
 	
 	public void InitPlayer() 
 	{
-		player = playerContainer.GetComponentInChildren<Player>();
+		//player = playerContainer.GetComponentInChildren<Player>();
 		camera = playerContainer.GetComponentInChildren<Camera>();
 
 		playerContainer.transform.parent = transform;
 		playerContainer.transform.position = startingPoint.position - player.transform.position;
+		
+		player.transform.parent = transform;
 	}
 }
