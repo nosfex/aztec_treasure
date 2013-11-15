@@ -60,7 +60,7 @@ public class LeafData
 			takenPositions.Add(Vector3.zero);
 			
 		}
-		leafData.Start();
+//		leafData.Start();
 		
 	}
 	

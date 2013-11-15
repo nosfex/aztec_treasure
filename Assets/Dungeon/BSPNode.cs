@@ -11,8 +11,8 @@ public class BSPNode
 	public int weight;
 	public int width = 0;
 	public int height = 0;
-	public int initPosX;
-	public int initPosY;
+	public int initPosX = 0;
+	public int initPosY = 0;
 	
 	public Room room;
 
