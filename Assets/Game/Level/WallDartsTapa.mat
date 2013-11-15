@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Floor Tapa
-  m_Shader: {fileID: 30, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: WallDartsTapa
+  m_Shader: {fileID: 205, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_SavedProperties:
     serializedVersion: 2
@@ -16,7 +16,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 8fe81e9bd08944399b6582c7734010da, type: 3}
+          m_Texture: {fileID: 2800000, guid: 4259ff4a11ec841ad8a9a0984e3a3c82, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -41,7 +41,7 @@ Material:
       data:
         first:
           name: _InvFade
-        second: 1
+        second: .00999999978
     m_Colors:
       data:
         first:

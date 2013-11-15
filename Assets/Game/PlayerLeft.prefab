@@ -335,7 +335,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .300000012, y: .300000012, z: .300000012}
+  m_Size: {x: .300000012, y: .405815154, z: .300000012}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &8100000
 AudioListener:
@@ -377,7 +377,7 @@ MonoBehaviour:
   upKey: 119
   downKey: 115
   attackKey: 103
-  speed: .0149999997
+  speed: .0199999996
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

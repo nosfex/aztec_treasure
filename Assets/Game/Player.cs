@@ -145,9 +145,6 @@ public class Player : BaseObject
 		}
 		
 
-		
-		
-		
 		if ( Input.GetKey(leftKey)  )
 		{
 			facing = "Left";
@@ -236,6 +233,12 @@ public class Player : BaseObject
 			
 		}
 		
+		// DEATH BY FALL
+		if ( transform.position.y < worldOwner.deathYLimit.position.y )
+		{
+			die();
+		}
+		
 		lockLeft--;
 		lockRight--;
 		lockDown--;
@@ -247,6 +250,17 @@ public class Player : BaseObject
 		base.OnTriggerEnter( other );
 		//print ( "caca = " + velocity.magnitude );
 		OnTrigger ( other ); 
+	}
+	
+	void die()
+	{
+		transform.position = worldOwner.startingPoint.position;
+		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
+	}
+	
+	void OnParticleCollision( GameObject other )
+	{
+		die();
 	}
 
 	void OnTriggerStay( Collider other )

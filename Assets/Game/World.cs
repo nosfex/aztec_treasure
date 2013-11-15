@@ -8,6 +8,8 @@ public class World : MonoBehaviour {
 	new public Camera camera;
 	public Player player;
 	
+	public Transform deathYLimit;
+	
 	public void InitPlayer() 
 	{
 		//player = playerContainer.GetComponentInChildren<Player>();

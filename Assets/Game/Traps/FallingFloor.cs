@@ -17,11 +17,28 @@ public class FallingFloor : MonoBehaviour
 	const float TIME_TO_FALL = 0.5f;
 	const float CRUMB_AMOUNT = 0.1f;
 	
-	Player playerOnTop;
+	BaseObject objectOnTop;
 	float playerOnTopTimer = TIME_TO_CRUMB;
 	float crumblingTimer = TIME_TO_FALL;
 	Vector3 gravity;
 	
+	Vector3 startPosition;
+	
+	void Start ()
+	{
+		startPosition = transform.position;
+	}
+	
+	void EnterObjectLaid( BaseObject other )
+	{
+		objectOnTop = other;
+	}
+
+	void ExitObjectLaid( BaseObject other )
+	{
+		if ( other == objectOnTop )
+			objectOnTop = null;
+	}
 	
 	void Update () 
 	{
@@ -32,18 +49,9 @@ public class FallingFloor : MonoBehaviour
 			case FallingFloor.State.IDLE:
 				playerOnTopTimer = TIME_TO_CRUMB;
 			
-				if ( GameDirector.i.playerLeft && GameDirector.i.playerLeft.currentFloor == collider )
-				{
+				if ( objectOnTop != null )
 					state = FallingFloor.State.PLAYER_ON_TOP;
-					playerOnTop = GameDirector.i.playerLeft;
-				}
 		
-				if ( GameDirector.i.playerRight && GameDirector.i.playerRight.currentFloor == collider )
-				{
-					state = FallingFloor.State.PLAYER_ON_TOP;
-					playerOnTop = GameDirector.i.playerRight;
-				}
-			
 				break;
 			case FallingFloor.State.PLAYER_ON_TOP:
 				playerOnTopTimer -= Time.deltaTime;
@@ -54,10 +62,9 @@ public class FallingFloor : MonoBehaviour
 					iTween.ShakePosition( gameObject, iTween.Hash( "y", CRUMB_AMOUNT, "time", TIME_TO_FALL ) );
 				}
 				else
-				if ( playerOnTop && playerOnTop.currentFloor != collider )
+				if ( objectOnTop == null )
 				{
 					state = FallingFloor.State.IDLE;
-					playerOnTop = null;
 				}
 		
 				break;
@@ -88,5 +95,12 @@ public class FallingFloor : MonoBehaviour
 	{
 		//if ( other.GetComponent<Player>() != null )
 			triggered = true;
+	}
+	
+	public void OnPlayerDead()
+	{
+		transform.position = startPosition;
+		state = FallingFloor.State.IDLE;
+		objectOnTop = null;
 	}
 }

@@ -118,7 +118,10 @@ public class BaseObject : MonoBehaviour
 		if ( other.tag == "Floor" )
 		{
 			if ( other == currentFloor )
+			{
 				currentFloor = null;
+				other.SendMessage( "ExitObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
+			}
 		}
 	}
 	
@@ -130,12 +133,11 @@ public class BaseObject : MonoBehaviour
 			float MISPIES = transform.position.y - collider.bounds.extents.y;
 			float yDif = TECHODELPISO - MISPIES;
 			
-			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
-			
 			if ( yDif >= 0.3f ) // Enough to climb
 				return;
 
 			currentFloor = (BoxCollider)other;
+			other.SendMessage( "EnterObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
 		}		
 	}
 	
@@ -148,12 +150,11 @@ public class BaseObject : MonoBehaviour
 			float MISPIES = transform.position.y - collider.bounds.extents.y;
 			float yDif = TECHODELPISO - MISPIES;
 			
-			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
-			
 			if ( yDif >= 0.3f ) // Enough to climb
 				return;
 			
 			currentFloor = (BoxCollider)other;
+			gameObject.BroadcastMessage( "EnterObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
 		}
 	}
 }
