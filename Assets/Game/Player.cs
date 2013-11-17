@@ -332,6 +332,8 @@ public class Player : BaseObject
 		hearts = GameDirector.i.maxHearts;
 		inmuneTimer = 0;
 		transform.position = worldOwner.startingPoint.position;
+		velocity = Vector3.zero;
+		gravity = Vector3.zero;
 		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 	}
 	

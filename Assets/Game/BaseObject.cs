@@ -8,6 +8,7 @@ public class BaseObject : MonoBehaviour
 	
 	[HideInInspector] public Vector3 accel = Vector3.zero;
 	public float frictionCoef = 0.97f;
+	public float airFrictionCoef = 1.0f;
 	public float bouncyness = 0.9f;
 	
 	[HideInInspector] public Vector3 velocity = Vector3.zero;
@@ -17,7 +18,7 @@ public class BaseObject : MonoBehaviour
 	
 	public bool isLiftable = true;
 	
-	Vector3 gravity = Vector3.zero;
+	protected Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;
 	public BoxCollider currentFloor;
@@ -79,7 +80,7 @@ public class BaseObject : MonoBehaviour
 		float friction = frictionCoef;
 		
 		if ( gravityEnabled && transform.position.y > floorY )
-			friction = 1.0f;
+			friction = airFrictionCoef;
 		
 		Vector3 velocityDif = (velocity * friction) - velocity;
 		velocity += velocityDif * frameRatio;
@@ -101,21 +102,21 @@ public class BaseObject : MonoBehaviour
 			}
 			else 
 			{
-//				if ( floorY > transform.position.y && floorY < (transform.position.y + 0.4f) )
-//				{
-//					//if ( gravity.y >= 0 )
-//					{
-//						float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
-//						//gravity -= Vector3.up * dif;
-//						transform.position += Vector3.up * Mathf.Min( 0.1f, dif );
-//					}
-//					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
-//				}
-//				else 
-//				{
-//					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
-//				}
-				transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+				if ( floorY > transform.position.y && floorY < (transform.position.y + 0.4f) )
+				{
+					//if ( gravity.y >= 0 )
+					{
+						float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
+						//gravity -= Vector3.up * dif;
+						transform.position += Vector3.up * Mathf.Min( 0.1f, dif );
+					}
+					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
+				}
+				else 
+				{
+					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+				}
+				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 
 				
 				if ( gravity.magnitude < 0.05f )
