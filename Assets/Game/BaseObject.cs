@@ -126,7 +126,7 @@ public class BaseObject : MonoBehaviour
 					
 					if ( gravity.y > 0 )
 					{
-						print("WHAT");
+						//print("WHAT");
 						gravity *= -bouncyness;//Vector3.zero;
 					}
 				}
