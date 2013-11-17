@@ -228,7 +228,20 @@ public class BaseObject : MonoBehaviour
 	{
 		if ( other.tag.Contains( "Floor" ) )
 			TestFloor( other );
-	
+
+		
+		if ( other.tag.Contains("Floor") )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+			if ( yDif >= 0.3f ) // Enough to climb
+			{
+				TestWalls( other ); // Treat as wall!
+			}
+		}
+		
 		if ( other.tag.Contains( "Wall" ) )
 			TestWalls( other );
 	}
@@ -237,6 +250,18 @@ public class BaseObject : MonoBehaviour
 	{
 		if ( other.tag.Contains( "Floor" ) )
 			TestFloor( other );
+		
+		if ( other.tag.Contains("Floor") )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+			if ( yDif >= 0.3f ) // Enough to climb
+			{
+				TestWalls( other ); // Treat as wall!
+			}
+		}		
 		
 		if ( other.tag.Contains( "Wall" ) )
 			TestWalls( other );

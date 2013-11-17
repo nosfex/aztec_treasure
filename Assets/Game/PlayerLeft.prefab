@@ -365,7 +365,7 @@ MonoBehaviour:
   worldOwner: {fileID: 0}
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .660000026
-  airFrictionCoef: .660000026
+  airFrictionCoef: 0
   bouncyness: .5
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1

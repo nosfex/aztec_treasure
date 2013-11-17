@@ -29,6 +29,9 @@ public class Player : BaseObject
 			if ( light == null || light == torchLight )
 				continue;
 			
+			if ( light.type != LightType.Point )
+				continue;
+			
 			float dist = Vector3.Distance( transform.position, light.transform.position );
 			
 			if ( dist < minLightDistance )
@@ -39,7 +42,7 @@ public class Player : BaseObject
 		}
 		float threshold = 1.5f;
 
-		if ( nearestLight )
+		if ( nearestLight != null )
 		{				
 			inDarkness = minLightDistance > nearestLight.range * threshold;
 			
@@ -161,6 +164,9 @@ public class Player : BaseObject
 				torchRatio -= (Time.deltaTime * 100f) / 15f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 			}
+			
+			if ( torchRatio <= 0 )
+				OnHit ( null );
 		
 			torchLight.intensity = (torchRatio / 100f) * 0.66f;
 		}
@@ -302,7 +308,7 @@ public class Player : BaseObject
 			else // Ya tiene un objeto en la capocha, tirarlo!
 			{
 				
-				liftedObject.velocity += (direction * 0.02f) + (velocity * 0.1f); 
+				liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
 				liftedObject.velocity.y += 0.05f;
 				liftedObject.transform.parent = worldOwner.transform;
 				liftedObject.gravityEnabled = true;
@@ -320,7 +326,7 @@ public class Player : BaseObject
 			
 			velocity = Vector3.zero;
 			gravity = Vector3.zero;
-			transform.position = lastSafeFloor.transform.position + new Vector3(0, 2.0f, 0);
+			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
 			OnHit ( null );
 		}
 		
@@ -339,6 +345,7 @@ public class Player : BaseObject
 		transform.position = worldOwner.startingPoint.position;
 		velocity = Vector3.zero;
 		gravity = Vector3.zero;
+		torchRatio = 100;
 		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 	}
 	
@@ -371,6 +378,8 @@ public class Player : BaseObject
 		{
 			other.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 		}
+		
+
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
 
