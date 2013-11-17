@@ -4,12 +4,11 @@ using System.Collections;
 public class Dart : MonoBehaviour {
 	
 	public float speed;
-	// Use this for initialization
-	void Start () {
-	
+
+	void Start () 
+	{
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		float frameRatio = Mathf.Clamp01(Time.deltaTime / 0.016f);
@@ -32,10 +31,15 @@ public class Dart : MonoBehaviour {
 		{
 			life = 0;
 		}
-
-		
 		
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
+		
+		BaseObject bo = other.GetComponent<BaseObject>();
+		
+		if ( null != bo )
+		{
+			bo.velocity -= transform.forward * speed;
+		}
 		
 		if ( life <= 0 )
 			Destroy ( gameObject );

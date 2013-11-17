@@ -22,7 +22,7 @@ public class WallDarts : MonoBehaviour {
 	
 	void OnTriggerEnter( Collider other )
 	{
-		if ( other.tag.Contains("Wall") ) // Non-destructible walls don't trigger this sensor.
+		if ( other.GetComponent<Vine>() != null ) // Vines don't trigger this sensor.
 			return;
 		
 		if ( other.GetComponent<BaseObject>() != null && !alreadyTriggered )

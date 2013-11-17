@@ -14,6 +14,8 @@ public class GameDirector : MonoBehaviour {
 	[HideInInspector] public Player playerLeft;
 	[HideInInspector] public Player playerRight;
 	
+	public int maxHearts;
+	
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
     {

@@ -293,10 +293,10 @@ if ( transform.root == transform )
 		
 		frameIndex = (int)(timer / frameTime);
 		
-		//print ( " frame = " + frameIndex + " ... " + currentAnimation.frameRate );
+		
 		
 		frameIndex = Mathf.Clamp ( frameIndex, 0, (frameSequence.Length - 1) );
-		
+		//print ( " frame = " + frameIndex + " ... " + currentAnimation.frameRate );
 		if ( frameSequence[ frameIndex ] == -1 ) // Loop!
 		{
 			frameIndex = 0;

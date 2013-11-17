@@ -13,7 +13,9 @@ public class Player : BaseObject
 	private Light torchLight;
 	public bool inDarkness = false;
 	
+	[HideInInspector]
 	public int hearts;
+	
 	public float torchRatio;
 	
 	void TestDarkness()
@@ -55,7 +57,7 @@ public class Player : BaseObject
 		lights = (Light[])FindObjectsOfType( typeof( Light ) );
 		torchLight = GetComponentInChildren<Light>();
 		torchRatio = 100f;
-
+		hearts = GameDirector.i.maxHearts;
 		InvokeRepeating( "TestDarkness", 0, 0.2f );
 	
 	}
@@ -261,15 +263,27 @@ public class Player : BaseObject
 		
 		if ( Input.GetKeyDown( attackKey )  )
 		{
-			if ( liftedObject == null )
+			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
 				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 				{
 					//print ("LIFT!");
 					Transform lifted = liftSensor.sensedObject.transform;
 					lifted.parent = transform;
-					lifted.position = transform.position + new Vector3( 0, 0.4f, 0 );
+					
+					
+					
+					
+					// pone el objeto en la cabeza del flaco.
+					
+					iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.45f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
+					//iTween.MoveAdd( lifted.gameObject, iTween.Hash ( "time", 0.5f, "isLocal", true, "x", targetPos.x, "easetype", iTween.EaseType.easeInOutQuad ) );
+					//lifted.position = transform.position + new Vector3( 0, 0.4f, 0 );
+					
+					// to keep track
 					liftedObject = lifted.gameObject.GetComponent<BaseObject>();
+
+					// Lo desactiva.
 					liftedObject.gravityEnabled = false;
 					liftedObject.collisionEnabled = false;
 					
@@ -277,21 +291,23 @@ public class Player : BaseObject
 					
 					//dropGuide.SetActive( true );
 				}
-				else if ( cooldown < 0 )
+				else if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
 				{
 					animator.StopAnim();
 					animator.PlayAnim("Attack" + facing );
 					velocity *= 2;
 				}
 			}
-			else
+			else // Ya tiene un objeto en la capocha, tirarlo!
 			{
 				
-				liftedObject.velocity += (direction * 0.1f) + (velocity * 1.5f); 
+				liftedObject.velocity += (direction * 0.02f) + (velocity * 0.1f); 
+				liftedObject.velocity.y += 0.05f;
 				liftedObject.transform.parent = worldOwner.transform;
 				liftedObject.gravityEnabled = true;
 				
 				liftedObject = null;
+				liftSensor.sensedObject = null;
 				liftSensor.gameObject.SetActive( true );
 			}
 			
@@ -309,16 +325,11 @@ public class Player : BaseObject
 		lockUp--;
 	}
 	
-	override protected void OnTriggerEnter( Collider other )
-	{
-		base.OnTriggerEnter( other );
-		//print ( "caca = " + velocity.magnitude );
-		OnTrigger ( other ); 
-	}
+
 	
 	void die()
 	{
-		hearts = 5;
+		hearts = GameDirector.i.maxHearts;
 		inmuneTimer = 0;
 		transform.position = worldOwner.startingPoint.position;
 		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
@@ -336,37 +347,12 @@ public class Player : BaseObject
 		if ( hearts == 0 )
 			die();
 	}
-
-	void OnTriggerStay( Collider other )
-	{	
-		base.OnTriggerStay( other );
-		OnTrigger ( other ); 
-	}
 	
-	void OnTrigger( Collider other )
+	override protected void TestWalls( Collider other )
 	{
 		if ( animator.isAnimPlaying("Attack") )
 		{
 			other.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
-		}
-		
-		if ( other.tag == "Floor" )
-		{
-			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-			float MISPIES = transform.position.y - collider.bounds.extents.y;
-			float yDif = TECHODELPISO - MISPIES;
-			
-//			if ( yDif != 0 ) Debug.Log (" yDif = " + yDif );
-			
-			if ( yDif < 0.3f && currentFloor != null ) // Enough to climb
-				return;
-			
-			// Not enough to climb, treat floor as wall.
-		}
-		else 
-		if ( !other.tag.Contains( "Wall" ) )
-		{
-			return;
 		}
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
