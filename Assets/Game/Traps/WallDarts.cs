@@ -18,11 +18,19 @@ public class WallDarts : MonoBehaviour {
 	
 	bool alreadyTriggered = false;
 	
+	public GameObject dartPrefab;
+	
 	void OnTriggerEnter( Collider other )
 	{
+		if ( other.tag.Contains("Wall") ) // Non-destructible walls don't trigger this sensor.
+			return;
+		
 		if ( other.GetComponent<BaseObject>() != null && !alreadyTriggered )
 		{
-			darts.Play ();
+			GameObject dartgo = (GameObject)Instantiate ( dartPrefab, transform.position, transform.rotation );
+			dartgo.layer = gameObject.layer;
+			dartgo.transform.parent = transform;
+			
 			alreadyTriggered = true;
 		}
 	}

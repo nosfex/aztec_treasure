@@ -14,6 +14,8 @@ public class BaseObject : MonoBehaviour
 	//[HideInInspector] 
 	public bool gravityEnabled = true;
 	
+	public bool isLiftable = true;
+	
 	Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;

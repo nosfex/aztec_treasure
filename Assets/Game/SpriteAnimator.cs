@@ -55,7 +55,7 @@ public class SpriteAnimator : MonoBehaviour
 	
 	public SpriteAnimation[] animations;
 	
-	[HideInInspector]
+	//[HideInInspector]
 	public SpriteAnimation currentAnimation;
 	
 	PlayHeadState headState;
@@ -72,6 +72,9 @@ public class SpriteAnimator : MonoBehaviour
 	
 	public void PlayAnim( string animName )
 	{
+		if ( animations.Length == 0 )
+			return;
+		
 		foreach ( SpriteAnimation anim in animations )
 		{
 			if ( anim.name == animName )
@@ -150,12 +153,9 @@ public class SpriteAnimator : MonoBehaviour
 		frameIndex = 0;
 	}
 	
-	void Start () 
+	void FindBillboardCamera()
 	{
-		if ( Application.isEditor && !Application.isPlaying )
-			return;
-		
-		if ( transform.root == transform )
+if ( transform.root == transform )
 		{
 			billboardCamera = Camera.main;
 			
@@ -199,14 +199,31 @@ public class SpriteAnimator : MonoBehaviour
 				
 			}
 		}
+				
+	}
+	
+	void Start () 
+	{
+		if ( Application.isEditor && !Application.isPlaying )
+			return;
+		
+		FindBillboardCamera();
 		
 		timer = 0;
 		frameIndex = 0;
 		
-		PlayAnim( startingAnimationName );
-
-		if ( !playOnAwake )
-			StopAnim();
+		currentAnimation = null;
+		
+		if ( animations.Length == 0 )
+			return;
+		
+		if ( startingAnimationName != "" )
+		{
+			PlayAnim( startingAnimationName );
+	
+			if ( !playOnAwake )
+				StopAnim();
+		}
 	}
 	
 	void EditorUpdate()
@@ -238,13 +255,27 @@ public class SpriteAnimator : MonoBehaviour
 	
 	void Update () 
 	{
+		
 		if ( Application.isEditor && !Application.isPlaying )
 		{
 			EditorUpdate();
 			return;
 		}
 		
-		if ( currentAnimation == null )
+		if ( isBillboard )
+		{
+			if ( billboardCamera  )
+			{
+				transform.rotation = Quaternion.LookRotation( transform.position - billboardCamera.transform.position );
+				transform.rotation = Quaternion.Euler ( transform.rotation.eulerAngles.x, 0, 0 );
+			}
+			else 
+				FindBillboardCamera();
+		
+		}
+
+		//print ("animatinos.Lenght = " + animations.Length );
+		if ( currentAnimation == null || animations.Length == 0 )
 			return;
 
 		float xScale = 1.0f / xcells;
@@ -277,10 +308,6 @@ public class SpriteAnimator : MonoBehaviour
 			headState = PlayHeadState.STOP;
 		}
 		
-		if ( isBillboard && billboardCamera )
-		{
-			transform.rotation = Quaternion.LookRotation( transform.position - billboardCamera.transform.position );
-		}
 
 		
 		renderer.material.mainTextureScale = new Vector2( xScale * ( currentAnimation.horizontalFlip ? -1 : 1 ), yScale );

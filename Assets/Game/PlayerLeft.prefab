@@ -367,11 +367,14 @@ MonoBehaviour:
   frictionCoef: .660000026
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
+  isLiftable: 1
   collisionEnabled: 1
   currentFloor: {fileID: 0}
   helperPivot: {fileID: 400008}
   liftSensor: {fileID: 11400002}
   dropGuide: {fileID: 100010}
+  inDarkness: 0
+  hearts: 5
   leftKey: 97
   rightKey: 100
   upKey: 119

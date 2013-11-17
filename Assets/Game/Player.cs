@@ -9,12 +9,55 @@ public class Player : BaseObject
 	public BaseObjectSensor liftSensor;
 	public GameObject dropGuide;
 	
+	private Light[] lights;
+	private Light torchLight;
+	public bool inDarkness = false;
+	
+	public int hearts;
+	public float torchRatio;
+	
+	void TestDarkness()
+	{
+		float minLightDistance = 9999999f;
+		Light nearestLight = null;
+		
+		foreach ( Light light in lights )
+		{
+			if ( light == null || light == torchLight )
+				continue;
+			
+			float dist = Vector3.Distance( transform.position, light.transform.position );
+			
+			if ( dist < minLightDistance )
+			{	
+				minLightDistance = dist;
+				nearestLight = light;
+			}
+		}
+		float threshold = 1.5f;
+
+		if ( nearestLight )
+		{				
+			inDarkness = minLightDistance > nearestLight.range * threshold;
+			
+			if ( minLightDistance < nearestLight.range * 0.75f )
+			{
+				torchRatio = 100f;
+			}
+		}
+	}
 	
 	override protected void Start () 
 	{
 		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
 		direction = Vector3.right;
+		lights = (Light[])FindObjectsOfType( typeof( Light ) );
+		torchLight = GetComponentInChildren<Light>();
+		torchRatio = 100f;
+
+		InvokeRepeating( "TestDarkness", 0, 0.2f );
+	
 	}
 	
 
@@ -38,6 +81,7 @@ public class Player : BaseObject
 	float lockLeft = 0;
 	
 	float straightTimer = 0;
+	float inmuneTimer = 0;
 	
 	bool skidEnabled = false;
 	bool isSkidding = false;
@@ -94,9 +138,29 @@ public class Player : BaseObject
 			
 		//print ("timer = " + straightTimer );
 		
+		
+		if ( inmuneTimer > 0 )
+		{
+			animator.renderer.enabled = !animator.renderer.enabled;
+			inmuneTimer -= Time.deltaTime;
+			
+			if ( inmuneTimer <= 0 )
+				animator.renderer.enabled = true;
+		}
+		
+		
 		accel += speed * new Vector3( dx, 0, dy );
 		
+		if ( torchLight )
+		{
+			if ( inDarkness )
+			{
+				torchRatio -= (Time.deltaTime * 100f) / 15f; // / secs
+				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
+			}
 		
+			torchLight.intensity = (torchRatio / 100f) * 0.66f;
+		}
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;
 		
 		float threshold = 0.001f;
@@ -199,7 +263,7 @@ public class Player : BaseObject
 		{
 			if ( liftedObject == null )
 			{
-				if ( liftSensor.sensedObject != null )
+				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 				{
 					//print ("LIFT!");
 					Transform lifted = liftSensor.sensedObject.transform;
@@ -254,13 +318,23 @@ public class Player : BaseObject
 	
 	void die()
 	{
+		hearts = 5;
+		inmuneTimer = 0;
 		transform.position = worldOwner.startingPoint.position;
 		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 	}
 	
-	void OnParticleCollision( GameObject other )
+	public void OnHit( GameObject other )
 	{
-		die();
+		if ( inmuneTimer > 0 )
+			return;
+		
+		hearts--;
+		
+		inmuneTimer = 0.5f;
+		
+		if ( hearts == 0 )
+			die();
 	}
 
 	void OnTriggerStay( Collider other )
@@ -271,6 +345,11 @@ public class Player : BaseObject
 	
 	void OnTrigger( Collider other )
 	{
+		if ( animator.isAnimPlaying("Attack") )
+		{
+			other.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+		}
+		
 		if ( other.tag == "Floor" )
 		{
 			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
@@ -285,8 +364,10 @@ public class Player : BaseObject
 			// Not enough to climb, treat floor as wall.
 		}
 		else 
-		if ( other.tag != "Wall" )
+		if ( !other.tag.Contains( "Wall" ) )
+		{
 			return;
+		}
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
 
@@ -349,8 +430,11 @@ public class Player : BaseObject
 		
 		if ( animator.isAnimPlaying("Attack") )
 		{
-			animator.StopAnim();
-			velocity *= -2.0f;
+			if ( other.tag == "Wall" )
+			{
+				animator.StopAnim();
+				velocity *= -2.0f;
+			}
 		}
 //		else 
 //		if ( straightTimer > 0.7f )
