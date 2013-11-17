@@ -142,7 +142,7 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void OnTriggerExit( Collider other )
 	{
-		if ( other.tag == "Floor" )
+		//if ( other.tag.Contains( "Floor" ) )
 		{
 			if ( other == currentFloor )
 			{
@@ -154,18 +154,15 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void TestFloor( Collider other )
 	{
-		if ( other.tag == "Floor" )
-		{
-			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-			float MISPIES = transform.position.y - collider.bounds.extents.y;
-			float yDif = TECHODELPISO - MISPIES;
-			
-			if ( yDif >= 0.3f ) // Enough to climb
-				return;
-	
-			currentFloor = (BoxCollider)other;
-			other.SendMessage( "EnterObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 	
-		}
+		float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+		float MISPIES = transform.position.y - collider.bounds.extents.y;
+		float yDif = TECHODELPISO - MISPIES;
+		
+		if ( yDif >= 0.3f ) // Enough to climb
+			return;
+
+		currentFloor = (BoxCollider)other;
+		other.SendMessage( "EnterObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 	
 	}
 	
 	virtual protected void TestWalls( Collider other )

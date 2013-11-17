@@ -17,6 +17,7 @@ public class Player : BaseObject
 	public int hearts;
 	
 	public float torchRatio;
+	BoxCollider lastSafeFloor;
 	
 	void TestDarkness()
 	{
@@ -316,7 +317,11 @@ public class Player : BaseObject
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 		{
-			die();
+			
+			velocity = Vector3.zero;
+			gravity = Vector3.zero;
+			transform.position = lastSafeFloor.transform.position + new Vector3(0, 2.0f, 0);
+			OnHit ( null );
 		}
 		
 		lockLeft--;
@@ -348,6 +353,16 @@ public class Player : BaseObject
 		
 		if ( hearts == 0 )
 			die();
+	}
+	
+	override protected void TestFloor( Collider other )
+	{
+		base.TestFloor( other );
+		
+		if ( currentFloor != null && currentFloor.tag == "Floor" )
+		{
+			lastSafeFloor = currentFloor;
+		}
 	}
 	
 	override protected void TestWalls( Collider other )
