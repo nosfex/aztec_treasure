@@ -3,18 +3,18 @@ using System.Collections;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int ROOM_WIDTH = 20;
-	public const int ROOM_HEIGHT = 20;
+	public const int ROOM_WIDTH = 60;
+	public const int ROOM_HEIGHT = 60;
 	
 	public int minRoomSize = 6;
 
-	public GameObject roomHolder ;	
+	
 	public GameObject[,] tiles;
 	public GameObject wallTile;
 	public GameObject floorTile;
 	public BSPNode trunk;
 	public System.Collections.ArrayList r;
-	
+	public System.Collections.ArrayList final;
 	public DungeonBSP()
 	{
 		
@@ -36,7 +36,7 @@ public class DungeonBSP : MonoBehaviour
 		minRoomSize = 6;
 		
 		tiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
-		roomHolder = new GameObject("Room");
+		
 		
 		BSPNode root = null;
 		trunk = root;
@@ -47,6 +47,7 @@ public class DungeonBSP : MonoBehaviour
 		trunk.width = ROOM_WIDTH;
 		trunk.height= ROOM_HEIGHT;
 		
+		final = new ArrayList();
 		//createRoom(trunk, ROOM_WIDTH, ROOM_HEIGHT);
 		while(partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height ))
 		{
@@ -54,19 +55,54 @@ public class DungeonBSP : MonoBehaviour
 			trunk = (BSPNode)r.ToArray()[index];
 			r.RemoveAt(index);
 		}
+		while(r.Count != 0)
+		{
+			int index = Random.Range(0, r.Count - 1);
+			trunk = (BSPNode)r.ToArray()[index];
+			r.RemoveAt(index);
+			partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height );
+			
+			
+		}
 		trunk = root;
 		createRoomsFromRoot(trunk);
+	//	cleanupRooms();
 		
+ 		resizeNodes();
+		removeOverlappedNodes();
+	}
+	
+	void removeOverlappedNodes()
+	{
+		ArrayList safe = (ArrayList)final.Clone();
+		for(int i = 0; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			for(int j = 0; j < final.Count; j++)
+			{
+				
+				BSPNode b = (BSPNode)final.ToArray()[j];
+				if(a == b)
+					continue;
+				if(b.rectOverlap(a))
+				{
+					if(b.width + b.height > a.width + a.height)
+					{
+						b.room.deleteRoom();
+						final.Remove(b);
+						
+					}
+					
+				}
+			}	
+		}
 	}
 	
 	public bool partitionate(BSPNode root, int minW, int maxW, int minH, int maxH)
 	{
-		print("INIT PARTITIONING: " + "W: MIN: " + minW.ToString() + " MAX: " + maxW.ToString() + "\n\t H: MIN: " + minH.ToString() + " MAX: " + maxH.ToString() );
-		
 		BSPNode temp = root;
-		print("MIN ROOM SIZEW:" + minRoomSize.ToString() );
-		Vector3 scale = wallTile.transform.localScale;
-		if(Room.refCount >= 20)
+		
+		if(BSPNode.instanceCount >= 800)
 		{
 			print("STOPPED AT REF COUNT");
 			return false;
@@ -81,12 +117,14 @@ public class DungeonBSP : MonoBehaviour
 		int cut = 0;
 		
 		
-		int max = (horizontalCut ?  maxW : maxH) - minRoomSize;
+		int max = (horizontalCut ?  maxW : maxH) ;
 		if(max <= minRoomSize)
 		{
 			print("CAN'T CUT");
 			return false;
 		}
+		
+		
 		// GH: Initialize horizontal cut
 		if(horizontalCut)
 		{
@@ -102,15 +140,20 @@ public class DungeonBSP : MonoBehaviour
 			
 			print("HORIZONTAL CUT");
 			temp.left = new BSPNode(0);
+			temp.left.parent = temp;
 			r.Add(temp.left);
+			
 			generateCut(temp.left, minW, minH, maxW , cut);
 			
 			temp.right = new BSPNode(0);
+			temp.right.parent = temp;
 			r.Add(temp.right);
+			
 			int variant = Mathf.Abs(cut - maxH);
-		
+			
 			generateCut(temp.right, minW, minH + cut, maxW, variant);
 		
+			
 		 	//return false;
 		} 
 		else
@@ -127,12 +170,17 @@ public class DungeonBSP : MonoBehaviour
 			
 			print("VERTICAL CUT");
 			temp.left = new BSPNode(0);
+			temp.left.parent = temp;
 			r.Add(temp.left);
+			
 			generateCut(temp.left, minW, minH, cut, maxH);
 		
 			temp.right = new BSPNode(0);
+			temp.right.parent = temp;
 			r.Add(temp.right);
+			
 			int variant = Mathf.Abs(cut - maxW);
+			
 			generateCut(temp.right, minW + cut, minH, variant, maxH);
 		
 			//return false;
@@ -156,28 +204,33 @@ public class DungeonBSP : MonoBehaviour
 	private void createRoom(BSPNode node, int maxW, int maxH)
 	{
 		
+		if(maxW < minRoomSize)
+			return;
+		if(maxH < minRoomSize)
+			return;
 		
-		node.room = new Room(maxW, maxH);
-		Vector3 scale = wallTile.transform.localScale;
-		for(int i = 0; i < maxW; i++)
+		//maxW = Random.Range(minRoomSize, maxW);
+		//maxH = Random.Range(minRoomSize, maxH);
+		print("INIT PARTITIONING: " + "W: MIN: " + node.initPosX.ToString() + " MAX: " + maxW.ToString() + "\n\t H: MIN: " + node.initPosY.ToString() + " MAX: " + maxH.ToString() );
+		
+		//node.room = new Room(maxW, maxH);
+		
+		
+		
+		for(int i = 0; i < final.Count ; i++)
 		{
-			for (int j = 0; j < maxH ; j++)
-			{
-				int tileX = node.initPosX + i;
-				int tileY = node.initPosY + j;
-				bool wall = false;
-				if(i == 0 || i == maxW  - 1)
-					wall = true;
-				if(j == 0 || j == maxH -1)
-					wall = true;
-				
-				node.room.tiles[i, j] = (GameObject)(GameObject.Instantiate(wall == false ? floorTile : wallTile));	
-				node.room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
-				node.room.tiles[i, j].transform.parent = node.room.roomHolder.transform;
-				
-			}
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			if(a.initPosX == node.initPosX && a.initPosY == node.initPosY && a.width == node.width && a.height == node.height)
+				return;
+			
+		/*	if(a.rectOverlap(node))
+				return;*/
 			
 		}
+		node.createRoom(wallTile, floorTile);
+		final.Add(node);
+	
+		
 	}
 	
 	private void createRoomsFromRoot(BSPNode root)
@@ -186,17 +239,63 @@ public class DungeonBSP : MonoBehaviour
 		while(temp.left != null)
 		{
 			temp = temp.left;
-			createRoom(temp, temp.width, temp.height);
+			
+		}
+		
+		while(temp.parent != null)
+		{
+			
+			temp = temp.parent;	
+			createRoom(temp.left, temp.left.width, temp.left.height);
+			createRoom(temp.right, temp.right.width, temp.right.height);
+			
+			
 		}
 		temp = root;
 		while(temp.right != null)
 		{
 			temp = temp.right;
-			createRoom(temp, temp.width, temp.height);
+			
+		}
+		
+		while(temp.parent != null)
+		{
+			temp = temp.parent;
+			createRoom(temp.left, temp.left.width, temp.left.height);
+			createRoom(temp.right, temp.right.width, temp.right.height);
 		}
 			
 	}
 	
+	public void resizeNodes()
+	{
+		for(int i  = 0; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			a.tryToResize(wallTile, floorTile);
+		}
+		
+	}
+	
+	public void generateDoors() 
+	{
+		for(int i = 0; i < final.Count ; i++)
+		{
+			for(int j = 0; j < final.Count ; j++)
+			{
+				BSPNode a = (BSPNode)final.ToArray()[i];
+				BSPNode b = (BSPNode)final.ToArray()[j];
+				//if(a.rectOverlap())
+				if(a.rectOverlap(b))
+				{
+					
+					
+				}
+			}
+			
+		}
+		
+	}
 	public void insertNode(ref BSPNode node, int val)
 	{
 		// GH: First generation node, the root

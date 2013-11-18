@@ -13,18 +13,21 @@ public class Room
 	int height;
 	public static int refCount =0;
 	
+	public ArrayList wallList;
+	
 	public Room(int w, int h)
 	{
+		refCount++;
 		width = w;
 		height = h;
 		roomHolder = new GameObject("roomInst"+refCount.ToString() );
 		tiles = new GameObject[w, h];
 		//Start();
-		cutRoom();
-		refCount++;
+		//cutRoom();
+		wallList = new ArrayList();
 	}
 	
-	public void cutRoom()
+	public void deleteRoom()
 	{
 		for(int i = 0 ; i < width; i++)
 		{
@@ -34,7 +37,21 @@ public class Room
 				
 			}	
 		}
+		
+		
+	//	MonoBehaviour.Destroy(tiles);
+	//	tiles = null;
+		MonoBehaviour.Destroy(roomHolder);
+		roomHolder = null;
 	}
+	
+	
+	public void addWall(GameObject wall)
+	{
+		wallList.Add(wall);
+		
+	}
+	
 	
 	// Update is called once per frame
 	
