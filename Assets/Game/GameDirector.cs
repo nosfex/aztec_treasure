@@ -14,6 +14,8 @@ public class GameDirector : MonoBehaviour {
 	[HideInInspector] public Player playerLeft;
 	[HideInInspector] public Player playerRight;
 	
+	public int maxHearts;
+	
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
     {
@@ -31,6 +33,26 @@ public class GameDirector : MonoBehaviour {
         }
     }
 	
+	static void RemoveObjectsByLayerRecursively( GameObject obj, int layer )
+	{
+        if (null == obj)
+            return;
+
+        if ( obj.layer == layer )
+		{
+			Destroy( obj );
+			return;
+		}
+
+        foreach (Transform child in obj.transform)
+        {
+            if (null == child)
+                continue;
+
+            RemoveObjectsByLayerRecursively(child.gameObject, layer);
+        }
+	}
+	
 	void Awake ()
 	{
 		instance = this;
@@ -44,6 +66,12 @@ public class GameDirector : MonoBehaviour {
 		GameObject go = (GameObject)Instantiate( worldContainer.gameObject, 
 			worldContainer.transform.position + (Vector3.right * (0.2f * 50f)), 
 			Quaternion.identity );
+		
+		RemoveObjectsByLayerRecursively( go, LayerMask.NameToLayer("Past") );
+		SetLayerRecursively( go, LayerMask.NameToLayer( "Future" ) );
+		
+		RemoveObjectsByLayerRecursively( worldContainer.gameObject, LayerMask.NameToLayer("Future") );
+		SetLayerRecursively( worldContainer.gameObject, LayerMask.NameToLayer( "Past" ) );		
 		
 		World world2 = go.GetComponent<World>();
 		
@@ -63,8 +91,7 @@ public class GameDirector : MonoBehaviour {
 		world2.player = playerRight;
 		world2.InitPlayer();
 		
-		SetLayerRecursively( go, LayerMask.NameToLayer( "Future" ) );
-		SetLayerRecursively( worldContainer.gameObject, LayerMask.NameToLayer( "Past" ) );
+
 		//SnapAssistant.i.snapEnabled = true;
 	}
 	
