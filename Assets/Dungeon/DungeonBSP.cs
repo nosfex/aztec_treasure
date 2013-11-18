@@ -6,7 +6,7 @@ public class DungeonBSP : MonoBehaviour
 	public const int ROOM_WIDTH = 60;
 	public const int ROOM_HEIGHT = 60;
 	
-	public int minRoomSize = 6;
+	public int minRoomSize = 10;
 
 	
 	public GameObject[,] tiles;
@@ -33,7 +33,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void init()
 	{
-		minRoomSize = 6;
+		minRoomSize = 10;
 		
 		tiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
@@ -45,8 +45,7 @@ public class DungeonBSP : MonoBehaviour
 		root = trunk;
 		r = new ArrayList();
 		trunk.width = ROOM_WIDTH;
-		trunk.height= ROOM_HEIGHT;
-		
+		trunk.height = ROOM_HEIGHT;
 		final = new ArrayList();
 		//createRoom(trunk, ROOM_WIDTH, ROOM_HEIGHT);
 		while(partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height ))
@@ -66,19 +65,28 @@ public class DungeonBSP : MonoBehaviour
 		}
 		trunk = root;
 		createRoomsFromRoot(trunk);
-	//	cleanupRooms();
-		
+	
  		resizeNodes();
+		
 		removeOverlappedNodes();
+		removeOverlappedNodes();
+		
+		
+		for(int i = 0; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			a.createRoom(wallTile, floorTile);
+		}
+	//	resizeNodes();
 	}
 	
 	void removeOverlappedNodes()
 	{
-		ArrayList safe = (ArrayList)final.Clone();
+		
 		for(int i = 0; i < final.Count; i++)
 		{
 			BSPNode a = (BSPNode)final.ToArray()[i];
-			for(int j = 0; j < final.Count; j++)
+			for(int j = final.Count -1; j >= 0; j--)
 			{
 				
 				BSPNode b = (BSPNode)final.ToArray()[j];
@@ -86,12 +94,14 @@ public class DungeonBSP : MonoBehaviour
 					continue;
 				if(b.rectOverlap(a))
 				{
-					if(b.width + b.height > a.width + a.height)
+					/*if(b.width + b.height > a.width + a.height)
 					{
 						b.room.deleteRoom();
 						final.Remove(b);
 						
-					}
+					}*/
+					//b.room.deleteRoom();
+						final.Remove(b);
 					
 				}
 			}	
@@ -227,7 +237,7 @@ public class DungeonBSP : MonoBehaviour
 				return;*/
 			
 		}
-		node.createRoom(wallTile, floorTile);
+		//node.createRoom(wallTile, floorTile);
 		final.Add(node);
 	
 		

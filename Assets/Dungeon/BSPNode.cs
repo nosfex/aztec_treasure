@@ -76,15 +76,13 @@ public class BSPNode
 	
 	public void tryToResize(GameObject wallTile, GameObject floorTile)
 	{
-		if(width > 8 || height > 8)
+		if(width > 7 || height > 7)
 		{
 			
-			room.wallList.Clear();
 			width = Random.Range(4, width);
 			height = Random.Range(4, height);
 			
-			room.deleteRoom();
-			createRoom(wallTile, floorTile);
+			
 		}
 		
 		
