@@ -23,10 +23,12 @@ public class FallingFloor : MonoBehaviour
 	Vector3 gravity;
 	
 	Vector3 startPosition;
-	
+	Vector3 startScale;
+	float resetTimer;
 	void Start ()
 	{
 		startPosition = transform.position;
+		startScale = transform.localScale;
 	}
 	
 	void EnterObjectLaid( BaseObject other )
@@ -75,6 +77,7 @@ public class FallingFloor : MonoBehaviour
 				if ( crumblingTimer < 0 )
 				{
 					state = FallingFloor.State.FALLING;
+					resetTimer = 5.0f;
 				}
 			
 				break;
@@ -83,8 +86,16 @@ public class FallingFloor : MonoBehaviour
 				gravity *= 0.8f;
 				
 				transform.position -=  gravity * frameRatio;
+				resetTimer -= Time.deltaTime;
+			
+				if ( resetTimer <= 0 )
+				{
+					ResetState();
+				}
 				break;
 		}
+		
+		
 		
 
 	}
@@ -97,10 +108,18 @@ public class FallingFloor : MonoBehaviour
 			triggered = true;
 	}
 	
-	public void OnPlayerDead()
+	public void ResetState()
 	{
 		transform.position = startPosition;
+		transform.localScale = startScale;
+		iTween.ScaleFrom( gameObject, iTween.Hash ( "scale", Vector3.zero, "easetype", iTween.EaseType.easeOutBack, "time", 0.33f, "delay", Random.Range (0, 0.5f) ) );
+		
 		state = FallingFloor.State.IDLE;
-		objectOnTop = null;
+		objectOnTop = null;		
+	}
+	
+	public void OnPlayerDead()
+	{
+		ResetState ();
 	}
 }

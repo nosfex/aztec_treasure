@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class Vine : BaseObject {
-
+	
+	Vector3 startPosition;
 	// Use this for initialization
 	void Start () {
-	
+		startPosition = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -18,9 +19,20 @@ public class Vine : BaseObject {
 		SpriteAnimator animator = GetComponentInChildren<SpriteAnimator>();
 		if (animator)
 		{
-			animator.transform.parent = transform.parent;
+			//animator.transform.parent = transform.parent;
 			animator.PlayAnim("Death");
 		}
-		Destroy ( gameObject );
+		
+		collisionEnabled = false;
+		//Destroy ( gameObject );
+	}
+	
+	public void OnPlayerDead()
+	{
+		transform.position = startPosition;
+		collisionEnabled = true;
+		SpriteAnimator animator = GetComponentInChildren<SpriteAnimator>();
+		animator.PlayAnim("Idle");
+		animator.StopAnim();
 	}
 }

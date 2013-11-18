@@ -131,7 +131,7 @@ public class BaseObject : MonoBehaviour
 					}
 				}
 				
-				collisionEnabled = true;				
+				//collisionEnabled = true;				
 			}
 			
 		}

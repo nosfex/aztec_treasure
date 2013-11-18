@@ -328,6 +328,14 @@ public class Player : BaseObject
 			gravity = Vector3.zero;
 			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
 			OnHit ( null );
+			
+			if ( hearts > 0 )
+			{
+				foreach( FallingFloor floor in worldOwner.GetComponentsInChildren<FallingFloor>() )
+				{
+					floor.ResetState();
+				}
+			}
 		}
 		
 		lockLeft--;
