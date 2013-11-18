@@ -1,82 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : BaseObject 
+public class Skelly : BaseObject 
 {
 	SpriteAnimator animator;
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
-	public GameObject dropGuide;
+	//public GameObject dropGuide;
 	
-	private Light[] lights;
-	private Light torchLight;
-	public bool inDarkness = false;
+	//private Light[] lights;
+	//private Light torchLight;
+	//public bool inDarkness = false;
 	
 	[HideInInspector]
 	public int hearts;
 	
-	public float torchRatio;
-	BoxCollider lastSafeFloor;
+	public int maxHearts = 2;
 	
-	void TestDarkness()
-	{
-		float minLightDistance = 9999999f;
-		Light nearestLight = null;
-		
-		foreach ( Light light in lights )
-		{
-			if ( light == null || light == torchLight )
-				continue;
-			
-			if ( light.type != LightType.Point )
-				continue;
-			
-			float dist = Vector3.Distance( transform.position, light.transform.position );
-			
-			if ( dist < minLightDistance )
-			{	
-				minLightDistance = dist;
-				nearestLight = light;
-			}
-		}
-		float threshold = 1.5f;
-
-		if ( nearestLight != null )
-		{				
-			inDarkness = minLightDistance > nearestLight.range * threshold;
-			
-			if ( minLightDistance < nearestLight.range * 0.75f )
-			{
-				torchRatio = 100f;
-			}
-		}
-	}
+	//public float torchRatio;
+	BoxCollider lastSafeFloor;
 	
 	override protected void Start () 
 	{
 		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
 		direction = Vector3.right;
-		lights = (Light[])FindObjectsOfType( typeof( Light ) );
-		torchLight = GetComponentInChildren<Light>();
-		torchRatio = 100f;
-		hearts = GameDirector.i.maxHearts;
-		InvokeRepeating( "TestDarkness", 0, 0.2f );
-	
-	}
-	
+		hearts = maxHearts;
+		//ChangeDirection();
+	}	
 
-	Vector3 cameraTarget;
-	
-	public KeyCode leftKey; 
-	public KeyCode rightKey; 
-	public KeyCode upKey; 
-	public KeyCode downKey; 
-	
-	public KeyCode attackKey = KeyCode.Z;
-	//public KeyCode liftKey = KeyCode.G;
-	
 	string facing = "Right";
 	
 	float cooldown = 0;
@@ -97,42 +50,103 @@ public class Player : BaseObject
 	Vector3 direction;
 	public float speed = 0.5f;
 	
+	bool goingLeft;
+	bool goingRight;
+	bool goingUp;
+	bool goingDown;
+	bool attacking;
+	
+	void ChangeDirection()
+	{
+		goingRight = goingLeft = goingUp = goingDown = attacking = false;
+		int dir = Random.Range( 0, 4 );
+		
+		switch ( dir )
+		{
+			case 0:
+				goingRight = true;
+				break;
+			case 1:
+				goingLeft = true;
+				break;
+			case 2:
+				goingUp = true;
+				break;
+			case 3:
+				goingDown = true;
+				break;
+		}		
+		
+		//print ("change! " + dir );
+	}
+	
+	void UpdateIA()
+	{
+		bool stuckRight = goingRight && lockRight > 0;
+		bool stuckLeft = goingLeft && lockLeft > 0;
+		bool stuckDown = goingDown && lockDown > 0;
+		bool stuckUp = goingUp && lockUp > 0;
+		
+		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
+		
+		if ( straightTimer > 1.0f || stuck )
+		{
+			
+			ChangeDirection();
+		}
+	}
+	
+	bool sleeping = true;
+	
 	void Update () 
 	{
+		if ( sleeping )
+		{
+			if ( Vector3.Distance( worldOwner.player.transform.position, transform.position ) < 4.0f )
+			{
+				ChangeDirection();
+				sleeping = false;
+			}
+		}
+		else 
+		{
+			UpdateIA ();
+		}
+		
 		float dx = 0, dy = 0;
 		
 		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
 		{
-			if ( Input.GetKey(leftKey) && lockLeft < 0 )
+			if ( goingLeft && lockLeft < 0 )
 			{
 				dx = -1;
 			}
 			
-			if ( Input.GetKey(rightKey) && lockRight < 0 )
+			if ( goingRight && lockRight < 0 )
 			{
 				dx = 1;
 			}
 			
-			if ( Input.GetKey(upKey) && lockUp < 0)
+			if ( goingUp && lockUp < 0)
 			{
 				dy = 1;
 			}
 			
-			if ( Input.GetKey(downKey) && lockDown < 0 )
+			if ( goingDown && lockDown < 0 )
 			{	
 				dy = -1;
 			}
 			
-			if ( Input.GetKeyDown(leftKey) && lockLeft <0 )
+			if ( goingLeft && lockLeft <0 )
 				straightTimer = 0;
 			
-			if ( Input.GetKeyDown(rightKey) && lockRight  <0)
+			if ( goingRight && lockRight  <0)
 				straightTimer = 0;
 			
-			if ( Input.GetKeyDown(upKey) && lockUp <0)
+			if ( goingUp && lockUp <0)
 				straightTimer = 0;
 			
-			if ( Input.GetKeyDown(downKey) && lockDown <0 )
+			if ( goingDown && lockDown <0 )
 				straightTimer = 0;
 			
 		}
@@ -155,19 +169,6 @@ public class Player : BaseObject
 		
 		accel += speed * new Vector3( dx, 0, dy );
 		
-		if ( torchLight )
-		{
-			if ( inDarkness )
-			{
-				torchRatio -= (Time.deltaTime * 100f) / 15f; // / secs
-				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
-			}
-			
-			if ( torchRatio <= 0 )
-				OnHit ( null );
-		
-			torchLight.intensity = (torchRatio / 100f) * 0.66f;
-		}
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;
 		
 		float threshold = 0.001f;
@@ -216,22 +217,22 @@ public class Player : BaseObject
 		}
 		
 
-		if ( Input.GetKey(leftKey)  )
+		if ( goingLeft  )
 		{
 			facing = "Left";
 			direction = Vector3.left;
 		}
-		else if ( Input.GetKey(rightKey)  )
+		else if ( goingRight  )
 		{
 			facing = "Right";
 			direction = Vector3.right;
 		}
-		else if ( Input.GetKey(upKey)  )
+		else if ( goingUp  )
 		{
 			facing = "Up";
 			direction = Vector3.forward;
 		}
-		else if ( Input.GetKey(downKey)  )
+		else if ( goingDown )
 		{
 			facing = "Down";
 			direction = Vector3.back;
@@ -253,20 +254,8 @@ public class Player : BaseObject
 			}
 		}
 		
-		if ( dropGuide && dropGuide.activeSelf  )
-		{
-			//if ( SnapAssistant.i && SnapAssistant.i.snapEnabled )
-			{
-				Vector3 caca = (transform.position ) / 0.4f;
-				caca = new Vector3( Mathf.RoundToInt(caca.x), 
-					Mathf.RoundToInt(caca.y), 
-					Mathf.RoundToInt(caca.z) );
-				dropGuide.transform.position = (caca * 0.4f) - new Vector3(0, 0, 0);
-			}
-		}
 		
-		
-		if ( Input.GetKeyDown( attackKey )  )
+		if ( attacking  )
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
@@ -321,19 +310,7 @@ public class Player : BaseObject
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 		{
-			
-			velocity = Vector3.zero;
-			gravity = Vector3.zero;
-			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
-			OnHit ( null );
-			
-			if ( hearts > 0 )
-			{
-				foreach( FallingFloor floor in worldOwner.GetComponentsInChildren<FallingFloor>() )
-				{
-					floor.ResetState();
-				}
-			}
+			die ();
 		}
 		
 		lockLeft--;
@@ -346,13 +323,15 @@ public class Player : BaseObject
 	
 	void die()
 	{
-		hearts = GameDirector.i.maxHearts;
+		hearts = maxHearts;
 		inmuneTimer = 0;
-		transform.position = worldOwner.startingPoint.position;
+		//transform.position = worldOwner.startingPoint.position;
 		velocity = Vector3.zero;
 		gravity = Vector3.zero;
-		torchRatio = 100;
-		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
+		
+		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
+		
+		gameObject.SetActive(false);
 	}
 	
 	public void OnHit( GameObject other )
@@ -466,4 +445,8 @@ public class Player : BaseObject
 										  transform.position.y, 
 										  adjustZ ? closestBoundExit.z : transform.position.z );
 	}
+
+		
+		
+		
 }
