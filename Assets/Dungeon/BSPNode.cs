@@ -56,6 +56,11 @@ public class BSPNode
 		
 	}
 	
+	public void createDoors(GameObject floorTile)
+	{
+		room.createDoors(initPosX, initPosY, floorTile);
+	}
+	
 	public bool valueInRange(int value, int min, int max)
 	{ return (value >= min) && (value <= max); }
 
@@ -69,7 +74,7 @@ public class BSPNode
 	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height) ||
 	                    valueInRange(b.initPosY, initPosY, initPosY + b.height);
 		//bool overlap = !(initPosX + width < b.initPosX || initPosY + height < b.initPosY || initPosX > b.initPosX + b.width || initPosY > b.initPosY + b.height);
-		bool overlap = (Mathf.Abs(initPosX - b.initPosX) < Mathf.Abs(width + b.width) / 2) && (Mathf.Abs(initPosY - b.initPosY) < Mathf.Abs(height + b.height) / 2);
+		bool overlap = xOverlap && yOverlap;//(Mathf.Abs(initPosX - b.initPosX) < Mathf.Abs(width + b.width) / 2) && (Mathf.Abs(initPosY - b.initPosY) < Mathf.Abs(height + b.height) / 2);
 	    return overlap;
 			
 	}

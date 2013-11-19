@@ -117,10 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093b4f04edb4ca45864fbb21d9d940f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRoomSize: 2
-  roomHolder: {fileID: 0}
+  minRoomSize: 9
   wallTile: {fileID: 100000, guid: 75481c7b03e8d4f89b2dba21bc62c61e, type: 2}
   floorTile: {fileID: 100000, guid: c42a3e203e20248dc8423c5467acaf0b, type: 2}
+  doorTile: {fileID: 100000, guid: d12cad82910c6964d80ae2063d3730fc, type: 2}
 --- !u!4 &1597301
 Transform:
   m_ObjectHideFlags: 0
