@@ -79,8 +79,8 @@ public class BSPNode
 		if(width > 7 || height > 7)
 		{
 			
-			width = Random.Range(4, width);
-			height = Random.Range(4, height);
+			width = Random.Range(5, width);
+			height = Random.Range(5, height);
 			
 			
 		}

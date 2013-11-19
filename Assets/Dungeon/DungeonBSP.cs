@@ -3,10 +3,10 @@ using System.Collections;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int ROOM_WIDTH = 60;
-	public const int ROOM_HEIGHT = 60;
+	public const int ROOM_WIDTH = 100;
+	public const int ROOM_HEIGHT = 100;
 	
-	public int minRoomSize = 10;
+	public int minRoomSize = 12;
 
 	
 	public GameObject[,] tiles;
@@ -33,7 +33,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void init()
 	{
-		minRoomSize = 10;
+		minRoomSize = 12;
 		
 		tiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
