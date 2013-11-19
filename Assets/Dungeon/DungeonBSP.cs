@@ -56,19 +56,21 @@ public class DungeonBSP : MonoBehaviour
 		trunk.height = ROOM_HEIGHT;
 		final = new ArrayList();
 		//createRoom(trunk, ROOM_WIDTH, ROOM_HEIGHT);
-		while(partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height ))
+		/*while(partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height ))
 		{
 			int index = Random.Range(0, r.Count - 1);
 			trunk = (BSPNode)r.ToArray()[index];
 			r.RemoveAt(index);
-		}
-		/*while(r.Count != 0)
+		}*/
+		
+		r.Add(trunk);
+		while(r.Count != 0)
 		{
 			int index = Random.Range(0, r.Count - 1);
 			trunk = (BSPNode)r.ToArray()[index];
 			r.RemoveAt(index);
 			partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height );	
-		}*/
+		}
 		
 		trunk = root;
 		createRoomsFromRoot(trunk);
@@ -142,7 +144,7 @@ public class DungeonBSP : MonoBehaviour
 	void removeOverlappedNodes()
 	{
 		ArrayList slateForRemoval = new ArrayList();
-		//final.Reverse();
+	//	final.Reverse();
 	
 		for(int i = 0; i < final.Count; i++)
 		{
@@ -152,6 +154,8 @@ public class DungeonBSP : MonoBehaviour
 				BSPNode b = (BSPNode)final.ToArray()[j]; 
 				if(a.rectOverlap(b))
 				{
+					i--;
+					j--;
 					final.Remove(a);
 					break;
 				}
@@ -164,11 +168,11 @@ public class DungeonBSP : MonoBehaviour
 	{
 		BSPNode temp = root;
 		
-		/*if(BSPNode.instanceCount >= 800)
+		if(BSPNode.instanceCount >= 800)
 		{
 			print("STOPPED AT REF COUNT");
 			return false;
-		}-*/
+		}
 		
 			//createRoom(temp, maxW, maxH);
 		

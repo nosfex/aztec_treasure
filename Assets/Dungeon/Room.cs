@@ -37,10 +37,7 @@ public class Room
 				
 			}	
 		}
-		
-		
-	//	MonoBehaviour.Destroy(tiles);
-	//	tiles = null;
+	
 		MonoBehaviour.Destroy(roomHolder);
 		roomHolder = null;
 	}
@@ -52,8 +49,6 @@ public class Room
 		int maxDoors = Random.Range(1, 4);
 		
 		
-				
-			
 		while(maxDoors != 0)
 		{
 			int i = Random.Range(1, width -2);

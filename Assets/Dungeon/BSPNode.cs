@@ -67,21 +67,21 @@ public class BSPNode
 	public bool rectOverlap(BSPNode b)
 	{
 	
-
-	    bool xOverlap = valueInRange(initPosX, b.initPosX, b.initPosX + b.width) ||
-	                    valueInRange(b.initPosX, initPosX, initPosX + b.width);
+		
+		bool xOverlap = valueInRange(initPosX, b.initPosX, b.initPosX + b.width) ||
+	                    valueInRange(b.initPosX, initPosX, initPosX + width );
 	
-	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height) ||
-	                    valueInRange(b.initPosY, initPosY, initPosY + b.height);
+	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height ) ||
+	                    valueInRange(b.initPosY, initPosY, initPosY + height );
 		//bool overlap = !(initPosX + width < b.initPosX || initPosY + height < b.initPosY || initPosX > b.initPosX + b.width || initPosY > b.initPosY + b.height);
-		bool overlap = xOverlap && yOverlap;//(Mathf.Abs(initPosX - b.initPosX) < Mathf.Abs(width + b.width) / 2) && (Mathf.Abs(initPosY - b.initPosY) < Mathf.Abs(height + b.height) / 2);
+		bool overlap = (Mathf.Abs(initPosX - b.initPosX) * 2 < Mathf.Abs(width + b.width) ) && (Mathf.Abs(initPosY - b.initPosY) * 2 < Mathf.Abs(height + b.height) );
 	    return overlap;
 			
 	}
 	
 	public void tryToResize(GameObject wallTile, GameObject floorTile)
 	{
-		if(width > 7 || height > 7)
+		if(width > 9 || height > 9)
 		{
 			
 			width = Random.Range(5, width);
