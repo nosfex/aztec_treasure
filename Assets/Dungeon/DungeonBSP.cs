@@ -42,7 +42,7 @@ public class DungeonBSP : MonoBehaviour
 		{
 			for(int j = 0; j < ROOM_HEIGHT; j++)
 			{
-				
+				globalTiles[i, j] = 0;
 			}
 		}
 		//Random.seed = 0 ;
@@ -78,9 +78,9 @@ public class DungeonBSP : MonoBehaviour
  		resizeNodes();
 		
 		removeOverlappedNodes();
-		removeOverlappedNodes();
-		
 		//removeOverlappedNodes();
+		
+		removeOverlappedNodes();
 		
 		
 		for(int i = 0; i < final.Count; i++)
@@ -155,7 +155,7 @@ public class DungeonBSP : MonoBehaviour
 				if(a.rectOverlap(b))
 				{
 					i--;
-					j--;
+				
 					final.Remove(a);
 					break;
 				}
@@ -201,6 +201,12 @@ public class DungeonBSP : MonoBehaviour
 				cut = minRoomSize;	
 			}
 			
+			if(minH + cut >= ROOM_HEIGHT)
+			{
+				print("OUT OF BOUNDS AT VERTICAL CUT");
+				return false;
+			}
+			
 			if(temp.left != null)
 				return false;
 			
@@ -229,6 +235,12 @@ public class DungeonBSP : MonoBehaviour
 			if( maxW - cut < minRoomSize)
 			{
 				cut = minRoomSize;	
+			}
+			
+			if(minW + cut >= ROOM_WIDTH)
+			{
+				print("OUT OF BOUNDS AT VERTICAL CUT");
+				return false;
 			}
 		
 			if(temp.left != null)

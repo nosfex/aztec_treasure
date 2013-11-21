@@ -74,7 +74,11 @@ public class BSPNode
 	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height ) ||
 	                    valueInRange(b.initPosY, initPosY, initPosY + height );
 		//bool overlap = !(initPosX + width < b.initPosX || initPosY + height < b.initPosY || initPosX > b.initPosX + b.width || initPosY > b.initPosY + b.height);
-		bool overlap = (Mathf.Abs(initPosX - b.initPosX) * 2 < Mathf.Abs(width + b.width) ) && (Mathf.Abs(initPosY - b.initPosY) * 2 < Mathf.Abs(height + b.height) );
+		bool overlap = //(Mathf.Abs(initPosX - b.initPosX) * 2 <= Mathf.Abs(width + b.width) ) && (Mathf.Abs(initPosY - b.initPosY) * 2 <= Mathf.Abs(height + b.height) );
+			initPosX < b.initPosX + b.width &&
+			initPosX + width > b.initPosX  &&
+			initPosY < b.initPosY + b.height &&
+			initPosY + height > b.initPosY;
 	    return overlap;
 			
 	}
