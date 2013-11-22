@@ -28,22 +28,29 @@ public class BaseObject : MonoBehaviour
 		velocity = Vector3.zero;
 		accel = Vector3.zero;
 		
-		if ( transform.root != transform )
-		{
+		World myWorld = findWorld( transform );
 			
-			//So, now try to detect if child or grand-child of world.
-			World myWorld = transform.parent.GetComponent<World>();
+		//if ( myWorld == null )
+		//	myWorld = transform.parent.parent.GetComponent<World>();
 			
-			if ( myWorld == null )
-				myWorld = transform.parent.parent.GetComponent<World>();
-			
-			if ( myWorld != null )
-			{
-				
-				worldOwner = myWorld;					
-			}
-		}
+		worldOwner = myWorld;					
+		//}
 	}
+	
+	
+	World findWorld( Transform t ) 
+	{
+		World w = t.GetComponent<World>();
+		if ( w )
+			return w;
+		else 
+		{
+			if ( t.root == t )
+				return null;
+			else 
+				return findWorld ( t.parent );
+		}
+	}	
 	
 	float floorY = 0;
 	

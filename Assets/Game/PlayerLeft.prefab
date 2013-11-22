@@ -211,7 +211,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
@@ -410,6 +410,14 @@ MonoBehaviour:
   target: {fileID: 400006}
   frictionCoef: .0500000007
   offset: {x: 0, y: 0, z: 0}
+  upLock: 0
+  downLock: 0
+  leftLock: 0
+  rightLock: 0
+  upLimitZ: 0
+  downLimitZ: 0
+  leftLimitX: 0
+  rightLimitX: 0
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

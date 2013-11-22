@@ -40,6 +40,7 @@ public class Player : BaseObject
 				nearestLight = light;
 			}
 		}
+		
 		float threshold = 1.5f;
 
 		if ( nearestLight != null )
@@ -101,7 +102,7 @@ public class Player : BaseObject
 	{
 		float dx = 0, dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
+		if ( !animator.isAnimPlaying("Attack") ) /*&& currentFloor != null */ 
 		{
 			if ( Input.GetKey(leftKey) && lockLeft < 0 )
 			{
@@ -139,7 +140,8 @@ public class Player : BaseObject
 		
 		if ( dx != 0 || dy != 0 )
 			straightTimer += Time.deltaTime;
-			
+
+
 		//print ("timer = " + straightTimer );
 		
 		

@@ -155,7 +155,8 @@ public class SpriteAnimator : MonoBehaviour
 	
 	void FindBillboardCamera()
 	{
-if ( transform.root == transform )
+		
+		if ( transform.root == transform )
 		{
 			billboardCamera = Camera.main;
 			
@@ -179,11 +180,16 @@ if ( transform.root == transform )
 			else
 			{
 				//Detection failed...
-				//So, now try to detect if child or grand-child of world.
+/*				//So, now try to detect if child or grand-child of world.
+				
 				World myWorld = transform.parent.GetComponent<World>();
 				
 				if ( transform.parent.root != transform.parent && myWorld == null )
 					myWorld = transform.parent.parent.GetComponent<World>();
+				else if ( transform.parent.parent.root != transform.parent.parent && myWorld == null )
+					myWorld = transform.parent.parent.parent.GetComponent<World>();
+								 */
+				World myWorld = findWorld( transform );
 				
 				if ( myWorld != null )
 				{
@@ -200,6 +206,20 @@ if ( transform.root == transform )
 			}
 		}
 				
+	}
+	
+	World findWorld( Transform t ) 
+	{
+		World w = t.GetComponent<World>();
+		if ( w )
+			return w;
+		else 
+		{
+			if ( t.root == t )
+				return null;
+			else 
+				return findWorld ( t.parent );
+		}
 	}
 	
 	void Start () 

@@ -56,7 +56,9 @@ public class Skelly : BaseObject
 	bool goingDown;
 	bool attacking;
 	
-	void ChangeDirection()
+	Player playerTarget;
+	
+	void ChangeDirectionRandom()
 	{
 		goingRight = goingLeft = goingUp = goingDown = attacking = false;
 		int dir = Random.Range( 0, 4 );
@@ -80,8 +82,84 @@ public class Skelly : BaseObject
 		//print ("change! " + dir );
 	}
 	
+	bool upDownWalkPriority;
+
+	void ChangeDirectionTowardsPlayer()
+	{
+		//int dir = Random.Range( 0, 4 );
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		//float distance = Vector3.Distance( playerPos, myPos );
+
+		goingRight = goingLeft = goingUp = goingDown = attacking = false;
+		
+		float thresholdNear = 0.02f;
+		
+		if ( upDownWalkPriority )
+		{
+			if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				goingDown = true;
+			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				goingUp = true;
+			else if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				goingRight = true;
+			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				goingLeft = true;
+		}
+		else 
+		{
+			if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				goingRight = true;
+			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				goingLeft = true;
+			else if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				goingDown = true;
+			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				goingUp = true;
+		}
+	}
+
+	
+	void TryToAttack()
+	{
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		float distance = Vector3.Distance( playerPos, myPos );
+		
+		if ( distance <= 0.8f && currentFloor != null )
+		{
+			float thresholdNear = 0.3f;
+			bool nearX = ( Mathf.Abs(playerPos.x - myPos.x) < thresholdNear );
+			bool nearY = ( Mathf.Abs(playerPos.z - myPos.z) < thresholdNear );
+			
+			if ( nearX || nearY )
+			{
+				attacking = true;
+			}
+		}
+	}
+	
+	
+	void InitIA()
+	{
+		//ChangeDirectionRandom();
+		ChangeDirectionTowardsPlayer();
+	}
+	
 	void UpdateIA()
 	{
+		if ( currentFloor == null )
+			return;
+
+		
+		walkTimer += Time.deltaTime;
+
+		if ( walkTimer > 1.0f )
+		{
+			walkTimer = 0;
+			upDownWalkPriority = !upDownWalkPriority;
+		}
+		
 		bool stuckRight = goingRight && lockRight > 0;
 		bool stuckLeft = goingLeft && lockLeft > 0;
 		bool stuckDown = goingDown && lockDown > 0;
@@ -89,23 +167,37 @@ public class Skelly : BaseObject
 		
 		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
 		
-		if ( straightTimer > 1.0f || stuck )
+		
+		if ( stuck )
 		{
-			
-			ChangeDirection();
+			print ( " stuckRight " + stuckRight );
+			print ( " stuckLeft " + stuckLeft );
+			print ( " stuckUp " + stuckUp );
+			print ( " stuckDown " + stuckDown );
+			ChangeDirectionRandom();
+		}
+		else 
+		{
+			ChangeDirectionTowardsPlayer();
+			TryToAttack();
 		}
 	}
 	
 	bool sleeping = true;
+	public BaseObjectSensor playerSensor;
+	float prevdx, prevdy;
+	
+	float walkTimer;
 	
 	void Update () 
 	{
 		if ( sleeping )
 		{
-			if ( Vector3.Distance( worldOwner.player.transform.position, transform.position ) < 4.0f )
+			if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null )
 			{
-				ChangeDirection();
+				playerTarget = (Player)playerSensor.sensedObject;
 				sleeping = false;
+				InitIA();
 			}
 		}
 		else 
@@ -137,24 +229,21 @@ public class Skelly : BaseObject
 				dy = -1;
 			}
 			
-			if ( goingLeft && lockLeft <0 )
-				straightTimer = 0;
-			
-			if ( goingRight && lockRight  <0)
-				straightTimer = 0;
-			
-			if ( goingUp && lockUp <0)
-				straightTimer = 0;
-			
-			if ( goingDown && lockDown <0 )
-				straightTimer = 0;
-			
 		}
 		
-		if ( dx != 0 || dy != 0 )
+		if ( dx == prevdx && dy == prevdy )
+		{
 			straightTimer += Time.deltaTime;
-			
-		//print ("timer = " + straightTimer );
+		}
+		else 
+		{
+			straightTimer = 0;
+		}
+		
+		prevdx = dx;
+		prevdy = dy;
+
+		//print ("dx = "+dx+" dy = "+dy+" timer = " + straightTimer  + " ........ " + currentFloor );
 		
 		
 		if ( inmuneTimer > 0 )
@@ -209,7 +298,6 @@ public class Skelly : BaseObject
 		if ( animator.isAnimPlaying("Attack") )
 		{
 			frictionCoef = 0.95f;
-			cooldown = 0.1f;
 		}
 		else 
 		{
@@ -289,7 +377,10 @@ public class Skelly : BaseObject
 				{
 					animator.StopAnim();
 					animator.PlayAnim("Attack" + facing );
-					velocity *= 2;
+					velocity *= 2.0f;
+					cooldown = 2.0f;
+					gravity.y = -0.05f;
+					
 				}
 			}
 			else // Ya tiene un objeto en la capocha, tirarlo!
