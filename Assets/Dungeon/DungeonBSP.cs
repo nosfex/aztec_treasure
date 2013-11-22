@@ -78,10 +78,6 @@ public class DungeonBSP : MonoBehaviour
  		resizeNodes();
 		
 		removeOverlappedNodes();
-		//removeOverlappedNodes();
-		
-		removeOverlappedNodes();
-		
 		
 		for(int i = 0; i < final.Count; i++)
 		{
@@ -90,10 +86,6 @@ public class DungeonBSP : MonoBehaviour
 			a.createDoors(doorTile);
 			printToGlobalTiles(a);
 		}
-		
-		
-		
-	//	resizeNodes();
 	}
 	
 	void printToGlobalTiles(BSPNode data)
@@ -120,27 +112,23 @@ public class DungeonBSP : MonoBehaviour
 				if(tile.CompareTag(floorTile.tag))
 				{
 					val = 1;
-				//	print("TAG: FLOOR");
 				}
 				
 				else if(tile.CompareTag(wallTile.tag))
 				{
 					val = 2;
-				//	print("TAG: WALL");
 				}
 				
 				else if(tile.CompareTag(doorTile.tag))
 				{
 					val = 3;
-				//	print("TAG: DOOR");
 				}
 				
 				globalTiles[posX, posY] = val;
 			}
 		}
-		
-		
 	}
+	
 	void removeOverlappedNodes()
 	{
 		ArrayList slateForRemoval = new ArrayList();
@@ -162,6 +150,76 @@ public class DungeonBSP : MonoBehaviour
 			}
 			
 		}
+	}
+	
+	public void makeDoors()
+	{
+		int smallestRoomSize = 99999;
+		BSPNode startRoom = null;
+		for(int i  = 0; i < final.Count; i++)
+		{
+			
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			if(a.width + a.height < smallestRoomSize)
+			{
+				startRoom = a;
+				smallestRoomSize = a.width + a.height;
+			}
+			
+		}
+		
+		
+		float leastDistanceA = 99999.0f;
+		BSPNode leastDistanceANode = null;
+		for(int i = 0; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			if(a == startRoom)
+				continue;
+			float tempDistance = distance(startRoom, a);
+			if(tempDistance < leastDistanceA )
+			{
+				leastDistanceA = tempDistance;
+				leastDistanceANode =  a;
+			}
+		}
+		
+		
+		leastDistanceA = 99999.0f;
+		BSPNode leastDistanceBNode = null;
+		for(int i = 0; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			if(a == startRoom)
+				continue;
+			
+			if(a == leastDistanceANode)
+				continue;
+			
+			float tempDistance = distance(startRoom, a);
+			if(tempDistance < leastDistanceA )
+			{
+				leastDistanceA = tempDistance;
+				leastDistanceBNode =  a;
+			}
+		}
+		
+		
+		
+	}
+	
+	public float distance(BSPNode a, BSPNode b)
+	{
+		int dx = (b.initPosX - a.initPosX) ;
+		int sdx = dx*dx;
+		
+		int dy = b.initPosY - a.initPosY;
+		int sdy = dy*dy;
+		
+		float val = Mathf.Sqrt(sdx+sdy);
+		
+		return val;
+		
 	}
 	
 	public bool partitionate(BSPNode root, int minW, int maxW, int minH, int maxH)

@@ -13,6 +13,15 @@ public class Room
 	int height;
 	public static int refCount =0;
 	
+	bool[] doors;
+	
+
+	int	TOP=0;
+	int	BOTTOM=1;
+	int	RIGHT=2;
+	int	LEFT=3;
+
+	
 	public ArrayList wallList;
 	
 	public Room(int w, int h)
@@ -48,7 +57,13 @@ public class Room
 		Vector3 scale = floorTile.transform.localScale;
 		int maxDoors = Random.Range(1, 4);
 		
+		doors = new bool[4];
 		
+		for(int i = 0; i < 4 ; i++)
+		{
+			doors[i] = false;			
+		}
+		int index = -1;
 		while(maxDoors != 0)
 		{
 			int i = Random.Range(1, width -2);
@@ -58,24 +73,42 @@ public class Room
 			{
 				j = Random.Range(0, height ) > height / 2 ? height -1 : 0;
 				
+				if(j > height / 2)
+					index = BOTTOM;
+				else index = TOP;
 			}
 			else
 			{
 				i = Random.Range(0, width) > width / 2 ? width -1 : 0;
 				iAxis = true;
+				
+				if(i > width / 2)
+					index = RIGHT;
+				else index = LEFT;
 			}
-					
+			
+			if(doors[index])
+				continue;
+			
 			int tileX = iPosX + i;
 			int tileY = iPosY + j;
 		
 			int modX = iAxis ? 0 : 1;
 			int modY = iAxis ? 1 : 0;
+			
+			
+			
 			wallList.Remove(tiles[i,j]);
 		//	wallList.Remove(tiles[i + modX ,j + modY]);
 			replaceTile(floorTile, i, j, tileX, tileY);
 		//	replaceTile(floorTile, i + modX, j + modY, tileX + modX, tileY + modY);
 			maxDoors--;
 		}
+		
+	}
+	
+	public void createDoorAtSide(int side, int x, int y, GameObject tile)
+	{
 		
 	}
 	
