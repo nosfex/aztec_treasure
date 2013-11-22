@@ -7,11 +7,13 @@ public class Player : BaseObject
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
+	public BaseObjectSensor attackSensor;
 	public GameObject dropGuide;
 	
 	private Light[] lights;
 	private Light torchLight;
 	public bool inDarkness = false;
+	public bool isImmune { get { return inmuneTimer > 0; } }
 	
 	[HideInInspector]
 	public int hearts;
@@ -100,6 +102,21 @@ public class Player : BaseObject
 	
 	void Update () 
 	{
+		if ( deathAwaits )
+		{
+			hearts = GameDirector.i.maxHearts;
+			inmuneTimer = 0;
+			transform.position = worldOwner.startingPoint.position;
+			velocity = Vector3.zero;
+			gravity = Vector3.zero;
+			accel = Vector3.zero;
+			torchRatio = 100;
+			
+			worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
+			deathAwaits = false;
+		}
+		
+		
 		float dx = 0, dy = 0;
 		
 		if ( !animator.isAnimPlaying("Attack") ) /*&& currentFloor != null */ 
@@ -149,9 +166,13 @@ public class Player : BaseObject
 		{
 			animator.renderer.enabled = !animator.renderer.enabled;
 			inmuneTimer -= Time.deltaTime;
+			//collisionEnabled = false;
 			
 			if ( inmuneTimer <= 0 )
+			{
 				animator.renderer.enabled = true;
+				//collisionEnabled = true;
+			}
 		}
 		
 		
@@ -170,6 +191,7 @@ public class Player : BaseObject
 		
 			torchLight.intensity = (torchRatio / 100f) * 0.66f;
 		}
+		
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;
 		
 		float threshold = 0.001f;
@@ -327,6 +349,7 @@ public class Player : BaseObject
 			velocity = Vector3.zero;
 			gravity = Vector3.zero;
 			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
+			print ("QUE");
 			OnHit ( null );
 			
 			if ( hearts > 0 )
@@ -338,23 +361,23 @@ public class Player : BaseObject
 			}
 		}
 		
+		if ( animator.isAnimPlaying("Attack") && attackSensor.sensedObject != null )
+		{
+			attackSensor.sensedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+		}
+
+		
 		lockLeft--;
 		lockRight--;
 		lockDown--;
 		lockUp--;
 	}
 	
-
+	bool deathAwaits = false;
 	
 	void die()
 	{
-		hearts = GameDirector.i.maxHearts;
-		inmuneTimer = 0;
-		transform.position = worldOwner.startingPoint.position;
-		velocity = Vector3.zero;
-		gravity = Vector3.zero;
-		torchRatio = 100;
-		worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
+		deathAwaits = true;
 	}
 	
 	public void OnHit( GameObject other )
@@ -364,7 +387,8 @@ public class Player : BaseObject
 		
 		hearts--;
 		
-		inmuneTimer = 0.5f;
+		inmuneTimer = 1.0f;
+		frictionCoef = 0.99f;
 		
 		if ( hearts == 0 )
 			die();
@@ -382,13 +406,6 @@ public class Player : BaseObject
 	
 	override protected void TestWalls( Collider other )
 	{
-		if ( animator.isAnimPlaying("Attack") )
-		{
-			other.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
-		}
-		
-
-		
 		BaseObject bo = other.GetComponent<BaseObject>();
 
 		if ( bo != null )
