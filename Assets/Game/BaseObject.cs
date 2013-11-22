@@ -7,8 +7,10 @@ public class BaseObject : MonoBehaviour
 	public World worldOwner;
 	
 	[HideInInspector] public Vector3 accel = Vector3.zero;
-	public float frictionCoef = 0.97f;
+	[HideInInspector] public float frictionCoef = 0.97f;
+	
 	public float airFrictionCoef = 1.0f;
+	public float groundFrictionCoef = 0.66f;
 	public float bouncyness = 0.9f;
 	
 	[HideInInspector] public Vector3 velocity = Vector3.zero;
@@ -18,7 +20,7 @@ public class BaseObject : MonoBehaviour
 	
 	public bool isLiftable = true;
 	
-	protected Vector3 gravity = Vector3.zero;
+	[HideInInspector] public Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;
 	public BoxCollider currentFloor;
@@ -28,22 +30,29 @@ public class BaseObject : MonoBehaviour
 		velocity = Vector3.zero;
 		accel = Vector3.zero;
 		
-		if ( transform.root != transform )
-		{
+		World myWorld = findWorld( transform );
 			
-			//So, now try to detect if child or grand-child of world.
-			World myWorld = transform.parent.GetComponent<World>();
+		//if ( myWorld == null )
+		//	myWorld = transform.parent.parent.GetComponent<World>();
 			
-			if ( myWorld == null )
-				myWorld = transform.parent.parent.GetComponent<World>();
-			
-			if ( myWorld != null )
-			{
-				
-				worldOwner = myWorld;					
-			}
-		}
+		worldOwner = myWorld;					
+		//}
 	}
+	
+	
+	World findWorld( Transform t ) 
+	{
+		World w = t.GetComponent<World>();
+		if ( w )
+			return w;
+		else 
+		{
+			if ( t.root == t )
+				return null;
+			else 
+				return findWorld ( t.parent );
+		}
+	}	
 	
 	float floorY = 0;
 	

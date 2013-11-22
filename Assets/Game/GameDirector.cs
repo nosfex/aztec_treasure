@@ -14,6 +14,10 @@ public class GameDirector : MonoBehaviour {
 	[HideInInspector] public Player playerLeft;
 	[HideInInspector] public Player playerRight;
 	
+	[HideInInspector] public World worldLeft;
+	[HideInInspector] public World worldRight;
+
+	
 	public int maxHearts;
 	
 	
@@ -64,7 +68,7 @@ public class GameDirector : MonoBehaviour {
 		
 		// CREATE FUTURE.
 		GameObject go = (GameObject)Instantiate( worldContainer.gameObject, 
-			worldContainer.transform.position + (Vector3.right * (0.2f * 50f)), 
+			worldContainer.transform.position + (Vector3.right * (0.2f * 500f)), 
 			Quaternion.identity );
 		
 		RemoveObjectsByLayerRecursively( go, LayerMask.NameToLayer("Past") );
@@ -91,6 +95,8 @@ public class GameDirector : MonoBehaviour {
 		world2.player = playerRight;
 		world2.InitPlayer();
 		
+		worldRight = world2;
+		worldLeft = worldContainer;
 
 		//SnapAssistant.i.snapEnabled = true;
 	}

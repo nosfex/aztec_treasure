@@ -7,18 +7,17 @@ public class Skelly : BaseObject
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
-	//public GameObject dropGuide;
-	
-	//private Light[] lights;
-	//private Light torchLight;
-	//public bool inDarkness = false;
 	
 	[HideInInspector]
 	public int hearts;
 	
 	public int maxHearts = 2;
 	
-	//public float torchRatio;
+	public float speed = 0.5f;
+	public float attackJumpHeight = -0.045f;
+	public float attackSpeedFactor = 2.0f;
+	public float attackCooldown = 2.0f;
+
 	BoxCollider lastSafeFloor;
 	
 	override protected void Start () 
@@ -48,7 +47,7 @@ public class Skelly : BaseObject
 	
 	BaseObject liftedObject;
 	Vector3 direction;
-	public float speed = 0.5f;
+	
 	
 	bool goingLeft;
 	bool goingRight;
@@ -56,7 +55,9 @@ public class Skelly : BaseObject
 	bool goingDown;
 	bool attacking;
 	
-	void ChangeDirection()
+	Player playerTarget;
+	
+	void ChangeDirectionRandom()
 	{
 		goingRight = goingLeft = goingUp = goingDown = attacking = false;
 		int dir = Random.Range( 0, 4 );
@@ -80,8 +81,124 @@ public class Skelly : BaseObject
 		//print ("change! " + dir );
 	}
 	
+	bool upDownWalkPriority;
+	
+	public enum EnemyAction
+	{
+		GO_UP,
+		GO_DOWN,
+		GO_LEFT,
+		GO_RIGHT,
+		ATTACK
+	}
+	
+	public void DoAction( EnemyAction action ) 
+	{
+		switch ( action )
+		{
+			case EnemyAction.GO_UP:
+				goingUp = true;
+				break;
+			case EnemyAction.GO_DOWN:
+				goingDown = true;
+				break;
+			case EnemyAction.GO_LEFT:
+				goingLeft = true;
+				break;
+			case EnemyAction.GO_RIGHT:
+				goingRight = true;
+				break;
+			case EnemyAction.ATTACK:
+				attacking = true;
+				break;
+		}
+	}
+	
+	void ChangeDirectionRotate()
+	{
+		if ( goingRight ) DoAction( EnemyAction.GO_DOWN );
+		else if ( goingDown ) DoAction( EnemyAction.GO_LEFT );
+		else if ( goingLeft ) DoAction( EnemyAction.GO_UP );
+		else if ( goingUp ) DoAction( EnemyAction.GO_RIGHT );
+	}
+	
+	void ChangeDirectionTowardsPlayer()
+	{
+		//int dir = Random.Range( 0, 4 );
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		//float distance = Vector3.Distance( playerPos, myPos );
+
+		float thresholdNear = 0.04f;
+		
+		if ( upDownWalkPriority )
+		{
+			if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				DoAction(EnemyAction.GO_DOWN);
+			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				DoAction(EnemyAction.GO_UP);
+			else if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				DoAction (EnemyAction.GO_RIGHT);
+			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				DoAction(EnemyAction.GO_LEFT);
+		}
+		else 
+		{
+			if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				DoAction (EnemyAction.GO_RIGHT);
+			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+				DoAction(EnemyAction.GO_LEFT);
+			else if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				DoAction(EnemyAction.GO_DOWN);
+			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+				DoAction(EnemyAction.GO_UP);
+		}
+	}
+
+	
+	void TryToAttack()
+	{
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		float distance = Vector3.Distance( playerPos, myPos );
+		
+		if ( distance <= 1.0f && currentFloor != null )
+		{
+			float thresholdNear = 0.4f;
+			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
+			bool nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear ) && ( goingRight || goingLeft );
+			
+			if ( nearX || nearY )
+			{
+				DoAction( EnemyAction.ATTACK );
+			}
+		}
+	}
+	
+	
+	void InitIA()
+	{
+		//ChangeDirectionRandom();
+		ChangeDirectionTowardsPlayer();
+	}
+	
 	void UpdateIA()
 	{
+		if ( currentFloor == null )
+			return;
+
+		
+		walkTimer += Time.deltaTime;
+
+		if ( walkTimer > .66f )
+		{
+			walkTimer = 0;
+			upDownWalkPriority = !upDownWalkPriority;
+			
+			if ( playerTarget.isImmune )
+				ChangeDirectionRandom();
+		}
+		
 		bool stuckRight = goingRight && lockRight > 0;
 		bool stuckLeft = goingLeft && lockLeft > 0;
 		bool stuckDown = goingDown && lockDown > 0;
@@ -89,23 +206,38 @@ public class Skelly : BaseObject
 		
 		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
 		
-		if ( straightTimer > 1.0f || stuck )
+		
+		if ( stuck )
 		{
-			
-			ChangeDirection();
+			goingRight = goingLeft = goingUp = goingDown = attacking = false;
+			upDownWalkPriority = !upDownWalkPriority;
+			ChangeDirectionRotate();
+		}
+		else if ( !playerTarget.isImmune )
+		{
+			goingRight = goingLeft = goingUp = goingDown = attacking = false;
+			ChangeDirectionTowardsPlayer();
+			TryToAttack();
 		}
 	}
 	
 	bool sleeping = true;
+	public BaseObjectSensor playerSensor;
+	float prevdx, prevdy;
+	
+	float walkTimer;
 	
 	void Update () 
 	{
+		
+		
 		if ( sleeping )
 		{
-			if ( Vector3.Distance( worldOwner.player.transform.position, transform.position ) < 4.0f )
+			if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null )
 			{
-				ChangeDirection();
+				playerTarget = (Player)playerSensor.sensedObject;
 				sleeping = false;
+				InitIA();
 			}
 		}
 		else 
@@ -137,24 +269,21 @@ public class Skelly : BaseObject
 				dy = -1;
 			}
 			
-			if ( goingLeft && lockLeft <0 )
-				straightTimer = 0;
-			
-			if ( goingRight && lockRight  <0)
-				straightTimer = 0;
-			
-			if ( goingUp && lockUp <0)
-				straightTimer = 0;
-			
-			if ( goingDown && lockDown <0 )
-				straightTimer = 0;
-			
 		}
 		
-		if ( dx != 0 || dy != 0 )
+		if ( dx == prevdx && dy == prevdy )
+		{
 			straightTimer += Time.deltaTime;
-			
-		//print ("timer = " + straightTimer );
+		}
+		else 
+		{
+			straightTimer = 0;
+		}
+		
+		prevdx = dx;
+		prevdy = dy;
+
+		//print ("dx = "+dx+" dy = "+dy+" timer = " + straightTimer  + " ........ " + currentFloor );
 		
 		
 		if ( inmuneTimer > 0 )
@@ -169,7 +298,7 @@ public class Skelly : BaseObject
 		
 		accel += speed * new Vector3( dx, 0, dy );
 		
-		frictionCoef += (0.66f - frictionCoef) * 0.75f;
+		frictionCoef += (groundFrictionCoef - frictionCoef) * 0.75f;
 		
 		float threshold = 0.001f;
 		
@@ -209,7 +338,6 @@ public class Skelly : BaseObject
 		if ( animator.isAnimPlaying("Attack") )
 		{
 			frictionCoef = 0.95f;
-			cooldown = 0.1f;
 		}
 		else 
 		{
@@ -289,7 +417,10 @@ public class Skelly : BaseObject
 				{
 					animator.StopAnim();
 					animator.PlayAnim("Attack" + facing );
-					velocity *= 2;
+					velocity *= attackSpeedFactor;
+					cooldown = attackCooldown;
+					gravity.y = attackJumpHeight;
+					
 				}
 			}
 			else // Ya tiene un objeto en la capocha, tirarlo!
@@ -347,6 +478,24 @@ public class Skelly : BaseObject
 			die();
 	}
 	
+	override protected void OnTriggerEnter( Collider other )
+	{
+		if ( other.GetComponent<Player>() != null )
+		{
+			Player p = other.GetComponent<Player>();
+
+			if ( !p.isImmune )
+			{
+				p.OnHit( gameObject );
+				p.velocity += direction * speed * attackSpeedFactor * 6f;
+				p.gravity.y = -0.01f;
+				velocity *= -1.2f;
+			}
+		}
+		
+		base.OnTriggerEnter( other );
+	}
+	
 	override protected void TestFloor( Collider other )
 	{
 		base.TestFloor( other );
@@ -359,13 +508,6 @@ public class Skelly : BaseObject
 	
 	override protected void TestWalls( Collider other )
 	{
-		if ( animator.isAnimPlaying("Attack") )
-		{
-			other.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
-		}
-		
-
-		
 		BaseObject bo = other.GetComponent<BaseObject>();
 
 		if ( bo != null )
@@ -374,6 +516,8 @@ public class Skelly : BaseObject
 			{
 				return;
 			}
+			
+			
 		}
 		
 		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
@@ -409,30 +553,31 @@ public class Skelly : BaseObject
 		{
 		case 0:
 			adjustX = true;
-			lockRight = 2;
+			lockRight = 5;
 			break;
 		case 1:
 			adjustX = true;
-			lockLeft = 2;
+			lockLeft = 5;
 			break;
 		case 2:
 			adjustZ = true;
-			lockDown = 2;
+			lockDown = 5;
 			break;
 		case 3:
 			adjustZ = true;
-			lockUp = 2;
+			lockUp = 5;
 			break;
 		}
 		
-		if ( animator.isAnimPlaying("Attack") )
-		{
-			if ( other.tag == "Wall" )
-			{
-				animator.StopAnim();
-				velocity *= -2.0f;
-			}
-		}
+//		if ( animator.isAnimPlaying("Attack") )
+//		{
+//			if ( other.tag == "Wall" )
+//			{
+//				animator.StopAnim();
+//			}
+//		}
+//		
+//		velocity *= -2.0f;
 //		else 
 //		if ( straightTimer > 0.7f )
 //			velocity *= -2.0f;

@@ -7,9 +7,9 @@ TagManager:
   - Floor
   - WallDestructable
   - FloorTrap
-  - DoorTile
-  - WallTile
-  - FloorTile
+  - FloorCorridor
+  - 
+  - Light
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

@@ -108,7 +108,7 @@ QualitySettings:
     - Web
   - serializedVersion: 2
     name: Fantastic
-    pixelLightCount: 10
+    pixelLightCount: 6
     shadows: 0
     shadowResolution: 2
     shadowProjection: 1

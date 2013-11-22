@@ -22,7 +22,7 @@ public class Dart : MonoBehaviour {
 		if ( other.gameObject == transform.parent.gameObject )
 			return;
 		
-		if ( other.tag == "WallDestructable" )
+		if ( other.tag.Contains( "Destructable" ) )
 		{	
 			life--;
 			print ( "life = " + life );
