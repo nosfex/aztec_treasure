@@ -7,7 +7,7 @@ public class Player : BaseObject
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
-	public BaseObjectSensor attackSensor;
+	public AttackSensor attackSensor;
 	public GameObject dropGuide;
 	
 	private Light[] lights;
@@ -240,22 +240,22 @@ public class Player : BaseObject
 		}
 		
 
-		if ( Input.GetKey(leftKey)  )
+		if ( Input.GetKey(leftKey) )
 		{
 			facing = "Left";
 			direction = Vector3.left;
 		}
-		else if ( Input.GetKey(rightKey)  )
+		else if ( Input.GetKey(rightKey) )
 		{
 			facing = "Right";
 			direction = Vector3.right;
 		}
-		else if ( Input.GetKey(upKey)  )
+		else if ( Input.GetKey(upKey) )
 		{
 			facing = "Up";
 			direction = Vector3.forward;
 		}
-		else if ( Input.GetKey(downKey)  )
+		else if ( Input.GetKey(downKey) )
 		{
 			facing = "Down";
 			direction = Vector3.back;
@@ -296,15 +296,10 @@ public class Player : BaseObject
 			{
 				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 				{
-					//print ("LIFT!");
 					Transform lifted = liftSensor.sensedObject.transform;
 					lifted.parent = transform;
 					
-					
-					
-					
 					// pone el objeto en la cabeza del flaco.
-					
 					iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.45f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
 					//iTween.MoveAdd( lifted.gameObject, iTween.Hash ( "time", 0.5f, "isLocal", true, "x", targetPos.x, "easetype", iTween.EaseType.easeInOutQuad ) );
 					//lifted.position = transform.position + new Vector3( 0, 0.4f, 0 );
@@ -345,11 +340,9 @@ public class Player : BaseObject
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 		{
-			
 			velocity = Vector3.zero;
 			gravity = Vector3.zero;
 			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
-			print ("QUE");
 			OnHit ( null );
 			
 			if ( hearts > 0 )
@@ -361,21 +354,26 @@ public class Player : BaseObject
 			}
 		}
 		
+		
+		
 		if ( animator.isAnimPlaying("Attack") && attackSensor.sensedObject != null )
 		{
-			attackSensor.sensedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
-		}
+			BaseObject attackedObject = attackSensor.CheckSensorOnce();
 
+			if ( attackedObject )
+			{
+				attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+				if ( attackedObject.GetComponent<Vine>() == null )
+					velocity *= -1f;
+			}
+		}
 		
-		lockLeft--;
-		lockRight--;
-		lockDown--;
-		lockUp--;
+		lockLeft--; lockRight--; lockDown--; lockUp--;
 	}
 	
 	bool deathAwaits = false;
 	
-	void die()
+	void Die()
 	{
 		deathAwaits = true;
 	}
@@ -384,6 +382,9 @@ public class Player : BaseObject
 	{
 		if ( inmuneTimer > 0 )
 			return;
+
+		if ( deathAwaits )
+			return;
 		
 		hearts--;
 		
@@ -391,11 +392,14 @@ public class Player : BaseObject
 		frictionCoef = 0.99f;
 		
 		if ( hearts == 0 )
-			die();
+			Die();
 	}
 	
 	override protected void TestFloor( Collider other )
 	{
+		if ( deathAwaits )
+			return;
+
 		base.TestFloor( other );
 		
 		if ( currentFloor != null && currentFloor.tag == "Floor" )
@@ -406,6 +410,9 @@ public class Player : BaseObject
 	
 	override protected void TestWalls( Collider other )
 	{
+		if ( deathAwaits )
+			return;
+
 		BaseObject bo = other.GetComponent<BaseObject>();
 
 		if ( bo != null )

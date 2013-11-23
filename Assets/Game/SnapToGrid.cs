@@ -6,12 +6,13 @@ public class SnapToGrid : MonoBehaviour
 {
 	void Update () 
 	{
-	
+#if UNITY_EDITOR
 		if ( Application.isEditor && !Application.isPlaying )
 		{
 			if ( !UnityEditor.Selection.Contains( gameObject ) )
 				return;
 		}
+#endif
 		
 		if ( SnapAssistant.i && SnapAssistant.i.snapEnabled )
 		{

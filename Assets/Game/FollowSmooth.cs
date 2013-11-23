@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 
 public class FollowSmooth : MonoBehaviour 
@@ -349,12 +349,12 @@ public class FollowSmooth : MonoBehaviour
 		
 		
 		Vector3 v = ((tempTarget + offset) - transform.position) * frictionCoef;
-		
+		/*
 		if ( Mathf.Sign(posDelta.x) != Mathf.Sign (v.x) || posDelta.x == 0 ) 
 			v.x = 0;
 		
 		if ( Mathf.Sign(posDelta.z) != Mathf.Sign (v.z) || posDelta.z == 0  ) 
-			v.z = 0;
+			v.z = 0;*/
 		/*
 		if ( downLock > 0 && upLock > 0 )
 			v.z = 0;

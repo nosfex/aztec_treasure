@@ -3,16 +3,20 @@ using System.Collections;
 
 public class Rock : BaseObject 
 {
+	public int maxHearts;
+
+	int hearts;
 	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+	{
+		hearts = maxHearts;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	void OnTriggerEnter( Collider other )
+	{
+		
 	}
-	
+		
 	void OnHit( GameObject obj )
 	{
 		/*
@@ -22,6 +26,13 @@ public class Rock : BaseObject
 			animator.transform.parent = transform.parent;
 			animator.PlayAnim("Death");
 		}*/
-		Destroy ( gameObject );
+		
+		if ( obj.GetComponent<Player>() != null )
+			return;
+		
+		hearts--;
+		
+		if ( hearts <= 0 )
+			Destroy ( gameObject );
 	}
 }

@@ -7,6 +7,7 @@ public class Skelly : BaseObject
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
+	public BaseObjectSensor playerSensor;
 	
 	[HideInInspector]
 	public int hearts;
@@ -20,13 +21,18 @@ public class Skelly : BaseObject
 
 	BoxCollider lastSafeFloor;
 	
+	Vector3 startPosition;
+	
 	override protected void Start () 
 	{
 		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
 		direction = Vector3.right;
 		hearts = maxHearts;
-		//ChangeDirection();
+		state = State.SLEEPING;
+		playerSensor.typeFilter = typeof( Player );
+		startPosition = transform.position;
+		controller = GetComponent<EnemyController>();
 	}	
 
 	string facing = "Right";
@@ -38,6 +44,12 @@ public class Skelly : BaseObject
 	float lockRight = 0;
 	float lockLeft = 0;
 	
+	public bool canGoDown { get { return lockDown > 0; } }
+	public bool canGoUp { get { return lockUp > 0; } }
+	public bool canGoRight { get { return lockRight > 0; } }
+	public bool canGoLeft { get { return lockLeft > 0; } }
+	
+	
 	float straightTimer = 0;
 	float inmuneTimer = 0;
 	
@@ -46,229 +58,73 @@ public class Skelly : BaseObject
 	float isFlipping = 0;
 	
 	BaseObject liftedObject;
+	EnemyController controller;
 	Vector3 direction;
 	
-	
-	bool goingLeft;
-	bool goingRight;
-	bool goingUp;
-	bool goingDown;
-	bool attacking;
-	
-	Player playerTarget;
-	
-	void ChangeDirectionRandom()
-	{
-		goingRight = goingLeft = goingUp = goingDown = attacking = false;
-		int dir = Random.Range( 0, 4 );
-		
-		switch ( dir )
-		{
-			case 0:
-				goingRight = true;
-				break;
-			case 1:
-				goingLeft = true;
-				break;
-			case 2:
-				goingUp = true;
-				break;
-			case 3:
-				goingDown = true;
-				break;
-		}		
-		
-		//print ("change! " + dir );
-	}
-	
-	bool upDownWalkPriority;
-	
-	public enum EnemyAction
-	{
-		GO_UP,
-		GO_DOWN,
-		GO_LEFT,
-		GO_RIGHT,
-		ATTACK
-	}
-	
-	public void DoAction( EnemyAction action ) 
-	{
-		switch ( action )
-		{
-			case EnemyAction.GO_UP:
-				goingUp = true;
-				break;
-			case EnemyAction.GO_DOWN:
-				goingDown = true;
-				break;
-			case EnemyAction.GO_LEFT:
-				goingLeft = true;
-				break;
-			case EnemyAction.GO_RIGHT:
-				goingRight = true;
-				break;
-			case EnemyAction.ATTACK:
-				attacking = true;
-				break;
-		}
-	}
-	
-	void ChangeDirectionRotate()
-	{
-		if ( goingRight ) DoAction( EnemyAction.GO_DOWN );
-		else if ( goingDown ) DoAction( EnemyAction.GO_LEFT );
-		else if ( goingLeft ) DoAction( EnemyAction.GO_UP );
-		else if ( goingUp ) DoAction( EnemyAction.GO_RIGHT );
-	}
-	
-	void ChangeDirectionTowardsPlayer()
-	{
-		//int dir = Random.Range( 0, 4 );
-		Vector3 playerPos = playerTarget.transform.position;
-		Vector3 myPos = transform.position;
-		//float distance = Vector3.Distance( playerPos, myPos );
-
-		float thresholdNear = 0.04f;
-		
-		if ( upDownWalkPriority )
-		{
-			if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
-				DoAction(EnemyAction.GO_DOWN);
-			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
-				DoAction(EnemyAction.GO_UP);
-			else if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
-				DoAction (EnemyAction.GO_RIGHT);
-			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
-				DoAction(EnemyAction.GO_LEFT);
-		}
-		else 
-		{
-			if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
-				DoAction (EnemyAction.GO_RIGHT);
-			else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
-				DoAction(EnemyAction.GO_LEFT);
-			else if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
-				DoAction(EnemyAction.GO_DOWN);
-			else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
-				DoAction(EnemyAction.GO_UP);
-		}
-	}
-
-	
-	void TryToAttack()
-	{
-		Vector3 playerPos = playerTarget.transform.position;
-		Vector3 myPos = transform.position;
-		float distance = Vector3.Distance( playerPos, myPos );
-		
-		if ( distance <= 1.0f && currentFloor != null )
-		{
-			float thresholdNear = 0.4f;
-			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
-			bool nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear ) && ( goingRight || goingLeft );
-			
-			if ( nearX || nearY )
-			{
-				DoAction( EnemyAction.ATTACK );
-			}
-		}
-	}
-	
-	
-	void InitIA()
-	{
-		//ChangeDirectionRandom();
-		ChangeDirectionTowardsPlayer();
-	}
-	
-	void UpdateIA()
-	{
-		if ( currentFloor == null )
-			return;
-
-		
-		walkTimer += Time.deltaTime;
-
-		if ( walkTimer > .66f )
-		{
-			walkTimer = 0;
-			upDownWalkPriority = !upDownWalkPriority;
-			
-			if ( playerTarget.isImmune )
-				ChangeDirectionRandom();
-		}
-		
-		bool stuckRight = goingRight && lockRight > 0;
-		bool stuckLeft = goingLeft && lockLeft > 0;
-		bool stuckDown = goingDown && lockDown > 0;
-		bool stuckUp = goingUp && lockUp > 0;
-		
-		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
-		
-		
-		if ( stuck )
-		{
-			goingRight = goingLeft = goingUp = goingDown = attacking = false;
-			upDownWalkPriority = !upDownWalkPriority;
-			ChangeDirectionRotate();
-		}
-		else if ( !playerTarget.isImmune )
-		{
-			goingRight = goingLeft = goingUp = goingDown = attacking = false;
-			ChangeDirectionTowardsPlayer();
-			TryToAttack();
-		}
-	}
-	
-	bool sleeping = true;
-	public BaseObjectSensor playerSensor;
+	//bool sleeping = true;
 	float prevdx, prevdy;
 	
 	float walkTimer;
 	
-	void Update () 
+	public enum State 
 	{
-		
-		
-		if ( sleeping )
+		SLEEPING,
+		ATTACKING,
+		WALKING
+	}
+	
+	public State stateValue;
+	float stateTimer = 0;
+	
+	State state
+	{ 
+		set { if ( stateValue != value ) { stateValue = value; stateTimer = 0; } } 
+		get { return stateValue; } 
+	}
+	
+	
+	void UpdateSleeping()
+	{
+		if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null )
 		{
-			if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null )
-			{
-				playerTarget = (Player)playerSensor.sensedObject;
-				sleeping = false;
-				InitIA();
-			}
-		}
-		else 
+			controller.playerTarget = (Player)playerSensor.sensedObject;
+			state = State.WALKING;
+			controller.Init();
+		}		
+	}
+	
+	void UpdateAttacking()
+	{
+		if ( stateTimer > 0.33f )
 		{
-			UpdateIA ();
+			animator.StopAnim();
+			animator.PlayAnim("Attack" + facing );
+			velocity = direction * speed * attackSpeedFactor;
+			cooldown = attackCooldown;
+			gravity.y = attackJumpHeight;
+			state = State.WALKING;
 		}
+	}
+	
+	void UpdateWalking()
+	{
+		controller.UpdateAI ();
 		
 		float dx = 0, dy = 0;
 		
 		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
 		{
-			if ( goingLeft && lockLeft < 0 )
-			{
+			if ( controller.GetKey( KeyCode.LeftArrow ) && lockLeft < 0 )
 				dx = -1;
-			}
 			
-			if ( goingRight && lockRight < 0 )
-			{
+			if ( controller.GetKey( KeyCode.RightArrow ) && lockRight < 0 )
 				dx = 1;
-			}
 			
-			if ( goingUp && lockUp < 0)
-			{
+			if ( controller.GetKey( KeyCode.UpArrow ) && lockUp < 0)
 				dy = 1;
-			}
 			
-			if ( goingDown && lockDown < 0 )
-			{	
+			if ( controller.GetKey( KeyCode.DownArrow ) && lockDown < 0 )
 				dy = -1;
-			}
-			
 		}
 		
 		if ( dx == prevdx && dy == prevdy )
@@ -284,18 +140,6 @@ public class Skelly : BaseObject
 		prevdy = dy;
 
 		//print ("dx = "+dx+" dy = "+dy+" timer = " + straightTimer  + " ........ " + currentFloor );
-		
-		
-		if ( inmuneTimer > 0 )
-		{
-			animator.renderer.enabled = !animator.renderer.enabled;
-			inmuneTimer -= Time.deltaTime;
-			
-			if ( inmuneTimer <= 0 )
-				animator.renderer.enabled = true;
-		}
-		
-		
 		accel += speed * new Vector3( dx, 0, dy );
 		
 		frictionCoef += (groundFrictionCoef - frictionCoef) * 0.75f;
@@ -323,7 +167,6 @@ public class Skelly : BaseObject
 			if ( (( dx < 0 && velocity.x > 0 ) || ( dx > 0 && velocity.x < 0 )) 
 				||( dy < 0 && velocity.z > 0 ) || ( dy > 0 && velocity.z < 0 )  )
 			{
-				//skidEnabled = false;
 				isSkidding = true;
 				frictionCoef = 0.9f;
 				accel *= 0.05f;
@@ -345,22 +188,22 @@ public class Skelly : BaseObject
 		}
 		
 
-		if ( goingLeft  )
+		if ( controller.GetKey ( KeyCode.LeftArrow ) )
 		{
 			facing = "Left";
 			direction = Vector3.left;
 		}
-		else if ( goingRight  )
+		else if ( controller.GetKey ( KeyCode.RightArrow ) )
 		{
 			facing = "Right";
 			direction = Vector3.right;
 		}
-		else if ( goingUp  )
+		else if ( controller.GetKey ( KeyCode.UpArrow ) )
 		{
 			facing = "Up";
 			direction = Vector3.forward;
 		}
-		else if ( goingDown )
+		else if ( controller.GetKey ( KeyCode.DownArrow )  )
 		{
 			facing = "Down";
 			direction = Vector3.back;
@@ -381,68 +224,92 @@ public class Skelly : BaseObject
 				animator.GoToFrame(2);
 			}
 		}
+	}
+	
+	void LiftObject()
+	{
+		Transform lifted = liftSensor.sensedObject.transform;
+		lifted.parent = transform;
 		
+		// pone el objeto en la cabeza del flaco.
+		iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.45f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
 		
-		if ( attacking  )
+		// to keep track
+		liftedObject = lifted.gameObject.GetComponent<BaseObject>();
+
+		// Lo desactiva.
+		liftedObject.gravityEnabled = false;
+		liftedObject.collisionEnabled = false;
+		
+		liftSensor.gameObject.SetActive( false );		
+	}
+	
+	void ThrowObject()
+	{
+		liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
+		liftedObject.velocity.y += 0.05f;
+		liftedObject.transform.parent = worldOwner.transform;
+		liftedObject.gravityEnabled = true;
+		
+		liftedObject = null;
+		liftSensor.sensedObject = null;
+		liftSensor.gameObject.SetActive( true );		
+	}
+	
+	void Attack()
+	{
+		state = State.ATTACKING;
+	}
+	
+	void Update () 
+	{
+		switch ( state )
+		{
+			case State.SLEEPING:
+				UpdateSleeping();
+				break;
+			case State.WALKING:
+				UpdateWalking();
+				break;
+			case State.ATTACKING:
+				UpdateAttacking();
+				break;
+		}
+		
+		stateTimer += Time.deltaTime;
+		
+		if ( inmuneTimer > 0 )
+		{
+			animator.renderer.enabled = !animator.renderer.enabled;
+			inmuneTimer -= Time.deltaTime;
+			
+			if ( inmuneTimer <= 0 )
+				animator.renderer.enabled = true;
+		}
+		
+		if ( controller.GetKey( KeyCode.Keypad0 ) )
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
 				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 				{
-					//print ("LIFT!");
-					Transform lifted = liftSensor.sensedObject.transform;
-					lifted.parent = transform;
-					
-					
-					
-					
-					// pone el objeto en la cabeza del flaco.
-					
-					iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.45f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
-					//iTween.MoveAdd( lifted.gameObject, iTween.Hash ( "time", 0.5f, "isLocal", true, "x", targetPos.x, "easetype", iTween.EaseType.easeInOutQuad ) );
-					//lifted.position = transform.position + new Vector3( 0, 0.4f, 0 );
-					
-					// to keep track
-					liftedObject = lifted.gameObject.GetComponent<BaseObject>();
-
-					// Lo desactiva.
-					liftedObject.gravityEnabled = false;
-					liftedObject.collisionEnabled = false;
-					
-					liftSensor.gameObject.SetActive( false );
-					
-					//dropGuide.SetActive( true );
+					LiftObject();
 				}
 				else if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
 				{
-					animator.StopAnim();
-					animator.PlayAnim("Attack" + facing );
-					velocity *= attackSpeedFactor;
-					cooldown = attackCooldown;
-					gravity.y = attackJumpHeight;
-					
+					Attack();
 				}
 			}
 			else // Ya tiene un objeto en la capocha, tirarlo!
 			{
-				
-				liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
-				liftedObject.velocity.y += 0.05f;
-				liftedObject.transform.parent = worldOwner.transform;
-				liftedObject.gravityEnabled = true;
-				
-				liftedObject = null;
-				liftSensor.sensedObject = null;
-				liftSensor.gameObject.SetActive( true );
+				ThrowObject();
 			}
 			
 		}
 		
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
-		{
-			die ();
-		}
+			Die ();
 		
 		lockLeft--;
 		lockRight--;
@@ -450,19 +317,31 @@ public class Skelly : BaseObject
 		lockUp--;
 	}
 	
-
-	
-	void die()
+	public void OnPlayerDead()
 	{
+		print ("reset");
+		ResetState();
+	}
+	
+	void ResetState()
+	{
+		gameObject.SetActive( true );
+		state = State.SLEEPING;
 		hearts = maxHearts;
 		inmuneTimer = 0;
-		//transform.position = worldOwner.startingPoint.position;
+		
 		velocity = Vector3.zero;
 		gravity = Vector3.zero;
+		transform.position = startPosition;
 		
+		hearts = maxHearts;		
+	}
+
+	
+	void Die()
+	{
 		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
-		
-		gameObject.SetActive(false);
+		gameObject.SetActive( false );
 	}
 	
 	public void OnHit( GameObject other )
@@ -475,7 +354,7 @@ public class Skelly : BaseObject
 		inmuneTimer = 0.5f;
 		
 		if ( hearts == 0 )
-			die();
+			Die();
 	}
 	
 	override protected void OnTriggerEnter( Collider other )
@@ -487,7 +366,7 @@ public class Skelly : BaseObject
 			if ( !p.isImmune )
 			{
 				p.OnHit( gameObject );
-				p.velocity += direction * speed * attackSpeedFactor * 6f;
+				p.velocity += direction * speed * attackSpeedFactor * 3f;
 				p.gravity.y = -0.01f;
 				velocity *= -1.2f;
 			}
@@ -516,8 +395,6 @@ public class Skelly : BaseObject
 			{
 				return;
 			}
-			
-			
 		}
 		
 		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
@@ -569,23 +446,7 @@ public class Skelly : BaseObject
 			break;
 		}
 		
-//		if ( animator.isAnimPlaying("Attack") )
-//		{
-//			if ( other.tag == "Wall" )
-//			{
-//				animator.StopAnim();
-//			}
-//		}
-//		
-//		velocity *= -2.0f;
-//		else 
-//		if ( straightTimer > 0.7f )
-//			velocity *= -2.0f;
-		
 		straightTimer = 0;
-		
-		
-
 		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
 										  transform.position.y, 
 										  adjustZ ? closestBoundExit.z : transform.position.z );
