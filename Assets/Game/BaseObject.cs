@@ -3,9 +3,9 @@ using System.Collections;
 
 public class BaseObject : MonoBehaviour 
 {
-	
 	public World worldOwner;
-	
+	public GameObject myPrefab;
+
 	[HideInInspector] public Vector3 accel = Vector3.zero;
 	[HideInInspector] public float frictionCoef = 0.97f;
 	
@@ -23,20 +23,51 @@ public class BaseObject : MonoBehaviour
 	[HideInInspector] public Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;
+	public bool respawns = false;
 	public BoxCollider currentFloor;
+	
+	EnemySpawner respawner;
 
 	virtual protected void Start()
 	{
+#if UNITY_EDITOR
+		if ( myPrefab == null )
+		{
+			Object prefab = UnityEditor.EditorUtility.GetPrefabParent(gameObject);
+	
+			if ( prefab != null )
+			{
+				myPrefab = (GameObject)prefab;
+				myPrefab.GetComponent<BaseObject>().myPrefab = myPrefab;
+			}
+		}
+#endif
+		
 		velocity = Vector3.zero;
 		accel = Vector3.zero;
 		
 		World myWorld = findWorld( transform );
 			
-		//if ( myWorld == null )
-		//	myWorld = transform.parent.parent.GetComponent<World>();
-			
-		worldOwner = myWorld;					
-		//}
+		worldOwner = myWorld;
+		
+		if ( respawns )
+			InitRespawn();
+		
+		
+	}
+	
+	public void InitRespawn()
+	{
+		GameObject go = 
+			(GameObject)Instantiate 
+			( 
+				GameDirector.i.enemySpawnerPrefab, 
+				transform.position,
+				transform.rotation 
+			);
+		
+		go.transform.parent = transform.parent;
+		respawner = go.GetComponent<EnemySpawner>();
 	}
 	
 	
@@ -274,5 +305,15 @@ public class BaseObject : MonoBehaviour
 		
 		if ( other.tag.Contains( "Wall" ) )
 			TestWalls( other );
+	}
+	
+	
+	virtual public void OnPlayerDead()
+	{
+		if ( respawns )
+		{
+			Destroy( gameObject );
+			respawner.Respawn();
+		}
 	}
 }

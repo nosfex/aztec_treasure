@@ -93,7 +93,7 @@ public class Skelly : BaseObject
 		}		
 	}
 	
-	void UpdateAttacking()
+	virtual void UpdateAttacking()
 	{
 		if ( stateTimer > 0.33f )
 		{
@@ -106,7 +106,7 @@ public class Skelly : BaseObject
 		}
 	}
 	
-	void UpdateWalking()
+	virtual void UpdateWalking()
 	{
 		controller.UpdateAI ();
 		
@@ -226,7 +226,7 @@ public class Skelly : BaseObject
 		}
 	}
 	
-	void LiftObject()
+	virtual void LiftObject()
 	{
 		Transform lifted = liftSensor.sensedObject.transform;
 		lifted.parent = transform;
@@ -244,7 +244,7 @@ public class Skelly : BaseObject
 		liftSensor.gameObject.SetActive( false );		
 	}
 	
-	void ThrowObject()
+	virtual void ThrowObject()
 	{
 		liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
 		liftedObject.velocity.y += 0.05f;
@@ -317,31 +317,10 @@ public class Skelly : BaseObject
 		lockUp--;
 	}
 	
-	public void OnPlayerDead()
-	{
-		print ("reset");
-		ResetState();
-	}
-	
-	void ResetState()
-	{
-		gameObject.SetActive( true );
-		state = State.SLEEPING;
-		hearts = maxHearts;
-		inmuneTimer = 0;
-		
-		velocity = Vector3.zero;
-		gravity = Vector3.zero;
-		transform.position = startPosition;
-		
-		hearts = maxHearts;		
-	}
-
-	
 	void Die()
 	{
 		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
-		gameObject.SetActive( false );
+		Destroy( gameObject );
 	}
 	
 	public void OnHit( GameObject other )
