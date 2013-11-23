@@ -36,6 +36,67 @@ public class DungeonBSP : MonoBehaviour
 		
 	}
 	
+	int bailLimit = 20;
+	
+	BSPNode GenerateHRoom()
+	{
+		BSPNode node = new BSPNode(0);
+		int bailout = bailLimit;
+		do
+		{
+			bailout--;
+			if ( bailout == 0 ) return null;
+			
+			node.width = Random.Range(10, 20);
+			node.height = Random.Range(5, 6);
+			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+		}
+		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;		
+		
+		return node;
+	}
+
+	BSPNode GenerateVRoom()
+	{
+		BSPNode node = new BSPNode(0);
+		int bailout = bailLimit;
+		do
+		{
+			bailout--;
+			if ( bailout == 0 ) return null;
+			node.width = Random.Range(5, 6);
+			node.height = Random.Range(10, 20);
+			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+		}
+		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
+		
+		return node;
+	}
+	
+	BSPNode GenerateBigRoom()
+	{
+		BSPNode node = new BSPNode(0);
+		int bailout = bailLimit;
+		do
+		{
+			bailout--;
+			if ( bailout == 0 ) return null;
+		
+			int size = Random.Range ( 15, 20 );
+			node.width = size + Random.Range(-3, 3);
+			node.height = size + Random.Range(-3, 3);
+			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+		}
+		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
+		
+		return node;
+	}
+	
+	
+	
 	public void init()
 	{
 		minRoomSize = 8;
@@ -73,72 +134,71 @@ public class DungeonBSP : MonoBehaviour
 //		trunk = root;
 //		createRoomsFromRoot(trunk);
 		int bailout;
-		BSPNode node;
-		int bailLimit = 20;
-		//Lechon
-		for ( int i = 0; i < 3; i++ )
+		
+		
+		int bigRoomsCount = 3;
+		int hRoomsCount = 5;
+		int vRoomsCount = 5;
+		
+		int totalRooms = bigRoomsCount + hRoomsCount + vRoomsCount;
+		
+		int[] rooms = new int[ totalRooms ];
+		
+		for ( int i = 0; i < totalRooms; i++ )
 		{
-			node = new BSPNode(0);
-			bailout = bailLimit;
-			do
+			int v = -1;
+			if ( bigRoomsCount > 0 )
 			{
-				bailout--;
-				if ( bailout == 0 ) break;
+				bigRoomsCount--;
+				v = 0;
+			}
+			else if ( hRoomsCount > 0 )
+			{
+				hRoomsCount--;
+				v = 1;
+			}
+			else if ( vRoomsCount > 0 )
+			{
+				hRoomsCount--;
+				v = 2;
+			}
 			
-				int size = Random.Range ( 10, 20 );
-				node.width = size + Random.Range(-3, 3);
-				node.height = size + Random.Range(-3, 3);
-				node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-				node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
-			}
-			while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;
-			//node.initPosX = Random.Range (0, ROOM_WIDTH);
-			final.Add( node );
+			if ( v != -1 )
+			rooms[i] = v;
 		}
 		
-		// Pone chorizos
-		for ( int i = 0; i < 5; i++ )
+		// shuffle cabeza
+		for ( int i = 0; i < totalRooms - 2; i++ )
 		{
-			node = new BSPNode(0);
-			bailout = bailLimit;
-			do
-			{
-				bailout--;
-				if ( bailout == 0 ) break;
-				
-				node.width = Random.Range(10, 20);
-				node.height = Random.Range(5, 6);
-				node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-				node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
-			}
-			while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;
-				//node.initPosX = Random.Range (0, ROOM_WIDTH);
-			final.Add( node );
+			int swap = rooms[ i ];
+			int rand = Random.Range( i + 1, totalRooms - 1 );
+			rooms[ i ] = rooms[ rand ];
+			rooms[ rand ] = swap;
 		}
-		
-		//Morcilla
-		for ( int i = 0; i < 5; i++ )
+		//Lechon
+		for ( int i = 0; i < totalRooms; i++ )
 		{
-			node = new BSPNode(0);
-			bailout = bailLimit;
-			do
+			int roomType = rooms[i];
+			
+			BSPNode node = null;
+			
+			switch ( roomType )
 			{
-				bailout--;
-				if ( bailout == 0 ) break;
-				node.width = Random.Range(5, 6);
-				node.height = Random.Range(10, 20);
-				node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-				node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+				case 0:
+					node = GenerateBigRoom();
+					
+					break;
+				case 1:
+					node = GenerateHRoom();
+					break;
+				case 2:
+					node = GenerateVRoom();
+					break;
 			}
-			while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;
 			//node.initPosX = Random.Range (0, ROOM_WIDTH);
-			final.Add( node );
-		}		
-		
-
-		
-		
-		
+			if ( node != null )
+				final.Add( node );
+		}
  		//resizeNodes();
 		
 		removeOverlappedNodes();
