@@ -148,16 +148,53 @@ public class Room
 		int tileX = i + x;
 		int tileY = j + y;
 		
+		/*int xOffset = 0;
+		int yOffset = 0;
+		
+		if(iAxis)
+		{
+			xOffset = i + 1 < width - 1 ? 1 : -1;
+		}
+		else
+		{
+			yOffset = j + 1 < height - 1 ? 1 : -1;
+			
+		}
+		*/
 		DoorData d = new DoorData();
 		d.colRow = new Vector2(i, j);
 		d.pos	 = new Vector2(tileX, tileY);
 		
+		
+		/**DoorData d2	= new DoorData();
+		d2.colRow 	= new Vector2(i + xOffset, j + yOffset);
+		d2.pos		= new Vector2(tileX + xOffset, tileY + yOffset);
+		*/
 		DungeonBSP.doors.Add(d);
+	//	DungeonBSP.doors.Add(d2);
 		
 		d.side = side;
 		doors.Add(d);
 		
-		replaceTile(tile, i, j, tileX, tileY);
+	/*	d2.side = side;
+		doors.Add(d2);
+	*/	
+	//	replaceTile(tile, i, j, tileX, tileY);
+	//	replaceTile(tile, i + xOffset, j + yOffset, tileX + xOffset, tileY + yOffset);
+		/*
+		if(xOffset < 0 || yOffset < 0)
+		{
+		
+			replaceTile(tile, i + xOffset, j + yOffset, tileX + xOffset, tileY + yOffset);
+			replaceTile(tile, i, j, tileX, tileY);
+		}
+		else
+		{
+			
+			
+			replaceTile(tile, i, j, tileX, tileY);
+			replaceTile(tile, i + xOffset, j + yOffset, tileX + xOffset, tileY + yOffset);
+		}*/
 	}
 	
 	public bool checkSideFree(int side)
@@ -199,6 +236,11 @@ public class Room
 	public DoorData getLastDoor()
 	{
 		return (DoorData)doors[doors.Count -1];
+	}
+	
+	public DoorData getPreLastDoor()
+	{
+		return (DoorData)doors[doors.Count -2];
 	}
 	public Vector2 getCenter()
 	{

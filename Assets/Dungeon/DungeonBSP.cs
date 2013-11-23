@@ -213,6 +213,7 @@ public class DungeonBSP : MonoBehaviour
 		
 		makeDoors();
 		connectDoors();
+		wallFill();
 		
 	}
 	
@@ -257,6 +258,22 @@ public class DungeonBSP : MonoBehaviour
 		}
 	}
 	
+	void wallFill()
+	{
+		for(int i = 0; i < ROOM_WIDTH ; i++)
+		{
+			for(int j = 0; j < ROOM_HEIGHT ; j++)
+			{
+				if(globalTiles[i,j] != null && globalTiles[i, j].name != "WallTile(Clone)")
+				{
+					generateTileN8(wallTile, i, j, false);
+				}
+			}
+			
+		}
+		
+	}
+	
 	bool doesThisNodeOverlapWithAnotherNodeOrNot( BSPNode itdoesntright )
 	{
 		//BSPNode[] finalNodes = (BSPNode[])final.ToArray ();
@@ -274,8 +291,6 @@ public class DungeonBSP : MonoBehaviour
 	
 	void removeOverlappedNodes()
 	{
-		//BSPNode[] finalNodes = (BSPNode[])final.ToArray ();
-		
 		for(int i = 0; i < final.Count; i++)
 		{
 			for(int j = i + 1; j < final.Count; j++)
@@ -393,8 +408,6 @@ public class DungeonBSP : MonoBehaviour
 			int dX = (int)Mathf.Abs(aX - bX);
 			int dY = (int)Mathf.Abs(aY - bY);
 			
-			
-				
 			bool walkPriority = true;	
 			switch(a.side)
 			{
@@ -416,30 +429,27 @@ public class DungeonBSP : MonoBehaviour
 			{	
 				if(globalTiles[aX, aY] == null)
 				{
-					GameObject floor = (GameObject)Instantiate(floorTile);
-					Vector3 scale = wallTile.transform.localScale;
-					floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aY * scale.z);
-					globalTiles[aX, aY] = floor;
+			
+					generateTileN8(floorTile, aX, aY, true);
 				}
 				
 				else
 				{
-					Destroy(globalTiles[aX, aY]);
-					GameObject floor = (GameObject)Instantiate(floorTile);
-					Vector3 scale = wallTile.transform.localScale;
-					floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aY * scale.z);
-					globalTiles[aX, aY] = floor;
+				
+					generateTileN8(floorTile, aX, aY, true);
 					
 				}
 				
+				
+				int offset =  i % 2 == 0 ? -1 : 0;
 				if ( !alreadyDidMyPrioritySwitch )
 				{
-					if ( Mathf.Abs(aX - bX) < (dX * 0.5f))
+					if ( Mathf.Abs(aX - bX) < (dX * 0.5f) + offset)
 					{
 						walkPriority = !walkPriority;
 						alreadyDidMyPrioritySwitch = true;
 					}
-					else if ( Mathf.Abs(aY - bY) < (dY * 0.5f))
+					else if ( Mathf.Abs(aY - bY) < (dY * 0.5f) + offset)
 					{
 						walkPriority = !walkPriority;
 						alreadyDidMyPrioritySwitch = true;
@@ -475,6 +485,38 @@ public class DungeonBSP : MonoBehaviour
 	}
 	
 	
+	
+	public void generateTileN8(GameObject tile, int col, int row, bool replace)
+	{
+		
+		
+		for(int i = -1; i <= 1 ; i++)
+		{
+			for(int j = -1; j <= 1 ; j++)
+			{
+				
+				if((row + j) < 0)
+					continue;
+				if((row + j) > ROOM_HEIGHT - 1)
+					continue;
+				
+				if(col + i < 0)
+					continue;
+				if(col + i > ROOM_WIDTH - 1 )
+					continue;
+				
+				if(globalTiles[col + i, row + j] != null && replace == false)
+					continue;
+				if(globalTiles[col + i, row + j] != null)
+					Destroy(globalTiles[col + i, row + j]);
+				
+				GameObject obj = (GameObject)Instantiate(tile);
+				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
+				obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+				globalTiles[(col + i), (row + j)] = obj;
+			}
+		}
+	}
 
 	
 	public BSPNode getCornerSmallestRoom()
