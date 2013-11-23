@@ -12,7 +12,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public static ArrayList doors = new ArrayList();
 
-	public int[,] globalTiles;
+	public GameObject[,] globalTiles;
 	public GameObject wallTile;
 	public GameObject floorTile;
 	public GameObject doorTile;
@@ -101,13 +101,13 @@ public class DungeonBSP : MonoBehaviour
 	{
 		minRoomSize = 8;
 		
-		globalTiles = new int[ROOM_WIDTH, ROOM_HEIGHT];
+		globalTiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
 		for(int i = 0; i < ROOM_WIDTH ; i++)
 		{
 			for(int j = 0; j < ROOM_HEIGHT; j++)
 			{
-				globalTiles[i, j] = 0;
+				globalTiles[i, j] = null;
 			}
 		}
 		
@@ -237,7 +237,7 @@ public class DungeonBSP : MonoBehaviour
 				}
 				GameObject tile = data.room.getTile(i, j);
 				int val = 0; 
-				if(tile.CompareTag(floorTile.tag))
+				/*if(tile.CompareTag(floorTile.tag))
 				{
 					val = 1;
 				}
@@ -250,9 +250,9 @@ public class DungeonBSP : MonoBehaviour
 				else if(tile.CompareTag(doorTile.tag))
 				{
 					val = 3;
-				}
+				}*/
 				
-				globalTiles[posX, posY] = val;
+				globalTiles[posX, posY] = data.room.tiles[i, j];
 			}
 		}
 	}
@@ -327,9 +327,9 @@ public class DungeonBSP : MonoBehaviour
 			int compX = (int)Mathf.Abs(walkerCenter.x - minCenter.x);
 			int compY = (int)Mathf.Abs(walkerCenter.y - minCenter.y);
 			
-			if(compX >= compY)
+			if(walker.initPosX >= min.initPosX + min.width)
 			{
-				bool left = walker.initPosX > min.initPosY;
+				bool left = walker.initPosX > min.initPosX;
 				int sideA = 99;
 				int sideB = 99;
 				if(left)
@@ -379,34 +379,98 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void connectDoors()
 	{
-		DoorData a = (DoorData)doors.ToArray()[0];
-		DoorData b = (DoorData)doors.ToArray()[1];
-		int	aX = (int)(a.colRow.x + a.pos.x);
-		int aY = (int)(a.colRow.y + a.pos.y);
-		
-		int bX = (int)(b.colRow.x + b.pos.x);
-		int bY = (int)(b.colRow.y + b.pos.y);
-		
-		
-		int dX = (int)Mathf.Abs(aX - bX);
-		int dY = (int)Mathf.Abs(aY - bY);
-		
-		
-		while(dX != 0)
+		for(int i = 0 ; i < doors.Count - 1; i++)
 		{
+			DoorData a = (DoorData)doors[i];
+			DoorData b = (DoorData)doors[i + 1];
+			int	aX = (int)(a.pos.x);
+			int aY = (int)(a.pos.y);
+			
+			int bX = (int)(b.pos.x);
+			int bY = (int)(b.pos.y);
 			
 			
-			if(globalTiles[aX, aY] == 0)
-			{
-				GameObject floor = (GameObject)Instantiate(floorTile);
-				Vector3 scale = wallTile.transform.localScale;
-				floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aY * scale.z);
+			int dX = (int)Mathf.Abs(aX - bX);
+			int dY = (int)Mathf.Abs(aY - bY);
+			
+			
 				
+			bool walkPriority = true;	
+			switch(a.side)
+			{
+				case Room.TOP:
+					walkPriority = false;
+				break;
+				case Room.BOTTOM:
+					walkPriority = false;
+				break;
+				case Room.LEFT:
+				break;
+				case Room.RIGHT:
+				break;
 			}
-		
-			int xOffset = a.side == Room.RIGHT ? 1 : -1;
-			aX += xOffset;
-			dX--;
+	
+			bool alreadyDidMyPrioritySwitch = false;
+			
+			while(aX != bX || aY != bY)
+			{	
+				if(globalTiles[aX, aY] == null)
+				{
+					GameObject floor = (GameObject)Instantiate(floorTile);
+					Vector3 scale = wallTile.transform.localScale;
+					floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aY * scale.z);
+					globalTiles[aX, aY] = floor;
+				}
+				
+				else
+				{
+					Destroy(globalTiles[aX, aY]);
+					GameObject floor = (GameObject)Instantiate(floorTile);
+					Vector3 scale = wallTile.transform.localScale;
+					floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aY * scale.z);
+					globalTiles[aX, aY] = floor;
+					
+				}
+				
+				if ( !alreadyDidMyPrioritySwitch )
+				{
+					if ( Mathf.Abs(aX - bX) < (dX * 0.5f))
+					{
+						walkPriority = !walkPriority;
+						alreadyDidMyPrioritySwitch = true;
+					}
+					else if ( Mathf.Abs(aY - bY) < (dY * 0.5f))
+					{
+						walkPriority = !walkPriority;
+						alreadyDidMyPrioritySwitch = true;
+					}
+						
+				}
+				
+				if ( walkPriority )
+				{
+					if(aX > bX)
+						aX--;
+					else if (aX < bX)
+						aX++;				
+					else if(aY > bY)
+						aY--;
+					else if(aY < bY)
+						aY++;
+				}
+				else 
+				{
+					if(aY > bY)
+						aY--;
+					else if(aY < bY)
+						aY++;
+					else if(aX > bX)
+						aX--;
+					else if (aX < bX)
+						aX++;				
+					
+				}
+			}
 		}
 	}
 	
