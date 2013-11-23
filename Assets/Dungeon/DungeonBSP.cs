@@ -3,8 +3,8 @@ using System.Collections;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int ROOM_WIDTH = 60;
-	public const int ROOM_HEIGHT = 70;
+	public const int ROOM_WIDTH = 100;
+	public const int ROOM_HEIGHT = 100;
 	
 	public int minRoomSize = 9;
 
@@ -85,6 +85,7 @@ public class DungeonBSP : MonoBehaviour
 		}
 		
 			makeDoors();
+		connectDoors();
 		
 	}
 	
@@ -201,6 +202,8 @@ public class DungeonBSP : MonoBehaviour
 				}
 				walker.room.createDoorAtSide(sideA,  doorTile);
 				min.room.createDoorAtSide(sideB, doorTile);
+				
+				
 			}
 			else
 			{
@@ -220,13 +223,47 @@ public class DungeonBSP : MonoBehaviour
 				}
 				walker.room.createDoorAtSide(sideA, doorTile);
 				min.room.createDoorAtSide(sideB, doorTile);
-				//walker.room.createDoorAtSide(top  ? Room.BOTTOM : Room.TOP, doorTile);
-				//min.room.createDoorAtSide(top  ? Room.TOP : Room.BOTTOM, doorTile);
+				
 			}
+			
+			walker.room.getLastDoor().target = min.room.getLastDoor();
+			min.room.getLastDoor().target = walker.room.getLastDoor();
+			
 			runner.Remove(walker);
 			walker = min;
 		}
 		
+	}
+	
+	public void connectDoors()
+	{
+		DoorData a = (DoorData)doors.ToArray()[0];
+		DoorData b = (DoorData)doors.ToArray()[1];
+		int	aX = (int)a.colRow.x;
+		int aY = (int)a.colRow.y;
+		
+		int bX = (int)b.colRow.x;
+		int bY = (int)b.colRow.y;
+		
+		
+		int dX = (int)Mathf.Abs(aX - bX);
+		int dY = (int)Mathf.Abs(aY - bY);
+		
+		
+		while(dX != 0)
+		{
+			
+			int xOffset = a.side == Room.RIGHT ? 1 : -1;
+			if(globalTiles[aX + xOffset, bX] == 0)
+			{
+				GameObject floor = (GameObject)Instantiate(floorTile);
+				Vector3 scale = floor.transform.localScale;
+				floor.transform.position = new Vector3(aX * scale.x, scale.y * Room.refCount * 0, aX * scale.z);
+				
+			}
+			aX += xOffset;
+			dX--;
+		}
 	}
 	
 	

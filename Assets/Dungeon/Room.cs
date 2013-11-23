@@ -194,6 +194,11 @@ public class Room
 		return tiles[_x, _y];
 	}
 	
+	
+	public DoorData getLastDoor()
+	{
+		return (DoorData)doors[doors.Count -1];
+	}
 	public Vector2 getCenter()
 	{
 		

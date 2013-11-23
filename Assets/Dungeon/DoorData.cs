@@ -9,6 +9,8 @@ public class DoorData
 	public bool open;
 	public int side = 99;
 	
+	public DoorData target;
+	
 	public DoorData()
 	{
 	}
