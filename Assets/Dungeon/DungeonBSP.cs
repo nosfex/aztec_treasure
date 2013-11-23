@@ -3,12 +3,15 @@ using System.Collections;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int ROOM_WIDTH = 100;
-	public const int ROOM_HEIGHT = 100;
+	public const int ROOM_WIDTH = 60;
+	public const int ROOM_HEIGHT = 70;
 	
 	public int minRoomSize = 9;
 
 	
+	
+	public static ArrayList doors = new ArrayList();
+
 	public int[,] globalTiles;
 	public GameObject wallTile;
 	public GameObject floorTile;
@@ -16,6 +19,7 @@ public class DungeonBSP : MonoBehaviour
 	public BSPNode trunk;
 	public System.Collections.ArrayList r;
 	public System.Collections.ArrayList final;
+	
 	public DungeonBSP()
 	{
 		
@@ -45,7 +49,7 @@ public class DungeonBSP : MonoBehaviour
 				globalTiles[i, j] = 0;
 			}
 		}
-		//Random.seed = 0 ;
+		
 		BSPNode root = null;
 		trunk = root;
 		insertNode(ref trunk, 0);
@@ -55,14 +59,7 @@ public class DungeonBSP : MonoBehaviour
 		trunk.width = ROOM_WIDTH;
 		trunk.height = ROOM_HEIGHT;
 		final = new ArrayList();
-		//createRoom(trunk, ROOM_WIDTH, ROOM_HEIGHT);
-		/*while(partitionate(trunk, trunk.initPosX, trunk.width , trunk.initPosY, trunk.height ))
-		{
-			int index = Random.Range(0, r.Count - 1);
-			trunk = (BSPNode)r.ToArray()[index];
-			r.RemoveAt(index);
-		}*/
-		
+			
 		r.Add(trunk);
 		while(r.Count != 0)
 		{
@@ -78,14 +75,17 @@ public class DungeonBSP : MonoBehaviour
  		resizeNodes();
 		
 		removeOverlappedNodes();
-		
+	
 		for(int i = 0; i < final.Count; i++)
 		{
 			BSPNode a = (BSPNode)final.ToArray()[i];
 			a.createRoom(wallTile, floorTile);
-			a.createDoors(doorTile);
+		//	a.createDoors(doorTile);
 			printToGlobalTiles(a);
 		}
+		
+			makeDoors();
+		
 	}
 	
 	void printToGlobalTiles(BSPNode data)
@@ -131,9 +131,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	void removeOverlappedNodes()
 	{
-		ArrayList slateForRemoval = new ArrayList();
-	//	final.Reverse();
-	
+		
 		for(int i = 0; i < final.Count; i++)
 		{
 			for(int j = i + 1; j < final.Count; j++)
@@ -154,59 +152,123 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void makeDoors()
 	{
-		int smallestRoomSize = 99999;
-		BSPNode startRoom = null;
-		for(int i  = 0; i < final.Count; i++)
+		
+		
+		BSPNode initialRoom = getCornerSmallestRoom();
+		BSPNode walker = initialRoom;
+		BSPNode min = null;
+		BSPNode prev = null;
+
+		
+		ArrayList runner = (ArrayList)final.Clone();	
+		while(runner.Count != 1)
 		{
-			
-			BSPNode a = (BSPNode)final.ToArray()[i];
-			if(a.width + a.height < smallestRoomSize)
+			float maxDistance = 999999.0f;
+			for(int i = 0; i < runner.Count; i ++)
 			{
-				startRoom = a;
-				smallestRoomSize = a.width + a.height;
+				BSPNode a = (BSPNode)runner.ToArray()[i];
+				if(a == walker)
+					continue;
+				
+				float d = distance(a, walker);
+				if(d < maxDistance)
+				{
+					maxDistance = d;
+					min = a;
+				}
 			}
 			
-		}
+			Vector2 walkerCenter = walker.room.getCenter();
+			Vector2 minCenter = min.room.getCenter();
 		
-		
-		float leastDistanceA = 99999.0f;
-		BSPNode leastDistanceANode = null;
-		for(int i = 0; i < final.Count; i++)
-		{
-			BSPNode a = (BSPNode)final.ToArray()[i];
-			if(a == startRoom)
-				continue;
-			float tempDistance = distance(startRoom, a);
-			if(tempDistance < leastDistanceA )
-			{
-				leastDistanceA = tempDistance;
-				leastDistanceANode =  a;
-			}
-		}
-		
-		
-		leastDistanceA = 99999.0f;
-		BSPNode leastDistanceBNode = null;
-		for(int i = 0; i < final.Count; i++)
-		{
-			BSPNode a = (BSPNode)final.ToArray()[i];
-			if(a == startRoom)
-				continue;
+			int compX = (int)Mathf.Abs(walkerCenter.x - minCenter.x);
+			int compY = (int)Mathf.Abs(walkerCenter.y - minCenter.y);
 			
-			if(a == leastDistanceANode)
-				continue;
-			
-			float tempDistance = distance(startRoom, a);
-			if(tempDistance < leastDistanceA )
+			if(compX >= compY)
 			{
-				leastDistanceA = tempDistance;
-				leastDistanceBNode =  a;
+				bool left = walker.initPosX > min.initPosY;
+				int sideA = 99;
+				int sideB = 99;
+				if(left)
+				{
+					sideA = walker.room.checkSideFree(Room.LEFT) ? Room.LEFT : Room.RIGHT;
+					sideB = min.room.checkSideFree(Room.RIGHT) ? Room.RIGHT : Room.LEFT;
+				}
+				else
+				{
+					sideA = walker.room.checkSideFree(Room.RIGHT) ? Room.RIGHT : Room.LEFT;
+					sideB = min.room.checkSideFree(Room.LEFT) ? Room.LEFT : Room.RIGHT;
+				}
+				walker.room.createDoorAtSide(sideA,  doorTile);
+				min.room.createDoorAtSide(sideB, doorTile);
 			}
+			else
+			{
+				bool top = walker.initPosY > min.initPosY;
+				int sideA = 99;
+				int sideB = 99;
+				if(top)
+				{
+					sideA = walker.room.checkSideFree(Room.BOTTOM) ? Room.BOTTOM : Room.TOP;
+					sideB = min.room.checkSideFree(Room.TOP) ? Room.TOP : Room.BOTTOM;
+				}
+				else
+				{
+					sideA = walker.room.checkSideFree(Room.TOP) ? Room.TOP : Room.BOTTOM;
+					sideB = min.room.checkSideFree(Room.BOTTOM) ? Room.BOTTOM : Room.TOP;
+					
+				}
+				walker.room.createDoorAtSide(sideA, doorTile);
+				min.room.createDoorAtSide(sideB, doorTile);
+				//walker.room.createDoorAtSide(top  ? Room.BOTTOM : Room.TOP, doorTile);
+				//min.room.createDoorAtSide(top  ? Room.TOP : Room.BOTTOM, doorTile);
+			}
+			runner.Remove(walker);
+			walker = min;
 		}
-		
-		
 		
 	}
+	
+	
+
+	
+	public BSPNode getCornerSmallestRoom()
+	{
+		ArrayList cornerRooms = new  ArrayList();
+		
+		
+		int smallestRoomSize = 99999;
+		BSPNode cornerRoom = null;
+		
+		int cornerMod = 10;
+		for(int i = 0 ; i < final.Count; i++)
+		{
+			BSPNode a = (BSPNode)final.ToArray()[i];
+			if(
+				(a.initPosX > ROOM_WIDTH / 2 + cornerMod && a.initPosY > ROOM_HEIGHT / 2 + cornerMod) ||
+				(a.initPosX > ROOM_WIDTH / 2 + cornerMod && a.initPosY < ROOM_HEIGHT / 2 - cornerMod) || 
+				(a.initPosX < ROOM_WIDTH / 2 - cornerMod && a.initPosY > ROOM_HEIGHT / 2 + cornerMod) ||
+				(a.initPosX < ROOM_WIDTH / 2 - cornerMod && a.initPosY < ROOM_HEIGHT / 2 - cornerMod) 
+				)
+			{
+				cornerRooms.Add(a);
+			}
+			
+		}
+		
+		for(int i = 0 ; i < cornerRooms.Count ; i++)
+		{
+			BSPNode a = (BSPNode)cornerRooms.ToArray()[i];
+			if(a.width + a.height < smallestRoomSize)
+			{
+				cornerRoom = a;
+				smallestRoomSize = a.width + a.height;
+			}
+		}
+		
+		return cornerRoom;
+	}
+	
 	
 	public float distance(BSPNode a, BSPNode b)
 	{

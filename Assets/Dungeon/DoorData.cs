@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoorData : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class DoorData
+{
+	public Vector2 colRow = Vector2.zero;
 	
-	}
+	public bool connected;
+	public bool open;
+	public int side = 99;
 	
-	// Update is called once per frame
-	void Update () {
-	
+	public DoorData()
+	{
 	}
 }
