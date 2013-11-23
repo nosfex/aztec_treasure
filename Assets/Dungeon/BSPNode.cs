@@ -63,41 +63,46 @@ public class BSPNode
 	}*/
 	
 	public bool valueInRange(int value, int min, int max)
-	{ return (value >= min) && (value <= max); }
+	{ 
+		return (value >= min) && (value <= max); 
+	}
 
 	public bool rectOverlap(BSPNode b)
 	{
-	
+		int padding = 3; 
 		
-		bool xOverlap = valueInRange(initPosX, b.initPosX, b.initPosX + b.width) ||
-	                    valueInRange(b.initPosX, initPosX, initPosX + width );
+		bool xOverlap = valueInRange(initPosX, b.initPosX, b.initPosX + b.width + padding) ||
+	                    valueInRange(b.initPosX, initPosX, initPosX + width + padding );
 	
-	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height ) ||
-	                    valueInRange(b.initPosY, initPosY, initPosY + height );
+	    bool yOverlap = valueInRange(initPosY, b.initPosY, b.initPosY + b.height + padding ) ||
+	                    valueInRange(b.initPosY, initPosY, initPosY + height + padding );
 		//bool overlap = !(initPosX + width < b.initPosX || initPosY + height < b.initPosY || initPosX > b.initPosX + b.width || initPosY > b.initPosY + b.height);
 		bool overlap = //(Mathf.Abs(initPosX - b.initPosX) * 2 <= Mathf.Abs(width + b.width) ) && (Mathf.Abs(initPosY - b.initPosY) * 2 <= Mathf.Abs(height + b.height) );
-			initPosX < b.initPosX + b.width &&
-			initPosX + width > b.initPosX  &&
-			initPosY < b.initPosY + b.height &&
-			initPosY + height > b.initPosY;
+			initPosX < b.initPosX + b.width + padding &&
+			initPosX + width + padding > b.initPosX  &&
+			initPosY < b.initPosY + b.height + padding &&
+			initPosY + height + padding > b.initPosY;
+		
 	    return overlap;
 			
 	}
 	
 	public void tryToResize(GameObject wallTile, GameObject floorTile)
 	{
+		int maxWidth = DungeonBSP.ROOM_WIDTH / 2; 
+		int maxHeight = DungeonBSP.ROOM_HEIGHT / 2; 
 		
-		if(width >= 30)
+		if(width >= maxWidth )
 		{
-			width =30;
+			width = maxWidth;
 		}
 		
-		if(height >= 30)
+		if(height >= maxHeight)
 		{
-			height = 30;
+			height = maxHeight;
 		}
 			
-		if(Mathf.Abs(width - height) < 10)
+		if(Mathf.Abs(width - height) < 2)
 		{
 		
 			if(width >= 15)
@@ -109,13 +114,12 @@ public class BSPNode
 			{
 				height = 15;
 			}
-			width = height ;
+			width = height;
 			return;
 		}
 		
 		if(width > height)
 		{
-			
 			height = Random.Range(6, 8);
 			return;
 		}
