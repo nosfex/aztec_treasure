@@ -11,6 +11,8 @@ public class GameDirector : MonoBehaviour {
 	public GameObject playerLeftPrefab;
 	public GameObject playerRightPrefab;
 	
+	public GameObject enemySpawnerPrefab;
+	
 	[HideInInspector] public Player playerLeft;
 	[HideInInspector] public Player playerRight;
 	
