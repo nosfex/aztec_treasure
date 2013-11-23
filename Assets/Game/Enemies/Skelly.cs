@@ -93,7 +93,7 @@ public class Skelly : BaseObject
 		}		
 	}
 	
-	virtual void UpdateAttacking()
+	virtual protected void UpdateAttacking()
 	{
 		if ( stateTimer > 0.33f )
 		{
@@ -106,7 +106,7 @@ public class Skelly : BaseObject
 		}
 	}
 	
-	virtual void UpdateWalking()
+	virtual protected void UpdateWalking()
 	{
 		controller.UpdateAI ();
 		
@@ -226,7 +226,7 @@ public class Skelly : BaseObject
 		}
 	}
 	
-	virtual void LiftObject()
+	virtual protected void LiftObject()
 	{
 		Transform lifted = liftSensor.sensedObject.transform;
 		lifted.parent = transform;
@@ -244,7 +244,7 @@ public class Skelly : BaseObject
 		liftSensor.gameObject.SetActive( false );		
 	}
 	
-	virtual void ThrowObject()
+	virtual protected void ThrowObject()
 	{
 		liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
 		liftedObject.velocity.y += 0.05f;
