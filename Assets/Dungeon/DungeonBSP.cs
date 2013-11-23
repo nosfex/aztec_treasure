@@ -494,7 +494,7 @@ public class DungeonBSP : MonoBehaviour
 		{
 			for(int j = -1; j <= 1 ; j++)
 			{
-				
+				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
 				if((row + j) < 0)
 					continue;
 				if((row + j) > ROOM_HEIGHT - 1)
@@ -506,12 +506,35 @@ public class DungeonBSP : MonoBehaviour
 					continue;
 				
 				if(globalTiles[col + i, row + j] != null && replace == false)
+				{
+					if(col + i == 0 || col + i == ROOM_WIDTH - 1)
+					{
+						Destroy(globalTiles[col + i, row + j]);
+						GameObject fix = (GameObject)Instantiate(tile);
+						
+						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+						globalTiles[(col + i), (row + j)] = fix;
+						continue;
+					}
+					
+					if(row + j == 0 || row + j == ROOM_HEIGHT - 1)
+					{
+						Destroy(globalTiles[col + i, row + j]);
+						GameObject fix = (GameObject)Instantiate(tile);
+						
+						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+						globalTiles[(col + i), (row + j)] = fix;
+						continue;
+					}
+					
 					continue;
+				}
 				if(globalTiles[col + i, row + j] != null)
 					Destroy(globalTiles[col + i, row + j]);
 				
+				
 				GameObject obj = (GameObject)Instantiate(tile);
-				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
+				
 				obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 				globalTiles[(col + i), (row + j)] = obj;
 			}
