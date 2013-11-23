@@ -25,6 +25,7 @@ public class FallingFloor : MonoBehaviour
 	Vector3 startPosition;
 	Vector3 startScale;
 	float resetTimer;
+
 	void Start ()
 	{
 		startPosition = transform.position;
@@ -94,10 +95,6 @@ public class FallingFloor : MonoBehaviour
 				}
 				break;
 		}
-		
-		
-		
-
 	}
 
 	bool triggered = false;
