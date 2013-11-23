@@ -15,6 +15,7 @@ public class BSPNode
 	public int initPosY = 0;
 	
 	public Room room;
+	
 
 	public static int instanceCount =0 ;
 	
@@ -30,7 +31,7 @@ public class BSPNode
 	public void createRoom(GameObject wallTile, GameObject floorTile)
 	{
 		
-		room = new Room(width, height);
+		room = new Room(initPosX, initPosY, width, height);
 		Vector3 scale = wallTile.transform.localScale;
 		for(int i = 0; i < width; i++)
 		{
@@ -56,10 +57,10 @@ public class BSPNode
 		
 	}
 	
-	public void createDoors(GameObject floorTile)
+/*	public void createDoors(GameObject floorTile)
 	{
 		room.createDoors(initPosX, initPosY, floorTile);
-	}
+	}*/
 	
 	public bool valueInRange(int value, int min, int max)
 	{ return (value >= min) && (value <= max); }
@@ -85,16 +86,45 @@ public class BSPNode
 	
 	public void tryToResize(GameObject wallTile, GameObject floorTile)
 	{
-		if(width > 9 || height > 9)
+		
+		if(width >= 30)
 		{
-			
-			width = Random.Range(5, width);
-			height = Random.Range(5, height);
-			
-			
+			width =30;
 		}
 		
+		if(height >= 30)
+		{
+			height = 30;
+		}
+			
+		if(Mathf.Abs(width - height) < 10)
+		{
 		
+			if(width >= 15)
+			{
+				width = 15;
+			}
+			
+			if(height >= 15)
+			{
+				height = 15;
+			}
+			width = height ;
+			return;
+		}
+		
+		if(width > height)
+		{
+			
+			height = Random.Range(6, 8);
+			return;
+		}
+		
+		if(width < height)
+		{
+			width = Random.Range(6,8);
+			return;
+		}
 		
 	}
 	
