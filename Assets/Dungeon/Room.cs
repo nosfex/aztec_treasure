@@ -145,13 +145,14 @@ public class Room
 		}
 		
 		
-		DoorData d = new DoorData();
-		d.colRow = new Vector2(i, j);
-		
-		
-		DungeonBSP.doors.Add(d);
 		int tileX = i + x;
 		int tileY = j + y;
+		
+		DoorData d = new DoorData();
+		d.colRow = new Vector2(i, j);
+		d.pos	 = new Vector2(tileX, tileY);
+		
+		DungeonBSP.doors.Add(d);
 		
 		d.side = side;
 		doors.Add(d);
