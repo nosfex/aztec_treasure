@@ -12,7 +12,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public static ArrayList doors = new ArrayList();
 
-	public int[,] globalTiles;
+	public GameObject[,] globalTiles;
 	public GameObject wallTile;
 	public GameObject floorTile;
 	public GameObject doorTile;
@@ -101,19 +101,19 @@ public class DungeonBSP : MonoBehaviour
 	{
 		minRoomSize = 8;
 		
-		globalTiles = new int[ROOM_WIDTH, ROOM_HEIGHT];
+		globalTiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
 		for(int i = 0; i < ROOM_WIDTH ; i++)
 		{
 			for(int j = 0; j < ROOM_HEIGHT; j++)
 			{
-				globalTiles[i, j] = 0;
+				globalTiles[i, j] = null;
 			}
 		}
 		
 		BSPNode root = null;
 		trunk = root;
-		insertNode(ref trunk, 0);
+		trunk = new BSPNode(0);
 		
 		root = trunk;
 		r = new ArrayList();
@@ -212,6 +212,8 @@ public class DungeonBSP : MonoBehaviour
 		}
 		
 		makeDoors();
+		connectDoors();
+		wallFill();
 		
 	}
 	
@@ -236,7 +238,7 @@ public class DungeonBSP : MonoBehaviour
 				}
 				GameObject tile = data.room.getTile(i, j);
 				int val = 0; 
-				if(tile.CompareTag(floorTile.tag))
+				/*if(tile.CompareTag(floorTile.tag))
 				{
 					val = 1;
 				}
@@ -249,11 +251,27 @@ public class DungeonBSP : MonoBehaviour
 				else if(tile.CompareTag(doorTile.tag))
 				{
 					val = 3;
-				}
+				}*/
 				
-				globalTiles[posX, posY] = val;
+				globalTiles[posX, posY] = data.room.tiles[i, j];
 			}
 		}
+	}
+	
+	void wallFill()
+	{
+		for(int i = 0; i < ROOM_WIDTH ; i++)
+		{
+			for(int j = 0; j < ROOM_HEIGHT ; j++)
+			{
+				if(globalTiles[i,j] != null && globalTiles[i, j].name != "WallTile(Clone)")
+				{
+					generateTileN8(wallTile, i, j, false);
+				}
+			}
+			
+		}
+		
 	}
 	
 	bool doesThisNodeOverlapWithAnotherNodeOrNot( BSPNode itdoesntright )
@@ -273,8 +291,6 @@ public class DungeonBSP : MonoBehaviour
 	
 	void removeOverlappedNodes()
 	{
-		//BSPNode[] finalNodes = (BSPNode[])final.ToArray ();
-		
 		for(int i = 0; i < final.Count; i++)
 		{
 			for(int j = i + 1; j < final.Count; j++)
@@ -326,9 +342,9 @@ public class DungeonBSP : MonoBehaviour
 			int compX = (int)Mathf.Abs(walkerCenter.x - minCenter.x);
 			int compY = (int)Mathf.Abs(walkerCenter.y - minCenter.y);
 			
-			if(compX >= compY)
+			if(walker.initPosX >= min.initPosX + min.width)
 			{
-				bool left = walker.initPosX > min.initPosY;
+				bool left = walker.initPosX > min.initPosX;
 				int sideA = 99;
 				int sideB = 99;
 				if(left)
@@ -343,6 +359,8 @@ public class DungeonBSP : MonoBehaviour
 				}
 				walker.room.createDoorAtSide(sideA,  doorTile);
 				min.room.createDoorAtSide(sideB, doorTile);
+				
+				
 			}
 			else
 			{
@@ -362,16 +380,143 @@ public class DungeonBSP : MonoBehaviour
 				}
 				walker.room.createDoorAtSide(sideA, doorTile);
 				min.room.createDoorAtSide(sideB, doorTile);
-				//walker.room.createDoorAtSide(top  ? Room.BOTTOM : Room.TOP, doorTile);
-				//min.room.createDoorAtSide(top  ? Room.TOP : Room.BOTTOM, doorTile);
+				
 			}
+			
+			walker.room.getLastDoor().target = min.room.getLastDoor();
+			min.room.getLastDoor().target = walker.room.getLastDoor();
+			
 			runner.Remove(walker);
 			walker = min;
 		}
 		
 	}
 	
+	public void connectDoors()
+	{
+		for(int i = 0 ; i < doors.Count - 1; i++)
+		{
+			DoorData a = (DoorData)doors[i];
+			DoorData b = (DoorData)doors[i + 1];
+			int	aX = (int)(a.pos.x);
+			int aY = (int)(a.pos.y);
+			
+			int bX = (int)(b.pos.x);
+			int bY = (int)(b.pos.y);
+			
+			
+			int dX = (int)Mathf.Abs(aX - bX);
+			int dY = (int)Mathf.Abs(aY - bY);
+			
+			bool walkPriority = true;	
+			switch(a.side)
+			{
+				case Room.TOP:
+					walkPriority = false;
+				break;
+				case Room.BOTTOM:
+					walkPriority = false;
+				break;
+				case Room.LEFT:
+				break;
+				case Room.RIGHT:
+				break;
+			}
 	
+			bool alreadyDidMyPrioritySwitch = false;
+			
+			while(aX != bX || aY != bY)
+			{	
+				if(globalTiles[aX, aY] == null)
+				{
+			
+					generateTileN8(floorTile, aX, aY, true);
+				}
+				
+				else
+				{
+				
+					generateTileN8(floorTile, aX, aY, true);
+					
+				}
+				
+				
+				int offset =  i % 2 == 0 ? -1 : 0;
+				if ( !alreadyDidMyPrioritySwitch )
+				{
+					if ( Mathf.Abs(aX - bX) < (dX * 0.5f) + offset)
+					{
+						walkPriority = !walkPriority;
+						alreadyDidMyPrioritySwitch = true;
+					}
+					else if ( Mathf.Abs(aY - bY) < (dY * 0.5f) + offset)
+					{
+						walkPriority = !walkPriority;
+						alreadyDidMyPrioritySwitch = true;
+					}
+						
+				}
+				
+				if ( walkPriority )
+				{
+					if(aX > bX)
+						aX--;
+					else if (aX < bX)
+						aX++;				
+					else if(aY > bY)
+						aY--;
+					else if(aY < bY)
+						aY++;
+				}
+				else 
+				{
+					if(aY > bY)
+						aY--;
+					else if(aY < bY)
+						aY++;
+					else if(aX > bX)
+						aX--;
+					else if (aX < bX)
+						aX++;				
+					
+				}
+			}
+		}
+	}
+	
+	
+	
+	public void generateTileN8(GameObject tile, int col, int row, bool replace)
+	{
+		
+		
+		for(int i = -1; i <= 1 ; i++)
+		{
+			for(int j = -1; j <= 1 ; j++)
+			{
+				
+				if((row + j) < 0)
+					continue;
+				if((row + j) > ROOM_HEIGHT - 1)
+					continue;
+				
+				if(col + i < 0)
+					continue;
+				if(col + i > ROOM_WIDTH - 1 )
+					continue;
+				
+				if(globalTiles[col + i, row + j] != null && replace == false)
+					continue;
+				if(globalTiles[col + i, row + j] != null)
+					Destroy(globalTiles[col + i, row + j]);
+				
+				GameObject obj = (GameObject)Instantiate(tile);
+				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
+				obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+				globalTiles[(col + i), (row + j)] = obj;
+			}
+		}
+	}
 
 	
 	public BSPNode getCornerSmallestRoom()
@@ -607,31 +752,5 @@ public class DungeonBSP : MonoBehaviour
 			a.tryToResize(wallTile, floorTile);
 		}
 		
-	}
-	
-	
-	public void insertNode(ref BSPNode node, int val)
-	{
-		if(node == null)
-			
-		{
-			node = new BSPNode(val);
-			node.left = node.right = null;
-			return;
-			
-		}
-		
-		if(val < 0)
-		{
-			print("ADDING NODE TO THE LEFT");
-			//node.left.parent = node;
-			insertNode(ref node.left, val);
-		}
-		else if( val > 0)
-		{
-			print("ADDING NODE TO THE RIGHT");
-			
-			insertNode(ref node.right, val);
-		}
 	}
 }

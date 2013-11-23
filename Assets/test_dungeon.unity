@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093b4f04edb4ca45864fbb21d9d940f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRoomSize: 9
+  minRoomSize: 6
   wallTile: {fileID: 100000, guid: 75481c7b03e8d4f89b2dba21bc62c61e, type: 2}
   floorTile: {fileID: 100000, guid: c42a3e203e20248dc8423c5467acaf0b, type: 2}
   doorTile: {fileID: 100000, guid: d12cad82910c6964d80ae2063d3730fc, type: 2}
@@ -222,6 +222,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
+      propertyPath: doorTile
+      value: 
+      objectReference: {fileID: 100000, guid: d12cad82910c6964d80ae2063d3730fc, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
   m_RootGameObject: {fileID: 277668260}
