@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.8234663, y: 5.29490423, z: -7.38574553}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -38,10 +38,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093b4f04edb4ca45864fbb21d9d940f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRoomSize: 9
+  minRoomSize: 6
   wallTile: {fileID: 100000, guid: 75481c7b03e8d4f89b2dba21bc62c61e, type: 2}
   floorTile: {fileID: 100000, guid: c42a3e203e20248dc8423c5467acaf0b, type: 2}
-  doorTile: {fileID: 100000, guid: d12cad82910c6964d80ae2063d3730fc, type: 2}
+  doorTile: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -47,10 +47,10 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 			
-			node.width = Random.Range(10, 20);
-			node.height = Random.Range(5, 6);
-			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+			node.width = Random.Range(12, 22);
+			node.height = Random.Range(6, 8);
+			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;		
 		
@@ -65,10 +65,10 @@ public class DungeonBSP : MonoBehaviour
 		{
 			bailout--;
 			if ( bailout == 0 ) return null;
-			node.width = Random.Range(5, 6);
-			node.height = Random.Range(10, 20);
-			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+			node.width = Random.Range(6, 8);
+			node.height = Random.Range(12, 22);
+			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
@@ -84,11 +84,11 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 		
-			int size = Random.Range ( 15, 20 );
-			node.width = size + Random.Range(-3, 3);
-			node.height = size + Random.Range(-3, 3);
-			node.initPosX = Random.Range (node.width, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (node.height, ROOM_HEIGHT-node.height);
+			int size = Random.Range ( 11, 13 );
+			node.width = Mathf.Max ( 11, size + Random.Range(0, 3) );
+			node.height = Mathf.Max ( 11, size + Random.Range(0, 3) );
+			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
+			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
@@ -137,8 +137,8 @@ public class DungeonBSP : MonoBehaviour
 		
 		
 		int bigRoomsCount = 3;
-		int hRoomsCount = 5;
-		int vRoomsCount = 5;
+		int hRoomsCount = 4;
+		int vRoomsCount = 4;
 		
 		int totalRooms = bigRoomsCount + hRoomsCount + vRoomsCount;
 		
