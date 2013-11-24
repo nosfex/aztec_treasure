@@ -19,6 +19,7 @@ public class Dart : MonoBehaviour {
 	
 	void OnTriggerEnter( Collider other )
 	{
+		
 		if ( other.gameObject == transform.parent.gameObject )
 			return;
 		

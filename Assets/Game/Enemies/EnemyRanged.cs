@@ -9,6 +9,8 @@ public class EnemyRanged : BaseObject {
 	public BaseObjectSensor liftSensor;
 	public BaseObjectSensor playerSensor;
 	
+	public GameObject projectile;
+	
 	[HideInInspector]
 	public int hearts;
 	
@@ -93,7 +95,7 @@ public class EnemyRanged : BaseObject {
 		}		
 	}
 	
-	virtual void UpdateAttacking()
+	public virtual void UpdateAttacking()
 	{
 		if ( stateTimer > 0.33f )
 		{
@@ -102,11 +104,16 @@ public class EnemyRanged : BaseObject {
 		//	velocity = direction * speed * attackSpeedFactor;
 		//	cooldown = attackCooldown;
 		//	gravity.y = attackJumpHeight;
+			
+			GameObject dart = (GameObject)Instantiate(projectile, transform.position + direction * 0.4f, Quaternion.Euler(direction));
+			dart.transform.parent = this.transform.parent;						
 			state = State.WALKING;
 		}
 	}
 	
-	virtual void UpdateWalking()
+	
+	
+	public virtual void UpdateWalking()
 	{
 		controller.UpdateAI ();
 		
@@ -226,7 +233,7 @@ public class EnemyRanged : BaseObject {
 		}
 	}
 	
-	virtual void LiftObject()
+	public virtual void LiftObject()
 	{
 		Transform lifted = liftSensor.sensedObject.transform;
 		lifted.parent = transform;
@@ -244,7 +251,7 @@ public class EnemyRanged : BaseObject {
 		liftSensor.gameObject.SetActive( false );		
 	}
 	
-	virtual void ThrowObject()
+	public virtual void ThrowObject()
 	{
 		liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
 		liftedObject.velocity.y += 0.05f;
