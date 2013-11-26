@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
-  m_PrefabInternal: {fileID: 1246458932}
+  m_PrefabInternal: {fileID: 2089601579}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1597301}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: be2f7c13b362fb944a91c127c8f2df48,
     type: 2}
-  m_PrefabInternal: {fileID: 1246458932}
+  m_PrefabInternal: {fileID: 2089601579}
   m_GameObject: {fileID: 1597298}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -103,14 +103,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minRoomSize: 6
-  wallTile: {fileID: 100000, guid: 75481c7b03e8d4f89b2dba21bc62c61e, type: 2}
-  floorTile: {fileID: 100000, guid: c42a3e203e20248dc8423c5467acaf0b, type: 2}
-  doorTile: {fileID: 100000, guid: 9a90e4bb02ee5aa43a42f70370efae3f, type: 2}
+  wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}
+  floorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
+  doorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
 --- !u!4 &1597301
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
-  m_PrefabInternal: {fileID: 1246458932}
+  m_PrefabInternal: {fileID: 2089601579}
   m_GameObject: {fileID: 1597298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -196,7 +196,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!1001 &1246458932
+--- !u!1001 &2089601579
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -231,10 +231,6 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
-      propertyPath: doorTile
-      value: 
-      objectReference: {fileID: 100000, guid: 9a90e4bb02ee5aa43a42f70370efae3f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be2f7c13b362fb944a91c127c8f2df48, type: 2}
   m_RootGameObject: {fileID: 1597298}

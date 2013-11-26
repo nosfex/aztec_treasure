@@ -4,7 +4,7 @@ using System.Collections;
 public class BaseObject : MonoBehaviour 
 {
 	public World worldOwner;
-	public GameObject myPrefab;
+	//public Object myPrefab;
 
 	[HideInInspector] public Vector3 accel = Vector3.zero;
 	[HideInInspector] public float frictionCoef = 0.97f;
@@ -30,18 +30,18 @@ public class BaseObject : MonoBehaviour
 
 	virtual protected void Start()
 	{
-#if UNITY_EDITOR
-		if ( myPrefab == null )
-		{
-			Object prefab = UnityEditor.EditorUtility.GetPrefabParent(gameObject);
-	
-			if ( prefab != null )
-			{
-				myPrefab = (GameObject)prefab;
-				myPrefab.GetComponent<BaseObject>().myPrefab = myPrefab;
-			}
-		}
-#endif
+//#if UNITY_EDITOR
+//		if ( myPrefab == null )
+//		{
+//			Object prefab = UnityEditor.EditorUtility.GetPrefabParent(gameObject);
+//	
+//			if ( prefab != null )
+//			{
+//				myPrefab = (GameObject)prefab;
+//				myPrefab.GetComponent<BaseObject>().myPrefab = myPrefab;
+//			}
+//		}
+//#endif
 		
 		velocity = Vector3.zero;
 		accel = Vector3.zero;
@@ -58,6 +58,18 @@ public class BaseObject : MonoBehaviour
 	
 	public void InitRespawn()
 	{
+		if ( respawner != null )
+			return;
+		
+		GameObject myPrefab = GameDirector.i.findMyPrefab( gameObject );
+		
+		if ( myPrefab == null )
+		{
+			Debug.LogWarning("Prefab is missing! Can't respawn!", this );
+			respawns = false;
+			return;
+		}
+		
 		GameObject go = 
 			(GameObject)Instantiate 
 			( 
@@ -68,7 +80,10 @@ public class BaseObject : MonoBehaviour
 		
 		go.transform.parent = transform.parent;
 		respawner = go.GetComponent<EnemySpawner>();
+		respawner.objectToRespawn = myPrefab; //(GameObject)myPrefab;
+	//	print ("Spawn spawner..." + gameObject );
 	}
+	
 	
 	
 	World findWorld( Transform t ) 
@@ -310,8 +325,9 @@ public class BaseObject : MonoBehaviour
 	
 	virtual public void OnPlayerDead()
 	{
-		if ( respawns )
+		if ( respawns && respawner )
 		{
+			//print ( "spawn..");
 			Destroy( gameObject );
 			respawner.Respawn();
 		}

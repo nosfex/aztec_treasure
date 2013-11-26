@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .439746618, y: .225273222, z: -2.98145866}
+  m_LocalPosition: {x: -2.23398662, y: 10.3648539, z: -4.67195511}
   m_LocalScale: {x: .400000006, y: .400000006, z: .400000006}
   m_Children:
   - {fileID: 400000}
@@ -176,6 +176,7 @@ MonoBehaviour:
   isLiftable: 1
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
+  respawns: 1
   currentFloor: {fileID: 0}
   maxHearts: 0
 --- !u!114 &11400004

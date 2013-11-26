@@ -45,11 +45,14 @@ public class BSPNode
 				if(j == 0 || j == height -1)
 					wall = true;
 				
-				room.tiles[i, j] = (GameObject)(GameObject.Instantiate(wall == false ? floorTile : wallTile));	
-				room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
-				room.tiles[i, j].transform.parent = room.roomHolder.transform;
-				if(wall)
-					room.addWall(room.tiles[i,j]);
+				if ( !wall )
+				{
+					room.tiles[i, j] = (GameObject)(GameObject.Instantiate(wall == false ? floorTile : wallTile));	
+					room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
+					room.tiles[i, j].transform.parent = room.roomHolder.transform;
+				}
+				//if(wall)
+				//	room.addWall(room.tiles[i,j]);
 				
 			}
 			

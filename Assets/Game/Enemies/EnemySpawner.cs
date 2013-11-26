@@ -11,7 +11,9 @@ public class EnemySpawner : MonoBehaviour
 		{
 			GameObject go = (GameObject)Instantiate ( objectToRespawn, transform.position, transform.rotation );
 			go.transform.parent = transform.parent;
+			
 			Destroy ( gameObject );
+			//Debug.Log ("spawning.. " + objectToRespawn, go );
 		}
 	}
 }

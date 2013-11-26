@@ -264,9 +264,10 @@ public class DungeonBSP : MonoBehaviour
 		{
 			for(int j = 0; j < ROOM_HEIGHT ; j++)
 			{
-				if(globalTiles[i,j] != null && globalTiles[i, j].name != "WallTile(Clone)")
+				if(globalTiles[i,j] != null && globalTiles[i, j].name != wallTile.name + "(Clone)")
 				{
-					generateTileN8(wallTile, i, j, false);
+					Vector3 pos = new Vector3(0, 0.8f, 0);
+					generateTileN8(wallTile, i, j, false, pos);
 				}
 			}
 			
@@ -484,12 +485,13 @@ public class DungeonBSP : MonoBehaviour
 		}
 	}
 	
-	
-	
-	public void generateTileN8(GameObject tile, int col, int row, bool replace)
+	public void generateTileN8(GameObject tile, int col, int row, bool replace )
 	{
-		
-		
+		generateTileN8(tile, col, row, replace, Vector3.zero );
+	}
+	
+	public void generateTileN8(GameObject tile, int col, int row, bool replace, Vector3 posOffset)
+	{
 		for(int i = -1; i <= 1 ; i++)
 		{
 			for(int j = -1; j <= 1 ; j++)
@@ -513,6 +515,7 @@ public class DungeonBSP : MonoBehaviour
 						GameObject fix = (GameObject)Instantiate(tile);
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+						fix.transform.position += posOffset;
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
@@ -523,6 +526,7 @@ public class DungeonBSP : MonoBehaviour
 						GameObject fix = (GameObject)Instantiate(tile);
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+						fix.transform.position += posOffset;
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
@@ -536,6 +540,7 @@ public class DungeonBSP : MonoBehaviour
 				GameObject obj = (GameObject)Instantiate(tile);
 				
 				obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+				obj.transform.position += posOffset;
 				globalTiles[(col + i), (row + j)] = obj;
 			}
 		}

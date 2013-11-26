@@ -12,11 +12,13 @@ public class Player : BaseObject
 	
 	private Light[] lights;
 	private Light torchLight;
-	public bool inDarkness = false;
-	public bool isImmune { get { return inmuneTimer > 0; } }
 	
-	[HideInInspector]
-	public int hearts;
+	public bool darknessMechanic;
+	
+	[HideInInspector] public bool inDarkness = false;
+	[HideInInspector] public int hearts;
+	
+	public bool isImmune { get { return inmuneTimer > 0; } }
 	
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
@@ -65,7 +67,9 @@ public class Player : BaseObject
 		torchLight = GetComponentInChildren<Light>();
 		torchRatio = 100f;
 		hearts = GameDirector.i.maxHearts;
-		InvokeRepeating( "TestDarkness", 0, 0.2f );
+		
+		if ( darknessMechanic )
+			InvokeRepeating( "TestDarkness", 0, 0.6f );
 	
 	}
 	
@@ -178,7 +182,7 @@ public class Player : BaseObject
 		
 		accel += speed * new Vector3( dx, 0, dy );
 		
-		if ( torchLight )
+		if ( torchLight && darknessMechanic )
 		{
 			if ( inDarkness )
 			{

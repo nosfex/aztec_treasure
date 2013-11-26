@@ -275,9 +275,9 @@ Camera:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: .5
     y: 0
-    width: 1
+    width: .5
     height: 1
   near clip plane: .5
   far clip plane: 30
@@ -621,11 +621,13 @@ MonoBehaviour:
   isLiftable: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
+  respawns: 0
   currentFloor: {fileID: 0}
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400018}
   attackSensor: {fileID: 11400006}
   dropGuide: {fileID: 100002}
+  darknessMechanic: 1
   inDarkness: 0
   hearts: 5
   torchRatio: 0

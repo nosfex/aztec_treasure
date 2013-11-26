@@ -22,6 +22,7 @@ public class GameDirector : MonoBehaviour {
 	
 	public int maxHearts;
 	
+	public GameObject[] spawnPrefabsList;
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
     {
@@ -107,4 +108,26 @@ public class GameDirector : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	public GameObject findMyPrefab( GameObject which )
+	{
+		int length = spawnPrefabsList.Length;
+		
+		for ( int i = 0; i < length; i++ )
+		{
+			GameObject go = spawnPrefabsList[i];
+			
+			string name = which.name;
+			int cloneIndex = name.LastIndexOf("(Clone)");
+			
+			if ( cloneIndex > -1 )
+				name = name.Remove( cloneIndex );
+			
+			if ( name == go.name )
+				return go;		
+		}
+		
+		return null;
+	}
+	
 }

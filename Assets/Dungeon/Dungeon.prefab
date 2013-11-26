@@ -39,9 +39,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minRoomSize: 6
-  wallTile: {fileID: 100000, guid: 75481c7b03e8d4f89b2dba21bc62c61e, type: 2}
-  floorTile: {fileID: 100000, guid: c42a3e203e20248dc8423c5467acaf0b, type: 2}
-  doorTile: {fileID: 0}
+  wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}
+  floorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
+  doorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
