@@ -323,7 +323,7 @@ public class SpriteAnimator : MonoBehaviour
 			timer = 0;
 		}
 
-		if ( timer >= frameTime * (frameSequence.Length) )
+		if ( timer >= frameTime * (frameSequence.Length - 1) )
 		{
 			headState = PlayHeadState.STOP;
 		}

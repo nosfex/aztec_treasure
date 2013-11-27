@@ -4,6 +4,12 @@ using System.Collections;
 [ExecuteInEditMode]
 public class SnapToGrid : MonoBehaviour 
 {
+	void Awake()
+	{
+		if ( Application.isPlaying )
+			Destroy( this );
+	}
+
 	void Update () 
 	{
 #if UNITY_EDITOR

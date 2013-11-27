@@ -8,7 +8,11 @@ public class DungeonBSP : MonoBehaviour
 	
 	public int minRoomSize = 9;
 
+	public int bigRoomsCount = 3;
+	public int hRoomsCount = 4;
+	public int vRoomsCount = 4;
 	
+	public bool createOnAwake = true;
 	
 	public static ArrayList doors = new ArrayList();
 
@@ -19,24 +23,17 @@ public class DungeonBSP : MonoBehaviour
 	public BSPNode trunk;
 	public System.Collections.ArrayList r;
 	public System.Collections.ArrayList final;
-	
-	public DungeonBSP()
-	{
-		
-	}
-	
-	void Start()
-	{
-		init();
-		
-	}
-	
-	void Update()
-	{
-		
-	}
+
 	
 	int bailLimit = 20;
+	
+	void Awake()
+	{
+		if ( createOnAwake )
+		{
+			BuildDungeon();
+		}
+	}
 	
 	BSPNode GenerateHRoom()
 	{
@@ -97,10 +94,8 @@ public class DungeonBSP : MonoBehaviour
 	
 	
 	
-	public void init()
+	public void BuildDungeon()
 	{
-		minRoomSize = 8;
-		
 		globalTiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
 		for(int i = 0; i < ROOM_WIDTH ; i++)
@@ -136,9 +131,7 @@ public class DungeonBSP : MonoBehaviour
 		int bailout;
 		
 		
-		int bigRoomsCount = 3;
-		int hRoomsCount = 4;
-		int vRoomsCount = 4;
+
 		
 		int totalRooms = bigRoomsCount + hRoomsCount + vRoomsCount;
 		
@@ -201,7 +194,7 @@ public class DungeonBSP : MonoBehaviour
 		}
  		//resizeNodes();
 		
-		removeOverlappedNodes();
+		//removeOverlappedNodes();
 	
 		for(int i = 0; i < final.Count; i++)
 		{
@@ -237,7 +230,12 @@ public class DungeonBSP : MonoBehaviour
 					posY = 99;
 				}
 				GameObject tile = data.room.getTile(i, j);
-				int val = 0; 
+				
+				data.room.roomHolder.transform.parent = transform;
+				//if ( tile != null )
+				//	tile.transform.parent = transform;
+				
+				//int val = 0; 
 				/*if(tile.CompareTag(floorTile.tag))
 				{
 					val = 1;
@@ -516,6 +514,8 @@ public class DungeonBSP : MonoBehaviour
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
+						fix.transform.parent = transform;
+						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
@@ -527,21 +527,27 @@ public class DungeonBSP : MonoBehaviour
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
+						fix.transform.parent = transform;
+						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
 					
 					continue;
 				}
-				if(globalTiles[col + i, row + j] != null)
-					Destroy(globalTiles[col + i, row + j]);
+				
+				if(globalTiles[col + i, row + j] == null)
+				{
+					//Destroy(globalTiles[col + i, row + j]);
 				
 				
-				GameObject obj = (GameObject)Instantiate(tile);
-				
-				obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
-				obj.transform.position += posOffset;
-				globalTiles[(col + i), (row + j)] = obj;
+					GameObject obj = (GameObject)Instantiate(tile);
+					
+					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
+					obj.transform.position += posOffset;
+					obj.transform.parent = transform;
+					globalTiles[(col + i), (row + j)] = obj;
+				}
 			}
 		}
 	}
