@@ -101,9 +101,12 @@ public class BaseObject : MonoBehaviour
 	}	
 	
 	float floorY = 0;
+	protected bool sleepPhysics = false;
 	
 	protected void LateUpdate()
 	{
+		if ( sleepPhysics )
+			return;
 		
 		float frameRatio = Mathf.Clamp01(Time.deltaTime / 0.016f);
 		
@@ -281,24 +284,25 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void OnTriggerStay( Collider other )
 	{
-		if ( other.tag.Contains( "Floor" ) )
-			TestFloor( other );
-
-		
-		if ( other.tag.Contains("Floor") )
-		{
-			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-			float MISPIES = transform.position.y - collider.bounds.extents.y;
-			float yDif = TECHODELPISO - MISPIES;
-			
-			if ( yDif >= 0.3f ) // Enough to climb
-			{
-				TestWalls( other ); // Treat as wall!
-			}
-		}
-		
-		if ( other.tag.Contains( "Wall" ) )
-			TestWalls( other );
+		OnTriggerEnter( other );
+//		if ( other.tag.Contains( "Floor" ) )
+//			TestFloor( other );
+//
+//		
+//		if ( other.tag.Contains("Floor") )
+//		{
+//			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+//			float MISPIES = transform.position.y - collider.bounds.extents.y;
+//			float yDif = TECHODELPISO - MISPIES;
+//			
+//			if ( yDif >= 0.3f ) // Enough to climb
+//			{
+//				TestWalls( other ); // Treat as wall!
+//			}
+//		}
+//		
+//		if ( other.tag.Contains( "Wall" ) )
+//			TestWalls( other );
 	}
 
 	virtual protected void OnTriggerEnter( Collider other )

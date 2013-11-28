@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class World : MonoBehaviour {
+public class World : MonoBehaviour 
+{
 	
 	[HideInInspector] public Transform playerContainer;
 	public Transform startingPoint;

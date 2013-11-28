@@ -22,10 +22,10 @@ public class BaseObjectSensor : MonoBehaviour
 		}
 	}
 	
-	void OnTriggerStay( Collider other )
-	{
-		OnTriggerEnter( other );
-	}
+//	void OnTriggerStay( Collider other )
+//	{
+//		OnTriggerEnter( other );
+//	}
 	
 	void Update()
 	{

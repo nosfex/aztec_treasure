@@ -22,6 +22,8 @@ public class GameDirector : MonoBehaviour {
 	
 	public int maxHearts;
 	
+	public DungeonBSP dungeonGenerator;
+	
 	public GameObject[] spawnPrefabsList;
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
@@ -69,6 +71,12 @@ public class GameDirector : MonoBehaviour {
 	{
 		SnapAssistant.i.snapEnabled = false;
 		
+		if ( dungeonGenerator != null )
+		{
+			dungeonGenerator.BuildDungeon( worldContainer.transform );
+			worldContainer.startingPoint.position = dungeonGenerator.initialRoom.getCenterTile().transform.position + (Vector3.up * 2);
+		}
+		
 		// CREATE FUTURE.
 		GameObject go = (GameObject)Instantiate( worldContainer.gameObject, 
 			worldContainer.transform.position + (Vector3.right * (0.2f * 500f)), 
@@ -100,7 +108,8 @@ public class GameDirector : MonoBehaviour {
 		
 		worldRight = world2;
 		worldLeft = worldContainer;
-
+		
+			
 		//SnapAssistant.i.snapEnabled = true;
 	}
 	

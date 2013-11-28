@@ -30,6 +30,7 @@ public class Skelly : BaseObject
 		direction = Vector3.right;
 		hearts = maxHearts;
 		state = State.SLEEPING;
+		sleepPhysics = true;
 		playerSensor.typeFilter = typeof( Player );
 		startPosition = transform.position;
 		controller = GetComponent<EnemyController>();
@@ -89,6 +90,7 @@ public class Skelly : BaseObject
 		{
 			controller.playerTarget = (Player)playerSensor.sensedObject;
 			state = State.WALKING;
+			sleepPhysics = false;
 			controller.Init();
 		}		
 	}

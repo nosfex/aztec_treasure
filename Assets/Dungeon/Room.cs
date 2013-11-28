@@ -232,6 +232,11 @@ public class Room
 		return tiles[_x, _y];
 	}
 	
+	public GameObject getCenterTile()
+	{
+		return tiles[width / 2, height / 2];
+	}
+	
 	
 	public DoorData getLastDoor()
 	{

@@ -371,16 +371,23 @@ public class Player : BaseObject
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 		{
-			velocity = Vector3.zero;
-			gravity = Vector3.zero;
-			transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
-			OnHit ( null );
-			
-			if ( hearts > 0 )
+			if ( lastSafeFloor == null )
 			{
-				foreach( FallingFloor floor in worldOwner.GetComponentsInChildren<FallingFloor>() )
+				Debug.Log("Nunca hubo un lastSafeFloor... Saca el gameObject del vacio, macho.");
+			}
+			else 
+			{
+				velocity = Vector3.zero;
+				gravity = Vector3.zero;
+				transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
+				OnHit ( null );
+				
+				if ( hearts > 0 )
 				{
-					floor.ResetState();
+					foreach( FallingFloor floor in worldOwner.GetComponentsInChildren<FallingFloor>() )
+					{
+						floor.ResetState();
+					}
 				}
 			}
 		}

@@ -11,6 +11,7 @@ public class Rock : BaseObject
 	{
 		base.Start ();
 		hearts = maxHearts;
+		
 	}
 	
 	void OnTriggerEnter( Collider other )

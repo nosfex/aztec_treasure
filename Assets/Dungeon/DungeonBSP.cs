@@ -93,9 +93,16 @@ public class DungeonBSP : MonoBehaviour
 	}
 	
 	
+	Transform container;
 	
 	public void BuildDungeon()
 	{
+		BuildDungeon( transform );
+	}
+	
+	public void BuildDungeon( Transform container )
+	{
+		this.container = container;
 		globalTiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
 		
 		for(int i = 0; i < ROOM_WIDTH ; i++)
@@ -231,7 +238,7 @@ public class DungeonBSP : MonoBehaviour
 				}
 				GameObject tile = data.room.getTile(i, j);
 				
-				data.room.roomHolder.transform.parent = transform;
+				data.room.roomHolder.transform.parent = container;
 				//if ( tile != null )
 				//	tile.transform.parent = transform;
 				
@@ -264,7 +271,7 @@ public class DungeonBSP : MonoBehaviour
 			{
 				if(globalTiles[i,j] != null && globalTiles[i, j].name != wallTile.name + "(Clone)")
 				{
-					Vector3 pos = new Vector3(0, 0.8f, 0);
+					Vector3 pos = new Vector3(0, 1.2f, 0);
 					generateTileN8(wallTile, i, j, false, pos);
 				}
 			}
@@ -309,10 +316,13 @@ public class DungeonBSP : MonoBehaviour
 		}
 	}
 	
+	BSPNode cornerSmallestNode;
+	public Room initialRoom { get { return cornerSmallestNode.room; } }
+	
 	public void makeDoors()
 	{
-		BSPNode initialRoom = getCornerSmallestRoom();
-		BSPNode walker = initialRoom;
+		cornerSmallestNode = getCornerSmallestRoom();
+		BSPNode walker = cornerSmallestNode;
 		BSPNode min = null;
 		BSPNode prev = null;
 
@@ -514,7 +524,7 @@ public class DungeonBSP : MonoBehaviour
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
-						fix.transform.parent = transform;
+						fix.transform.parent = container;
 						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
@@ -527,7 +537,7 @@ public class DungeonBSP : MonoBehaviour
 						
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
-						fix.transform.parent = transform;
+						fix.transform.parent = container;
 						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
@@ -545,7 +555,7 @@ public class DungeonBSP : MonoBehaviour
 					
 					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 					obj.transform.position += posOffset;
-					obj.transform.parent = transform;
+					obj.transform.parent = container;
 					globalTiles[(col + i), (row + j)] = obj;
 				}
 			}

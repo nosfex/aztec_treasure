@@ -12,6 +12,12 @@ public class Vine : BaseObject
 		startPosition = transform.position;
 	}
 	
+	
+	void EnterObjectLaid( BaseObject other )
+	{
+		sleepPhysics = true;
+	}
+	
 	// Update is called once per frame
 	void Update () {
 	
@@ -19,6 +25,7 @@ public class Vine : BaseObject
 	
 	void OnHit( GameObject obj )
 	{
+		sleepPhysics = false;
 		SpriteAnimator animator = GetComponentInChildren<SpriteAnimator>();
 		if (animator)
 		{
