@@ -309,7 +309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldOwner: {fileID: 0}
-  myPrefab: {fileID: 100000}
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .970000029
   airFrictionCoef: 1
@@ -325,7 +324,7 @@ MonoBehaviour:
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
-  projectile: {fileID: 100002, guid: 4420425d3a253fc4487d43976338b58f, type: 2}
+  projectile: {fileID: 100004, guid: 6681a9553f9f0d445ae1fd4a1e7060ba, type: 2}
   hearts: 0
   maxHearts: 2
   speed: .5
@@ -442,7 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26418ad7dcf320f4e8f1bc70b8b5abf1, type: 3}
+  m_Script: {fileID: 11500000, guid: 52ab2e178a54ae84a9508205c4b9c9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerTarget: {fileID: 0}
