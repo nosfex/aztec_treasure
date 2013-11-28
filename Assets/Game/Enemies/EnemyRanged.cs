@@ -97,7 +97,7 @@ public class EnemyRanged : BaseObject {
 	
 	public virtual void UpdateAttacking()
 	{
-		if ( stateTimer > 0.33f )
+		if ( stateTimer > 0.99f )
 		{
 			animator.StopAnim();
 			animator.PlayAnim("Attack" + facing );
