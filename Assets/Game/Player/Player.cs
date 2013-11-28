@@ -336,8 +336,8 @@ public class Player : BaseObject
 					if ( comboCount == 0 )
 					{
 						animator.StopAnim();
-						animator.PlayAnim("Attack" + facing );
-						velocity *= 2.25f;
+						animator.PlayAnim("Attack2" + facing );
+						velocity *= 2.50f;
 						cooldown = 0.4f;
 						comboCount++;
 					}
@@ -345,8 +345,8 @@ public class Player : BaseObject
 					if ( comboCount == 1 )
 					{
 						animator.StopAnim();
-						animator.PlayAnim("Attack2" + facing );
-						velocity *= 2.5f;
+						animator.PlayAnim("Attack" + facing );
+						velocity *= 1.25f;
 						cooldown = 0.6f;
 						comboCount++;
 					}
@@ -395,7 +395,7 @@ public class Player : BaseObject
 			{
 				attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 				if ( attackedObject.GetComponent<Vine>() == null )
-					velocity *= -1f;
+					velocity *= -0.5f;
 			}
 		}
 		
