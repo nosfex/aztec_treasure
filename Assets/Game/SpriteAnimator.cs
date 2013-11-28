@@ -311,11 +311,15 @@ public class SpriteAnimator : MonoBehaviour
 		
 		timer = Mathf.Clamp( timer, 0, frameTime * (frameSequence.Length) );
 		
+		if ( timer >= (frameTime * (frameSequence.Length)) - 0.01f )
+			headState = PlayHeadState.STOP;
+
 		frameIndex = (int)(timer / frameTime);
 		
-		
-		
 		frameIndex = Mathf.Clamp ( frameIndex, 0, (frameSequence.Length - 1) );
+
+		
+		
 		//print ( " frame = " + frameIndex + " ... " + currentAnimation.frameRate );
 		if ( frameSequence[ frameIndex ] == -1 ) // Loop!
 		{
@@ -323,10 +327,6 @@ public class SpriteAnimator : MonoBehaviour
 			timer = 0;
 		}
 
-		if ( timer >= frameTime * (frameSequence.Length - 1) )
-		{
-			headState = PlayHeadState.STOP;
-		}
 		
 
 		

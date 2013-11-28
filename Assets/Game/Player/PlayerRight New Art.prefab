@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: .00430512428, y: 0, z: .260021687}
-  m_LocalScale: {x: 2.37176657, y: 1, z: .523023009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
 --- !u!4 &400014
@@ -396,7 +396,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .449999988, y: .449999988, z: .449999988}
+  m_Size: {x: .300000012, y: .300000012, z: .300000012}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500002
 BoxCollider:
@@ -408,7 +408,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .200000003, y: .400000006, z: .200000003}
+  m_Size: {x: .400000006, y: .300000012, z: .300000012}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500012
 BoxCollider:
@@ -532,28 +532,28 @@ MonoBehaviour:
   - name: AttackDown
     playMode: 0
     startFrame: 9
-    endFrame: 14
+    endFrame: 13
     frameRate: 15
     customFrameSequence: 
     horizontalFlip: 0
   - name: AttackUp
     playMode: 0
     startFrame: 9
-    endFrame: 14
+    endFrame: 13
     frameRate: 15
     customFrameSequence: 
     horizontalFlip: 0
   - name: AttackRight
     playMode: 0
     startFrame: 9
-    endFrame: 14
+    endFrame: 13
     frameRate: 15
     customFrameSequence: 
     horizontalFlip: 1
   - name: AttackLeft
     playMode: 0
     startFrame: 9
-    endFrame: 14
+    endFrame: 13
     frameRate: 15
     customFrameSequence: 
     horizontalFlip: 0
@@ -670,8 +670,8 @@ MonoBehaviour:
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .660000026
   airFrictionCoef: .75
-  groundFrictionCoef: .660000026
-  bouncyness: .5
+  groundFrictionCoef: .330000013
+  bouncyness: .200000003
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
@@ -692,7 +692,7 @@ MonoBehaviour:
   upKey: 273
   downKey: 274
   attackKey: 256
-  speed: .0179999992
+  speed: .0165999997
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -45,7 +45,7 @@ public class Player : BaseObject
 			}
 		}
 		
-		float threshold = 1.5f;
+		float threshold = 1.0f;
 
 		if ( nearestLight != null )
 		{				
@@ -184,8 +184,12 @@ public class Player : BaseObject
 			}
 		}
 		
+		float tmpSpeed = speed;
 		
-		accel += speed * new Vector3( dx, 0, dy );
+		if ( dx == 1 && dy == 1 )
+			tmpSpeed *= 0.707f;
+		
+		accel += tmpSpeed * new Vector3( dx, 0, dy );
 		
 		if ( torchLight && darknessMechanic )
 		{
