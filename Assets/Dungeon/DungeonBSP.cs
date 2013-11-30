@@ -17,6 +17,7 @@ public class DungeonBSP : MonoBehaviour
 	public static ArrayList doors = new ArrayList();
 
 	public GameObject[,] globalTiles;
+	public GameObject invisibleWallTile;
 	public GameObject wallTile;
 	public GameObject floorTile;
 	public GameObject doorTile;
@@ -29,6 +30,10 @@ public class DungeonBSP : MonoBehaviour
 	
 	void Awake()
 	{
+		wallPattern = new GameObject[] { null,invisibleWallTile,null,
+						     wallTile,null,wallTile,
+							 wallTile,wallTile,wallTile	};
+		
 		if ( createOnAwake )
 		{
 			BuildDungeon();
@@ -44,7 +49,7 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 			
-			node.width = Random.Range(12, 22);
+			node.width = Random.Range(10, 15);
 			node.height = Random.Range(6, 8);
 			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
 			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
@@ -63,7 +68,7 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 			node.width = Random.Range(6, 8);
-			node.height = Random.Range(12, 22);
+			node.height = Random.Range(10, 15);
 			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
 			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
 		}
@@ -81,9 +86,9 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 		
-			int size = Random.Range ( 11, 13 );
-			node.width = Mathf.Max ( 11, size + Random.Range(0, 3) );
-			node.height = Mathf.Max ( 11, size + Random.Range(0, 3) );
+			int size = Random.Range ( 8, 12 );
+			node.width = Mathf.Max ( 8, size + Random.Range(0, 3) );
+			node.height = Mathf.Max ( 8, size + Random.Range(0, 3) );
 			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
 			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
 		}
@@ -263,22 +268,7 @@ public class DungeonBSP : MonoBehaviour
 		}
 	}
 	
-	void wallFill()
-	{
-		for(int i = 0; i < ROOM_WIDTH ; i++)
-		{
-			for(int j = 0; j < ROOM_HEIGHT ; j++)
-			{
-				if(globalTiles[i,j] != null && globalTiles[i, j].name != wallTile.name + "(Clone)")
-				{
-					Vector3 pos = new Vector3(0, 1.2f, 0);
-					generateTileN8(wallTile, i, j, false, pos);
-				}
-			}
-			
-		}
-		
-	}
+	
 	
 	bool doesThisNodeOverlapWithAnotherNodeOrNot( BSPNode itdoesntright )
 	{
@@ -500,10 +490,25 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void generateTileN8(GameObject tile, int col, int row, bool replace, Vector3 posOffset)
 	{
+		GameObject[] pattern = {tile,tile,tile,tile,tile,tile,tile,tile,tile};
+		generateTileN8( pattern, col, row, replace, posOffset );
+	}
+
+	
+	public void generateTileN8(GameObject[] pattern, int col, int row, bool replace, Vector3 posOffset)
+	{
 		for(int i = -1; i <= 1 ; i++)
 		{
 			for(int j = -1; j <= 1 ; j++)
 			{
+				int _x = (j + 1) * 3;
+				int _y = (i + 1);
+					
+				GameObject tile = pattern[ _y + _x ];
+				
+				if ( tile == null )
+					continue;
+				
 				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
 				if((row + j) < 0)
 					continue;
@@ -548,9 +553,6 @@ public class DungeonBSP : MonoBehaviour
 				
 				if(globalTiles[col + i, row + j] == null)
 				{
-					//Destroy(globalTiles[col + i, row + j]);
-				
-				
 					GameObject obj = (GameObject)Instantiate(tile);
 					
 					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
@@ -561,6 +563,112 @@ public class DungeonBSP : MonoBehaviour
 			}
 		}
 	}
+
+	public int countTilesN8( int x, int y, GameObject tile )
+	{
+		int count = 0;
+		for(int i = -1; i <= 1 ; i++)
+		{
+			for(int j = -1; j <= 1 ; j++)
+			{
+				if ( j == 0 && i == 0 )
+					continue;
+				
+				
+				if((y + j) < 0)
+					continue;
+				if((y + j) > ROOM_HEIGHT - 1)
+					continue;
+				if(x + i < 0)
+					continue;
+				if(x + i > ROOM_WIDTH - 1 )
+					continue;
+				
+				if(globalTiles[x + i, y + j] != null)
+				{
+					if ( globalTiles[x + i, y + j].name == tile.name + "(Clone)" )
+						count++;
+				}
+			}
+		}
+		
+		//print ("count "+ count );
+		return count;
+	}
+	
+	GameObject[] wallPattern; 
+
+	void wallFill()
+	{
+		for(int y = 0; y < ROOM_HEIGHT; y++)
+		//for(int y = ROOM_HEIGHT - 1; y >= 0; y--)
+		{
+			for(int x = 0; x < ROOM_WIDTH ; x++)
+			{
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == floorTile.name + "(Clone)")
+				{
+					Vector3 pos = new Vector3(0, 1.2f, 0);
+					//generateTileN8(wallPattern, x, y, false, pos);
+					generateTileN8(wallTile, x, y, false, pos);
+				}
+				
+//				if ( globalTiles[x, y] == null )
+//					continue;
+//				
+//				if ( globalTiles[x, y].name == floorTile.name + "Clone" &&
+//					 globalTiles[x, y+1] == null )
+//				{
+//				}
+				
+			}
+			
+		}
+
+		
+		for(int y = ROOM_HEIGHT - 3; y >= 0; y--)
+		{
+			for(int x = 0; x < ROOM_WIDTH ; x++)
+			{
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name + "(Clone)")
+				{
+					if(globalTiles[x, y + 1] != null && globalTiles[x, y + 1].name == floorTile.name + "(Clone)")
+					{
+						globalTiles[x, y].transform.position -= Vector3.up * 1.0f;
+					}
+					else 
+					if(globalTiles[x, y + 2] != null && globalTiles[x, y + 2].name == floorTile.name + "(Clone)")
+					{
+						globalTiles[x, y].transform.position -= Vector3.up * 0.6f;
+					}
+						
+						
+				}
+				
+				
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name + "(Clone)")
+				{
+					int caca = countTilesN8( x, y, wallTile );
+					
+					if ( caca == 0 )
+					{
+						print ("Destroying...");
+						DestroyImmediate(globalTiles[x, y]);
+						//globalTiles[x,y].transform.localScale = Vector3.one * 0.3f;
+						globalTiles[x, y] = null;
+						/*GameObject fix = (GameObject)Instantiate( invisibleWallTile );
+						
+						Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
+
+						fix.transform.position = new Vector3( x * scale.x, 1.2f, y * scale.z );
+						fix.transform.parent = container;
+						globalTiles[x, y] = fix;*/
+					}
+				}
+			}
+		}
+		
+	}	
+	
 
 	
 	public BSPNode getCornerSmallestRoom()

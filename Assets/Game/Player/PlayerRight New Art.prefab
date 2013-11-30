@@ -683,7 +683,7 @@ MonoBehaviour:
   liftSensor: {fileID: 11400018}
   attackSensor: {fileID: 11400006}
   dropGuide: {fileID: 100002}
-  darknessMechanic: 1
+  darknessMechanic: 0
   inDarkness: 0
   hearts: 5
   torchRatio: 0
