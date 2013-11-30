@@ -67,10 +67,18 @@ public class EnemyController : MonoBehaviour
 	}
 	public void ChangeDirectionRotate()
 	{
-		if ( goingRight ) goingDown = true;
-		else if ( goingDown ) goingLeft = true;
-		else if ( goingLeft ) goingUp = true;
-		else if ( goingUp ) goingRight = true;
+		if ( goingRight ) { ClearActions(); goingDown = true; }
+		else if ( goingDown ) { ClearActions(); goingLeft = true;  }
+ 		else if ( goingLeft ) { ClearActions(); goingUp = true; }
+		else if ( goingUp ) { ClearActions(); goingRight = true; }
+	}	
+	
+	public void ChangeDirectionTurnback()
+	{
+		if ( goingRight ) { ClearActions(); goingLeft = true; }
+		else if ( goingDown ) { ClearActions(); goingUp = true;  }
+ 		else if ( goingLeft ) { ClearActions(); goingRight = true; }
+		else if ( goingUp ) { ClearActions(); goingDown = true; }
 	}
 
 	protected bool upDownWalkPriority;
@@ -111,4 +119,24 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
+	
+	
+	public void ChangeDirectionTowardsPlayerNoXYLock( float thresholdNear )
+	{
+		//int dir = Random.Range( 0, 4 );
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		//float distance = Vector3.Distance( playerPos, myPos );
+
+		if ( playerPos.z < myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+			goingDown = true;
+		else if ( playerPos.z > myPos.z && Mathf.Abs(playerPos.z - myPos.z) > thresholdNear )
+			goingUp = true;
+		
+		if ( playerPos.x > myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+			goingRight = true;
+		else if ( playerPos.x < myPos.x && Mathf.Abs(playerPos.x - myPos.x) > thresholdNear )
+			goingLeft = true;
+	}
+	
 }

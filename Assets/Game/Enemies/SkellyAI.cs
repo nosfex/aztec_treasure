@@ -52,10 +52,10 @@ public class SkellyAI : EnemyController
 				ChangeDirectionRandom();
 		}
 		
-		bool stuckRight = goingRight && body.canGoRight;
-		bool stuckLeft = goingLeft && body.canGoLeft;
-		bool stuckDown = goingDown && body.canGoDown;
-		bool stuckUp = goingUp && body.canGoUp;
+		bool stuckRight = goingRight && body.CantGoRight;
+		bool stuckLeft = goingLeft && body.CantGoLeft;
+		bool stuckDown = goingDown && body.CantGoDown;
+		bool stuckUp = goingUp && body.CantGoUp;
 		
 		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
 		

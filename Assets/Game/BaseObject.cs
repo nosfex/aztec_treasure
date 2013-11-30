@@ -212,8 +212,8 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void TestFloor( Collider other )
 	{
-		float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-		float MISPIES = transform.position.y - collider.bounds.extents.y;
+		float TECHODELPISO = other.transform.position.y + other.bounds.extents.y + other.bounds.center.y;
+		float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
 		float yDif = TECHODELPISO - MISPIES;
 		
 		if ( yDif >= 0.3f ) // Enough to climb

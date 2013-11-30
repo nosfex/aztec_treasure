@@ -128,7 +128,7 @@ public class Player : BaseObject
 		
 		float dx = 0, dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") ) /*&& currentFloor != null */ 
+		if ( !animator.isAnimPlaying("Attack") )// && currentFloor != null ) 
 		{
 			if ( Input.GetKey(leftKey) && lockLeft < 0 )
 			{

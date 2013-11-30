@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Skelly : BaseObject 
 {
-	SpriteAnimator animator;
+	protected SpriteAnimator animator;
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
@@ -36,19 +36,19 @@ public class Skelly : BaseObject
 		controller = GetComponent<EnemyController>();
 	}	
 
-	string facing = "Right";
+	protected string facing = "Right";
 	
-	float cooldown = 0;
+	protected float cooldown = 0;
 	
 	float lockDown = 0;
 	float lockUp = 0;
 	float lockRight = 0;
 	float lockLeft = 0;
 	
-	public bool canGoDown { get { return lockDown > 0; } }
-	public bool canGoUp { get { return lockUp > 0; } }
-	public bool canGoRight { get { return lockRight > 0; } }
-	public bool canGoLeft { get { return lockLeft > 0; } }
+	public bool CantGoDown { get { return lockDown > 0; } }
+	public bool CantGoUp { get { return lockUp > 0; } }
+	public bool CantGoRight { get { return lockRight > 0; } }
+	public bool CantGoLeft { get { return lockLeft > 0; } }
 	
 	
 	float straightTimer = 0;
@@ -71,13 +71,14 @@ public class Skelly : BaseObject
 	{
 		SLEEPING,
 		ATTACKING,
-		WALKING
+		WALKING,
+		DYING
 	}
 	
 	public State stateValue;
-	float stateTimer = 0;
+	protected float stateTimer = 0;
 	
-	State state
+	protected State state
 	{ 
 		set { if ( stateValue != value ) { stateValue = value; stateTimer = 0; } } 
 		get { return stateValue; } 
@@ -94,6 +95,9 @@ public class Skelly : BaseObject
 			controller.Init();
 		}		
 	}
+
+	virtual protected void UpdateDying()
+	{}
 	
 	virtual protected void UpdateAttacking()
 	{
@@ -114,7 +118,7 @@ public class Skelly : BaseObject
 		
 		float dx = 0, dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
+		if ( !animator.isAnimPlaying("Attack") && (currentFloor != null || !gravityEnabled)  )
 		{
 			if ( controller.GetKey( KeyCode.LeftArrow ) && lockLeft < 0 )
 				dx = -1;
@@ -219,12 +223,12 @@ public class Skelly : BaseObject
 			{
 				animator.PlayAnim("Walk" + facing );
 			}
-			else 
+			/*else 
 			{
 				animator.PlayAnim("Walk" + facing );
 				animator.PauseAnim();
 				animator.GoToFrame(2);
-			}
+			}*/
 		}
 	}
 	
@@ -263,7 +267,7 @@ public class Skelly : BaseObject
 		state = State.ATTACKING;
 	}
 	
-	void Update () 
+	virtual protected void Update () 
 	{
 		switch ( state )
 		{
@@ -275,6 +279,9 @@ public class Skelly : BaseObject
 				break;
 			case State.ATTACKING:
 				UpdateAttacking();
+				break;
+			case State.DYING:
+				UpdateDying();
 				break;
 		}
 		
@@ -319,7 +326,7 @@ public class Skelly : BaseObject
 		lockUp--;
 	}
 	
-	void Die()
+	virtual protected void Die()
 	{
 		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
 		Destroy( gameObject );
@@ -340,17 +347,24 @@ public class Skelly : BaseObject
 	
 	override protected void OnTriggerEnter( Collider other )
 	{
-		if ( other.GetComponent<Player>() != null )
+		
+		if ( state != State.DYING )
 		{
 			Player p = other.GetComponent<Player>();
 
-			if ( !p.isImmune )
+			if ( p != null && !p.isImmune )
 			{
 				p.OnHit( gameObject );
 				p.velocity += direction * speed * attackSpeedFactor * 3f;
 				p.gravity.y = -0.01f;
 				velocity *= -1.2f;
 			}
+			
+			Vine v = other.GetComponent<Vine>();
+			
+			if ( v != null )
+				v.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+				
 		}
 		
 		base.OnTriggerEnter( other );
