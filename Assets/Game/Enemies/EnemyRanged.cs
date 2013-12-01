@@ -16,7 +16,7 @@ public class EnemyRanged : BaseObject {
 	
 	public int maxHearts = 2;
 	
-	public float speed = 0.5f;
+	public float speed = 0.1f;
 	public float attackJumpHeight = -0.045f;
 	public float attackSpeedFactor = 2.0f;
 	public float attackCooldown = 2.0f;
@@ -97,15 +97,15 @@ public class EnemyRanged : BaseObject {
 	
 	public virtual void UpdateAttacking()
 	{
-		if ( stateTimer > 0.99f )
+		if ( stateTimer > 0.66f )
 		{
 			animator.StopAnim();
 			animator.PlayAnim("Attack" + facing );
 		//	velocity = direction * speed * attackSpeedFactor;
-		//	cooldown = attackCooldown;
+			cooldown = attackCooldown;
 		//	gravity.y = attackJumpHeight;
 			
-			GameObject dart = (GameObject)Instantiate(projectile, transform.position + direction * 0.4f, Quaternion.Euler(direction));
+			GameObject dart = (GameObject)Instantiate(projectile, transform.position + direction * 0.6f, Quaternion.LookRotation(-direction));
 			dart.transform.parent = this.transform.parent;						
 			state = State.WALKING;
 		}
@@ -143,8 +143,8 @@ public class EnemyRanged : BaseObject {
 			straightTimer = 0;
 		}
 		
-		prevdx = dx;
-		prevdy = dy;
+		prevdx = dx/=10.0f;
+		prevdy = dy/=10.0f;
 
 		//print ("dx = "+dx+" dy = "+dy+" timer = " + straightTimer  + " ........ " + currentFloor );
 		accel += speed * new Vector3( dx, 0, dy );
@@ -332,6 +332,12 @@ public class EnemyRanged : BaseObject {
 	
 	public void OnHit( GameObject other )
 	{
+		BaseObject bo = other.GetComponent<BaseObject>();
+		if(bo == null)
+			return;
+		if(bo.name == "Projectile(Clone)")
+			return;
+		
 		if ( inmuneTimer > 0 )
 			return;
 		
@@ -381,7 +387,13 @@ public class EnemyRanged : BaseObject {
 			{
 				return;
 			}
+			
+			if(bo.name == "Projectile(Clone)")
+				
+				return;
 		}
+		
+		
 		
 		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
 		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);

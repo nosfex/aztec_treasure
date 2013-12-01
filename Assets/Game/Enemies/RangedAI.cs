@@ -18,7 +18,7 @@ public class RangedAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 1.2f && body.currentFloor != null )
+		if ( distance <= 1.8f && body.currentFloor != null )
 		{
 			float thresholdNear = 0.4f;
 			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
