@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : BaseObject 
+{
 	
 	public float speed;
 	public float lifeSpan = 1.0f;
@@ -18,12 +19,20 @@ public class Projectile : MonoBehaviour {
 			Destroy(gameObject);
 	}
 	
+	void OnHit( GameObject other )
+	{
+		Destroy ( gameObject );
+	}
+	
 	int life = 2;
 	
 	void OnTriggerEnter( Collider other )
 	{
 		
 		if ( other.gameObject == transform.parent.gameObject )
+			return;
+		
+		if ( other.GetComponent<EnemyRanged>() != null )
 			return;
 		
 		if ( other.tag.Contains( "Destructable" ) )

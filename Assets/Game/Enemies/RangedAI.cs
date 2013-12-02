@@ -7,6 +7,7 @@ public class RangedAI : EnemyController
 	
 	float walkTimer;
 	
+	
 	void Start()
 	{
 		body = GetComponent<EnemyRanged>();
@@ -18,15 +19,36 @@ public class RangedAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 1.8f && body.currentFloor != null )
+		if ( distance <= 2.5f && body.currentFloor != null )
 		{
-			float thresholdNear = 0.4f;
-			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
-			bool nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear ) && ( goingRight || goingLeft );
+			float thresholdNear = 0.2f;
+			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear );// && ( goingUp || goingDown );
+			bool nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear );// && ( goingRight || goingLeft );
 			
 			if ( nearX || nearY )
 			{
-				attacking = true;
+				if ( !attacking )
+				{
+					if ( body.cooldown <= 0 )
+					{
+						if ( nearX )
+						{
+							if ( playerPos.z > myPos.z )
+								goingUp = true;
+							else if ( playerPos.z < myPos.z )
+								goingDown = true;
+						}
+						else if ( nearY )
+						{
+							if ( playerPos.x > myPos.x )
+								goingRight = true;
+							else if ( playerPos.x < myPos.x )
+								goingLeft = true;
+						}
+					}
+
+					attacking = true;
+				}
 			}
 		}
 	}
@@ -41,16 +63,8 @@ public class RangedAI : EnemyController
 		if ( body.currentFloor == null )
 			return;
 		
-		walkTimer += Time.deltaTime;
+		
 
-		if ( walkTimer > .66f )
-		{
-			walkTimer = 0;
-			upDownWalkPriority = !upDownWalkPriority;
-			
-			if ( playerTarget.isImmune )
-				ChangeDirectionRandom();
-		}
 		
 		bool stuckRight = goingRight && body.canGoRight;
 		bool stuckLeft = goingLeft && body.canGoLeft;
@@ -65,11 +79,27 @@ public class RangedAI : EnemyController
 			upDownWalkPriority = !upDownWalkPriority;
 			ChangeDirectionRotate();
 		}
-		else if ( !playerTarget.isImmune )
+		else if ( !playerTarget.isImmune && body.cooldown <= 0 )
 		{
 			goingRight = goingLeft = goingUp = goingDown = attacking = false;
-			ChangeDirectionTowardsPlayer();
 			TryToAttack();
+			
+			if ( !attacking )
+				ChangeDirectionTowardsPlayer();
 		}
+		
+		walkTimer += Time.deltaTime;
+
+		if ( walkTimer > .66f )
+		{
+			walkTimer = 0;
+			upDownWalkPriority = !upDownWalkPriority;
+			
+			if ( playerTarget.isImmune || body.cooldown > 0 )
+			{
+				goingRight = goingLeft = goingUp = goingDown = attacking = false;				
+				ChangeDirectionAwayFromPlayer();
+			}
+		}		
 	}
 }

@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.35584164, y: 18.9303894, z: 7.19218254}
+  m_LocalPosition: {x: 2.35584164, y: 18.9303894, z: -6.03568268}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children:
   - {fileID: 400004}
@@ -313,10 +313,10 @@ MonoBehaviour:
   frictionCoef: .970000029
   airFrictionCoef: 1
   groundFrictionCoef: .660000026
-  bouncyness: .899999976
+  bouncyness: .5
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
-  isLiftable: 1
+  isLiftable: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0
@@ -324,13 +324,14 @@ MonoBehaviour:
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
-  projectile: {fileID: 100004, guid: 6681a9553f9f0d445ae1fd4a1e7060ba, type: 2}
+  projectile: {fileID: 100004, guid: 84a0fa0754b19854fa947364e07e605e, type: 2}
   hearts: 0
-  maxHearts: 2
-  speed: .5
+  maxHearts: 1
+  speed: .00999999978
   attackJumpHeight: -.0450000018
   attackSpeedFactor: 2
-  attackCooldown: 2
+  attackCooldown: 1.5
+  cooldown: 0
   stateValue: 0
 --- !u!114 &11400002
 MonoBehaviour:

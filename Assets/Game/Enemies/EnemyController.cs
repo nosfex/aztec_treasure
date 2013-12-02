@@ -118,7 +118,38 @@ public class EnemyController : MonoBehaviour
 				goingUp = true;
 		}
 	}
+	
+	
+	public void ChangeDirectionAwayFromPlayer()
+	{
+		//int dir = Random.Range( 0, 4 );
+		Vector3 playerPos = playerTarget.transform.position;
+		Vector3 myPos = transform.position;
+		//float distance = Vector3.Distance( playerPos, myPos );
 
+		if ( upDownWalkPriority )
+		{
+			if ( playerPos.z < myPos.z )
+				goingUp = true;
+			else if ( playerPos.z > myPos.z )
+				goingDown = true;
+			else if ( playerPos.x > myPos.x )
+				goingLeft = true;
+			else if ( playerPos.x < myPos.x )
+				goingRight = true;
+		}
+		else 
+		{
+			if ( playerPos.x > myPos.x )
+				goingLeft = true;
+			else if ( playerPos.x < myPos.x )
+				goingRight = true;
+			else if ( playerPos.z < myPos.z )
+				goingUp = true;
+			else if ( playerPos.z > myPos.z )
+				goingDown = true;
+		}
+	}	
 	
 	
 	public void ChangeDirectionTowardsPlayerNoXYLock( float thresholdNear )

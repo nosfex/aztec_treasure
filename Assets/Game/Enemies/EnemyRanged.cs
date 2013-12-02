@@ -39,7 +39,7 @@ public class EnemyRanged : BaseObject {
 
 	string facing = "Right";
 	
-	float cooldown = 0;
+	[HideInInspector] public float cooldown = 0;
 	
 	float lockDown = 0;
 	float lockUp = 0;
@@ -97,15 +97,17 @@ public class EnemyRanged : BaseObject {
 	
 	public virtual void UpdateAttacking()
 	{
-		if ( stateTimer > 0.66f )
+		if ( stateTimer > 0.2f )
 		{
 			animator.StopAnim();
 			animator.PlayAnim("Attack" + facing );
 		//	velocity = direction * speed * attackSpeedFactor;
 			cooldown = attackCooldown;
 		//	gravity.y = attackJumpHeight;
+			Vector3 dartPos = transform.position + direction * 0.2f;
+			dartPos.y += 0.2f;
 			
-			GameObject dart = (GameObject)Instantiate(projectile, transform.position + direction * 0.6f, Quaternion.LookRotation(-direction));
+			GameObject dart = (GameObject)Instantiate(projectile, dartPos, Quaternion.LookRotation(-direction));
 			dart.transform.parent = this.transform.parent;						
 			state = State.WALKING;
 		}
@@ -143,8 +145,8 @@ public class EnemyRanged : BaseObject {
 			straightTimer = 0;
 		}
 		
-		prevdx = dx/=10.0f;
-		prevdy = dy/=10.0f;
+		prevdx = dx;
+		prevdy = dy;
 
 		//print ("dx = "+dx+" dy = "+dy+" timer = " + straightTimer  + " ........ " + currentFloor );
 		accel += speed * new Vector3( dx, 0, dy );
@@ -351,6 +353,7 @@ public class EnemyRanged : BaseObject {
 	
 	override protected void OnTriggerEnter( Collider other )
 	{
+		/*
 		if ( other.GetComponent<Player>() != null )
 		{
 			Player p = other.GetComponent<Player>();
@@ -362,7 +365,7 @@ public class EnemyRanged : BaseObject {
 				p.gravity.y = -0.01f;
 				velocity *= -1.2f;
 			}
-		}
+		}*/
 		
 		base.OnTriggerEnter( other );
 	}

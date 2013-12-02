@@ -230,6 +230,9 @@ public class BaseObject : MonoBehaviour
 		if ( bo != null && !bo.collisionEnabled )
 			return;
 		
+		if ( !collisionEnabled )
+			return;
+		
 		Bounds b = ((BoxCollider)collider).bounds;
 		
 		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * b.extents.x);
