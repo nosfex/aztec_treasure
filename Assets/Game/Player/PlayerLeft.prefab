@@ -491,7 +491,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d2b87720ff943e0bca3113139fbad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 01d77d72d32bb174ab2d042cb1f177df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   worldOwner: {fileID: 0}
@@ -521,6 +521,10 @@ MonoBehaviour:
   downKey: 115
   attackKey: 116
   speed: .0299999993
+  trapCurrency: 20
+  vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
+  trap0: {fileID: 0}
+  maxCurrencyCooldown: .5
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -104,7 +104,7 @@ public class EnemyRanged : BaseObject {
 		//	velocity = direction * speed * attackSpeedFactor;
 			cooldown = attackCooldown;
 		//	gravity.y = attackJumpHeight;
-			Vector3 dartPos = transform.position + direction * 0.2f;
+			Vector3 dartPos = transform.position + direction * 0.42f;
 			dartPos.y += 0.2f;
 			
 			GameObject dart = (GameObject)Instantiate(projectile, dartPos, Quaternion.LookRotation(-direction));

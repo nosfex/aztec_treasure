@@ -109,7 +109,7 @@ public class Player : BaseObject
 	
 	float comboCount;
 	
-	void Update () 
+	virtual protected void Update () 
 	{
 		if ( deathAwaits )
 		{
