@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b857061353843b94a9da2adf3cf256c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapSize: .400000006
+  snapSize: .200000003
   snapEnabled: 1
 --- !u!114 &725628873
 MonoBehaviour:
@@ -544,13 +544,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomSize: 9
   bigRoomsCount: 3
-  hRoomsCount: 6
-  vRoomsCount: 6
+  hRoomsCount: 7
+  vRoomsCount: 7
   createOnAwake: 0
   invisibleWallTile: {fileID: 100000, guid: 00ee3bd30b37e4e15b3b1acdec4dcc28, type: 2}
   wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}
   floorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
   doorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
+  decorations:
+  - {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4, type: 2}
+  - {fileID: 11400090, guid: 5e7f4644dbd66417a8b0b3f074b38621, type: 2}
+  - {fileID: 11400066, guid: a7f358574b6854e7992ea44bb490fd65, type: 2}
+  - {fileID: 11400008, guid: 3e4edcedd9cd2474fba590788fa77d9d, type: 2}
+  - {fileID: 11400000, guid: 7bcb98c9be46e43dfafcec8d4099c546, type: 2}
+  - {fileID: 11400098, guid: 82d908bb96ea54987b4d18556347a99d, type: 2}
 --- !u!1 &847870078
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,6 +705,7 @@ GameObject:
   - 4: {fileID: 897151489}
   - 23: {fileID: 897151491}
   - 102: {fileID: 897151490}
+  - 114: {fileID: 897151492}
   m_Layer: 0
   m_Name: 01-TotalMoney
   m_TagString: Untagged
@@ -755,6 +763,17 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+--- !u!114 &897151492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 897151488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253cb84e0a6274bc786c42106b2dd36d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &967308891
 GameObject:
   m_ObjectHideFlags: 0

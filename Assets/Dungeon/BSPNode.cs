@@ -28,8 +28,10 @@ public class BSPNode
 		
 	}
 	
-	public void createRoom(GameObject wallTile, GameObject floorTile)
+	public void createRoom(DungeonBSP builder)
 	{
+		GameObject wallTile = builder.wallTile;
+		GameObject floorTile = builder.floorTile;
 		
 		room = new Room(initPosX, initPosY, width, height);
 		Vector3 scale = wallTile.transform.localScale;
@@ -45,11 +47,44 @@ public class BSPNode
 				if(j == 0 || j == height -1)
 					wall = true;
 				
+				
+				
 				if ( !wall )
 				{
-					room.tiles[i, j] = (GameObject)(GameObject.Instantiate(wall == false ? floorTile : wallTile));	
-					room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
-					room.tiles[i, j].transform.parent = room.roomHolder.transform;
+					if ( width >= 9 && height >= 9 )
+					{
+						Decoration deco = builder.PeekDecoration();
+						
+						int centeroffsetX = (width  / 2) - (deco.width / 2);
+						int centeroffsetY = (height  / 2) - (deco.height / 2);
+						//Debug.Log (" CX = " + centeroffsetX );
+						//Debug.Log (" CY = " + centeroffsetY );
+						if ( i == centeroffsetX && j == centeroffsetY )
+						{
+							deco = builder.DrawDecoration();
+							
+							GameObject o = (GameObject)Object.Instantiate( deco.gameObject );
+							o.transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
+							o.transform.parent = room.roomHolder.transform;
+							
+							foreach ( BoxCollider bc in o.GetComponentsInChildren<BoxCollider>() )
+							{
+								Transform t = bc.transform;
+								int x = Mathf.RoundToInt(t.localPosition.x / 0.8f);
+								int y = Mathf.RoundToInt(t.localPosition.z / 0.8f);
+								//Debug.Log (" x " + x + " ... y " + y, t );
+								room.tiles[ x + i, y + j ] = t.gameObject;
+							}
+						}
+					}
+					
+					if ( room.tiles[ i, j ] == null ) // Skip decoration if present...
+					{
+						room.tiles[i, j] = (GameObject)(Object.Instantiate(wall == false ? floorTile : wallTile));	
+						room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
+						room.tiles[i, j].transform.parent = room.roomHolder.transform;
+						room.tiles[i, j].name = room.tiles[i, j].name.TrimEnd( "(Clone)" );
+					}
 				}
 				//if(wall)
 				//	room.addWall(room.tiles[i,j]);
@@ -92,8 +127,8 @@ public class BSPNode
 	
 	public void tryToResize(GameObject wallTile, GameObject floorTile)
 	{
-		int maxWidth = DungeonBSP.ROOM_WIDTH / 2; 
-		int maxHeight = DungeonBSP.ROOM_HEIGHT / 2; 
+		int maxWidth = (int)DungeonBSP.WORLD_TILE_WIDTH / 2; 
+		int maxHeight = (int)DungeonBSP.WORLD_TILE_HEIGHT / 2; 
 		
 		if(width >= maxWidth )
 		{

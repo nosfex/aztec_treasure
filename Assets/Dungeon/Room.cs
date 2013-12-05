@@ -219,6 +219,7 @@ public class Room
 		tiles[i, j] = (GameObject)(GameObject.Instantiate(tile));	
 		tiles[i, j].transform.position = new Vector3(_x * 0.8f, scale.y * Room.refCount * 0, _y * 0.8f);
 		tiles[i, j].transform.parent = roomHolder.transform;
+		tiles[i, j].name = tiles[i, j].name.TrimEnd( "(Clone)" );
 	}
 	
 	public void addWall(GameObject wall)

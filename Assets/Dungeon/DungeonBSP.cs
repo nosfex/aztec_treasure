@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int ROOM_WIDTH = 60;
-	public const int ROOM_HEIGHT = 60;
+	public const int WORLD_TILE_WIDTH = 60;
+	public const int WORLD_TILE_HEIGHT = 60;
 	
 	public int minRoomSize = 9;
 
@@ -24,7 +25,10 @@ public class DungeonBSP : MonoBehaviour
 	public BSPNode trunk;
 	public System.Collections.ArrayList r;
 	public System.Collections.ArrayList final;
-
+	
+	public Decoration[] decorations;
+	
+	private List<Decoration> shuffledDecorations;
 	
 	int bailLimit = 20;
 	
@@ -33,6 +37,22 @@ public class DungeonBSP : MonoBehaviour
 		wallPattern = new GameObject[] { null,invisibleWallTile,null,
 						     wallTile,null,wallTile,
 							 wallTile,wallTile,wallTile	};
+		
+		shuffledDecorations = new List<Decoration>();
+		
+		for ( int i = 0; i < decorations.Length; i++ )
+		{
+			shuffledDecorations.Add ( decorations[i] );
+		}
+
+		// shuffle decorations
+		for ( int i = 0; i < shuffledDecorations.Count - 2; i++ )
+		{
+			Decoration swap = shuffledDecorations[ i ];
+			int rand = Random.Range( i + 1, shuffledDecorations.Count - 1 );
+			shuffledDecorations[ i ] = shuffledDecorations[ rand ];
+			shuffledDecorations[ rand ] = swap;
+		}
 		
 		if ( createOnAwake )
 		{
@@ -51,8 +71,8 @@ public class DungeonBSP : MonoBehaviour
 			
 			node.width = Random.Range(10, 15);
 			node.height = Random.Range(6, 8);
-			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
+			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width);
+			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;		
 		
@@ -69,8 +89,8 @@ public class DungeonBSP : MonoBehaviour
 			if ( bailout == 0 ) return null;
 			node.width = Random.Range(6, 8);
 			node.height = Random.Range(10, 15);
-			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
+			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width);
+			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
@@ -86,11 +106,18 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 		
-			int size = Random.Range ( 8, 12 );
-			node.width = Mathf.Max ( 8, size + Random.Range(0, 3) );
-			node.height = Mathf.Max ( 8, size + Random.Range(0, 3) );
-			node.initPosX = Random.Range (0, ROOM_WIDTH-node.width);
-			node.initPosY = Random.Range (0, ROOM_HEIGHT-node.height);
+			int size = Random.Range ( 10, 13 );
+			node.width = Mathf.Max ( 9, size + Random.Range(0, 3) );
+			node.height = Mathf.Max ( 9, size + Random.Range(0, 3) );
+			
+			int marginX1 = (int)((float)WORLD_TILE_WIDTH * 0.2f);
+			int marginX2 = (int)((float)WORLD_TILE_WIDTH * 0.8f);
+
+			int marginY1 = (int)((float)WORLD_TILE_HEIGHT * 0.2f);
+			int marginY2 = (int)((float)WORLD_TILE_HEIGHT * 0.8f);
+			
+			node.initPosX = Random.Range ( marginX1, marginX2 - node.width);
+			node.initPosY = Random.Range ( marginY1, marginY2 - node.height);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
@@ -102,17 +129,19 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void BuildDungeon()
 	{
+		
+		
 		BuildDungeon( transform );
 	}
 	
 	public void BuildDungeon( Transform container )
 	{
 		this.container = container;
-		globalTiles = new GameObject[ROOM_WIDTH, ROOM_HEIGHT];
+		globalTiles = new GameObject[WORLD_TILE_WIDTH, WORLD_TILE_HEIGHT];
 		
-		for(int i = 0; i < ROOM_WIDTH ; i++)
+		for(int i = 0; i < WORLD_TILE_WIDTH ; i++)
 		{
-			for(int j = 0; j < ROOM_HEIGHT; j++)
+			for(int j = 0; j < WORLD_TILE_HEIGHT; j++)
 			{
 				globalTiles[i, j] = null;
 			}
@@ -124,8 +153,8 @@ public class DungeonBSP : MonoBehaviour
 		
 		root = trunk;
 		r = new ArrayList();
-		trunk.width = ROOM_WIDTH;
-		trunk.height = ROOM_HEIGHT;
+		trunk.width = WORLD_TILE_WIDTH;
+		trunk.height = WORLD_TILE_HEIGHT;
 		final = new ArrayList();
 			
 //		r.Add(trunk);
@@ -145,31 +174,27 @@ public class DungeonBSP : MonoBehaviour
 		
 
 		
-		int totalRooms = bigRoomsCount + hRoomsCount + vRoomsCount;
+		int totalRooms = hRoomsCount + vRoomsCount;
 		
 		int[] rooms = new int[ totalRooms ];
 		
 		for ( int i = 0; i < totalRooms; i++ )
 		{
 			int v = -1;
-			if ( bigRoomsCount > 0 )
-			{
-				bigRoomsCount--;
-				v = 0;
-			}
-			else if ( hRoomsCount > 0 )
+
+			if ( hRoomsCount > 0 )
 			{
 				hRoomsCount--;
-				v = 1;
+				v = 0;
 			}
 			else if ( vRoomsCount > 0 )
 			{
 				hRoomsCount--;
-				v = 2;
+				v = 1;
 			}
 			
 			if ( v != -1 )
-			rooms[i] = v;
+				rooms[i] = v;
 		}
 		
 		// shuffle cabeza
@@ -180,6 +205,18 @@ public class DungeonBSP : MonoBehaviour
 			rooms[ i ] = rooms[ rand ];
 			rooms[ rand ] = swap;
 		}
+		
+		
+		for ( int i = 0; i < bigRoomsCount; i++ )
+		{
+			BSPNode node = null;
+
+			node = GenerateBigRoom();
+
+			if ( node != null )
+				final.Add( node );
+		}
+		
 		//Lechon
 		for ( int i = 0; i < totalRooms; i++ )
 		{
@@ -189,10 +226,6 @@ public class DungeonBSP : MonoBehaviour
 			
 			switch ( roomType )
 			{
-				case 0:
-					node = GenerateBigRoom();
-					
-					break;
 				case 1:
 					node = GenerateHRoom();
 					break;
@@ -211,7 +244,7 @@ public class DungeonBSP : MonoBehaviour
 		for(int i = 0; i < final.Count; i++)
 		{
 			BSPNode a = (BSPNode)final[i];
-			a.createRoom(wallTile, floorTile);
+			a.createRoom( this );
 		//	a.createDoors(doorTile);
 			printToGlobalTiles(a);
 		}
@@ -222,6 +255,26 @@ public class DungeonBSP : MonoBehaviour
 		
 	}
 	
+	public Decoration PeekDecoration()
+	{
+		return shuffledDecorations[ shuffledDecorations.Count - 1 ];
+	}
+	
+	public Decoration DrawDecoration()
+	{
+		if ( shuffledDecorations.Count == 0 )
+		{
+			Debug.Log ("WHAT?");
+			return decorations[0];
+		}
+		
+		Decoration result = shuffledDecorations[ shuffledDecorations.Count - 1 ];
+		
+		shuffledDecorations.RemoveAt( shuffledDecorations.Count - 1 );
+		//decorations.Length--;
+		return result;
+	}
+	
 	void printToGlobalTiles(BSPNode data)
 	{
 		for(int i = 0; i < data.width ; i++)
@@ -229,14 +282,14 @@ public class DungeonBSP : MonoBehaviour
 			for(int j = 0; j < data.height ; j++)	
 			{
 				int posX = data.initPosX + i;
-				if(posX >= ROOM_WIDTH)
+				if(posX >= WORLD_TILE_WIDTH)
 				{
 					print("MAX ROOM WIDTH WTF");
 					posX = 99;
 				}
 				
 				int posY = data.initPosY + j;
-				if(posY >= ROOM_HEIGHT)
+				if(posY >= WORLD_TILE_HEIGHT)
 				{
 					print("MAX ROOM HEIGHT WTF");
 					posY = 99;
@@ -268,8 +321,7 @@ public class DungeonBSP : MonoBehaviour
 		}
 	}
 	
-	
-	
+
 	bool doesThisNodeOverlapWithAnotherNodeOrNot( BSPNode itdoesntright )
 	{
 		//BSPNode[] finalNodes = (BSPNode[])final.ToArray ();
@@ -512,17 +564,18 @@ public class DungeonBSP : MonoBehaviour
 				Vector3 scale = new Vector3(0.8f, 0.8f, 0.8f);
 				if((row + j) < 0)
 					continue;
-				if((row + j) > ROOM_HEIGHT - 1)
+				if((row + j) > WORLD_TILE_HEIGHT - 1)
 					continue;
 				
 				if(col + i < 0)
 					continue;
-				if(col + i > ROOM_WIDTH - 1 )
+				if(col + i > WORLD_TILE_WIDTH - 1 )
 					continue;
 				
 				if(globalTiles[col + i, row + j] != null && replace == false)
 				{
-					if(col + i == 0 || col + i == ROOM_WIDTH - 1)
+					// Fix for floors on ends of the map.
+					if(col + i == 0 || col + i == WORLD_TILE_WIDTH - 1)
 					{
 						Destroy(globalTiles[col + i, row + j]);
 						GameObject fix = (GameObject)Instantiate(tile);
@@ -530,12 +583,14 @@ public class DungeonBSP : MonoBehaviour
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
 						fix.transform.parent = container;
+						fix.name = fix.name.TrimEnd( "(Clone)" );
+						
 						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
 					
-					if(row + j == 0 || row + j == ROOM_HEIGHT - 1)
+					if(row + j == 0 || row + j == WORLD_TILE_HEIGHT - 1)
 					{
 						Destroy(globalTiles[col + i, row + j]);
 						GameObject fix = (GameObject)Instantiate(tile);
@@ -543,6 +598,7 @@ public class DungeonBSP : MonoBehaviour
 						fix.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 						fix.transform.position += posOffset;
 						fix.transform.parent = container;
+						fix.name = fix.name.TrimEnd( "(Clone)" );
 						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
@@ -558,6 +614,8 @@ public class DungeonBSP : MonoBehaviour
 					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 					obj.transform.position += posOffset;
 					obj.transform.parent = container;
+					obj.name = obj.name.TrimEnd( "(Clone)" );
+					
 					globalTiles[(col + i), (row + j)] = obj;
 				}
 			}
@@ -577,16 +635,16 @@ public class DungeonBSP : MonoBehaviour
 				
 				if((y + j) < 0)
 					continue;
-				if((y + j) > ROOM_HEIGHT - 1)
+				if((y + j) > WORLD_TILE_HEIGHT - 1)
 					continue;
 				if(x + i < 0)
 					continue;
-				if(x + i > ROOM_WIDTH - 1 )
+				if(x + i > WORLD_TILE_WIDTH - 1 )
 					continue;
 				
 				if(globalTiles[x + i, y + j] != null)
 				{
-					if ( globalTiles[x + i, y + j].name == tile.name + "(Clone)" )
+					if ( globalTiles[x + i, y + j].name == tile.name )
 						count++;
 				}
 			}
@@ -600,12 +658,12 @@ public class DungeonBSP : MonoBehaviour
 
 	void wallFill()
 	{
-		for(int y = 0; y < ROOM_HEIGHT; y++)
+		for(int y = 0; y < WORLD_TILE_HEIGHT; y++)
 		//for(int y = ROOM_HEIGHT - 1; y >= 0; y--)
 		{
-			for(int x = 0; x < ROOM_WIDTH ; x++)
+			for(int x = 0; x < WORLD_TILE_WIDTH ; x++)
 			{
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == floorTile.name + "(Clone)")
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == floorTile.name )
 				{
 					Vector3 pos = new Vector3(0, 1.2f, 0);
 					//generateTileN8(wallPattern, x, y, false, pos);
@@ -625,18 +683,18 @@ public class DungeonBSP : MonoBehaviour
 		}
 
 		
-		for(int y = ROOM_HEIGHT - 3; y >= 0; y--)
+		for(int y = WORLD_TILE_HEIGHT - 3; y >= 0; y--)
 		{
-			for(int x = 0; x < ROOM_WIDTH ; x++)
+			for(int x = 0; x < WORLD_TILE_WIDTH ; x++)
 			{
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name + "(Clone)")
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name )
 				{
-					if(globalTiles[x, y + 1] != null && globalTiles[x, y + 1].name == floorTile.name + "(Clone)")
+					if(globalTiles[x, y + 1] != null && globalTiles[x, y + 1].name == floorTile.name)
 					{
 						globalTiles[x, y].transform.position -= Vector3.up * 1.0f;
 					}
 					else 
-					if(globalTiles[x, y + 2] != null && globalTiles[x, y + 2].name == floorTile.name + "(Clone)")
+					if(globalTiles[x, y + 2] != null && globalTiles[x, y + 2].name == floorTile.name)
 					{
 						globalTiles[x, y].transform.position -= Vector3.up * 0.6f;
 					}
@@ -645,7 +703,7 @@ public class DungeonBSP : MonoBehaviour
 				}
 				
 				
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name + "(Clone)")
+				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name)
 				{
 					int caca = countTilesN8( x, y, wallTile );
 					
@@ -684,10 +742,10 @@ public class DungeonBSP : MonoBehaviour
 		{
 			BSPNode a = (BSPNode)final.ToArray()[i];
 			if(
-				(a.initPosX > ROOM_WIDTH / 2 + cornerMod && a.initPosY > ROOM_HEIGHT / 2 + cornerMod) ||
-				(a.initPosX > ROOM_WIDTH / 2 + cornerMod && a.initPosY < ROOM_HEIGHT / 2 - cornerMod) || 
-				(a.initPosX < ROOM_WIDTH / 2 - cornerMod && a.initPosY > ROOM_HEIGHT / 2 + cornerMod) ||
-				(a.initPosX < ROOM_WIDTH / 2 - cornerMod && a.initPosY < ROOM_HEIGHT / 2 - cornerMod) 
+				(a.initPosX > WORLD_TILE_WIDTH / 2 + cornerMod && a.initPosY > WORLD_TILE_HEIGHT / 2 + cornerMod) ||
+				(a.initPosX > WORLD_TILE_WIDTH / 2 + cornerMod && a.initPosY < WORLD_TILE_HEIGHT / 2 - cornerMod) || 
+				(a.initPosX < WORLD_TILE_WIDTH / 2 - cornerMod && a.initPosY > WORLD_TILE_HEIGHT / 2 + cornerMod) ||
+				(a.initPosX < WORLD_TILE_WIDTH / 2 - cornerMod && a.initPosY < WORLD_TILE_HEIGHT / 2 - cornerMod) 
 				)
 			{
 				cornerRooms.Add(a);
@@ -762,7 +820,7 @@ public class DungeonBSP : MonoBehaviour
 				cut = minRoomSize;	
 			}
 			
-			if(minH + cut >= ROOM_HEIGHT)
+			if(minH + cut >= WORLD_TILE_HEIGHT)
 			{
 				print("OUT OF BOUNDS AT VERTICAL CUT");
 				return false;
@@ -798,7 +856,7 @@ public class DungeonBSP : MonoBehaviour
 				cut = minRoomSize;	
 			}
 			
-			if(minW + cut >= ROOM_WIDTH)
+			if(minW + cut >= WORLD_TILE_WIDTH)
 			{
 				print("OUT OF BOUNDS AT VERTICAL CUT");
 				return false;

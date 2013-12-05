@@ -288,7 +288,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  m_RenderingPath: -1
+  m_RenderingPath: 2
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
 --- !u!23 &2300000
@@ -451,7 +451,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_Strength: 1
     m_Bias: .0500000007
@@ -669,7 +669,7 @@ MonoBehaviour:
   worldOwner: {fileID: 0}
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .660000026
-  airFrictionCoef: .5
+  airFrictionCoef: .400000006
   groundFrictionCoef: .330000013
   bouncyness: .200000003
   velocity: {x: 0, y: 0, z: 0}
