@@ -248,7 +248,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.11381793, z: -.513795853}
+  m_LocalPosition: {x: 0, y: 1.11381793, z: -.319999993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -683,10 +683,10 @@ MonoBehaviour:
   liftSensor: {fileID: 11400018}
   attackSensor: {fileID: 11400006}
   dropGuide: {fileID: 100002}
-  darknessMechanic: 0
+  darknessMechanic: 1
   inDarkness: 0
   hearts: 5
-  torchRatio: 0
+  torchRatio: 100
   leftKey: 276
   rightKey: 275
   upKey: 273

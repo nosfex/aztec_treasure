@@ -21,7 +21,9 @@ public class DungeonBSP : MonoBehaviour
 	public GameObject invisibleWallTile;
 	public GameObject wallTile;
 	public GameObject floorTile;
-	public GameObject doorTile;
+	public GameObject corridorTile;
+	public GameObject torchWallTile;
+	
 	public BSPNode trunk;
 	public System.Collections.ArrayList r;
 	public System.Collections.ArrayList final;
@@ -31,12 +33,39 @@ public class DungeonBSP : MonoBehaviour
 	private List<Decoration> shuffledDecorations;
 	
 	int bailLimit = 20;
+
+	Light[] lights;
+
+	void RefreshLightsArray()
+	{
+		lights = (Light[])FindObjectsOfType( typeof( Light ) );
+	}
+	
+	Light FindPointLightByDistance( Vector3 point, float distance )
+	{
+		foreach ( Light light in lights )
+		{
+			if ( light == null )
+				continue;
+			
+			if ( light.type != LightType.Point )
+				continue;
+			
+			float dist = Vector3.Distance( point, light.transform.position );
+			
+			if ( dist < distance )
+				return light;
+		}
+
+		return null;
+	}
+
 	
 	void Awake()
 	{
-		wallPattern = new GameObject[] { null,invisibleWallTile,null,
-						     wallTile,null,wallTile,
-							 wallTile,wallTile,wallTile	};
+		wallPattern = new GameObject[] { wallTile,wallTile,wallTile,
+						     			 torchWallTile,null,torchWallTile,
+							 			null,torchWallTile,null	};
 		
 		shuffledDecorations = new List<Decoration>();
 		
@@ -170,9 +199,6 @@ public class DungeonBSP : MonoBehaviour
 //		trunk = root;
 //		createRoomsFromRoot(trunk);
 		int bailout;
-		
-		
-
 		
 		int totalRooms = hRoomsCount + vRoomsCount;
 		
@@ -408,8 +434,8 @@ public class DungeonBSP : MonoBehaviour
 					sideA = walker.room.checkSideFree(Room.RIGHT) ? Room.RIGHT : Room.LEFT;
 					sideB = min.room.checkSideFree(Room.LEFT) ? Room.LEFT : Room.RIGHT;
 				}
-				walker.room.createDoorAtSide(sideA,  doorTile);
-				min.room.createDoorAtSide(sideB, doorTile);
+				walker.room.createDoorAtSide(sideA,  floorTile);
+				min.room.createDoorAtSide(sideB, floorTile);
 				
 				
 			}
@@ -429,8 +455,8 @@ public class DungeonBSP : MonoBehaviour
 					sideB = min.room.checkSideFree(Room.BOTTOM) ? Room.BOTTOM : Room.TOP;
 					
 				}
-				walker.room.createDoorAtSide(sideA, doorTile);
-				min.room.createDoorAtSide(sideB, doorTile);
+				walker.room.createDoorAtSide(sideA, floorTile);
+				min.room.createDoorAtSide(sideB, floorTile);
 				
 			}
 			
@@ -481,13 +507,13 @@ public class DungeonBSP : MonoBehaviour
 				if(globalTiles[aX, aY] == null)
 				{
 			
-					generateTileN8(floorTile, aX, aY, true);
+					generateTileN8(corridorTile, aX, aY, true);
 				}
 				
 				else
 				{
 				
-					generateTileN8(floorTile, aX, aY, true);
+					generateTileN8(corridorTile, aX, aY, true);
 					
 				}
 				
@@ -577,6 +603,9 @@ public class DungeonBSP : MonoBehaviour
 					// Fix for floors on ends of the map.
 					if(col + i == 0 || col + i == WORLD_TILE_WIDTH - 1)
 					{
+						if ( tile == torchWallTile )
+							tile = wallTile;
+
 						Destroy(globalTiles[col + i, row + j]);
 						GameObject fix = (GameObject)Instantiate(tile);
 						
@@ -584,7 +613,7 @@ public class DungeonBSP : MonoBehaviour
 						fix.transform.position += posOffset;
 						fix.transform.parent = container;
 						fix.name = fix.name.TrimEnd( "(Clone)" );
-						
+
 						
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
@@ -592,6 +621,9 @@ public class DungeonBSP : MonoBehaviour
 					
 					if(row + j == 0 || row + j == WORLD_TILE_HEIGHT - 1)
 					{
+						if ( tile == torchWallTile )
+							tile = wallTile;
+
 						Destroy(globalTiles[col + i, row + j]);
 						GameObject fix = (GameObject)Instantiate(tile);
 						
@@ -599,7 +631,7 @@ public class DungeonBSP : MonoBehaviour
 						fix.transform.position += posOffset;
 						fix.transform.parent = container;
 						fix.name = fix.name.TrimEnd( "(Clone)" );
-						
+
 						globalTiles[(col + i), (row + j)] = fix;
 						continue;
 					}
@@ -609,6 +641,24 @@ public class DungeonBSP : MonoBehaviour
 				
 				if(globalTiles[col + i, row + j] == null)
 				{
+					Vector3 pos = new Vector3( col * scale.x + posOffset.x, posOffset.y, row * scale.z + posOffset.z);
+
+					if ( tile == torchWallTile )
+					{
+						float lightDistThreshold = 0.8f * 16;
+						
+						if ( globalTiles[col, row].name == floorTile.name )
+							lightDistThreshold = 0.8f * 4;
+						
+						RefreshLightsArray();
+						Light l = FindPointLightByDistance( pos, lightDistThreshold );
+						
+						if ( l != null )
+						{
+							tile = wallTile;
+						}
+					}
+					
 					GameObject obj = (GameObject)Instantiate(tile);
 					
 					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
@@ -616,6 +666,11 @@ public class DungeonBSP : MonoBehaviour
 					obj.transform.parent = container;
 					obj.name = obj.name.TrimEnd( "(Clone)" );
 					
+					if ( tile == torchWallTile )
+					{
+						obj.transform.rotation = Quaternion.LookRotation( obj.transform.position - pos );
+					}
+
 					globalTiles[(col + i), (row + j)] = obj;
 				}
 			}
@@ -658,28 +713,21 @@ public class DungeonBSP : MonoBehaviour
 
 	void wallFill()
 	{
+		RefreshLightsArray();
+		
 		for(int y = 0; y < WORLD_TILE_HEIGHT; y++)
-		//for(int y = ROOM_HEIGHT - 1; y >= 0; y--)
 		{
-			for(int x = 0; x < WORLD_TILE_WIDTH ; x++)
+			for(int x = 0; x < WORLD_TILE_WIDTH; x++)
 			{
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == floorTile.name )
+				if  ( globalTiles[x, y] != null && 
+				    ( globalTiles[x, y].name == floorTile.name
+			       || globalTiles[x, y].name == corridorTile.name ) )
 				{
+					
 					Vector3 pos = new Vector3(0, 1.2f, 0);
-					//generateTileN8(wallPattern, x, y, false, pos);
-					generateTileN8(wallTile, x, y, false, pos);
+					generateTileN8(wallPattern, x, y, false, pos);
 				}
-				
-//				if ( globalTiles[x, y] == null )
-//					continue;
-//				
-//				if ( globalTiles[x, y].name == floorTile.name + "Clone" &&
-//					 globalTiles[x, y+1] == null )
-//				{
-//				}
-				
 			}
-			
 		}
 
 		
@@ -687,14 +735,21 @@ public class DungeonBSP : MonoBehaviour
 		{
 			for(int x = 0; x < WORLD_TILE_WIDTH ; x++)
 			{
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name )
+				if(globalTiles[x, y] != null && 
+					globalTiles[x, y].name == wallTile.name )
 				{
-					if(globalTiles[x, y + 1] != null && globalTiles[x, y + 1].name == floorTile.name)
+					if(globalTiles[x, y + 1] != null 
+						&& 
+						( globalTiles[x, y + 1].name == floorTile.name 
+						|| globalTiles[x, y + 1].name == corridorTile.name ) )
 					{
 						globalTiles[x, y].transform.position -= Vector3.up * 1.0f;
 					}
 					else 
-					if(globalTiles[x, y + 2] != null && globalTiles[x, y + 2].name == floorTile.name)
+					if(globalTiles[x, y + 2] != null && 
+							( globalTiles[x, y + 2].name == floorTile.name
+						|| globalTiles[x, y + 2].name == corridorTile.name ) )
+							
 					{
 						globalTiles[x, y].transform.position -= Vector3.up * 0.6f;
 					}
@@ -703,9 +758,13 @@ public class DungeonBSP : MonoBehaviour
 				}
 				
 				
-				if(globalTiles[x, y] != null && globalTiles[x, y].name == wallTile.name)
+				if(globalTiles[x, y] != null && 
+					( globalTiles[x, y].name == wallTile.name
+					|| globalTiles[x, y].name == corridorTile.name ) )
 				{
 					int caca = countTilesN8( x, y, wallTile );
+					caca += countTilesN8( x, y, corridorTile );
+					
 					
 					if ( caca == 0 )
 					{
