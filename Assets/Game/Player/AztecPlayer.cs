@@ -38,7 +38,12 @@ public class AztecPlayer : Player {
 		{
 			if(trapCurrency > 10)
 			{
-				MonoBehaviour.Instantiate(vines, transform.position, transform.rotation);
+		
+				GameObject vine = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
+				vine.transform.parent =  ((World)GameDirector.i.worldLeft).transform;
+				GameObject vine2 = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
+				vine2.transform.parent = ((World)GameDirector.i.worldRight).transform;
+				vine2.transform.localPosition = transform.localPosition;
 				trapCurrency -= 10;
 				print(trapCurrency.ToString());
 			}
