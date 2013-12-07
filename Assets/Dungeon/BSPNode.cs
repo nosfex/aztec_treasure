@@ -51,7 +51,7 @@ public class BSPNode
 				
 				if ( !wall )
 				{
-					if ( width >= 9 && height >= 9 )
+					if ( width >= 10 && height >= 10 )
 					{
 						Decoration deco = builder.PeekDecoration();
 						

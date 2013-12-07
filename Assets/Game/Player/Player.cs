@@ -45,13 +45,13 @@ public class Player : BaseObject
 			}
 		}
 		
-		float threshold = 1.0f;
+		float threshold = .5f;
 
 		if ( nearestLight != null )
 		{				
 			inDarkness = minLightDistance > nearestLight.range * threshold;
 			
-			if ( minLightDistance < nearestLight.range * 0.75f )
+			if ( minLightDistance < nearestLight.range * 0.33f )
 			{
 				torchRatio = 100f;
 			}

@@ -137,7 +137,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .100000001, y: .205305099, z: .592089653}
+  m_Size: {x: .100000001, y: .205305099, z: .439999998}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &10800000
 Light:
@@ -212,8 +212,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec784ac98d1285749868df0631e0d206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .0500000007
-  lifeSpan: 1
+  worldOwner: {fileID: 0}
+  accel: {x: 0, y: 0, z: 0}
+  frictionCoef: .970000029
+  airFrictionCoef: 1
+  groundFrictionCoef: .660000026
+  bouncyness: .899999976
+  velocity: {x: 0, y: 0, z: 0}
+  gravityEnabled: 0
+  isLiftable: 0
+  gravity: {x: 0, y: 0, z: 0}
+  collisionEnabled: 0
+  respawns: 0
+  currentFloor: {fileID: 0}
+  speed: .0399999991
+  lifeSpan: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

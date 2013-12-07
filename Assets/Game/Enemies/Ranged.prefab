@@ -330,7 +330,7 @@ MonoBehaviour:
   speed: .00999999978
   attackJumpHeight: -.0450000018
   attackSpeedFactor: 2
-  attackCooldown: 1.5
+  attackCooldown: 3
   cooldown: 0
   stateValue: 0
 --- !u!114 &11400002

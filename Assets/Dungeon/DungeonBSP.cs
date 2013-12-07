@@ -135,9 +135,9 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 		
-			int size = Random.Range ( 10, 13 );
-			node.width = Mathf.Max ( 9, size + Random.Range(0, 3) );
-			node.height = Mathf.Max ( 9, size + Random.Range(0, 3) );
+			int size = Random.Range ( 11, 14 );
+			node.width = Mathf.Max ( 10, size + Random.Range(0, 3) );
+			node.height = Mathf.Max ( 10, size + Random.Range(0, 3) );
 			
 			int marginX1 = (int)((float)WORLD_TILE_WIDTH * 0.2f);
 			int marginX2 = (int)((float)WORLD_TILE_WIDTH * 0.8f);
@@ -645,7 +645,7 @@ public class DungeonBSP : MonoBehaviour
 
 					if ( tile == torchWallTile )
 					{
-						float lightDistThreshold = 0.8f * 16;
+						float lightDistThreshold = 0.8f * 12;
 						
 						if ( globalTiles[col, row].name == floorTile.name )
 							lightDistThreshold = 0.8f * 4;
