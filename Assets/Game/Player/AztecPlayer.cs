@@ -30,13 +30,13 @@ public class AztecPlayer : Player {
 		{
 			currencyCooldown = 0.0f;
 			
-			trapCurrency ++;
+			trapCurrency += 10;
 		}
 		currencyCooldown += Time.deltaTime;
 		
 		if(Input.GetKeyDown(trapA))
 		{
-			if(trapCurrency > 10)
+			if(trapCurrency > 100)
 			{
 		
 				GameObject vine = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
@@ -49,10 +49,5 @@ public class AztecPlayer : Player {
 			}
 		}
 	}
-	
-	void OnGui()
-	{
-		
-		GUI.Box(new Rect(10, 10, 200, 200) , "trap money: " + trapCurrency.ToString());
-	}
+
 }
