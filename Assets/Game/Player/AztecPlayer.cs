@@ -50,4 +50,9 @@ public class AztecPlayer : Player {
 		}
 	}
 
+	
+	override protected void OnPressSwitch( GameObject switchPressed )
+	{
+		switchPressed.SendMessage ("OnPressedPast", gameObject, SendMessageOptions.DontRequireReceiver);		
+	}	
 }

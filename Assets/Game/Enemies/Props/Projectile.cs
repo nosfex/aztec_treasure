@@ -21,7 +21,7 @@ public class Projectile : BaseObject
 	
 	void OnHit( GameObject other )
 	{
-		print("projectile vs " + other.ToString() );
+		//print("projectile vs " + other.ToString() );
 		Destroy ( gameObject );
 	}
 	
@@ -32,25 +32,25 @@ public class Projectile : BaseObject
 		
 		if ( other.gameObject == transform.parent.gameObject )
 		{
-			print("Projectile vs Parent");
+			//print("Projectile vs Parent");
 			return;
 		}
 		
 		if ( other.GetComponent<EnemyRanged>() != null )
 		{
-			print("Projectile vs enemyRanged");
+			//print("Projectile vs enemyRanged");
 			return;
 		}
 		
 		if ( other.tag.Contains( "Destructable" ) )
 		{	
 			life--;
-			print ( "life = " + life );
+			//print ( "life = " + life );
 		}
 		else if ( other.tag.Contains("Wall") )
 		{
 			life = 0;
-			print ( "Projectile vs Wall = " + life );
+			//print ( "Projectile vs Wall = " + life );
 		}
 		
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );

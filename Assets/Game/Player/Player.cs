@@ -305,6 +305,16 @@ public class Player : BaseObject
 			}
 		}
 		
+		if ( Input.GetKey ( attackKey ) )
+		{
+			if ( liftedObject == null ) // Trata de levantar un objeto...
+			{
+				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isSwitch )
+				{
+					OnPressSwitch( liftSensor.sensedObject.gameObject );
+				}
+			}
+		}
 		
 		if ( Input.GetKeyDown( attackKey )  )
 		{
@@ -431,6 +441,11 @@ public class Player : BaseObject
 		
 		if ( hearts == 0 )
 			Die();
+	}
+	
+	virtual protected void OnPressSwitch( GameObject switchPressed )
+	{
+		switchPressed.SendMessage ("OnPressedFuture", gameObject, SendMessageOptions.DontRequireReceiver);		
 	}
 	
 	override protected void TestFloor( Collider other )
