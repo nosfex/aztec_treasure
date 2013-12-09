@@ -640,6 +640,7 @@ MonoBehaviour:
   worldLeft: {fileID: 0}
   worldRight: {fileID: 0}
   maxHearts: 3
+  textPopupPrefab: {fileID: 100002, guid: 514f88be3a55c4b4bb78762bdd4cc486, type: 2}
   dungeonGenerator: {fileID: 793500934}
   spawnPrefabsList:
   - {fileID: 100002, guid: 8ced3119f23622f46a047f8699cc540d, type: 2}
@@ -791,14 +792,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomSize: 9
   bigRoomsCount: 3
-  hRoomsCount: 7
-  vRoomsCount: 7
+  altarRoomsCount: 4
+  hRoomsCount: 5
+  vRoomsCount: 5
   createOnAwake: 0
   invisibleWallTile: {fileID: 100000, guid: 00ee3bd30b37e4e15b3b1acdec4dcc28, type: 2}
   wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}
   floorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
   corridorTile: {fileID: 100000, guid: 329804498ccd2427986e09a32cefa465, type: 2}
   torchWallTile: {fileID: 100002, guid: d1ab4f9b21cf14dfdaf2bdf0564df978, type: 2}
+  altarPrefab: {fileID: 100000, guid: e1e16e2569ac566499ed15eb69dea1cf, type: 2}
   decorations:
   - {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4, type: 2}
   - {fileID: 11400090, guid: 5e7f4644dbd66417a8b0b3f074b38621, type: 2}
@@ -1880,6 +1883,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
+  isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0

@@ -16,6 +16,7 @@ public class BSPNode
 	
 	public Room room;
 	
+	public bool isAltar = false;
 
 	public static int instanceCount =0 ;
 	
@@ -51,6 +52,14 @@ public class BSPNode
 				
 				if ( !wall )
 				{
+					if ( isAltar && i == 3 && j == 3 )
+					{
+						GameObject o = (GameObject)Object.Instantiate( builder.altarPrefab );
+						o.transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) + 0.8f, tileY * scale.z);
+						o.transform.parent = room.roomHolder.transform;
+						//room.tiles[ i, j ] = o;
+					}
+					else
 					if ( width >= 10 && height >= 10 )
 					{
 						Decoration deco = builder.PeekDecoration();
