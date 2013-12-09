@@ -30,8 +30,11 @@ public class World : MonoBehaviour
 			
 			
 			GameObject obj = (GameObject)(transform.GetChild(i)).gameObject;
-			if(obj.transform.position.x == tilePos.x && obj.transform.position.z == tilePos.y)
+			Vector3 pos = obj.transform.position;
+			Rect r = new Rect(pos.x, pos.z, 0.8f, 0.8f);
+			if(r.Contains(tilePos))
 			{
+			
 				print("FOUND OBJECT");
 				return obj;
 			}
