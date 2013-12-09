@@ -7,7 +7,7 @@ public class AztecPlayer : Player {
 	public int trapCurrency = 20;
 	
 	public GameObject vines;
-	public GameObject trap0;
+	public GameObject fFloor;
 	
 	
 	public float maxCurrencyCooldown = 1.0f;
@@ -36,7 +36,7 @@ public class AztecPlayer : Player {
 		
 		if(Input.GetKeyDown(trapA))
 		{
-			if(trapCurrency > 100)
+			if(trapCurrency > 10)
 			{
 		
 				GameObject vine = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
@@ -48,6 +48,31 @@ public class AztecPlayer : Player {
 				print(trapCurrency.ToString());
 			}
 		}
+		
+		if(Input.GetKeyDown(trapB))
+		{
+			if(trapCurrency > 30)
+			{
+				
+				Vector2 tilePos = new  Vector2(transform.position.x+ 0.4f, transform.position.z+ 0.4f);
+				
+				GameObject obj = (GameObject)DungeonBSP.getClosestObjToPoint(tilePos);
+				if(obj == null) 
+					return;	
+				trapCurrency -= 30;
+				Transform t = obj.transform;
+				
+				
+				MonoBehaviour.Destroy(obj);
+			
+				obj = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
+				
+				obj.transform.parent = GameDirector.i.worldRight.transform;
+				
+					
+			}
+		}
 	}
 
 }
+

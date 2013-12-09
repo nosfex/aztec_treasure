@@ -523,7 +523,7 @@ MonoBehaviour:
   speed: .0299999993
   trapCurrency: 20
   vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
-  trap0: {fileID: 0}
+  fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
   maxCurrencyCooldown: .5
 --- !u!114 &11400004
 MonoBehaviour:

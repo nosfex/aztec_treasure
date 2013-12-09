@@ -21,4 +21,22 @@ public class World : MonoBehaviour
 		
 		player.transform.parent = transform;
 	}
+	
+	public GameObject getObjAtTilePos(Vector2 tilePos)
+	{
+		
+		for(int i =0 ; i < transform.childCount ; i++)
+		{
+			
+			
+			GameObject obj = (GameObject)(transform.GetChild(i)).gameObject;
+			if(obj.transform.position.x == tilePos.x && obj.transform.position.z == tilePos.y)
+			{
+				print("FOUND OBJECT");
+				return obj;
+			}
+		}
+		
+		return null;
+	}
 }

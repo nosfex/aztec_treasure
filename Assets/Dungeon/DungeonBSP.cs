@@ -17,7 +17,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public static ArrayList doors = new ArrayList();
 
-	public GameObject[,] globalTiles;
+	public static GameObject[,] globalTiles;
 	public GameObject invisibleWallTile;
 	public GameObject wallTile;
 	public GameObject floorTile;
@@ -162,6 +162,33 @@ public class DungeonBSP : MonoBehaviour
 		
 		BuildDungeon( transform );
 	}
+	
+	static public GameObject getClosestObjToPoint(Vector2 point)
+	{
+		
+		for(int i = 0 ; i < WORLD_TILE_WIDTH; i++)
+		{
+			for(int j = 0; j < WORLD_TILE_HEIGHT; j++)
+			{
+				
+				GameObject tile = (GameObject)(globalTiles[i,j]);
+				if(tile == null)
+					continue;
+				Vector2 tilePos = new Vector2(tile.transform.position.x, tile.transform.position.z);
+				Rect r = new Rect(tilePos.x, tilePos.y, 0.8f, 0.8f);
+				if(r.Contains(point))
+				{
+					return tile;
+					
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	
+
 	
 	public void BuildDungeon( Transform container )
 	{
