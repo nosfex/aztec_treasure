@@ -38,6 +38,7 @@ public class Room
 		//cutRoom();
 		wallList = new ArrayList();
 		doors = new ArrayList();
+		
 	}
 	
 	public void deleteRoom()

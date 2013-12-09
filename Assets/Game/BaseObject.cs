@@ -19,6 +19,7 @@ public class BaseObject : MonoBehaviour
 	public bool gravityEnabled = true;
 	
 	public bool isLiftable = true;
+	public bool isSwitch = false;
 	
 	[HideInInspector] public Vector3 gravity = Vector3.zero;
 	
@@ -103,7 +104,7 @@ public class BaseObject : MonoBehaviour
 	float floorY = 0;
 	protected bool sleepPhysics = false;
 	
-	protected void LateUpdate()
+	protected virtual void LateUpdate()
 	{
 		if ( sleepPhysics )
 			return;

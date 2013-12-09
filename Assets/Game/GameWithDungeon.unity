@@ -19,7 +19,7 @@ RenderSettings:
   m_FogDensity: .00999999978
   m_LinearFogStart: 16
   m_LinearFogEnd: 19
-  m_AmbientLight: {r: .102823213, g: .0654671267, b: .168627456, a: 1}
+  m_AmbientLight: {r: .0358685628, g: .0228373688, b: .0588235296, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -419,7 +419,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 565323234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.92379284, y: -18.1517925, z: 2.24899316}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1196255468}
@@ -640,6 +640,7 @@ MonoBehaviour:
   worldLeft: {fileID: 0}
   worldRight: {fileID: 0}
   maxHearts: 3
+  textPopupPrefab: {fileID: 100002, guid: 514f88be3a55c4b4bb78762bdd4cc486, type: 2}
   dungeonGenerator: {fileID: 793500934}
   spawnPrefabsList:
   - {fileID: 100002, guid: 8ced3119f23622f46a047f8699cc540d, type: 2}
@@ -774,7 +775,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 793500932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.3164024, y: -8.61511612, z: 14.5167933}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -791,14 +792,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomSize: 9
   bigRoomsCount: 3
-  hRoomsCount: 7
-  vRoomsCount: 7
+  altarRoomsCount: 4
+  hRoomsCount: 4
+  vRoomsCount: 4
   createOnAwake: 0
   invisibleWallTile: {fileID: 100000, guid: 00ee3bd30b37e4e15b3b1acdec4dcc28, type: 2}
   wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}
   floorTile: {fileID: 100000, guid: 441b20e744f1944c4817d99d5cfc08d9, type: 2}
   corridorTile: {fileID: 100000, guid: 329804498ccd2427986e09a32cefa465, type: 2}
   torchWallTile: {fileID: 100002, guid: d1ab4f9b21cf14dfdaf2bdf0564df978, type: 2}
+  altarPrefab: {fileID: 100000, guid: e1e16e2569ac566499ed15eb69dea1cf, type: 2}
   decorations:
   - {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4, type: 2}
   - {fileID: 11400090, guid: 5e7f4644dbd66417a8b0b3f074b38621, type: 2}
@@ -1299,7 +1302,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1196255467}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.92379284, y: 16.1517925, z: -5.04899311}
+  m_LocalPosition: {x: 0, y: -5, z: -30}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 565323235}
@@ -1716,7 +1719,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1502081121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.72379303, y: 19.3517933, z: -5.04899311}
+  m_LocalPosition: {x: 6.80000019, y: 19.3999996, z: -5}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 565323235}
@@ -1880,6 +1883,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
+  isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0

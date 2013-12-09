@@ -22,9 +22,18 @@ public class GameDirector : MonoBehaviour {
 	
 	public int maxHearts;
 	
+	public GameObject textPopupPrefab;
+	
 	public DungeonBSP dungeonGenerator;
 	
 	public GameObject[] spawnPrefabsList;
+	
+	public void ShowTextPopup( GameObject source, float yOffset, string text )
+	{
+		GameObject prefab = (GameObject)(GameObject.Instantiate ( textPopupPrefab, source.transform.position + (Vector3.up * yOffset), Quaternion.identity ));
+		TextPopup popup = prefab.GetComponentInChildren<TextPopup>();
+		popup.caption = text;
+	}
 	
 	static void SetLayerRecursively(GameObject obj, int newLayer)
     {
