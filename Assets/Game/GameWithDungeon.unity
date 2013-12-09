@@ -793,8 +793,8 @@ MonoBehaviour:
   minRoomSize: 9
   bigRoomsCount: 3
   altarRoomsCount: 4
-  hRoomsCount: 4
-  vRoomsCount: 4
+  hRoomsCount: 5
+  vRoomsCount: 5
   createOnAwake: 0
   invisibleWallTile: {fileID: 100000, guid: 00ee3bd30b37e4e15b3b1acdec4dcc28, type: 2}
   wallTile: {fileID: 100000, guid: d027c80ed5b5040fead5f737e369fb12, type: 2}

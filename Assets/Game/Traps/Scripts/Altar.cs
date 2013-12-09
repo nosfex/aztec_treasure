@@ -59,8 +59,7 @@ public class Altar : BaseObject
 	
 	void OnPressedPast( GameObject gameObject )
 	{
-		
-		Debug.Log ("Pressing..." + activated );
+		//Debug.Log ("Pressing..." + activated );
 		if ( activated < timeToActivate )
 		{
 

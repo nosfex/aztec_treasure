@@ -32,7 +32,7 @@ public class Room
 		
 		x = _x;
 		y = _y;
-		roomHolder = new GameObject("roomInst"+refCount.ToString() );
+		//roomHolder = new GameObject("roomInst"+refCount.ToString() );
 		tiles = new GameObject[w, h];
 		//Start();
 		//cutRoom();
@@ -52,8 +52,8 @@ public class Room
 			}	
 		}
 	
-		MonoBehaviour.Destroy(roomHolder);
-		roomHolder = null;
+		//MonoBehaviour.Destroy(roomHolder);
+		//roomHolder = null;
 	}
 	
 	

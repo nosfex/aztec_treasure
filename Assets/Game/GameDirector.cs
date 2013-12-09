@@ -88,8 +88,12 @@ public class GameDirector : MonoBehaviour {
 		
 		// CREATE FUTURE.
 		GameObject go = (GameObject)Instantiate( worldContainer.gameObject, 
-			worldContainer.transform.position + (Vector3.right * (0.2f * 500f)), 
+			worldContainer.transform.position, 
 			Quaternion.identity );
+		
+		
+		
+		go.transform.position += (Vector3.right * (0.2f * 500f));
 		
 		RemoveObjectsByLayerRecursively( go, LayerMask.NameToLayer("Past") );
 		SetLayerRecursively( go, LayerMask.NameToLayer( "Future" ) );
@@ -118,7 +122,8 @@ public class GameDirector : MonoBehaviour {
 		worldRight = world2;
 		worldLeft = worldContainer;
 		
-			
+		worldRight.InitTiles();
+		worldLeft.InitTiles();
 		//SnapAssistant.i.snapEnabled = true;
 	}
 	

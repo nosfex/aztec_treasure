@@ -26,6 +26,11 @@ public class AztecPlayer : Player {
 	{
 		base.Update();
 		
+//		print ( "ajsdas " + transform.localPosition );
+		//if ( wha != null )
+		//	UnityEditor.Selection.activeGameObject = wha;//Destroy ( wha );
+			//wha.transform.position += Vector3.up * 0.01f;
+		
 		if(currencyCooldown >= maxCurrencyCooldown)
 		{
 			currencyCooldown = 0.0f;
@@ -54,20 +59,31 @@ public class AztecPlayer : Player {
 			if(trapCurrency > 30)
 			{
 				
-				Vector2 tilePos = new  Vector2(transform.position.x+ 0.4f, transform.position.z+ 0.4f);
+				//Vector2 tilePos = new  Vector2(transform.position.x+ 0.4f, transform.position.z+ 0.4f);
 				
-				GameObject obj = (GameObject)DungeonBSP.getClosestObjToPoint(tilePos);
-				if(obj == null) 
-					return;	
+				//GameObject obj = (GameObject)GameDirector.i.dungeonGenerator.getClosestObjToPoint(tilePos);
+				GameObject obj = GameDirector.i.worldLeft.objFromPos( transform.localPosition );
+
+				if(obj == null) return;	
+				
 				trapCurrency -= 30;
+				
 				Transform t = obj.transform;
-				
-				
-				MonoBehaviour.Destroy(obj);
-			
+								
+				Destroy(obj);
 				obj = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
+				obj.transform.parent = GameDirector.i.worldLeft.transform;
+
 				
-				obj.transform.parent = GameDirector.i.worldRight.transform;
+				GameObject obj2 = GameDirector.i.worldRight.objFromPos( transform.localPosition );
+
+				if(obj2 == null) return;	
+				
+				t = obj2.transform;
+								
+				Destroy(obj2);
+				obj2 = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
+				obj2.transform.parent = GameDirector.i.worldRight.transform;
 				
 					
 			}

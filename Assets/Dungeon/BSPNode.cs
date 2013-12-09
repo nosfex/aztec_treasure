@@ -18,7 +18,7 @@ public class BSPNode
 	
 	public bool isAltar = false;
 
-	public static int instanceCount =0 ;
+	public static int instanceCount = 0;
 	
 	
 	public BSPNode(int w)	
@@ -35,6 +35,7 @@ public class BSPNode
 		GameObject floorTile = builder.floorTile;
 		
 		room = new Room(initPosX, initPosY, width, height);
+		room.roomHolder = builder.gameObject;
 		Vector3 scale = wallTile.transform.localScale;
 		for(int i = 0; i < width; i++)
 		{
