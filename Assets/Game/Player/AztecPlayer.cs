@@ -19,8 +19,11 @@ public class AztecPlayer : Player {
 	}
 	
 	
-	KeyCode trapA = KeyCode.F1;
-	KeyCode trapB = KeyCode.F2;
+	KeyCode placeTrap = KeyCode.R;
+	KeyCode cycleLeft = KeyCode.Q;
+	KeyCode cycleRight = KeyCode.E;
+	
+	int currentTrap = 0;
 	// Update is called once per frame
 	override protected void Update ()  
 	{
@@ -39,53 +42,66 @@ public class AztecPlayer : Player {
 		}
 		currencyCooldown += Time.deltaTime;
 		
-		if(Input.GetKeyDown(trapA))
-		{
-			if(trapCurrency > 10)
-			{
 		
-				GameObject vine = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
-				vine.transform.parent =  ((World)GameDirector.i.worldLeft).transform;
-				GameObject vine2 = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
-				vine2.transform.parent = ((World)GameDirector.i.worldRight).transform;
-				vine2.transform.localPosition = transform.localPosition;
-				trapCurrency -= 10;
-				print(trapCurrency.ToString());
+		if(Input.GetKeyDown(cycleLeft))
+		{
+			currentTrap--;
+			if(currentTrap < -1)
+			{
+				currentTrap = -1;
+				
 			}
 		}
-		
-		if(Input.GetKeyDown(trapB))
+		if(Input.GetKeyDown(cycleRight))
 		{
-			if(trapCurrency > 30)
+			currentTrap++;
+			if(currentTrap > 1)
 			{
-				
-				//Vector2 tilePos = new  Vector2(transform.position.x+ 0.4f, transform.position.z+ 0.4f);
-				
-				//GameObject obj = (GameObject)GameDirector.i.dungeonGenerator.getClosestObjToPoint(tilePos);
-				GameObject obj = GameDirector.i.worldLeft.objFromPos( transform.localPosition );
-
-				if(obj == null) return;	
-				
-				trapCurrency -= 30;
-				
-				Transform t = obj.transform;
-								
-				Destroy(obj);
-				obj = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
-				obj.transform.parent = GameDirector.i.worldLeft.transform;
-
-				
-				GameObject obj2 = GameDirector.i.worldRight.objFromPos( transform.localPosition );
-
-				if(obj2 == null) return;	
-				
-				t = obj2.transform;
-								
-				Destroy(obj2);
-				obj2 = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
-				obj2.transform.parent = GameDirector.i.worldRight.transform;
-				
+				currentTrap = 1;
+			}
+			
+		}
+		
+		if(Input.GetKeyDown(placeTrap))
+		{
+			if(currentTrap == -1)
+			{
+				if(trapCurrency > 10)
+				{
+			
+					GameObject vine = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
+					vine.transform.parent =  ((World)GameDirector.i.worldLeft).transform;
+					GameObject vine2 = (GameObject)MonoBehaviour.Instantiate(vines, transform.position + Vector3.up, transform.rotation);
+					vine2.transform.parent = ((World)GameDirector.i.worldRight).transform;
+					vine2.transform.localPosition = transform.localPosition;
+					trapCurrency -= 10;
+					print(trapCurrency.ToString());
+				}
+			}
+			
+			if(currentTrap == 0)
+			{
+				if(trapCurrency > 30)
+				{
+					GameObject obj2 = GameDirector.i.worldRight.objFromPos( transform.localPosition );
+					if(obj2 == null) return;	
 					
+					Transform t = obj2.transform;
+									
+					Destroy(obj2);
+					obj2 = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
+					obj2.transform.parent = GameDirector.i.worldRight.transform;
+					
+						
+				}
+			}
+			
+			if(currentTrap == 1)
+			{
+				if(trapCurrency > 20)
+				{
+					
+				}
 			}
 		}
 	}
