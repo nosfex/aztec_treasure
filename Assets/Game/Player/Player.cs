@@ -109,6 +109,79 @@ public class Player : BaseObject
 	
 	float comboCount;
 	
+	float dx = 0, dy = 0;
+	bool walkAnimFacingUp = false;
+	bool walkAnimFlipped = false;
+
+	void UpdateAnims3FacesMode()
+	{
+		if ( !animator.isAnimPlaying("Attack") )
+		{
+			if ( dx != 0 || dy != 0 )
+			{
+				animator.PlayAnim("Walk" + facing );
+			}
+			else 
+			{
+				animator.PlayAnim("Idle" + facing );
+			}
+		}
+	}
+	
+	void UpdateAnims2FacesMode()
+	{
+		if ( facing == "Up" )
+			walkAnimFacingUp = true;
+		else if ( facing == "Down" )
+			walkAnimFacingUp = false;
+
+		if ( facing == "Left" )
+		{
+			walkAnimFacingUp = false;
+			walkAnimFlipped = false;
+		}
+		else if ( facing == "Right" )
+		{
+			walkAnimFacingUp = false;
+			walkAnimFlipped = true;
+		}
+		
+		string anim = "Idle";
+		
+		if ( !animator.isAnimPlaying("Attack") )
+		{
+			if ( dx != 0 || dy != 0 )
+				anim = "Walk";
+			else
+				anim = "Idle";
+			
+			if ( walkAnimFacingUp )
+			{
+				if ( facing == "Left" )
+					animator.PlayAnim( anim + "Left" );
+				else 
+				{
+					if ( walkAnimFlipped )
+						animator.PlayAnim( anim + "Up" );
+					else 
+						animator.PlayAnim( anim + "Left" );
+				}
+			}
+			else 
+			{
+				if ( facing == "Right" )
+					animator.PlayAnim( anim + "Right" );
+				else 
+				{
+					if ( walkAnimFlipped )
+						animator.PlayAnim( anim + "Right" );
+					else 
+						animator.PlayAnim( anim + "Down" );
+				}
+			}			
+		}
+	}	
+	
 	virtual protected void Update () 
 	{
 		if ( deathAwaits )
@@ -126,7 +199,7 @@ public class Player : BaseObject
 		}
 		
 		
-		float dx = 0, dy = 0;
+		dx = 0; dy = 0;
 		
 		if ( !animator.isAnimPlaying("Attack") )// && currentFloor != null ) 
 		{
@@ -278,20 +351,10 @@ public class Player : BaseObject
 			facing = "Down";
 			direction = Vector3.back;
 		}
+		
+		UpdateAnims2FacesMode();
 
 		helperPivot.rotation = Quaternion.LookRotation( direction );
-		
-		if ( !animator.isAnimPlaying("Attack") )
-		{
-			if ( dx != 0 || dy != 0 )
-			{
-				animator.PlayAnim("Walk" + facing );
-			}
-			else 
-			{
-				animator.PlayAnim("Idle" + facing );
-			}
-		}
 		
 		if ( dropGuide && dropGuide.activeSelf  )
 		{

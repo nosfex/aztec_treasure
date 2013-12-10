@@ -82,7 +82,7 @@ public class SpriteAnimator : MonoBehaviour
 				currentAnimation = anim;
 				headState = PlayHeadState.PLAY;
 				
-				int frameCount = anim.endFrame - anim.startFrame;
+				int frameCount = anim.endFrame - anim.startFrame + 1;
 				
 				switch ( anim.playMode )
 				{
