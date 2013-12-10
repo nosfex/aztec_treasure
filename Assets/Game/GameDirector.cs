@@ -122,8 +122,11 @@ public class GameDirector : MonoBehaviour {
 		worldRight = world2;
 		worldLeft = worldContainer;
 		
-		worldRight.InitTiles();
-		worldLeft.InitTiles();
+		if ( dungeonGenerator )
+		{
+			worldRight.InitTiles();
+			worldLeft.InitTiles();
+		}
 		//SnapAssistant.i.snapEnabled = true;
 	}
 	
