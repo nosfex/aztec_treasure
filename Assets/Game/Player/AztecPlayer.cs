@@ -11,6 +11,7 @@ public class AztecPlayer : Player {
 	
 	
 	public float maxCurrencyCooldown = 1.0f;
+	int MaxTraps = 3;
 	float currencyCooldown = 0.0f;
 	// Use this for initialization
 	override protected void Start () 
@@ -48,7 +49,7 @@ public class AztecPlayer : Player {
 			currentTrap--;
 			if(currentTrap < -1)
 			{
-				currentTrap = -1;
+				currentTrap = 1;
 				
 			}
 		}
@@ -57,7 +58,7 @@ public class AztecPlayer : Player {
 			currentTrap++;
 			if(currentTrap > 1)
 			{
-				currentTrap = 1;
+				currentTrap = -1;
 			}
 			
 		}
@@ -111,5 +112,7 @@ public class AztecPlayer : Player {
 	{
 		switchPressed.SendMessage ("OnPressedPast", gameObject, SendMessageOptions.DontRequireReceiver);		
 	}	
+	
+	public int maxTraps() { return MaxTraps;}
 }
 
