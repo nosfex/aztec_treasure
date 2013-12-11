@@ -275,10 +275,10 @@ Camera:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: .519999981
-    y: .0199999996
-    width: .469999999
-    height: .949999988
+    x: .5
+    y: 0
+    width: .5
+    height: 1
   near clip plane: .5
   far clip plane: 30
   field of view: 22.5
@@ -447,7 +447,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: .852332652, b: .588235259, a: 1}
   m_Intensity: .5
-  m_Range: 3
+  m_Range: 8
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -502,32 +502,32 @@ MonoBehaviour:
   startingAnimationName: IdleDown
   animations:
   - name: WalkDown
-    playMode: 1
-    startFrame: 1
+    playMode: 4
+    startFrame: 0
     endFrame: 2
-    frameRate: 4
-    customFrameSequence: 
+    frameRate: 6
+    customFrameSequence: 01000000000000000200000000000000ffffffff
     horizontalFlip: 0
   - name: WalkUp
-    playMode: 1
-    startFrame: 4
+    playMode: 4
+    startFrame: 3
     endFrame: 5
-    frameRate: 4
-    customFrameSequence: 
+    frameRate: 6
+    customFrameSequence: 04000000030000000500000003000000ffffffff
     horizontalFlip: 0
   - name: WalkRight
-    playMode: 1
-    startFrame: 1
+    playMode: 4
+    startFrame: 0
     endFrame: 2
-    frameRate: 4
-    customFrameSequence: 
+    frameRate: 6
+    customFrameSequence: 01000000000000000200000000000000ffffffff
     horizontalFlip: 1
   - name: WalkLeft
-    playMode: 1
-    startFrame: 4
+    playMode: 4
+    startFrame: 3
     endFrame: 5
-    frameRate: 4
-    customFrameSequence: 
+    frameRate: 6
+    customFrameSequence: 04000000030000000500000003000000ffffffff
     horizontalFlip: 1
   - name: AttackDown
     playMode: 0

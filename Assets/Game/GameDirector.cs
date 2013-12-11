@@ -75,6 +75,8 @@ public class GameDirector : MonoBehaviour {
 	{
 		instance = this;
 	}
+	
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -83,7 +85,7 @@ public class GameDirector : MonoBehaviour {
 		if ( dungeonGenerator != null )
 		{
 			dungeonGenerator.BuildDungeon( worldContainer.transform );
-			worldContainer.startingPoint.position = dungeonGenerator.initialRoom.getCenterTile().transform.position + (Vector3.up * 2);
+			worldContainer.startingPoint.position = dungeonGenerator.startRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
 		}
 		
 		// CREATE FUTURE.
@@ -91,7 +93,10 @@ public class GameDirector : MonoBehaviour {
 			worldContainer.transform.position, 
 			Quaternion.identity );
 		
-		
+		World world2 = go.GetComponent<World>();
+
+		world2.startingPoint.position = dungeonGenerator.endRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
+
 		
 		go.transform.position += (Vector3.right * (0.2f * 500f));
 		
@@ -101,7 +106,6 @@ public class GameDirector : MonoBehaviour {
 		RemoveObjectsByLayerRecursively( worldContainer.gameObject, LayerMask.NameToLayer("Future") );
 		SetLayerRecursively( worldContainer.gameObject, LayerMask.NameToLayer( "Past" ) );		
 		
-		World world2 = go.GetComponent<World>();
 		
 		// Create past player
 		GameObject gol = (GameObject)Instantiate( playerLeftPrefab );
@@ -118,6 +122,7 @@ public class GameDirector : MonoBehaviour {
 		world2.playerContainer = gor.transform;
 		world2.player = playerRight;
 		world2.InitPlayer();
+		
 		
 		worldRight = world2;
 		worldLeft = worldContainer;

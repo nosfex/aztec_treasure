@@ -130,19 +130,21 @@ public class Player : BaseObject
 	
 	void UpdateAnims2FacesMode()
 	{
-		if ( facing == "Up" )
+		if ( dy > 0 )
 			walkAnimFacingUp = true;
-		else if ( facing == "Down" )
+		else if ( dy < 0 )
 			walkAnimFacingUp = false;
 
 		if ( facing == "Left" )
 		{
-			walkAnimFacingUp = false;
+			if ( dy == 0 )
+				walkAnimFacingUp = false;
 			walkAnimFlipped = false;
 		}
 		else if ( facing == "Right" )
 		{
-			walkAnimFacingUp = false;
+			if ( dy == 0 )
+				walkAnimFacingUp = false;
 			walkAnimFlipped = true;
 		}
 		
@@ -259,7 +261,7 @@ public class Player : BaseObject
 		
 		float tmpSpeed = speed;
 		
-		if ( dx == 1 && dy == 1 )
+		if ( dx != 0 && dy != 0 )
 			tmpSpeed *= 0.707f;
 		
 		accel += tmpSpeed * new Vector3( dx, 0, dy );
@@ -275,7 +277,10 @@ public class Player : BaseObject
 			if ( torchRatio <= 0 )
 				OnHit ( null );
 		
-			torchLight.intensity = (torchRatio / 100f) * 0.66f;
+			if ( torchRatio < 50 )
+				torchLight.intensity = (torchRatio / 50f) * 0.66f;
+			else 
+				torchLight.intensity = 0.66f;
 		}
 		
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;

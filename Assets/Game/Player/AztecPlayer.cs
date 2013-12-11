@@ -24,7 +24,7 @@ public class AztecPlayer : Player {
 	KeyCode cycleRight = KeyCode.E;
 	
 	int currentTrap = 0;
-	// Update is called once per frame
+	// Update is called once per frames
 	override protected void Update ()  
 	{
 		base.Update();

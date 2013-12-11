@@ -339,48 +339,32 @@ public class FollowSmooth : MonoBehaviour
 		
 	}
 
+	Vector3 shake;
+	public bool earthquakeEnabled = false;
 	
 	void UpdatePaja()
 	{
-		posDelta = target.position - lastPos;
-		lastPos = target.position;
+		//posDelta = target.position - lastPos;
+		//lastPos = target.position;
 		
 		Vector3 tempTarget = target.position;
 		
-		
+		shake = Vector3.zero;
+		if ( earthquakeEnabled )
+		{
+			Vector3 shakeTo = Random.insideUnitSphere * .1f;
+			shakeTo.z = 0;
+			shakeTo.x *= 0.01f;
+			shake = shakeTo;
+		}
+		 
 		Vector3 v = ((tempTarget + offset) - transform.position) * frictionCoef;
-		/*
-		if ( Mathf.Sign(posDelta.x) != Mathf.Sign (v.x) || posDelta.x == 0 ) 
-			v.x = 0;
-		
-		if ( Mathf.Sign(posDelta.z) != Mathf.Sign (v.z) || posDelta.z == 0  ) 
-			v.z = 0;*/
-		/*
-		if ( downLock > 0 && upLock > 0 )
-			v.z = 0;
-//			tempTarget.z = (downLimitZ + upLimitZ) * 0.5f;
 
-		if ( leftLock > 0 && rightLock > 0 )
-			v.x = 0;*/
-			//tempTarget.x = (leftLimitX + rightLimitX) * 0.5f;
-		
-		/*
-		if ( rightLock > 0 && posDelta.x > 0 )
-			v.x = 0;
-
-		if ( leftLock > 0 && posDelta.x < 0 )
-			v.x = 0;
-
-		if ( upLock > 0 && posDelta.z > 0 )
-			v.z = 0;
-
-		if ( downLock > 0 && posDelta.z < 0 )
-			v.z = 0;*/
-			
-		
 		transform.position += v;
 			
-		transform.position = new Vector3( transform.position.x, originalPosition.y, transform.position.z );		
+		transform.position = new Vector3( transform.position.x, originalPosition.y, transform.position.z );
+		transform.position += shake;
+		//transform.position += offset;
 		
 	}
 	
@@ -408,11 +392,11 @@ public class FollowSmooth : MonoBehaviour
 				UpdatePaja();
 				break;
 		}
-
+		/*
 		rightLock -= Time.deltaTime;
 		leftLock -= Time.deltaTime;
 		upLock -= Time.deltaTime;
 		downLock -= Time.deltaTime;
-
+		 */
 	}
 }

@@ -16,12 +16,6 @@ public class World : MonoBehaviour
 	void Awake()
 	{
 		globalTiles = new GameObject[DungeonBSP.WORLD_TILE_WIDTH, DungeonBSP.WORLD_TILE_HEIGHT];
-		
-//		for(int i = 0; i < DungeonBSP.WORLD_TILE_WIDTH ; i++)
-//			for(int j = 0; j < DungeonBSP.WORLD_TILE_HEIGHT; j++)
-//				globalTiles[i, j] = null;
-		
-
 	}
 	
 	public void InitTiles()

@@ -43,7 +43,7 @@ public class DungeonBSP : MonoBehaviour
 	Transform container;
 
 	BSPNode cornerSmallestNode;
-	public Room initialRoom { get { return cornerSmallestNode.room; } }
+	public Room initialRoom;
 	
 	GameObject[] wallPattern; 
 	
@@ -138,7 +138,7 @@ public class DungeonBSP : MonoBehaviour
 	}
 	
 	
-	BSPNode GenerateAltarRoom( int quadrantX, int quadrantY )
+	BSPNode GenerateAltarRoom2( int dx, int dy )
 	{
 		BSPNode node = new BSPNode(0);
 		int bailout = bailLimit * 20;
@@ -152,10 +152,8 @@ public class DungeonBSP : MonoBehaviour
 			node.height = 7;//Mathf.Max ( 10, size + Random.Range(0, 3) );
 			
 			node.isAltar = true;
-			int xSign = quadrantX;//Random.Range (0,2) == 0 ? 1 : -1;
-			int ySign = quadrantY;//.Range (0,2) == 0 ? 1 : -1;
-			node.initPosX = (WORLD_TILE_WIDTH / 2) + Random.Range ( WORLD_TILE_WIDTH / 4, WORLD_TILE_WIDTH / 2 ) * xSign;
-			node.initPosY = (WORLD_TILE_HEIGHT / 2) + Random.Range ( WORLD_TILE_HEIGHT / 4, WORLD_TILE_HEIGHT / 2 ) * ySign;
+			node.initPosX = (WORLD_TILE_WIDTH / 2) - 3 + Random.Range ( WORLD_TILE_WIDTH / 4, WORLD_TILE_WIDTH / 2 ) * dx;
+			node.initPosY = (WORLD_TILE_HEIGHT / 2) - 3 + Random.Range ( WORLD_TILE_HEIGHT / 4, WORLD_TILE_HEIGHT / 2 ) * dy;
 		
 			node.initPosX = Mathf.Clamp( node.initPosX, 0, WORLD_TILE_WIDTH - node.width );
 			node.initPosY = Mathf.Clamp( node.initPosY, 0, WORLD_TILE_HEIGHT - node.height );
@@ -163,7 +161,38 @@ public class DungeonBSP : MonoBehaviour
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
 		return node;
-	}	
+	}		
+	
+	BSPNode GenerateRoom( int dx, int dy, int sizeX, int sizeY )
+	{
+		BSPNode node = new BSPNode(0);
+		//int bailout = bailLimit * 20;
+		//do
+		{
+		//	bailout--;
+		//	if ( bailout == 0 ) return null;
+		
+			node.width = sizeX;
+			node.height = sizeY;
+			
+			//node.isAltar = true;
+			node.initPosX = (WORLD_TILE_WIDTH - 3)  * dx;
+			node.initPosY = (WORLD_TILE_HEIGHT - 3)  * dy;
+		
+			node.initPosX = Mathf.Clamp( node.initPosX, 0, WORLD_TILE_WIDTH - node.width );
+			node.initPosY = Mathf.Clamp( node.initPosY, 0, WORLD_TILE_HEIGHT - node.height );
+		}
+		//while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
+		
+		if ( doesThisNodeOverlapWithAnotherNodeOrNot( node )  )
+		{
+			print ("ouch");
+			return null;
+		}
+		
+		return node;
+	}		
+	
 	
 	public GameObject CreateTile( GameObject tile, int tileX, int tileY )
 	{
@@ -205,6 +234,8 @@ public class DungeonBSP : MonoBehaviour
 	{
 		BuildDungeon( transform );
 	}
+	
+	[HideInInspector] public BSPNode startRoom, endRoom;
 	
 	public void BuildDungeon( Transform container )
 	{
@@ -255,6 +286,12 @@ public class DungeonBSP : MonoBehaviour
 			rooms[ rand ] = swap;
 		}
 		
+		endRoom = GenerateRoom( -1, -1, 7, 7 );
+		final.Add( endRoom );
+
+		startRoom = GenerateRoom( 1, 1, 11, 11 );
+		final.Add( startRoom );
+		
 		
 		for ( int i = 0; i < bigRoomsCount; i++ )
 		{
@@ -284,18 +321,18 @@ public class DungeonBSP : MonoBehaviour
 				final.Add( node );
 		}
 
-		BSPNode altar1 = GenerateAltarRoom( -1, 1 );
+		BSPNode altar1 = GenerateAltarRoom2( 0, 1 );
 		if ( altar1 != null ) final.Add( altar1 );
 		
-		BSPNode altar2 = GenerateAltarRoom( 1, -1 );
+		BSPNode altar2 = GenerateAltarRoom2( 1, 0 );
 		if ( altar2 != null ) final.Add( altar2 );
 		
-		BSPNode altar3 = GenerateAltarRoom( -1, -1 );
+		BSPNode altar3 = GenerateAltarRoom2( 0, -1 );
 		if ( altar3 != null ) final.Add( altar3 );
 
-		BSPNode altar4 = GenerateAltarRoom( 1, 1 );
+		BSPNode altar4 = GenerateAltarRoom2( -1, 0 );
 		if ( altar4 != null ) final.Add( altar4 );
-	
+		
 		for(int i = 0; i < final.Count; i++)
 		{
 			BSPNode a = (BSPNode)final[i];
@@ -310,6 +347,9 @@ public class DungeonBSP : MonoBehaviour
 		if ( altar2 != null ) createDoorConnectingWithNearest( altar2 );
 		if ( altar3 != null ) createDoorConnectingWithNearest( altar3 );
 		if ( altar4 != null ) createDoorConnectingWithNearest( altar4 );
+		
+		initialRoom = startRoom.room;
+		Debug.Log ("added: " + initialRoom );
 		
 		connectDoors();
 		wallFill();
@@ -428,10 +468,14 @@ public class DungeonBSP : MonoBehaviour
 	
 	public void connectDoors()
 	{
-		for(int i = 0 ; i < doors.Count - 1; i++)
+		for(int i = 0 ; i < doors.Count; i++)
 		{
 			DoorData a = (DoorData)doors[i];
-			DoorData b = (DoorData)doors[i + 1];
+			DoorData b = ((DoorData)doors[i]).target;//(DoorData)doors[i + 1];
+			
+			if ( a.connected )
+				continue;
+			
 			int	aX = (int)(a.pos.x);
 			int aY = (int)(a.pos.y);
 			
@@ -493,6 +537,9 @@ public class DungeonBSP : MonoBehaviour
 					else if (aX < bX) aX++;				
 				}
 			}
+			
+			a.connected = true;
+			b.connected = true;
 		}
 	}
 	
