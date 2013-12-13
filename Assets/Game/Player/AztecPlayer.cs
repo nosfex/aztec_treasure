@@ -10,10 +10,11 @@ public class AztecPlayer : Player {
 	public GameObject fFloor;
 	public GameObject skelly;
 	public GameObject ranged;
+	public GameObject darts;
 	
 	
 	public float maxCurrencyCooldown = 1.0f;
-	int MaxTraps = 4;
+	int MaxTraps = 5;
 	float currencyCooldown = 0.0f;
 	// Use this for initialization
 	override protected void Start () 
@@ -34,6 +35,7 @@ public class AztecPlayer : Player {
 	public int fallingFloorPrice = 100;
 	public int skellyPrice = 200;
 	public int rangedPrice = 400;
+	public int wallDartPrice = 300;
 	
 	public void PlaceTrap( GameObject prefab )
 	{
@@ -46,6 +48,16 @@ public class AztecPlayer : Player {
 		vine2.transform.localPosition = transform.localPosition;
 		
 	}
+	
+	
+	public void PlaceTrapAtPos(GameObject prefab, Transform t)
+	{
+		GameObject vine2 = (GameObject)MonoBehaviour.Instantiate(prefab, t.position + Vector3.up, t.rotation);
+		vine2.transform.parent = ((World)GameDirector.i.worldRight).transform;
+		vine2.name = vine2.name.TrimEnd( "(Clone)" );
+		vine2.transform.localPosition = t.localPosition;
+	}
+	
 	public string[] trapNames;
 	// Update is called once per frames
 	override protected void Update ()  
@@ -79,7 +91,7 @@ public class AztecPlayer : Player {
 			currentTrap--;
 
 			if(currentTrap < 0)
-				currentTrap = 3;
+				currentTrap = 4;
 			
 			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
 		}
@@ -87,7 +99,7 @@ public class AztecPlayer : Player {
 		{
 			currentTrap++;
 
-			if(currentTrap > 3)
+			if(currentTrap > 4)
 				currentTrap = 0;
 			
 			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
@@ -177,6 +189,36 @@ public class AztecPlayer : Player {
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+			}
+			
+			if(currentTrap == 4)
+			{
+				if( trapCurrency > wallDartPrice)
+				{
+					RaycastHit r;
+				
+					if(Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out r))
+					{
+						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point );
+					
+						if(obj2 == null) 
+							return;
+					//	if(obj2.name != "WallTile")
+					//		return;
+						
+						Transform tObj = obj2.transform;
+						Destroy(obj2);
+						tObj.position += Vector3.up;
+						PlaceTrapAtPos(darts, tObj);
+						
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
+					}
+				}
+				else 
+				{
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+				}
+				
 			}
 		}
 	}
