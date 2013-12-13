@@ -2872,16 +2872,19 @@ MonoBehaviour:
   fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
   skelly: {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
   ranged: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
+  darts: {fileID: 100000, guid: 37727bfe02392424e805f5aeb8ac5356, type: 2}
   maxCurrencyCooldown: .5
   vinesPrice: 70
   fallingFloorPrice: 100
   skellyPrice: 200
   rangedPrice: 400
+  wallDartPrice: 300
   trapNames:
   - Vines
   - Falling Floor
   - Skelly
   - Ranged
+  - Wall Dart
 --- !u!1 &2001341251
 GameObject:
   m_ObjectHideFlags: 0
