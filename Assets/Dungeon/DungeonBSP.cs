@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int WORLD_TILE_WIDTH = 60;
-	public const int WORLD_TILE_HEIGHT = 60;
+	public const int WORLD_TILE_WIDTH = 50;
+	public const int WORLD_TILE_HEIGHT = 50;
 	
 	public int minRoomSize = 9;
 
@@ -207,7 +207,7 @@ public class DungeonBSP : MonoBehaviour
 	public GameObject CreateTile( GameObject tile, int tileX, int tileY, Vector3 offset, Quaternion rotation )
 	{
 		if ( globalTiles[ tileX, tileY ] != null )
-			Destroy(globalTiles[tileX, tileY]);
+			DestroyImmediate(globalTiles[tileX, tileY]);
 		
 		GameObject go = (GameObject)Instantiate(tile);
 		
@@ -286,11 +286,11 @@ public class DungeonBSP : MonoBehaviour
 			rooms[ rand ] = swap;
 		}
 		
-		endRoom = GenerateRoom( -1, -1, 7, 7 );
-		final.Add( endRoom );
-
-		startRoom = GenerateRoom( 1, 1, 11, 11 );
+		startRoom = GenerateRoom( -1, -1, 7, 7 );
 		final.Add( startRoom );
+
+		endRoom = GenerateRoom( 1, 1, 11, 11 );
+		final.Add( endRoom );
 		
 		
 		for ( int i = 0; i < bigRoomsCount; i++ )

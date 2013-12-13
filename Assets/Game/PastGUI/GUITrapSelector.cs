@@ -10,7 +10,7 @@ public class GUITrapSelector : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		traps = new TextMesh[(AztecPlayer)(GameDirector.i.worldLeft.player).maxTraps];	
+		traps = new TextMesh[ ((AztecPlayer)(GameDirector.i.worldLeft.player)).maxTraps];	
 		
 		for(int i = 0;  i < traps.Length; i++)
 		{

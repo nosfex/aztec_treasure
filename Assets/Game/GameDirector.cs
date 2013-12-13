@@ -26,6 +26,8 @@ public class GameDirector : MonoBehaviour {
 	
 	public DungeonBSP dungeonGenerator;
 	
+	public GameObject finalTreasure;
+	
 	public GameObject[] spawnPrefabsList;
 	
 	public void ShowTextPopup( GameObject source, float yOffset, string text )
@@ -82,11 +84,17 @@ public class GameDirector : MonoBehaviour {
 	{
 		SnapAssistant.i.snapEnabled = false;
 		
+		Vector3 startRoom = Vector3.zero;
+		Vector3 endRoom = Vector3.zero;
+
 		if ( dungeonGenerator != null )
 		{
 			dungeonGenerator.BuildDungeon( worldContainer.transform );
-			worldContainer.startingPoint.position = dungeonGenerator.startRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
+			startRoom = dungeonGenerator.startRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
+			endRoom = dungeonGenerator.endRoom.room.getCenterTile().transform.position + (Vector3.up * 2);;
+			worldContainer.startingPoint.position = startRoom;
 		}
+
 		
 		// CREATE FUTURE.
 		GameObject go = (GameObject)Instantiate( worldContainer.gameObject, 
@@ -95,8 +103,13 @@ public class GameDirector : MonoBehaviour {
 		
 		World world2 = go.GetComponent<World>();
 
-		world2.startingPoint.position = dungeonGenerator.endRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
+		world2.startingPoint.position = startRoom;
+		
+		GameObject final1 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
+		final1.transform.parent = worldContainer.transform;
 
+		GameObject final2 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
+		final2.transform.parent = world2.transform;
 		
 		go.transform.position += (Vector3.right * (0.2f * 500f));
 		
@@ -127,16 +140,22 @@ public class GameDirector : MonoBehaviour {
 		worldRight = world2;
 		worldLeft = worldContainer;
 		
-		if ( dungeonGenerator )
-		{
-			worldRight.InitTiles();
-			worldLeft.InitTiles();
-		}
+		Invoke( "InitTiles", .1f );
 		//SnapAssistant.i.snapEnabled = true;
 	}
 	
+	void InitTiles()
+	{
+		if ( dungeonGenerator != null )
+		{
+			worldRight.InitTiles();
+			worldLeft.InitTiles();
+		}		
+	}
+	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 	
 	}
 	

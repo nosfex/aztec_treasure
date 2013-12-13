@@ -20,17 +20,32 @@ public class World : MonoBehaviour
 	
 	public void InitTiles()
 	{
-		foreach ( Transform t in GetComponentsInChildren<Transform>() )
+		InitTiles ( transform );
+		
+//		foreach ( GameObject go in globalTiles )
+//		{
+//			if ( go != null )
+//				go.transform.localScale *= 0.1f;
+//		}
+	}
+	
+	public void InitTiles( Transform t )
+	{
+		foreach ( Transform transform in t )
 		{
-			if ( !t.gameObject.name.Contains("Tile") )
+			//if ( transform.childCount > 0 )
+			InitTiles ( transform );
+
+			if ( !transform.gameObject.name.Contains("Tile") )
 				continue;
 			
-			int tileX = Mathf.RoundToInt(t.localPosition.x / 0.8f);
-			int tileY = Mathf.RoundToInt(t.localPosition.z / 0.8f);
+			Vector3 pos = transform.position - this.transform.position;
 			
-			globalTiles[ tileX, tileY ] = t.gameObject;
-			//print (" x " + tileX + " ... y " + tileY );
-		}		
+			int tileX = Mathf.RoundToInt(pos.x / 0.8f);
+			int tileY = Mathf.RoundToInt(pos.z / 0.8f);
+			
+			globalTiles[ tileX, tileY ] = transform.gameObject;
+		}
 	}
 	
 	public void InitPlayer() 
@@ -42,6 +57,14 @@ public class World : MonoBehaviour
 		playerContainer.transform.position = startingPoint.position - player.transform.position;
 		
 		player.transform.parent = transform;
+	}
+
+	public Vector2 coordsFromPos(Vector3 pos)
+	{
+		int tileX = Mathf.RoundToInt(pos.x / 0.8f);
+		int tileY = Mathf.RoundToInt(pos.z / 0.8f);
+
+		return new Vector2( tileX, tileY );
 	}
 	
 	public GameObject objFromPos(Vector3 pos)

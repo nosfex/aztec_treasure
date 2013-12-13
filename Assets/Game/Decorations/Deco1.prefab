@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Column
+  m_Name: ColumnTile
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ GameObject:
   - 23: {fileID: 2300002}
   - 114: {fileID: 11400008}
   m_Layer: 0
-  m_Name: Column
+  m_Name: ColumnTile
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ GameObject:
   - 23: {fileID: 2300016}
   - 114: {fileID: 11400040}
   m_Layer: 0
-  m_Name: Column
+  m_Name: ColumnTile
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,7 +178,7 @@ GameObject:
   - 23: {fileID: 2300018}
   - 114: {fileID: 11400048}
   m_Layer: 0
-  m_Name: Column
+  m_Name: ColumnTile
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

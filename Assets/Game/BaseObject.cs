@@ -178,7 +178,7 @@ public class BaseObject : MonoBehaviour
 				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 
 				
-				if ( gravity.magnitude < 0.05f )
+				if ( gravity.magnitude < 0.1f )
 					gravity = Vector3.zero;
 				else 
 				{

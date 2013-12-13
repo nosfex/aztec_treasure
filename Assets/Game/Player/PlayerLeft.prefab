@@ -446,14 +446,14 @@ Light:
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: .920486808, b: .588235259, a: 1}
-  m_Intensity: .5
-  m_Range: 4
+  m_Intensity: .400000006
+  m_Range: 15
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
-    m_Resolution: -1
-    m_Strength: 1
+    m_Resolution: 3
+    m_Strength: .330000013
     m_Bias: .0500000007
     m_Softness: 4
     m_SoftnessFade: 1
@@ -503,6 +503,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
+  isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0
@@ -524,7 +525,18 @@ MonoBehaviour:
   trapCurrency: 20
   vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
+  skelly: {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
+  ranged: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
   maxCurrencyCooldown: .5
+  vinesPrice: 70
+  fallingFloorPrice: 100
+  skellyPrice: 200
+  rangedPrice: 400
+  trapNames:
+  - Vines
+  - Falling Floor
+  - Skelly
+  - Ranged
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -559,6 +571,7 @@ MonoBehaviour:
   downLimitZ: 0
   leftLimitX: 0
   rightLimitX: 0
+  earthquakeEnabled: 0
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

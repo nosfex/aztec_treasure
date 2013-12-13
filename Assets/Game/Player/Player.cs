@@ -103,7 +103,7 @@ public class Player : BaseObject
 	bool isSkidding = false;
 	float isFlipping = 0;
 	
-	BaseObject liftedObject;
+	protected BaseObject liftedObject;
 	Vector3 direction;
 	public float speed = 0.5f;
 	

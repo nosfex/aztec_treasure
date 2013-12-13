@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3e354a463b384f2448d118a077308431
+guid: da553cd3acf86104084d85613a897009
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -10,7 +10,7 @@ ModelImporter:
     4300000: Box001
     9500000: //RootNode
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -40,7 +40,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 0
+    splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
