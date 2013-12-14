@@ -78,6 +78,7 @@ public class GameDirector : MonoBehaviour {
 		instance = this;
 	}
 	
+	[HideInInspector] public GameObject finalTreasureRight;
 	
 	// Use this for initialization
 	void Start () 
@@ -108,8 +109,8 @@ public class GameDirector : MonoBehaviour {
 		GameObject final1 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
 		final1.transform.parent = worldContainer.transform;
 
-		GameObject final2 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
-		final2.transform.parent = world2.transform;
+		finalTreasureRight = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
+		finalTreasureRight.transform.parent = world2.transform;
 		
 		go.transform.position += (Vector3.right * (0.2f * 500f));
 		
