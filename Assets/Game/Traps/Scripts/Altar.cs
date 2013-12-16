@@ -20,7 +20,8 @@ public class Altar : BaseObject
 	void Start()
 	{
 		flameParticle = GetComponentInChildren<ParticleSystem>();
-		flameLight = GetComponentInChildren<Light>(); 
+		flameLight = GetComponentInChildren<Light>();
+		GUIAltars.i.altarsCount++;
 		
 	}
 	
@@ -69,6 +70,7 @@ public class Altar : BaseObject
 			
 			if ( activated >= timeToActivate )
 			{
+				GUIAltars.i.altarsFound++;
 				activatedFX.SetActive( true );
 				///efectito loco
 				//flame.SetActive( true );
