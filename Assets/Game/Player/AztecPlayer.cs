@@ -24,6 +24,25 @@ public class AztecPlayer : Player {
 	}
 	
 	
+	public int vinesCooldown = 0;
+	public int fallingFloorCooldown = 0;
+	public int skellyCooldown = 0;
+	public int rangedCooldown = 0;
+	public int wallDartCooldown = 0;
+	
+	
+	bool vinesLock = false;
+	bool fallingFloorLock = false;
+	bool skellyLock = false;
+	bool rangedLock = false;
+	bool wallDartLock = false;
+	
+	int vinesCooldownTimer = 0;
+	int fallingFloorCooldownTimer = 0;
+	int skellyCooldownTimer = 0;
+	int rangedCooldownTimer = 0;
+	int wallDartCooldownTimer = 0;
+		
 	KeyCode placeTrap = KeyCode.T;
 	KeyCode cycleLeft = KeyCode.Q;
 	KeyCode cycleRight = KeyCode.E;
@@ -107,7 +126,7 @@ public class AztecPlayer : Player {
 		
 		if(Input.GetKeyDown(placeTrap))
 		{
-			if(currentTrap == 0)
+			if(currentTrap == 0 && !vinesLock)
 			{
 				if(trapCurrency > vinesPrice)
 				{
@@ -120,9 +139,10 @@ public class AztecPlayer : Player {
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				vinesLock = true;
 			}
 			
-			if(currentTrap == 1)
+			if(currentTrap == 1 && !fallingFloorLock)
 			{
 				if(trapCurrency > fallingFloorPrice)
 				{
@@ -160,9 +180,10 @@ public class AztecPlayer : Player {
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				fallingFloorLock = true;
 			}
 			
-			if(currentTrap == 2)
+			if(currentTrap == 2 && !skellyLock)
 			{
 				if(trapCurrency > skellyPrice)
 				{
@@ -174,10 +195,11 @@ public class AztecPlayer : Player {
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				skellyLock = true;
 			}
 
 		
-			if(currentTrap == 3)
+			if(currentTrap == 3 && !rangedLock)
 			{
 				if(trapCurrency > rangedPrice)
 				{
@@ -189,26 +211,35 @@ public class AztecPlayer : Player {
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				rangedLock = true;
 			}
 			
-			if(currentTrap == 4)
+			if(currentTrap == 4 && !wallDartLock)
 			{
 				if( trapCurrency > wallDartPrice)
 				{
 					RaycastHit r;
-				
-					if(Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out r))
+					
+					if(direction != Vector3.up) 
 					{
-						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point );
+						
+						return;
+					}
+					if(Physics.Raycast(transform.position + Vector3.up ,   this.direction, out r))
+					{
+						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
 					
 						if(obj2 == null) 
 							return;
 					//	if(obj2.name != "WallTile")
 					//		return;
 						
+					
+						
 						Transform tObj = obj2.transform;
+						
 						Destroy(obj2);
-						tObj.position += Vector3.up;
+						
 						PlaceTrapAtPos(darts, tObj);
 						
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
@@ -219,6 +250,63 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
 				
+				wallDartLock= true;
+				
+			}
+			
+			if(vinesLock)
+			{
+				vinesCooldownTimer += Time.deltaTime;
+				if(vinesCooldownTimer >= vinesCooldown)
+				{
+					
+					vinesCooldownTimer = 0;
+					vinesLock = false;
+				}
+			}
+			
+			if(wallDartLock)
+			{
+				wallDartCooldownTimer += Time.deltaTime;
+				if(wallDartCooldownTimer >= wallDartCooldown)
+				{
+					
+					wallDartCooldownTimer = 0;
+					wallDartLock = false;
+				}
+			}
+			
+			if(rangedLock)
+			{
+				rangedCooldownTimer += Time.deltaTime;
+				if(rangedCooldownTimer >= rangedCooldown)
+				{
+					
+					rangedCooldownTimer = 0;
+					rangedLock = false;
+				}
+			}
+			
+			if(skellyLock)
+			{
+				skellyCooldownTimer += Time.deltaTime;
+				if(skellyCooldownTimer >= skellyCooldown)
+				{
+					
+					skellyCooldownTimer = 0;
+					skellyLock = false;
+				}
+			}
+			
+			if(fallingFloorLock)
+			{
+				fallingFloorTimer += Time.deltaTime;
+				if(fallingFloorTimer >= fallingFloorCooldown)
+				{
+					
+					fallingFloorTimer = 0;
+					fallingFloorLock = false;
+				}
 			}
 		}
 	}
