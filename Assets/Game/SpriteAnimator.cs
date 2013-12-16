@@ -174,7 +174,7 @@ public class SpriteAnimator : MonoBehaviour
 			
 			if ( myObject != null && myObject.worldOwner != null && myObject.worldOwner.camera != null )
 			{
-				billboardCamera = myObject.worldOwner.camera;
+				billboardCamera = myObject.worldOwner.camera.camera;
 				
 			}
 			else
@@ -193,7 +193,7 @@ public class SpriteAnimator : MonoBehaviour
 				
 				if ( myWorld != null )
 				{
-					billboardCamera = myWorld.camera;
+					billboardCamera = myWorld.camera.camera;
 					
 					
 				}
