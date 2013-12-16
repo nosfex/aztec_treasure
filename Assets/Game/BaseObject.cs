@@ -161,6 +161,7 @@ public class BaseObject : MonoBehaviour
 			}
 			else 
 			{
+				
 				if ( floorY > transform.position.y && floorY < (transform.position.y + 0.4f) )
 				{
 					//if ( gravity.y >= 0 )
@@ -172,13 +173,17 @@ public class BaseObject : MonoBehaviour
 					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
 				}
 				else 
+				if ( transform.position.y < floorY )
 				{
 					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+					//gravity = Vector3.zero;
+					//gravityEnabled = false;
+					//print ("eh?");
 				}
 				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 
 				
-				if ( gravity.magnitude < 0.1f )
+				if ( gravity.magnitude < 0.05f )
 					gravity = Vector3.zero;
 				else 
 				{
@@ -187,10 +192,11 @@ public class BaseObject : MonoBehaviour
 					{
 						//print("WHAT");
 						gravity *= -bouncyness;//Vector3.zero;
+						
 					}
 				}
-				
-				//collisionEnabled = true;				
+				velocity *= groundFrictionCoef;
+				collisionEnabled = true;				
 			}
 			
 		}

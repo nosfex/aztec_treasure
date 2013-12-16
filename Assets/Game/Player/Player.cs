@@ -6,53 +6,88 @@ public class Player : BaseObject
 	SpriteAnimator animator;
 	
 	public Transform helperPivot;
+	public Lamplight lampLightNoFlip;
+	public Lamplight lampLightFlip;
 	public BaseObjectSensor liftSensor;
 	public AttackSensor attackSensor;
 	public GameObject dropGuide;
 	
-	private Light[] lights;
+	private Torch[] lights;
 	private Light torchLight;
 	
 	public bool darknessMechanic;
 	
-	[HideInInspector] public bool inDarkness = false;
+	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
 	
 	public bool isImmune { get { return inmuneTimer > 0; } }
 	
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
+	float darkTestThreshold = 1.3f;
 	
 	void TestDarkness()
 	{
 		float minLightDistance = 9999999f;
-		Light nearestLight = null;
+		Torch nearestLight = null;
 		
-		foreach ( Light light in lights )
+		foreach ( Torch torch in lights )
 		{
-			if ( light == null || light == torchLight )
+			if ( torch == null )
 				continue;
 			
-			if ( light.type != LightType.Point )
-				continue;
+			//if ( torch.light.intensity <= 0.1f )
+			//	continue;
 			
-			float dist = Vector3.Distance( transform.position, light.transform.position );
-			
+			float dist = Vector3.Distance( transform.position, torch.transform.position );
+	
 			if ( dist < minLightDistance )
 			{	
+				Vector3 myXZ = transform.position;
+				myXZ.y = 0;
+	
+				Vector3 hisXZ = torch.transform.position;
+				hisXZ.y = 0;
+				
+				Vector3 dir = myXZ - hisXZ;
+				dir.Normalize();
+				
+				RaycastHit[] info = Physics.RaycastAll( torch.transform.position, dir, dist );
+				Debug.DrawRay( torch.transform.position, dir, Color.white, 0.6f );
+				bool obstructed = false;
+	
+				foreach ( RaycastHit i in info )
+				{
+					if ( i.collider.gameObject.name.Contains("Tile") )
+					{
+						obstructed = true;
+						break;
+					}
+				}
+				
+				if ( obstructed )
+				{
+					torch.OutLineOfSight();
+					continue;
+				}
+				
+				torch.InLineOfSight();
+				
 				minLightDistance = dist;
-				nearestLight = light;
+				nearestLight = torch;
 			}
 		}
 		
-		float threshold = .5f;
-
 		if ( nearestLight != null )
-		{				
-			inDarkness = minLightDistance > nearestLight.range * threshold;
+		{	
+			if ( nearestLight.light.intensity > .2f )
+				inDarkness = minLightDistance > nearestLight.light.range * darkTestThreshold;
+			else 
+				inDarkness = true;
 			
-			if ( minLightDistance < nearestLight.range * 0.33f )
+			if ( minLightDistance < 1.2f ) //nearestLight.range * 0.33f )
 			{
+				nearestLight.TurnOn();
 				torchRatio = 100f;
 			}
 		}
@@ -63,7 +98,7 @@ public class Player : BaseObject
 		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
 		direction = Vector3.right;
-		lights = (Light[])FindObjectsOfType( typeof( Light ) );
+		lights = (Torch[])FindObjectsOfType( typeof( Torch ) );
 		torchLight = GetComponentInChildren<Light>();
 		torchRatio = 100f;
 		hearts = GameDirector.i.maxHearts;
@@ -148,6 +183,28 @@ public class Player : BaseObject
 			walkAnimFlipped = true;
 		}
 		
+		if ( lampLightFlip != null && lampLightNoFlip != null )
+		{
+			if ( animator.isAnimPlaying("Attack") )
+			{
+				lampLightNoFlip.gameObject.SetActive( false );
+				lampLightFlip.gameObject.SetActive( false );
+			}
+			else 
+			{				
+				if ( walkAnimFlipped )
+				{
+					lampLightNoFlip.gameObject.SetActive( false );
+					lampLightFlip.gameObject.SetActive( true );
+				}
+				else 
+				{
+					lampLightNoFlip.gameObject.SetActive( true );
+					lampLightFlip.gameObject.SetActive( false );
+				}
+			}
+		}
+		
 		string anim = "Idle";
 		
 		if ( !animator.isAnimPlaying("Attack") )
@@ -200,30 +257,21 @@ public class Player : BaseObject
 			deathAwaits = false;
 		}
 		
-		
 		dx = 0; dy = 0;
 		
 		if ( !animator.isAnimPlaying("Attack") )// && currentFloor != null ) 
 		{
 			if ( Input.GetKey(leftKey) && lockLeft < 0 )
-			{
 				dx = -1;
-			}
 			
 			if ( Input.GetKey(rightKey) && lockRight < 0 )
-			{
 				dx = 1;
-			}
 			
 			if ( Input.GetKey(upKey) && lockUp < 0)
-			{
 				dy = 1;
-			}
 			
 			if ( Input.GetKey(downKey) && lockDown < 0 )
-			{	
 				dy = -1;
-			}
 			
 			if ( Input.GetKeyDown(leftKey) && lockLeft <0 )
 				straightTimer = 0;
@@ -270,17 +318,22 @@ public class Player : BaseObject
 		{
 			if ( inDarkness )
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 15f; // / secs
+			//	darkTestThreshold = 0.6f;
+				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 			}
+//			else 
+//			{
+//				darkTestThreshold = 0.9f;
+//			}
 			
-			if ( torchRatio <= 0 )
+			if ( inDarkness && torchRatio <= 0 )
 				OnHit ( null );
 		
 			if ( torchRatio < 50 )
-				torchLight.intensity = (torchRatio / 50f) * 0.66f;
+				torchLight.intensity = (torchRatio / 50f) * 0.4f;
 			else 
-				torchLight.intensity = 0.66f;
+				torchLight.intensity = 0.4f;
 		}
 		
 		frictionCoef += (0.66f - frictionCoef) * 0.75f;
@@ -394,7 +447,7 @@ public class Player : BaseObject
 					lifted.parent = transform;
 					
 					// pone el objeto en la cabeza del flaco.
-					iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.45f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
+					iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.4f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
 					//iTween.MoveAdd( lifted.gameObject, iTween.Hash ( "time", 0.5f, "isLocal", true, "x", targetPos.x, "easetype", iTween.EaseType.easeInOutQuad ) );
 					//lifted.position = transform.position + new Vector3( 0, 0.4f, 0 );
 					
@@ -435,7 +488,8 @@ public class Player : BaseObject
 			{
 				
 				liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
-				liftedObject.velocity.y += 0.05f;
+				//liftedObject.velocity.y += 0.05f;
+				liftedObject.gravity.y -= 0.025f;
 				liftedObject.transform.parent = worldOwner.transform;
 				liftedObject.gravityEnabled = true;
 				
@@ -469,8 +523,6 @@ public class Player : BaseObject
 				}
 			}
 		}
-		
-		
 		
 		if ( animator.isAnimPlaying("Attack") && attackSensor.sensedObject != null )
 		{
