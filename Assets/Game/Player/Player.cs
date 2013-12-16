@@ -25,6 +25,7 @@ public class Player : BaseObject
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
 	float darkTestThreshold = 1.3f;
+	bool torchOn = false;
 	
 	void TestDarkness()
 	{
@@ -87,6 +88,7 @@ public class Player : BaseObject
 			
 			if ( minLightDistance < 1.2f ) //nearestLight.range * 0.33f )
 			{
+				torchOn = false;
 				nearestLight.TurnOn();
 				torchRatio = 100f;
 			}
@@ -107,7 +109,7 @@ public class Player : BaseObject
 			Destroy ( transform.parent.gameObject );
 		
 		if ( darknessMechanic )
-			InvokeRepeating( "TestDarkness", 0, 0.6f );
+			InvokeRepeating( "TestDarkness", 0, 0.3f );
 	
 	}
 	
@@ -318,8 +320,13 @@ public class Player : BaseObject
 		{
 			if ( inDarkness )
 			{
+				torchOn = true;
 			//	darkTestThreshold = 0.6f;
-				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
+			}
+			
+			if ( torchOn )
+			{
+				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 			}
 //			else 
@@ -327,8 +334,8 @@ public class Player : BaseObject
 //				darkTestThreshold = 0.9f;
 //			}
 			
-			if ( inDarkness && torchRatio <= 0 )
-				OnHit ( null );
+			//if ( inDarkness && torchRatio <= 0 )
+			//	OnHit ( null );
 		
 			if ( torchRatio < 50 )
 				torchLight.intensity = (torchRatio / 50f) * 0.4f;
