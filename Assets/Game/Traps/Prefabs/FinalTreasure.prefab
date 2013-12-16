@@ -8,10 +8,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: FinalTreasure
   m_TagString: WallDestructable
@@ -56,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.164222717, z: 0}
+  m_LocalPosition: {x: 0, y: -.0825631618, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -118,27 +117,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf0ade8e992e664ba0cf6ec5f7c7b12, type: 3}
+  m_Script: {fileID: 11500000, guid: 90a88d3e5311910449709bc0cc220035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   worldOwner: {fileID: 0}
   accel: {x: 0, y: 0, z: 0}
-  frictionCoef: .899999976
+  frictionCoef: .970000029
   airFrictionCoef: 1
-  groundFrictionCoef: .660000026
+  groundFrictionCoef: .75
   bouncyness: 0
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
@@ -146,7 +134,7 @@ MonoBehaviour:
   isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
-  respawns: 1
+  respawns: 0
   currentFloor: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:

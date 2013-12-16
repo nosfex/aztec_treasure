@@ -6,7 +6,7 @@ public class World : MonoBehaviour
 	
 	[HideInInspector] public Transform playerContainer;
 	public Transform startingPoint;
-	new public Camera camera;
+	new public FollowSmooth camera;
 	public Player player;
 	
 	public Transform deathYLimit;
@@ -51,7 +51,7 @@ public class World : MonoBehaviour
 	public void InitPlayer() 
 	{
 		//player = playerContainer.GetComponentInChildren<Player>();
-		camera = playerContainer.GetComponentInChildren<Camera>();
+		camera = playerContainer.GetComponentInChildren<FollowSmooth>();
 
 		playerContainer.transform.parent = transform;
 		playerContainer.transform.position = startingPoint.position - player.transform.position;

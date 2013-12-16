@@ -445,9 +445,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 3
   m_Type: 2
-  m_Color: {r: 1, g: .920486808, b: .588235259, a: 1}
-  m_Intensity: .400000006
-  m_Range: 15
+  m_Color: {r: .997058809, g: 1, b: .786764741, a: 1}
+  m_Intensity: .699999988
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -461,7 +461,7 @@ Light:
   m_DrawHalo: 0
   m_ActuallyLightmapped: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -498,7 +498,7 @@ MonoBehaviour:
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .660000026
   airFrictionCoef: .200000003
-  groundFrictionCoef: .660000026
+  groundFrictionCoef: 1
   bouncyness: .5
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
