@@ -5,7 +5,7 @@ public class AztecPlayer : Player {
 	
 	
 	public int trapCurrency = 20;
-	
+	delegate void destroy(GameObject obj);
 	public GameObject vines;
 	public GameObject fFloor;
 	public GameObject skelly;
@@ -250,6 +250,7 @@ public class AztecPlayer : Player {
 						
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;
+//						Destroy
 					}
 				}
 				else 
@@ -319,6 +320,7 @@ public class AztecPlayer : Player {
 			}
 		}
 	}
+	
 
 	
 	override protected void OnPressSwitch( GameObject switchPressed )

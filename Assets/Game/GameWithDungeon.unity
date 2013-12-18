@@ -1519,7 +1519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0208c810faa4c6c8c07a8dd476b4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: {fileID: 0}
+  effect: {fileID: 148247312}
 --- !u!1 &427190692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3411,8 +3411,8 @@ MonoBehaviour:
   respawns: 0
   currentFloor: {fileID: 0}
   helperPivot: {fileID: 2102632779}
-  lampLightNoFlip: {fileID: 0}
-  lampLightFlip: {fileID: 0}
+  lampLightNoFlip: {fileID: 1436003277}
+  lampLightFlip: {fileID: 428639120}
   liftSensor: {fileID: 1183796354}
   attackSensor: {fileID: 1841469157}
   dropGuide: {fileID: 81755570}
