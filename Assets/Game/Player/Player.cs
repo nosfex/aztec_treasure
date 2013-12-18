@@ -141,7 +141,7 @@ public class Player : BaseObject
 	float isFlipping = 0;
 	
 	protected BaseObject liftedObject;
-	Vector3 direction;
+	public Vector3 direction;
 	public float speed = 0.5f;
 	
 	float comboCount;

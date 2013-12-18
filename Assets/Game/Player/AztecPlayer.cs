@@ -5,7 +5,7 @@ public class AztecPlayer : Player {
 	
 	
 	public int trapCurrency = 20;
-	
+	delegate void destroy(GameObject obj);
 	public GameObject vines;
 	public GameObject fFloor;
 	public GameObject skelly;
@@ -24,6 +24,25 @@ public class AztecPlayer : Player {
 	}
 	
 	
+	public int vinesCooldown = 0;
+	public int fallingFloorCooldown = 0;
+	public int skellyCooldown = 0;
+	public int rangedCooldown = 0;
+	public int wallDartCooldown = 0;
+	
+	
+	bool vinesLock = false;
+	bool fallingFloorLock = false;
+	bool skellyLock = false;
+	bool rangedLock = false;
+	bool wallDartLock = false;
+	
+	float vinesCooldownTimer = 0;
+	float fallingFloorCooldownTimer = 0;
+	float skellyCooldownTimer = 0;
+	float rangedCooldownTimer = 0;
+	float wallDartCooldownTimer = 0;
+		
 	KeyCode placeTrap = KeyCode.T;
 	KeyCode cycleLeft = KeyCode.Q;
 	KeyCode cycleRight = KeyCode.E;
@@ -107,22 +126,24 @@ public class AztecPlayer : Player {
 		
 		if(Input.GetKeyDown(placeTrap))
 		{
-			if(currentTrap == 0)
+			if(currentTrap == 0 && !vinesLock)
 			{
 				if(trapCurrency > vinesPrice)
 				{
-					PlaceTrap( vines );			
-
+					//PlaceTrap( vines );			
+					DelayedSpawner.i.addSpawnData(vines, transform, 3);
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
+					vinesLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				
 			}
 			
-			if(currentTrap == 1)
+			if(currentTrap == 1 && !fallingFloorLock)
 			{
 				if(trapCurrency > fallingFloorPrice)
 				{
@@ -153,65 +174,83 @@ public class AztecPlayer : Player {
 
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + fallingFloorPrice );
 					trapCurrency -= fallingFloorPrice;
-
+					fallingFloorLock = true;
 						
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				
 			}
 			
-			if(currentTrap == 2)
+			if(currentTrap == 2 && !skellyLock)
 			{
 				if(trapCurrency > skellyPrice)
 				{
-					PlaceTrap( skelly );			
+					//PlaceTrap( skelly );			
+					DelayedSpawner.i.addSpawnData(skelly, transform, 3);
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
+					skellyLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				
 			}
 
 		
-			if(currentTrap == 3)
+			if(currentTrap == 3 && !rangedLock)
 			{
 				if(trapCurrency > rangedPrice)
 				{
-					PlaceTrap( ranged );			
+					DelayedSpawner.i.addSpawnData(ranged, transform, 3);
+					//PlaceTrap( ranged );			
 					trapCurrency -= rangedPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
+					rangedLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
+				
 			}
 			
-			if(currentTrap == 4)
+			if(currentTrap == 4 && !wallDartLock)
 			{
 				if( trapCurrency > wallDartPrice)
 				{
 					RaycastHit r;
-				
-					if(Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out r))
+					
+					if(direction != Vector3.up) 
 					{
-						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point );
+						
+					//	return;
+					}
+					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+					{
+						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
 					
 						if(obj2 == null) 
 							return;
 					//	if(obj2.name != "WallTile")
 					//		return;
 						
+					
+						
 						Transform tObj = obj2.transform;
-						Destroy(obj2);
-						tObj.position += Vector3.up;
-						PlaceTrapAtPos(darts, tObj);
+						
+						
+						
+						//PlaceTrapAtPos(darts, tObj);
+						DelayedSpawner.i.addSpawnData(darts, tObj, 3);
 						
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
+						wallDartLock= true;
+//						Destroy
 					}
 				}
 				else 
@@ -219,9 +258,69 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
 				
+				
+				
+			}
+			
+			if(vinesLock)
+			{
+				vinesCooldownTimer += Time.deltaTime;
+				if(vinesCooldownTimer >= vinesCooldown)
+				{
+					
+					vinesCooldownTimer = 0;
+					vinesLock = false;
+				}
+			}
+			
+		
+		}
+		
+		if(wallDartLock)
+		{
+			wallDartCooldownTimer += Time.deltaTime;
+			if(wallDartCooldownTimer >= wallDartCooldown)
+			{
+				
+				wallDartCooldownTimer = 0;
+				wallDartLock = false;
+			}
+		}
+		
+		if(rangedLock)
+		{
+			rangedCooldownTimer += Time.deltaTime;
+			if(rangedCooldownTimer >= rangedCooldown)
+			{
+				
+				rangedCooldownTimer = 0;
+				rangedLock = false;
+			}
+		}
+		
+		if(skellyLock)
+		{
+			skellyCooldownTimer += Time.deltaTime;
+			if(skellyCooldownTimer >= skellyCooldown)
+			{
+				
+				skellyCooldownTimer = 0;
+				skellyLock = false;
+			}
+		}
+		
+		if(fallingFloorLock)
+		{
+			fallingFloorCooldownTimer += Time.deltaTime;
+			if(fallingFloorCooldownTimer >= fallingFloorCooldown)
+			{
+				
+				fallingFloorCooldownTimer = 0;
+				fallingFloorLock = false;
 			}
 		}
 	}
+	
 
 	
 	override protected void OnPressSwitch( GameObject switchPressed )
