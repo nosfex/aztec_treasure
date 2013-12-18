@@ -1519,7 +1519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0208c810faa4c6c8c07a8dd476b4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: {fileID: 148247312}
+  effect: {fileID: 19800000, guid: 82e89d1eab2954ea8854f3830b29e67c, type: 2}
 --- !u!1 &427190692
 GameObject:
   m_ObjectHideFlags: 0
