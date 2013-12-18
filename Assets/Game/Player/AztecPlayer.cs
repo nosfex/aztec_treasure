@@ -130,16 +130,17 @@ public class AztecPlayer : Player {
 			{
 				if(trapCurrency > vinesPrice)
 				{
-					PlaceTrap( vines );			
-
+					//PlaceTrap( vines );			
+					DelayedSpawner.i.addSpawnData(vines, transform, 3);
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
+					vinesLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
-				vinesLock = true;
+				
 			}
 			
 			if(currentTrap == 1 && !fallingFloorLock)
@@ -173,29 +174,31 @@ public class AztecPlayer : Player {
 
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + fallingFloorPrice );
 					trapCurrency -= fallingFloorPrice;
-
+					fallingFloorLock = true;
 						
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
-				fallingFloorLock = true;
+				
 			}
 			
 			if(currentTrap == 2 && !skellyLock)
 			{
 				if(trapCurrency > skellyPrice)
 				{
-					PlaceTrap( skelly );			
+					//PlaceTrap( skelly );			
+					DelayedSpawner.i.addSpawnData(skelly, transform, 3);
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
+					skellyLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
-				skellyLock = true;
+				
 			}
 
 		
@@ -203,15 +206,17 @@ public class AztecPlayer : Player {
 			{
 				if(trapCurrency > rangedPrice)
 				{
-					PlaceTrap( ranged );			
+					DelayedSpawner.i.addSpawnData(ranged, transform, 3);
+					//PlaceTrap( ranged );			
 					trapCurrency -= rangedPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
+					rangedLock = true;
 				}
 				else 
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
-				rangedLock = true;
+				
 			}
 			
 			if(currentTrap == 4 && !wallDartLock)
@@ -223,9 +228,9 @@ public class AztecPlayer : Player {
 					if(direction != Vector3.up) 
 					{
 						
-						return;
+					//	return;
 					}
-					if(Physics.Raycast(transform.position + Vector3.up ,   this.direction, out r))
+					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
 					{
 						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
 					
@@ -238,11 +243,13 @@ public class AztecPlayer : Player {
 						
 						Transform tObj = obj2.transform;
 						
-						Destroy(obj2);
 						
-						PlaceTrapAtPos(darts, tObj);
+						
+						//PlaceTrapAtPos(darts, tObj);
+						DelayedSpawner.i.addSpawnData(darts, tObj, 3);
 						
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
+						wallDartLock= true;
 					}
 				}
 				else 
@@ -250,7 +257,7 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 				}
 				
-				wallDartLock= true;
+				
 				
 			}
 			
@@ -265,48 +272,50 @@ public class AztecPlayer : Player {
 				}
 			}
 			
-			if(wallDartLock)
+		
+		}
+		
+		if(wallDartLock)
+		{
+			wallDartCooldownTimer += Time.deltaTime;
+			if(wallDartCooldownTimer >= wallDartCooldown)
 			{
-				wallDartCooldownTimer += Time.deltaTime;
-				if(wallDartCooldownTimer >= wallDartCooldown)
-				{
-					
-					wallDartCooldownTimer = 0;
-					wallDartLock = false;
-				}
+				
+				wallDartCooldownTimer = 0;
+				wallDartLock = false;
 			}
-			
-			if(rangedLock)
+		}
+		
+		if(rangedLock)
+		{
+			rangedCooldownTimer += Time.deltaTime;
+			if(rangedCooldownTimer >= rangedCooldown)
 			{
-				rangedCooldownTimer += Time.deltaTime;
-				if(rangedCooldownTimer >= rangedCooldown)
-				{
-					
-					rangedCooldownTimer = 0;
-					rangedLock = false;
-				}
+				
+				rangedCooldownTimer = 0;
+				rangedLock = false;
 			}
-			
-			if(skellyLock)
+		}
+		
+		if(skellyLock)
+		{
+			skellyCooldownTimer += Time.deltaTime;
+			if(skellyCooldownTimer >= skellyCooldown)
 			{
-				skellyCooldownTimer += Time.deltaTime;
-				if(skellyCooldownTimer >= skellyCooldown)
-				{
-					
-					skellyCooldownTimer = 0;
-					skellyLock = false;
-				}
+				
+				skellyCooldownTimer = 0;
+				skellyLock = false;
 			}
-			
-			if(fallingFloorLock)
+		}
+		
+		if(fallingFloorLock)
+		{
+			fallingFloorCooldownTimer += Time.deltaTime;
+			if(fallingFloorCooldownTimer >= fallingFloorCooldown)
 			{
-				fallingFloorCooldownTimer += Time.deltaTime;
-				if(fallingFloorCooldownTimer >= fallingFloorCooldown)
-				{
-					
-					fallingFloorCooldownTimer = 0;
-					fallingFloorLock = false;
-				}
+				
+				fallingFloorCooldownTimer = 0;
+				fallingFloorLock = false;
 			}
 		}
 	}
