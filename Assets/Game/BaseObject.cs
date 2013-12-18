@@ -27,6 +27,9 @@ public class BaseObject : MonoBehaviour
 	public bool respawns = false;
 	public BoxCollider currentFloor;
 	
+	
+	const float STAIR_HEIGHT = 0.25f;
+	
 	EnemySpawner respawner;
 
 	virtual protected void Start()
@@ -116,7 +119,9 @@ public class BaseObject : MonoBehaviour
 			if ( currentFloor != null )
 			{
 				// Si el nuevo esta mas abajo o igual, lo asigna.
-				if ( ( currentFloor.transform.position.y + currentFloor.bounds.extents.y ) < floorY + 0.4f || floorY == -100f )
+				float TECHODELPISO = currentFloor.transform.position.y + currentFloor.bounds.extents.y;
+				
+				if ( TECHODELPISO < floorY + STAIR_HEIGHT || floorY == -100f )
 					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + collider.bounds.extents.y;
 				else 
 					print("wtf");
@@ -162,13 +167,19 @@ public class BaseObject : MonoBehaviour
 			else 
 			{
 				
-				if ( floorY > transform.position.y && floorY < (transform.position.y + 0.4f) )
+				if ( transform.position.y < floorY && (transform.position.y + STAIR_HEIGHT) > floorY )
 				{
 					//if ( gravity.y >= 0 )
 					{
 						float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
 						//gravity -= Vector3.up * dif;
-						transform.position += Vector3.up * Mathf.Min( 0.1f, dif );
+						transform.position += Vector3.up * Mathf.Min( 0.05f, dif );
+						
+						if ( transform.position.y > floorY )
+						{
+							gravity = Vector3.zero;
+							transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+						}
 					}
 					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
 				}
@@ -190,11 +201,12 @@ public class BaseObject : MonoBehaviour
 					
 					if ( gravity.y > 0 )
 					{
-						//print("WHAT");
+						
 						gravity *= -bouncyness;//Vector3.zero;
 						
 					}
 				}
+			//	print("WHAT");
 				velocity *= groundFrictionCoef;
 				collisionEnabled = true;				
 			}
@@ -223,7 +235,7 @@ public class BaseObject : MonoBehaviour
 		float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
 		float yDif = TECHODELPISO - MISPIES;
 		
-		if ( yDif >= 0.3f ) // Enough to climb
+		if ( yDif >= STAIR_HEIGHT ) // Enough to climb
 			return;
 
 		currentFloor = (BoxCollider)other;
@@ -326,7 +338,7 @@ public class BaseObject : MonoBehaviour
 			float MISPIES = transform.position.y - collider.bounds.extents.y;
 			float yDif = TECHODELPISO - MISPIES;
 			
-			if ( yDif >= 0.3f ) // Enough to climb
+			if ( yDif >= STAIR_HEIGHT ) // Enough to climb
 			{
 				TestWalls( other ); // Treat as wall!
 			}

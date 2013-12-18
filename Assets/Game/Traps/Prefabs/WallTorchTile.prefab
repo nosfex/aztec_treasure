@@ -210,9 +210,9 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: 0
-    m_Strength: .330000013
+    m_Type: 1
+    m_Resolution: 3
+    m_Strength: .49000001
     m_Bias: .0500000007
     m_Softness: 4
     m_SoftnessFade: 1
@@ -220,7 +220,7 @@ Light:
   m_DrawHalo: 0
   m_ActuallyLightmapped: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967039
