@@ -37,11 +37,11 @@ public class AztecPlayer : Player {
 	bool rangedLock = false;
 	bool wallDartLock = false;
 	
-	int vinesCooldownTimer = 0;
-	int fallingFloorCooldownTimer = 0;
-	int skellyCooldownTimer = 0;
-	int rangedCooldownTimer = 0;
-	int wallDartCooldownTimer = 0;
+	float vinesCooldownTimer = 0;
+	float fallingFloorCooldownTimer = 0;
+	float skellyCooldownTimer = 0;
+	float rangedCooldownTimer = 0;
+	float wallDartCooldownTimer = 0;
 		
 	KeyCode placeTrap = KeyCode.T;
 	KeyCode cycleLeft = KeyCode.Q;
@@ -300,11 +300,11 @@ public class AztecPlayer : Player {
 			
 			if(fallingFloorLock)
 			{
-				fallingFloorTimer += Time.deltaTime;
-				if(fallingFloorTimer >= fallingFloorCooldown)
+				fallingFloorCooldownTimer += Time.deltaTime;
+				if(fallingFloorCooldownTimer >= fallingFloorCooldown)
 				{
 					
-					fallingFloorTimer = 0;
+					fallingFloorCooldownTimer = 0;
 					fallingFloorLock = false;
 				}
 			}
