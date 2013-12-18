@@ -40,7 +40,8 @@ public class DelayedSpawner : MonoBehaviour {
 				trap.RemoveAt(i);
 				timeToSpawn.RemoveAt(i);
 				trapTransform.RemoveAt(i);
-				effect.Play();
+			//	effect.Play();
+			
 			}
 		}
 	
@@ -52,6 +53,8 @@ public class DelayedSpawner : MonoBehaviour {
 		trap.Add(prefab);
 		trapTransform.Add(t);
 		timeToSpawn.Add(time);
-		
+		ParticleSystem p = (ParticleSystem)Instantiate(effect, t.position, t.rotation);
+		p.transform.parent = ((World)GameDirector.i.worldRight).transform;
+		p.transform.localPosition = t.localPosition;
 	}
 }

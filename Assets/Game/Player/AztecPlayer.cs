@@ -130,8 +130,12 @@ public class AztecPlayer : Player {
 			{
 				if(trapCurrency > vinesPrice)
 				{
+					Transform t = new GameObject().transform;
+					t.position = transform.position;
+					t.rotation = transform.rotation;
+					t.localPosition = transform.localPosition;
 					//PlaceTrap( vines );			
-					DelayedSpawner.i.addSpawnData(vines, transform, 3);
+					DelayedSpawner.i.addSpawnData(vines, t, 3);
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
 					vinesLock = true;
@@ -188,8 +192,12 @@ public class AztecPlayer : Player {
 			{
 				if(trapCurrency > skellyPrice)
 				{
+					Transform t = new GameObject().transform;
+					t.position = transform.position;
+					t.rotation = transform.rotation;
+					t.localPosition = transform.localPosition;
 					//PlaceTrap( skelly );			
-					DelayedSpawner.i.addSpawnData(skelly, transform, 3);
+					DelayedSpawner.i.addSpawnData(skelly, t, 3);
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
@@ -206,7 +214,12 @@ public class AztecPlayer : Player {
 			{
 				if(trapCurrency > rangedPrice)
 				{
-					DelayedSpawner.i.addSpawnData(ranged, transform, 3);
+					
+					Transform t = new GameObject().transform;
+					t.position = transform.position;
+					t.rotation = transform.rotation;
+					t.localPosition = transform.localPosition;
+					DelayedSpawner.i.addSpawnData(ranged, t, 3);
 					//PlaceTrap( ranged );			
 					trapCurrency -= rangedPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
@@ -241,12 +254,14 @@ public class AztecPlayer : Player {
 						
 					
 						
-						Transform tObj = obj2.transform;
-						
+						Transform t = new GameObject().transform;
+						t.position = obj2.transform.position;
+						t.rotation = obj2.transform.rotation;
+						t.localPosition = obj2.transform.localPosition;
 						
 						
 						//PlaceTrapAtPos(darts, tObj);
-						DelayedSpawner.i.addSpawnData(darts, tObj, 3);
+						DelayedSpawner.i.addSpawnData(darts, t, 3);
 						
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;
