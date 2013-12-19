@@ -104,13 +104,16 @@ public class GameDirector : MonoBehaviour {
 		
 		World world2 = go.GetComponent<World>();
 
-		world2.startingPoint.position = startRoom;
-		
-		GameObject final1 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
-		final1.transform.parent = worldContainer.transform;
-
-		finalTreasureRight = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
-		finalTreasureRight.transform.parent = world2.transform;
+		if ( dungeonGenerator != null )
+		{
+			world2.startingPoint.position = startRoom;
+			
+			GameObject final1 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
+			final1.transform.parent = worldContainer.transform;
+	
+			finalTreasureRight = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
+			finalTreasureRight.transform.parent = world2.transform;
+		}
 		
 		go.transform.position += (Vector3.right * (0.2f * 500f));
 		

@@ -317,6 +317,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
+  isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0
@@ -325,6 +326,7 @@ MonoBehaviour:
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
   projectile: {fileID: 100004, guid: 84a0fa0754b19854fa947364e07e605e, type: 2}
+  prefabExplosion: {fileID: 100002, guid: e6a71c04230304a8e8371ec7b8086d0c, type: 2}
   hearts: 0
   maxHearts: 1
   speed: .00999999978

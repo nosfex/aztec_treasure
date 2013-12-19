@@ -227,7 +227,8 @@ public class SpriteAnimator : MonoBehaviour
 		if ( Application.isEditor && !Application.isPlaying )
 			return;
 		
-		FindBillboardCamera();
+		Invoke ( "FindBillboardCamera", 0.3f );
+		//FindBillboardCamera();
 		
 		timer = 0;
 		frameIndex = 0;

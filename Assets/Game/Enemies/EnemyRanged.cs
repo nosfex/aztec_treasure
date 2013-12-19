@@ -10,7 +10,8 @@ public class EnemyRanged : BaseObject {
 	public BaseObjectSensor playerSensor;
 	
 	public GameObject projectile;
-	
+	public GameObject prefabExplosion;
+
 	[HideInInspector]
 	public int hearts;
 	
@@ -329,6 +330,12 @@ public class EnemyRanged : BaseObject {
 	void Die()
 	{
 		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
+		
+		if ( prefabExplosion != null )
+		{
+			GameObject explosion = (GameObject)Instantiate( prefabExplosion, transform.position, Quaternion.identity );
+			explosion.transform.parent = transform.parent;
+		}		
 		Destroy( gameObject );
 	}
 	

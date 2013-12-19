@@ -9,6 +9,8 @@ public class Skelly : BaseObject
 	public BaseObjectSensor liftSensor;
 	public BaseObjectSensor playerSensor;
 	
+	public GameObject prefabExplosion;
+	
 	[HideInInspector]
 	public int hearts;
 	
@@ -329,6 +331,13 @@ public class Skelly : BaseObject
 	virtual protected void Die()
 	{
 		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
+
+		if ( prefabExplosion != null )
+		{
+			GameObject explosion = (GameObject)Instantiate( prefabExplosion, transform.position, Quaternion.identity );
+			explosion.transform.parent = transform.parent;
+		}
+		
 		Destroy( gameObject );
 	}
 	
