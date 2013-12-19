@@ -3,14 +3,9 @@ using System.Collections;
 
 public class FinalTreasure : BaseObject 
 {
-
-	// Use this for initialization
-	void Start () {
-	
+	void OnLifted( GameObject src )
+	{
+		GameDirector.i.worldRight.camera.earthquakeEnabled = true;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

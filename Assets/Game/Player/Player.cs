@@ -464,8 +464,11 @@ public class Player : BaseObject
 					// Lo desactiva.
 					liftedObject.gravityEnabled = false;
 					liftedObject.collisionEnabled = false;
+					liftedObject.SendMessage ("OnLifted", gameObject, SendMessageOptions.DontRequireReceiver);
 					
 					liftSensor.gameObject.SetActive( false );
+					
+					
 					
 					//dropGuide.SetActive( true );
 				}
@@ -499,6 +502,7 @@ public class Player : BaseObject
 				liftedObject.gravity.y -= 0.025f;
 				liftedObject.transform.parent = worldOwner.transform;
 				liftedObject.gravityEnabled = true;
+				liftedObject.collisionEnabled = true;
 				
 				liftedObject = null;
 				liftSensor.sensedObject = null;
@@ -621,7 +625,7 @@ public class Player : BaseObject
 			Vector3 v = vv[i];
 			float distance = Vector3.Distance( v, transform.position );
 			
-			if ( distance < minDistance ) 
+			if ( distance < minDistance )
 			{
 				minDistance = distance;
 				closestBoundExit = v;
@@ -652,7 +656,7 @@ public class Player : BaseObject
 			break;
 		}
 		
-		if ( animator.isAnimPlaying("Attack") )
+		if ( animator != null && animator.isAnimPlaying("Attack") )
 		{
 			if ( other.tag == "Wall" )
 			{

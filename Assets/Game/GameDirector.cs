@@ -106,7 +106,7 @@ public class GameDirector : MonoBehaviour {
 
 		if ( dungeonGenerator != null )
 		{
-			world2.startingPoint.position = startRoom;
+			world2.startingPoint.position = endRoom;
 			
 			GameObject final1 = (GameObject)Instantiate( finalTreasure, endRoom, Quaternion.identity );
 			final1.transform.parent = worldContainer.transform;

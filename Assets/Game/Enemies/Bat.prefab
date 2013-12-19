@@ -96,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.63139725, y: 10.1293688, z: 1.67656708}
+  m_LocalPosition: {x: -1.24538207, y: 10.1293688, z: -.472471237}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children:
   - {fileID: 400004}
@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.12226486, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 400000}
 --- !u!4 &400004
@@ -276,8 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc36db0e2b3342eba14899917d44c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xcells: 3
-  ycells: 3
+  xcells: 2
+  ycells: 2
   frameIndex: 0
   isBillboard: 1
   billboardCamera: {fileID: 0}
@@ -287,63 +287,63 @@ MonoBehaviour:
   - name: WalkRight
     playMode: 1
     startFrame: 0
-    endFrame: 4
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: WalkLeft
     playMode: 1
     startFrame: 0
-    endFrame: 4
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 1
   - name: WalkUp
     playMode: 1
     startFrame: 0
-    endFrame: 4
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: WalkDown
     playMode: 1
     startFrame: 0
-    endFrame: 4
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: AttackRight
     playMode: 0
-    startFrame: 4
-    endFrame: 8
+    startFrame: 0
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: AttackLeft
     playMode: 0
-    startFrame: 4
-    endFrame: 8
+    startFrame: 0
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 1
   - name: AttackUp
     playMode: 0
-    startFrame: 4
-    endFrame: 8
+    startFrame: 0
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: AttackDown
     playMode: 0
-    startFrame: 4
-    endFrame: 8
+    startFrame: 0
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
   - name: Death
     playMode: 0
-    startFrame: 8
-    endFrame: 9
+    startFrame: 3
+    endFrame: 3
     frameRate: 10
     customFrameSequence: 
     horizontalFlip: 0
@@ -399,6 +399,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
+  isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0
@@ -406,6 +407,7 @@ MonoBehaviour:
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
+  prefabExplosion: {fileID: 0}
   hearts: 0
   maxHearts: 1
   speed: .00999999978
