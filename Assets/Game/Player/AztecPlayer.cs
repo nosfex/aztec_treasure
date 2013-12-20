@@ -67,6 +67,13 @@ public class AztecPlayer : Player {
 		vine2.transform.localPosition = transform.localPosition;
 		
 	}
+
+	public GameObject prefabTrapSign;
+	void PlaceSign()
+	{
+		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefabTrapSign, transform.position, Quaternion.identity );
+		obj.transform.parent = GameDirector.i.worldLeft.transform;
+	}
 	
 	
 	public void PlaceTrapAtPos(GameObject prefab, Transform t)
@@ -136,6 +143,9 @@ public class AztecPlayer : Player {
 					t.localPosition = transform.localPosition;
 					//PlaceTrap( vines );			
 					DelayedSpawner.i.addSpawnData(vines, t, 3);
+					
+					PlaceSign();
+					
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
 					vinesLock = true;
@@ -179,6 +189,8 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + fallingFloorPrice );
 					trapCurrency -= fallingFloorPrice;
 					fallingFloorLock = true;
+					
+					PlaceSign();
 						
 				}
 				else 
@@ -201,6 +213,9 @@ public class AztecPlayer : Player {
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
+					
+					PlaceSign();
+
 				}
 				else 
 				{
@@ -224,6 +239,9 @@ public class AztecPlayer : Player {
 					trapCurrency -= rangedPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
 					rangedLock = true;
+					
+					PlaceSign();
+					
 				}
 				else 
 				{
@@ -262,7 +280,8 @@ public class AztecPlayer : Player {
 						
 						//PlaceTrapAtPos(darts, tObj);
 						DelayedSpawner.i.addSpawnData(darts, t, 3);
-						
+						PlaceSign();
+
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;
 //						Destroy
