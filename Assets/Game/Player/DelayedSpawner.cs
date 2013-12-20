@@ -7,9 +7,16 @@ public class DelayedSpawner : MonoBehaviour {
 	public static DelayedSpawner i { get { return instance; } }
 	private static DelayedSpawner instance;
 	
-	List<GameObject> trap;
-	List<Transform> trapTransform;
-	List<float> timeToSpawn;
+	class DelayedTraps
+	{
+		public GameObject trap;
+		public Transform trapTransform;
+		public float timeToSpawn;
+		public ParticleSystem effect;
+	};
+	
+	List<DelayedTraps> traps;
+	
 	public ParticleSystem effect;
 	
 	
@@ -18,30 +25,29 @@ public class DelayedSpawner : MonoBehaviour {
 		instance = this;	
 		
 	}
-	// Use this for initialization
-	void Start () {
-		trap = new List<GameObject>();
-		trapTransform = new List<Transform>();
-		timeToSpawn = new List<float>();
+
+	void Start () 
+	{
+		traps = new List<DelayedTraps>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		for(int i = 0 ; i < timeToSpawn.Count ; i++)
+		for(int i = 0 ; i < traps.Count ; i++)
 		{
-			timeToSpawn[i] -= Time.deltaTime;
-			if(timeToSpawn[i] <= 0)
-			{
-				GameObject t = (GameObject)Instantiate(trap[i], trapTransform[i].position, trapTransform[i].rotation);
-				t.transform.parent = ((World)GameDirector.i.worldRight).transform;
-				t.transform.localPosition = trapTransform[i].localPosition;
-				
-				trap.RemoveAt(i);
-				timeToSpawn.RemoveAt(i);
-				trapTransform.RemoveAt(i);
-			//	effect.Play();
+			traps[i].timeToSpawn -= Time.deltaTime;
 			
+			if( traps[i].timeToSpawn <= 0 )
+			{
+				GameObject t = (GameObject)Instantiate(traps[i].trap, traps[i].trapTransform.position, traps[i].trapTransform.rotation);
+				t.transform.parent = ((World)GameDirector.i.worldRight).transform;
+				t.transform.localPosition = traps[i].trapTransform.localPosition;
+				
+				Destroy( traps[i].effect );
+				
+				traps.RemoveAt(i);
+				i--;
 			}
 		}
 	
@@ -49,12 +55,17 @@ public class DelayedSpawner : MonoBehaviour {
 	
 	public void addSpawnData(GameObject prefab, Transform t, float time)
 	{
-	//	timeToSpawn
-		trap.Add(prefab);
-		trapTransform.Add(t);
-		timeToSpawn.Add(time);
-		ParticleSystem p = (ParticleSystem)Instantiate(effect, t.position, t.rotation);
+		DelayedTraps trap = new DelayedTraps();
+		
+		ParticleSystem p = (ParticleSystem)Instantiate(effect, t.position, effect.transform.rotation );
 		p.transform.parent = ((World)GameDirector.i.worldRight).transform;
 		p.transform.localPosition = t.localPosition;
+		
+		trap.trap = prefab;
+		trap.trapTransform = t;
+		trap.timeToSpawn = time;
+		trap.effect = p;
+		
+		traps.Add ( trap );
 	}
 }
