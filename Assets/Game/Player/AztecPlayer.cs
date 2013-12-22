@@ -69,10 +69,11 @@ public class AztecPlayer : Player {
 	}
 
 	public GameObject prefabTrapSign;
-	void PlaceSign()
+	void PlaceSign(Transform posAt)
 	{
-		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefabTrapSign, transform.position, Quaternion.identity );
+		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefabTrapSign, posAt.position, Quaternion.identity );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
+		
 	}
 	
 	
@@ -144,7 +145,7 @@ public class AztecPlayer : Player {
 					//PlaceTrap( vines );			
 					DelayedSpawner.i.addSpawnData(vines, t, 3);
 					
-					PlaceSign();
+					PlaceSign(t);
 					
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
@@ -175,7 +176,6 @@ public class AztecPlayer : Player {
 						return;
 					}
 					
-					
 					Transform t = obj2.transform;
 									
 					Destroy(obj2);
@@ -190,7 +190,7 @@ public class AztecPlayer : Player {
 					trapCurrency -= fallingFloorPrice;
 					fallingFloorLock = true;
 					
-					PlaceSign();
+					PlaceSign(t);
 						
 				}
 				else 
@@ -214,7 +214,7 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
 					
-					PlaceSign();
+					PlaceSign(t);
 
 				}
 				else 
@@ -240,7 +240,7 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
 					rangedLock = true;
 					
-					PlaceSign();
+					PlaceSign(t);
 					
 				}
 				else 
@@ -270,7 +270,7 @@ public class AztecPlayer : Player {
 					//	if(obj2.name != "WallTile")
 					//		return;
 						
-					
+						
 						
 						Transform t = new GameObject().transform;
 						t.position = obj2.transform.position;
@@ -280,7 +280,7 @@ public class AztecPlayer : Player {
 						
 						//PlaceTrapAtPos(darts, tObj);
 						DelayedSpawner.i.addSpawnData(darts, t, 3);
-						PlaceSign();
+						PlaceSign(t);
 
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;

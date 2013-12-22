@@ -13,6 +13,7 @@ public class DelayedSpawner : MonoBehaviour {
 		public Transform trapTransform;
 		public float timeToSpawn;
 		public ParticleSystem effect;
+		public GameObject objToDel;
 	};
 	
 	List<DelayedTraps> traps;
@@ -45,7 +46,10 @@ public class DelayedSpawner : MonoBehaviour {
 				t.transform.localPosition = traps[i].trapTransform.localPosition;
 				
 				Destroy( traps[i].effect );
-				
+				if(traps[i].objToDel != null)
+				{
+					Destroy( traps[i].objToDel);
+				}
 				traps.RemoveAt(i);
 				i--;
 			}
@@ -53,7 +57,7 @@ public class DelayedSpawner : MonoBehaviour {
 	
 	}
 	
-	public void addSpawnData(GameObject prefab, Transform t, float time)
+	public void addSpawnData(GameObject prefab, Transform t, float time, GameObject del = null)
 	{
 		DelayedTraps trap = new DelayedTraps();
 		
@@ -65,7 +69,7 @@ public class DelayedSpawner : MonoBehaviour {
 		trap.trapTransform = t;
 		trap.timeToSpawn = time;
 		trap.effect = p;
-		
+		trap.objToDel = del;
 		traps.Add ( trap );
 	}
 }
