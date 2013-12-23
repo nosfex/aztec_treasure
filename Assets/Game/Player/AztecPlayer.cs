@@ -12,7 +12,7 @@ public class AztecPlayer : Player {
 	public GameObject ranged;
 	public GameObject darts;
 	
-	
+	Material wallMat;
 	public float maxCurrencyCooldown = 1.0f;
 	int MaxTraps = 5;
 	float currencyCooldown = 0.0f;
@@ -308,6 +308,33 @@ public class AztecPlayer : Player {
 			}
 			
 		
+		}
+		
+		
+			
+		if(currentTrap == 4 && !wallDartLock)
+		{
+			RaycastHit r;
+			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+			{
+				GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
+			
+				if(obj2 != null) 
+				{
+					if(direction == Vector3.forward && wallMat == null)
+					{
+						wallMat =  obj2.renderer.material;
+						
+						//wallMat.color = Color.red;
+						wallMat.SetColor("_MainColor", Color.red);
+						wallMat.SetColor("_SpecularColor", Color.red);
+						
+						obj2.renderer.material = wallMat;
+						//wallMat.Lerp(obj2.renderer.sharedMaterial, lerper, 0.1f);
+					}
+				}
+				
+			}
 		}
 		
 		if(wallDartLock)
