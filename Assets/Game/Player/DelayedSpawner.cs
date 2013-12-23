@@ -57,7 +57,7 @@ public class DelayedSpawner : MonoBehaviour {
 	
 	}
 	
-	public void addSpawnData(GameObject prefab, Transform t, float time, GameObject del = null)
+	public void addSpawnData(GameObject prefab, Transform t, float time, GameObject del)
 	{
 		DelayedTraps trap = new DelayedTraps();
 		
