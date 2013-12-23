@@ -1,18 +1,25 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AztecPlayer : Player {
 	
 	
 	public int trapCurrency = 20;
-	delegate void destroy(GameObject obj);
+	
 	public GameObject vines;
 	public GameObject fFloor;
 	public GameObject skelly;
 	public GameObject ranged;
 	public GameObject darts;
 	
-	Material wallMat;
+	
+	public GameObject vinesSign;
+	public GameObject fFloorSign;
+	public GameObject skellySign;
+	public GameObject rangedSign;
+	public GameObject dartsSign;
+	
+	
 	public float maxCurrencyCooldown = 1.0f;
 	int MaxTraps = 5;
 	float currencyCooldown = 0.0f;
@@ -47,7 +54,7 @@ public class AztecPlayer : Player {
 	KeyCode cycleLeft = KeyCode.Q;
 	KeyCode cycleRight = KeyCode.E;
 	
-	int currentTrap = 0;
+	public int currentTrap = 0;
 	
 	
 	public int vinesPrice = 70;
@@ -68,10 +75,9 @@ public class AztecPlayer : Player {
 		
 	}
 
-	public GameObject prefabTrapSign;
-	void PlaceSign(Transform posAt)
+	void PlaceSign(GameObject prefab, Transform posAt)
 	{
-		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefabTrapSign, posAt.position, Quaternion.identity );
+		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
 		
 	}
@@ -143,9 +149,9 @@ public class AztecPlayer : Player {
 					t.rotation = transform.rotation;
 					t.localPosition = transform.localPosition;
 					//PlaceTrap( vines );			
-					DelayedSpawner.i.addSpawnData(vines, t, 3);
+					DelayedSpawner.i.addSpawnData(vines, t, 3, null);
 					
-					PlaceSign(t);
+					PlaceSign(vinesSign, t);
 					
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
@@ -190,7 +196,7 @@ public class AztecPlayer : Player {
 					trapCurrency -= fallingFloorPrice;
 					fallingFloorLock = true;
 					
-					PlaceSign(t);
+					PlaceSign(fFloorSign, t);
 						
 				}
 				else 
@@ -209,12 +215,12 @@ public class AztecPlayer : Player {
 					t.rotation = transform.rotation;
 					t.localPosition = transform.localPosition;
 					//PlaceTrap( skelly );			
-					DelayedSpawner.i.addSpawnData(skelly, t, 3);
+					DelayedSpawner.i.addSpawnData(skelly, t, 3, null);
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
 					
-					PlaceSign(t);
+					PlaceSign(skellySign, t);
 
 				}
 				else 
@@ -234,13 +240,13 @@ public class AztecPlayer : Player {
 					t.position = transform.position;
 					t.rotation = transform.rotation;
 					t.localPosition = transform.localPosition;
-					DelayedSpawner.i.addSpawnData(ranged, t, 3);
+					DelayedSpawner.i.addSpawnData(ranged, t, 3, null);
 					//PlaceTrap( ranged );			
 					trapCurrency -= rangedPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
 					rangedLock = true;
 					
-					PlaceSign(t);
+					PlaceSign(rangedSign, t);
 					
 				}
 				else 
@@ -256,10 +262,10 @@ public class AztecPlayer : Player {
 				{
 					RaycastHit r;
 					
-					if(direction != Vector3.up) 
+					if(direction != Vector3.forward) 
 					{
-						
-					//	return;
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
+						return;
 					}
 					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
 					{
@@ -279,8 +285,8 @@ public class AztecPlayer : Player {
 						
 						
 						//PlaceTrapAtPos(darts, tObj);
-						DelayedSpawner.i.addSpawnData(darts, t, 3);
-						PlaceSign(t);
+						DelayedSpawner.i.addSpawnData(darts, t, 3, null);
+						PlaceSign(dartsSign, t);
 
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;
@@ -295,47 +301,21 @@ public class AztecPlayer : Player {
 				
 				
 			}
-			
-			if(vinesLock)
-			{
-				vinesCooldownTimer += Time.deltaTime;
-				if(vinesCooldownTimer >= vinesCooldown)
-				{
-					
-					vinesCooldownTimer = 0;
-					vinesLock = false;
-				}
-			}
-			
+		
 		
 		}
 		
-		
-			
-		if(currentTrap == 4 && !wallDartLock)
+		if(vinesLock)
 		{
-			RaycastHit r;
-			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+			vinesCooldownTimer += Time.deltaTime;
+			if(vinesCooldownTimer >= vinesCooldown)
 			{
-				GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
-			
-				if(obj2 != null) 
-				{
-					if(direction == Vector3.forward && wallMat == null)
-					{
-						wallMat =  obj2.renderer.material;
-						
-						//wallMat.color = Color.red;
-						wallMat.SetColor("_MainColor", Color.red);
-						wallMat.SetColor("_SpecularColor", Color.red);
-						
-						obj2.renderer.material = wallMat;
-						//wallMat.Lerp(obj2.renderer.sharedMaterial, lerper, 0.1f);
-					}
-				}
 				
+				vinesCooldownTimer = 0;
+				vinesLock = false;
 			}
 		}
+		
 		
 		if(wallDartLock)
 		{
