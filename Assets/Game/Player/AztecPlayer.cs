@@ -20,6 +20,13 @@ public class AztecPlayer : Player {
 	public GameObject dartsSign;
 	
 	
+	
+	GameObject highlightedFloor = null;
+	GameObject highlightedWall = null;
+	
+	Material floorMat = null;
+	Material wallMat = null;
+	
 	public float maxCurrencyCooldown = 1.0f;
 	int MaxTraps = 5;
 	float currencyCooldown = 0.0f;
@@ -75,11 +82,11 @@ public class AztecPlayer : Player {
 		
 	}
 
-	void PlaceSign(GameObject prefab, Transform posAt)
+	void PlaceSign(GameObject prefab, Transform posAt, Quaternion eulerRot)
 	{
-		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity );
+		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity *eulerRot );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
-		
+		obj.transform.position -= Vector3.up *0.1f;
 	}
 	
 	
@@ -151,7 +158,7 @@ public class AztecPlayer : Player {
 					//PlaceTrap( vines );			
 					DelayedSpawner.i.addSpawnData(vines, t, 3, null);
 					
-					PlaceSign(vinesSign, t);
+					PlaceSign(vinesSign, t, Quaternion.Euler(90, 0, 0));
 					
 					trapCurrency -= vinesPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
@@ -196,7 +203,7 @@ public class AztecPlayer : Player {
 					trapCurrency -= fallingFloorPrice;
 					fallingFloorLock = true;
 					
-					PlaceSign(fFloorSign, t);
+					PlaceSign(fFloorSign, t,  Quaternion.Euler(90, 0, 0));
 						
 				}
 				else 
@@ -220,7 +227,7 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
 					
-					PlaceSign(skellySign, t);
+					PlaceSign(skellySign, t,  Quaternion.Euler(90, 0, 0));
 
 				}
 				else 
@@ -246,7 +253,9 @@ public class AztecPlayer : Player {
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
 					rangedLock = true;
 					
-					PlaceSign(rangedSign, t);
+					
+					
+					PlaceSign(rangedSign, t,  Quaternion.Euler(90, 0, 0));
 					
 				}
 				else 
@@ -264,7 +273,7 @@ public class AztecPlayer : Player {
 					
 					if(direction != Vector3.forward) 
 					{
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
 						return;
 					}
 					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
@@ -279,18 +288,20 @@ public class AztecPlayer : Player {
 						
 						
 						Transform t = new GameObject().transform;
-						t.position = obj2.transform.position;
+						t.position = obj2.transform.position - Vector3.forward ;
 						t.rotation = obj2.transform.rotation;
-						t.localPosition = obj2.transform.localPosition;
+						t.localPosition = obj2.transform.localPosition  - Vector3.forward ; 
 						
 						
 						//PlaceTrapAtPos(darts, tObj);
 						DelayedSpawner.i.addSpawnData(darts, t, 3, null);
-						PlaceSign(dartsSign, t);
+						PlaceSign(dartsSign, t,  Quaternion.identity );
 
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
 						wallDartLock= true;
 //						Destroy
+						
+						
 					}
 				}
 				else 
@@ -303,6 +314,53 @@ public class AztecPlayer : Player {
 			}
 		
 		
+		}
+		
+		
+		if(currentTrap  == 4 && !wallDartLock && direction == Vector3.forward )
+		{
+			RaycastHit r;
+			
+			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+			{
+				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + this.direction * 0.4f );
+			
+				if(obj2 != null) 
+				{
+				
+					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
+				}
+			}
+		}
+		else if(direction != Vector3.forward)
+		{
+	
+			if(highlightedWall != null)
+			{
+				
+				highlightedWall.renderer.material = wallMat;
+		
+			}
+		
+		}
+		
+		
+		if(currentTrap !=4 )
+		{
+			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
+			if(obj != null)
+			{
+				highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
+			}
+		}
+		else
+		{
+			if(highlightedFloor != null && highlightedFloor.renderer.material != floorMat)
+			{
+				
+				highlightedFloor.renderer.material = floorMat;
+		
+			}
 		}
 		
 		if(vinesLock)
@@ -362,7 +420,33 @@ public class AztecPlayer : Player {
 		}
 	}
 	
-
+	
+	void highlightArea(GameObject obj,  Color highlightColor, ref GameObject refKeep, ref Material originalMat)
+	{
+		if( originalMat == null)
+		{
+			originalMat = obj.renderer.sharedMaterial;
+		}
+				
+		
+		Material tempMat = obj.renderer.material;
+		tempMat.SetColor("_Color", Color.Lerp(tempMat.color, highlightColor, 0.5f));
+		
+		if(refKeep != obj)
+		{
+			if(refKeep != null)
+			{
+				
+				refKeep.renderer.material = originalMat;
+				refKeep = obj;	
+			}
+			else
+			{
+				refKeep = obj;		
+			}
+		}
+		
+	}
 	
 	override protected void OnPressSwitch( GameObject switchPressed )
 	{
