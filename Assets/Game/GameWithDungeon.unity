@@ -3494,46 +3494,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!1001 &757032948
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 9.90702629
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 10.2625437
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -5.3651247
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-  m_RootGameObject: {fileID: 1901121001}
-  m_IsPrefabParent: 0
-  m_IsExploded: 1
 --- !u!1 &793500932
 GameObject:
   m_ObjectHideFlags: 0
@@ -5874,6 +5834,26 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: vinesCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: fallingFloorCooldown
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: skellyCooldown
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: rangedCooldown
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: wallDartCooldown
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
   m_RootGameObject: {fileID: 1248416769}
@@ -8045,90 +8025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f478921ffd24540b096d477755213ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1901121001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-  m_PrefabInternal: {fileID: 757032948}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1901121002}
-  - 114: {fileID: 1901121003}
-  - 33: {fileID: 1901121004}
-  - 23: {fileID: 1901121005}
-  m_Layer: 0
-  m_Name: SeedSign
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1901121002
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-  m_PrefabInternal: {fileID: 757032948}
-  m_GameObject: {fileID: 1901121001}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.90702629, y: 10.2625437, z: -5.3651247}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
---- !u!114 &1901121003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: eb01f163936dbea4cb8fc4e943c284ae,
-    type: 2}
-  m_PrefabInternal: {fileID: 757032948}
-  m_GameObject: {fileID: 1901121001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bc36db0e2b3342eba14899917d44c53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xcells: 1
-  ycells: 1
-  frameIndex: 0
-  isBillboard: 1
-  billboardCamera: {fileID: 0}
-  playOnAwake: 0
-  startingAnimationName: 
-  animations: []
-  currentAnimation:
-    name: 
-    playMode: 0
-    startFrame: 0
-    endFrame: 1
-    frameRate: 30
-    customFrameSequence: 
-    horizontalFlip: 0
---- !u!33 &1901121004
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 3300000, guid: eb01f163936dbea4cb8fc4e943c284ae,
-    type: 2}
-  m_PrefabInternal: {fileID: 757032948}
-  m_GameObject: {fileID: 1901121001}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1901121005
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 2300000, guid: eb01f163936dbea4cb8fc4e943c284ae,
-    type: 2}
-  m_PrefabInternal: {fileID: 757032948}
-  m_GameObject: {fileID: 1901121001}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 0ad5ecdbac683b94b9ef45ed1258e0af, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
 --- !u!1 &1937115515
 GameObject:
   m_ObjectHideFlags: 0
@@ -8452,11 +8348,11 @@ MonoBehaviour:
   rangedSign: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
   dartsSign: {fileID: 100000, guid: d97ef5e1fa4054f0f9bec9e1516ff026, type: 2}
   maxCurrencyCooldown: .5
-  vinesCooldown: 0
-  fallingFloorCooldown: 0
-  skellyCooldown: 0
-  rangedCooldown: 0
-  wallDartCooldown: 0
+  vinesCooldown: 5
+  fallingFloorCooldown: 10
+  skellyCooldown: 15
+  rangedCooldown: 15
+  wallDartCooldown: 9
   currentTrap: 0
   vinesPrice: 70
   fallingFloorPrice: 100
