@@ -537,16 +537,16 @@ MonoBehaviour:
   rangedSign: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
   dartsSign: {fileID: 100000, guid: d97ef5e1fa4054f0f9bec9e1516ff026, type: 2}
   maxCurrencyCooldown: .5
-  vinesCooldown: 0
-  fallingFloorCooldown: 0
-  skellyCooldown: 0
-  rangedCooldown: 0
-  wallDartCooldown: 0
+  vinesCooldown: 5
+  fallingFloorCooldown: 10
+  skellyCooldown: 15
+  rangedCooldown: 15
+  wallDartCooldown: 9
   currentTrap: 0
   vinesPrice: 70
   fallingFloorPrice: 100
-  skellyPrice: 200
-  rangedPrice: 400
+  skellyPrice: 100
+  rangedPrice: 200
   wallDartPrice: 300
   trapNames:
   - Vines

@@ -342,6 +342,12 @@ public class FollowSmooth : MonoBehaviour
 	Vector3 shake;
 	public bool earthquakeEnabled = false;
 	
+	public void Shake( float amount, float time )
+	{
+		iTween.ShakePosition( gameObject, iTween.Hash( "amount", new Vector3(1.0f, 1.0f, 0) * amount, "time", time ) );
+	}
+	
+	
 	void UpdatePaja()
 	{
 		//posDelta = target.position - lastPos;

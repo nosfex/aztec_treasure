@@ -68,7 +68,7 @@ MonoBehaviour:
   xcells: 1
   ycells: 1
   frameIndex: 0
-  isBillboard: 1
+  isBillboard: 0
   billboardCamera: {fileID: 0}
   playOnAwake: 0
   startingAnimationName: 

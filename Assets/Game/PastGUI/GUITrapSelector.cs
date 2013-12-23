@@ -4,8 +4,9 @@ using System.Collections;
 public class GUITrapSelector : MonoBehaviour {
 	
 	
-	Transform cursor;
-	
+	public Transform cursor;
+
+	public Transform[] traps;
 	// Use this for initialization
 	void Start () 
 	{
@@ -17,13 +18,6 @@ public class GUITrapSelector : MonoBehaviour {
 			
 		}
 		
-		for(int i = 0; i < transform.childCount; i ++)
-		{
-			if(transform.GetChild(i).name == "Cursor")
-			{
-				cursor = transform.GetChild(i);
-			}
-		}
 		//cursor.position = new Vector3(-6.85f, cursor.position.y, cursor.position.z);
 	}
 	
@@ -31,7 +25,7 @@ public class GUITrapSelector : MonoBehaviour {
 	void Update () 
 	{
 		Vector3 pos = cursor.position; 
-		pos.x = -31.0f + ((AztecPlayer)(GameDirector.i.playerLeft)).currentTrap;
+		pos.x = traps[ ((AztecPlayer)(GameDirector.i.playerLeft)).currentTrap ].position.x;
 		cursor.position = pos;
 	}
 }

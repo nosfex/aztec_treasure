@@ -86,7 +86,7 @@ public class AztecPlayer : Player {
 	{
 		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity *eulerRot );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
-		obj.transform.position -= Vector3.up *0.1f;
+		obj.transform.position -= Vector3.up * 0.1f;
 	}
 	
 	

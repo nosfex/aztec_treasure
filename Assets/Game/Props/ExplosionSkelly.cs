@@ -7,6 +7,7 @@ public class ExplosionSkelly : MonoBehaviour
 
 	void Start () 
 	{
+		GameDirector.i.worldRight.camera.Shake( 0.1f, 0.2f );
 		int partIndex = 1;
 		foreach ( GameObject go in prefabDebris )
 		{
