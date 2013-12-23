@@ -278,7 +278,7 @@ public class AztecPlayer : Player {
 					}
 					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
 					{
-						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.4f );
+						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.3f );
 					
 						if(obj2 == null) 
 							return;
@@ -288,9 +288,9 @@ public class AztecPlayer : Player {
 						
 						
 						Transform t = new GameObject().transform;
-						t.position = obj2.transform.position - Vector3.forward ;
+						t.position = obj2.transform.position ;
 						t.rotation = obj2.transform.rotation;
-						t.localPosition = obj2.transform.localPosition  - Vector3.forward ; 
+						t.localPosition = obj2.transform.localPosition ; 
 						
 						
 						//PlaceTrapAtPos(darts, tObj);
