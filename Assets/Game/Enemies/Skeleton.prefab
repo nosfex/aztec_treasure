@@ -325,7 +325,7 @@ MonoBehaviour:
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
-  prefabExplosion: {fileID: 100002, guid: e6a71c04230304a8e8371ec7b8086d0c, type: 2}
+  prefabExplosion: {fileID: 100002, guid: 6064ede2577634fd8931f5f23514c3c5, type: 2}
   hearts: 0
   maxHearts: 1
   speed: .0160000008

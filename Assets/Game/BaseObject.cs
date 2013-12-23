@@ -47,8 +47,6 @@ public class BaseObject : MonoBehaviour
 //		}
 //#endif
 		
-		velocity = Vector3.zero;
-		accel = Vector3.zero;
 		
 		World myWorld = findWorld( transform );
 			
@@ -208,7 +206,7 @@ public class BaseObject : MonoBehaviour
 				}
 			//	print("WHAT");
 				velocity *= groundFrictionCoef;
-				collisionEnabled = true;				
+				//collisionEnabled = true;				
 			}
 			
 		}

@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba85238d208b241e0b63005f2d1eef99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabDebris: []
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
