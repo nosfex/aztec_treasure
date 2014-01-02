@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -.680705786, y: 10.1293688, z: -2.05955219}
-  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
   - {fileID: 400002}
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xcells: 3
-  ycells: 2
+  ycells: 1
   frameIndex: 0
   isBillboard: 1
   billboardCamera: {fileID: 0}
@@ -364,32 +364,32 @@ MonoBehaviour:
   startingAnimationName: WalkRight
   animations:
   - name: WalkRight
-    playMode: 1
+    playMode: 4
     startFrame: 0
     endFrame: 1
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   - name: WalkLeft
-    playMode: 1
+    playMode: 4
     startFrame: 0
     endFrame: 1
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 1
   - name: WalkUp
-    playMode: 1
+    playMode: 4
     startFrame: 2
     endFrame: 3
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   - name: WalkDown
-    playMode: 1
+    playMode: 4
     startFrame: 4
     endFrame: 5
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   currentAnimation:
     name: Pija

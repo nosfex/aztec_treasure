@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.35584164, y: 18.9303894, z: -6.03568268}
-  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
   - {fileID: 400002}
@@ -127,7 +127,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .300000012, z: 0}
+  m_LocalPosition: {x: 0, y: .208049774, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -190,7 +190,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 9773a0f3e858b8d4caf5a3a685b144a8, type: 2}
+  - {fileID: 2100000, guid: 0e882b4e84fc82543ad0a495c5bb6a27, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
   projectile: {fileID: 100004, guid: 84a0fa0754b19854fa947364e07e605e, type: 2}
-  prefabExplosion: {fileID: 100002, guid: e6a71c04230304a8e8371ec7b8086d0c, type: 2}
+  prefabExplosion: {fileID: 100002, guid: 6064ede2577634fd8931f5f23514c3c5, type: 2}
   hearts: 0
   maxHearts: 1
   speed: .00999999978
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc36db0e2b3342eba14899917d44c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xcells: 3
+  xcells: 2
   ycells: 2
   frameIndex: 0
   isBillboard: 1
@@ -366,32 +366,32 @@ MonoBehaviour:
   startingAnimationName: WalkRight
   animations:
   - name: WalkRight
-    playMode: 1
+    playMode: 4
     startFrame: 0
     endFrame: 2
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   - name: WalkLeft
-    playMode: 1
+    playMode: 4
     startFrame: 0
     endFrame: 2
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 1
   - name: WalkUp
-    playMode: 1
+    playMode: 4
     startFrame: 2
     endFrame: 4
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   - name: WalkDown
-    playMode: 1
+    playMode: 4
     startFrame: 4
     endFrame: 6
     frameRate: 8
-    customFrameSequence: 
+    customFrameSequence: 00000000010000000000000002000000ffffffff
     horizontalFlip: 0
   currentAnimation:
     name: Pija

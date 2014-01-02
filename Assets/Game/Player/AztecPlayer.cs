@@ -87,6 +87,8 @@ public class AztecPlayer : Player {
 		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity *eulerRot );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
 		obj.transform.position -= Vector3.up * 0.1f;
+		
+		GameDirector.i.worldLeft.camera.Shake( 0.1f, 0.2f );
 	}
 	
 	
@@ -218,16 +220,16 @@ public class AztecPlayer : Player {
 				if(trapCurrency > skellyPrice)
 				{
 					Transform t = new GameObject().transform;
-					t.position = transform.position;
+					t.position = transform.position + (Vector3.up * 0.4f);
 					t.rotation = transform.rotation;
-					t.localPosition = transform.localPosition;
+					t.localPosition = transform.localPosition + (Vector3.up * 0.4f);
 					//PlaceTrap( skelly );			
 					DelayedSpawner.i.addSpawnData(skelly, t, 3, null);
 					trapCurrency -= skellyPrice;
 					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
 					skellyLock = true;
 					
-					PlaceSign(skellySign, t,  Quaternion.Euler(90, 0, 0));
+					PlaceSign(skellySign, transform,  Quaternion.Euler(90, 0, 0));
 
 				}
 				else 
@@ -288,13 +290,13 @@ public class AztecPlayer : Player {
 						
 						
 						Transform t = new GameObject().transform;
-						t.position = obj2.transform.position ;
+						t.position = obj2.transform.position;
 						t.rotation = obj2.transform.rotation;
-						t.localPosition = obj2.transform.localPosition ; 
+						t.localPosition = obj2.transform.localPosition; 
 						
 						
 						//PlaceTrapAtPos(darts, tObj);
-						DelayedSpawner.i.addSpawnData(darts, t, 3, null);
+						DelayedSpawner.i.addSpawnData(darts, t, 3, obj2);
 						PlaceSign(dartsSign, t,  Quaternion.identity );
 
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );

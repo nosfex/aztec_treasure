@@ -69,8 +69,14 @@ public class World : MonoBehaviour
 	
 	public GameObject objFromPos(Vector3 pos)
 	{
+		if ( globalTiles == null )
+			return null;
+		
 		int tileX = Mathf.RoundToInt(pos.x / 0.8f);
 		int tileY = Mathf.RoundToInt(pos.z / 0.8f);
+		
+		if ( tileX > globalTiles.GetLength( 0 ) || tileX < 0 ) return null; 
+		if ( tileY > globalTiles.GetLength( 1 ) || tileY < 0 ) return null; 
 		
 		return globalTiles[ tileX, tileY ];
 	}

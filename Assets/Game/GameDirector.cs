@@ -30,6 +30,12 @@ public class GameDirector : MonoBehaviour {
 	
 	public GameObject[] spawnPrefabsList;
 	
+	public Material pastWall;
+	public Material futureWall;
+	public Material pastFloor;
+	public Material futureFloor;
+	
+	
 	public void ShowTextPopup( GameObject source, float yOffset, string text )
 	{
 		GameObject prefab = (GameObject)(GameObject.Instantiate ( textPopupPrefab, source.transform.position + (Vector3.up * yOffset), Quaternion.identity ));
@@ -144,6 +150,15 @@ public class GameDirector : MonoBehaviour {
 		worldRight = world2;
 		worldLeft = worldContainer;
 		
+		
+		foreach ( Renderer r in world2.GetComponentsInChildren<Renderer>() )
+		{
+			if ( r.sharedMaterial == pastWall )
+				r.sharedMaterial = futureWall;
+			//else if ( r.sharedMaterial == pastFloor )
+			//	r.sharedMaterial = futureFloor;
+		}
+		
 		Invoke( "InitTiles", .1f );
 		//SnapAssistant.i.snapEnabled = true;
 	}
@@ -157,10 +172,70 @@ public class GameDirector : MonoBehaviour {
 		}		
 	}
 	
+	bool highQualityEnabled = true;
+	
+	float hqTimer = 0;
+	float fpsThreshold = 35;
+	float timeThreshold = 5.0f;
+	bool qualityAlreadySet = false;
+	
+	void InitHighQuality( bool hq )
+	{
+		if ( qualityAlreadySet )
+			return;
+		
+		if ( hq == highQualityEnabled )
+			return;
+		
+		highQualityEnabled = hq;
+		hqTimer = 0;
+		qualityAlreadySet = true;
+		
+		if ( highQualityEnabled )
+		{
+			QualitySettings.SetQualityLevel( 1 );	
+			Debug.Log ("Setting HI-Q");
+		}
+		else 
+		{
+			QualitySettings.SetQualityLevel( 0 );	
+			Debug.Log ("Setting LO-Q");
+		}
+	}
+	
+	void UpdateQualityAssistant()
+	{
+		float fps = 1.0f / Time.deltaTime; 
+		//print ("FPS = " + fps );
+		if ( highQualityEnabled )
+		{
+			if ( fps < fpsThreshold )
+				hqTimer += Time.deltaTime;
+			else
+				hqTimer -= Time.deltaTime;
+			
+			hqTimer = Mathf.Clamp( hqTimer, 0, timeThreshold );
+			
+			if ( hqTimer >= timeThreshold )
+				InitHighQuality( false );
+		}
+		else 
+		{
+			if ( fps >= fpsThreshold )
+				hqTimer += Time.deltaTime;
+			else
+				hqTimer -= Time.deltaTime;
+			
+			hqTimer = Mathf.Clamp( hqTimer, 0, timeThreshold );
+
+			if ( hqTimer >= timeThreshold )
+				InitHighQuality( true );
+		}
+	}
 	// Update is called once per frame
 	void Update () 
 	{
-	
+		UpdateQualityAssistant();
 	}
 	
 	public GameObject findMyPrefab( GameObject which )
