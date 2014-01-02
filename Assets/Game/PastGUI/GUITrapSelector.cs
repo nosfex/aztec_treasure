@@ -25,7 +25,10 @@ public class GUITrapSelector : MonoBehaviour {
 	void Update () 
 	{
 		Vector3 pos = cursor.position; 
-		pos.x = traps[ ((AztecPlayer)(GameDirector.i.playerLeft)).currentTrap ].position.x;
+		
+		AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
+		pos.x = traps[ p.currentTrap ].position.x;
+		
 		cursor.position = pos;
 	}
 }

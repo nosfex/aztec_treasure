@@ -17,6 +17,8 @@ public class Altar : BaseObject
 	ParticleSystem flameParticle;
 	Light flameLight;
 	
+	bool trapIncrease = false;
+	
 	void Start()
 	{
 		flameParticle = GetComponentInChildren<ParticleSystem>();
@@ -54,6 +56,12 @@ public class Altar : BaseObject
 				currencyCooldown = 0.0f;
 				p.trapCurrency += 10;
 				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "+" + 10 );
+			}
+			
+			if(!trapIncrease)
+			{
+				trapIncrease = true;
+				p.activatedAltar++;
 			}
 		}
 	}
