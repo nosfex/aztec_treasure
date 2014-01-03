@@ -19,7 +19,7 @@ public class AztecPlayer : Player {
 	public GameObject rangedSign;
 	public GameObject dartsSign;
 	
-	
+	public int activatedAltar = 0;
 	
 	GameObject highlightedFloor = null;
 	GameObject highlightedWall = null;
@@ -217,101 +217,121 @@ public class AztecPlayer : Player {
 			
 			if(currentTrap == 2 && !skellyLock)
 			{
-				if(trapCurrency > skellyPrice)
+				if(activatedAltar >= 1)
 				{
-					Transform t = new GameObject().transform;
-					t.position = transform.position + (Vector3.up * 0.4f);
-					t.rotation = transform.rotation;
-					t.localPosition = transform.localPosition + (Vector3.up * 0.4f);
-					//PlaceTrap( skelly );			
-					DelayedSpawner.i.addSpawnData(skelly, t, 3, null);
-					trapCurrency -= skellyPrice;
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
-					skellyLock = true;
-					
-					PlaceSign(skellySign, transform,  Quaternion.Euler(90, 0, 0));
-
-				}
-				else 
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-				}
+					if(trapCurrency > skellyPrice)
+					{
+						Transform t = new GameObject().transform;
+						t.position = transform.position + (Vector3.up * 0.4f);
+						t.rotation = transform.rotation;
+						t.localPosition = transform.localPosition + (Vector3.up * 0.4f);
+						//PlaceTrap( skelly );			
+						DelayedSpawner.i.addSpawnData(skelly, t, 3, null);
+						trapCurrency -= skellyPrice;
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
+						skellyLock = true;
+						
+						PlaceSign(skellySign, transform,  Quaternion.Euler(90, 0, 0));
+	
+					}
+					else 
+					{
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+					}
 				
+				}
+				else
+				{
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 1 Altar!" );
+				}
 			}
 
 		
 			if(currentTrap == 3 && !rangedLock)
 			{
-				if(trapCurrency > rangedPrice)
+				if(activatedAltar >= 2)
 				{
+					if(trapCurrency > rangedPrice)
+					{
 					
-					Transform t = new GameObject().transform;
-					t.position = transform.position;
-					t.rotation = transform.rotation;
-					t.localPosition = transform.localPosition;
-					DelayedSpawner.i.addSpawnData(ranged, t, 3, null);
-					//PlaceTrap( ranged );			
-					trapCurrency -= rangedPrice;
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
-					rangedLock = true;
-					
-					
-					
-					PlaceSign(rangedSign, t,  Quaternion.Euler(90, 0, 0));
-					
+						Transform t = new GameObject().transform;
+						t.position = transform.position;
+						t.rotation = transform.rotation;
+						t.localPosition = transform.localPosition;
+						DelayedSpawner.i.addSpawnData(ranged, t, 3, null);
+						//PlaceTrap( ranged );			
+						trapCurrency -= rangedPrice;
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
+						rangedLock = true;
+						
+						
+						
+						PlaceSign(rangedSign, t,  Quaternion.Euler(90, 0, 0));
+						
+					}
+					else 
+					{
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+					}
 				}
-				else 
+				else
 				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 2 altars!" );
 				}
 				
 			}
 			
 			if(currentTrap == 4 && !wallDartLock)
 			{
-				if( trapCurrency > wallDartPrice)
+				if(activatedAltar >= 1)
 				{
-					RaycastHit r;
-					
-					if(direction != Vector3.forward) 
+					if( trapCurrency > wallDartPrice)
 					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
-						return;
-					}
-					if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
-					{
-						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.3f );
-					
-						if(obj2 == null) 
+						RaycastHit r;
+						
+						if(direction != Vector3.forward) 
+						{
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
 							return;
-					//	if(obj2.name != "WallTile")
-					//		return;
+						}
+						if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+						{
+							GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.3f );
 						
-						
-						
-						Transform t = new GameObject().transform;
-						t.position = obj2.transform.position;
-						t.rotation = obj2.transform.rotation;
-						t.localPosition = obj2.transform.localPosition; 
-						
-						
-						//PlaceTrapAtPos(darts, tObj);
-						DelayedSpawner.i.addSpawnData(darts, t, 3, obj2);
-						PlaceSign(dartsSign, t,  Quaternion.identity );
-
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
-						wallDartLock= true;
-//						Destroy
-						
-						
+							if(obj2 == null) 
+								return;
+						//	if(obj2.name != "WallTile")
+						//		return;
+							
+							
+							
+							Transform t = new GameObject().transform;
+							t.position = obj2.transform.position;
+							t.rotation = obj2.transform.rotation;
+							t.localPosition = obj2.transform.localPosition; 
+							
+							
+							//PlaceTrapAtPos(darts, tObj);
+							DelayedSpawner.i.addSpawnData(darts, t, 3, obj2);
+							PlaceSign(dartsSign, t,  Quaternion.identity );
+	
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
+							wallDartLock= true;
+	//						Destroy
+							
+							
+						}
+					}
+					else 
+					{
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
 					}
 				}
-				else 
+				else
 				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 1 altar!" );
+					
 				}
-				
-				
 				
 			}
 		
