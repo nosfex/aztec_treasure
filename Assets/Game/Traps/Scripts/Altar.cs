@@ -17,11 +17,15 @@ public class Altar : BaseObject
 	ParticleSystem flameParticle;
 	Light flameLight;
 	
+	//[HideInInspector] public int isFuture;
+	
 	void Start()
 	{
 		flameParticle = GetComponentInChildren<ParticleSystem>();
 		flameLight = GetComponentInChildren<Light>();
-		GUIAltars.i.altarsCount++;
+		
+		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) )
+			GUIAltars.i.altarsCount++;
 		
 	}
 	

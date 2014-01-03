@@ -399,7 +399,7 @@ Camera:
     height: 1
   near clip plane: .5
   far clip plane: 30
-  field of view: 22.5
+  field of view: 30
   orthographic: 0
   orthographic size: 100
   m_Depth: -1
@@ -814,6 +814,7 @@ MonoBehaviour:
   upKey: 273
   downKey: 274
   attackKey: 256
+  direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
 --- !u!114 &11400010
 MonoBehaviour:

@@ -36,7 +36,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	private List<Decoration> shuffledDecorations;
 	
-	int bailLimit = 20;
+	int bailLimit = 500;
 
 	Light[] lights;
 	
@@ -286,12 +286,42 @@ public class DungeonBSP : MonoBehaviour
 			rooms[ rand ] = swap;
 		}
 		
-		startRoom = GenerateRoom( -1, -1, 7, 7 );
+		int startRoomX = -1, startRoomY = -1;
+		
+		switch ( Random.Range (0, 3) )
+		{
+			case 0:
+				startRoomX = -1; startRoomY = -1;
+				break;
+			case 1:
+				startRoomX = 1; startRoomY = 1;
+				break;
+			case 2:
+				startRoomX = -1; startRoomY = 1;
+				break;
+			case 3:
+				startRoomX = 1; startRoomY = -1;
+				break;
+		}
+		
+		startRoom = GenerateRoom( startRoomX, startRoomY, 7, 7 );
 		final.Add( startRoom );
 
-		endRoom = GenerateRoom( 1, 1, 11, 11 );
+		endRoom = GenerateRoom( startRoomX * -1, startRoomY * -1, 11, 11 );
 		final.Add( endRoom );
 		
+		BSPNode altar1 = GenerateAltarRoom2( 0, 1 );
+		if ( altar1 != null ) final.Add( altar1 );
+		
+		BSPNode altar2 = GenerateAltarRoom2( 1, 0 );
+		if ( altar2 != null ) final.Add( altar2 );
+		
+		BSPNode altar3 = GenerateAltarRoom2( 0, -1 );
+		if ( altar3 != null ) final.Add( altar3 );
+
+		BSPNode altar4 = GenerateAltarRoom2( -1, 0 );
+		if ( altar4 != null ) final.Add( altar4 );
+
 		
 		for ( int i = 0; i < bigRoomsCount; i++ )
 		{
@@ -321,18 +351,6 @@ public class DungeonBSP : MonoBehaviour
 				final.Add( node );
 		}
 
-		BSPNode altar1 = GenerateAltarRoom2( 0, 1 );
-		if ( altar1 != null ) final.Add( altar1 );
-		
-		BSPNode altar2 = GenerateAltarRoom2( 1, 0 );
-		if ( altar2 != null ) final.Add( altar2 );
-		
-		BSPNode altar3 = GenerateAltarRoom2( 0, -1 );
-		if ( altar3 != null ) final.Add( altar3 );
-
-		BSPNode altar4 = GenerateAltarRoom2( -1, 0 );
-		if ( altar4 != null ) final.Add( altar4 );
-		
 		for(int i = 0; i < final.Count; i++)
 		{
 			BSPNode a = (BSPNode)final[i];
