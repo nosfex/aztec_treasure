@@ -217,7 +217,7 @@ public class AztecPlayer : Player {
 			
 			if(currentTrap == 2 && !skellyLock)
 			{
-				if(activatedAltar >= 1)
+				if(activatedAltar >= 2)
 				{
 					if(trapCurrency > skellyPrice)
 					{
@@ -242,7 +242,7 @@ public class AztecPlayer : Player {
 				}
 				else
 				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 1 Altar!" );
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 2 Altars!" );
 				}
 			}
 
