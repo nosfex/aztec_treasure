@@ -16,6 +16,7 @@ public class Player : BaseObject
 	private Light torchLight;
 	
 	public bool darknessMechanic;
+	public bool canAttack = true;
 	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
@@ -472,7 +473,7 @@ public class Player : BaseObject
 					
 					//dropGuide.SetActive( true );
 				}
-				else if ( cooldown <= 0.4f ) // Si no hay objeto, trata de pegar
+				else if ( cooldown <= 0.4f && canAttack ) // Si no hay objeto, trata de pegar
 				{
 					if ( comboCount == 0 )
 					{

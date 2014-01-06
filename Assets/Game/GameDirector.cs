@@ -97,8 +97,8 @@ public class GameDirector : MonoBehaviour {
 		if ( dungeonGenerator != null )
 		{
 			dungeonGenerator.BuildDungeon( worldContainer.transform );
-			startRoom = dungeonGenerator.startRoom.room.getCenterTile().transform.position + (Vector3.up * 2);
-			endRoom = dungeonGenerator.endRoom.room.getCenterTile().transform.position + (Vector3.up * 2);;
+			startRoom = dungeonGenerator.startRoom.room.getCenterTile().transform.position + (Vector3.up * 0.8f);
+			endRoom = dungeonGenerator.endRoom.room.getCenterTile().transform.position + (Vector3.up * 0.8f);;
 			worldContainer.startingPoint.position = startRoom;
 		}
 
