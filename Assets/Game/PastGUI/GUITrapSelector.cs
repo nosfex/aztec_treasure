@@ -14,11 +14,11 @@ public class GUITrapSelector : MonoBehaviour {
 	{
 	//	traps = new TextMesh[ ((AztecPlayer)(GameDirector.i.worldLeft.player)).maxTraps];	
 		
-		resetMaterial = new Material[3]();
+/*		resetMaterial = new Material[3]();
 		for(int i = 0;  i < 3; i++)
 		{
 			resetMaterial[i] = null;	
-		}
+		}*/
 		
 		//cursor.position = new Vector3(-6.85f, cursor.position.y, cursor.position.z);
 	}
@@ -33,9 +33,9 @@ public class GUITrapSelector : MonoBehaviour {
 		
 		cursor.position = pos;
 		
-		if(resetMaterial[resetMaterialCount] == null)
+/*		if(resetMaterial[resetMaterialCount] == null)
 		{	
 			resetMaterial[resetMaterialCount] = traps[p.currentTrap].renderer.material;
-		}
+		}*/
 	}
 }

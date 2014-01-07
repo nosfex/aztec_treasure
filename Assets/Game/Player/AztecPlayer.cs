@@ -8,6 +8,7 @@ public class AztecPlayer : Player {
 	
 	public GameObject vines;
 	public GameObject fFloor;
+	public GameObject bats;
 	public GameObject skelly;
 	public GameObject ranged;
 	public GameObject darts;
@@ -15,6 +16,7 @@ public class AztecPlayer : Player {
 	
 	public GameObject vinesSign;
 	public GameObject fFloorSign;
+	public GameObject batsSign;
 	public GameObject skellySign;
 	public GameObject rangedSign;
 	public GameObject dartsSign;
@@ -28,7 +30,7 @@ public class AztecPlayer : Player {
 	Material wallMat = null;
 	
 	public float maxCurrencyCooldown = 1.0f;
-	int MaxTraps = 5;
+	int MaxTraps = 6;
 	float currencyCooldown = 0.0f;
 	// Use this for initialization
 	override protected void Start () 
@@ -40,6 +42,7 @@ public class AztecPlayer : Player {
 	
 	public int vinesCooldown = 0;
 	public int fallingFloorCooldown = 0;
+	public int batsCooldown = 0;
 	public int skellyCooldown = 0;
 	public int rangedCooldown = 0;
 	public int wallDartCooldown = 0;
@@ -47,12 +50,14 @@ public class AztecPlayer : Player {
 	
 	bool vinesLock = false;
 	bool fallingFloorLock = false;
+	bool batsLock	= false;
 	bool skellyLock = false;
 	bool rangedLock = false;
 	bool wallDartLock = false;
 	
 	float vinesCooldownTimer = 0;
 	float fallingFloorCooldownTimer = 0;
+	float batsCooldownTimer = 0.0f;
 	float skellyCooldownTimer = 0;
 	float rangedCooldownTimer = 0;
 	float wallDartCooldownTimer = 0;
@@ -66,6 +71,7 @@ public class AztecPlayer : Player {
 	
 	public int vinesPrice = 70;
 	public int fallingFloorPrice = 100;
+	public int batsPrice = 150;
 	public int skellyPrice = 200;
 	public int rangedPrice = 400;
 	public int wallDartPrice = 300;
@@ -133,7 +139,7 @@ public class AztecPlayer : Player {
 			currentTrap--;
 
 			if(currentTrap < 0)
-				currentTrap = 4;
+				currentTrap = 5;
 			
 			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
 		}
@@ -141,7 +147,7 @@ public class AztecPlayer : Player {
 		{
 			currentTrap++;
 
-			if(currentTrap > 4)
+			if(currentTrap > 5)
 				currentTrap = 0;
 			
 			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
@@ -215,7 +221,31 @@ public class AztecPlayer : Player {
 				
 			}
 			
-			if(currentTrap == 2 && !skellyLock)
+			
+			if(currentTrap == 2 && !batsLock)
+			{
+				if(trapCurrency > batsPrice)
+				{
+					Transform t = new GameObject().transform;
+					t.position = transform.position;
+					t.rotation = transform.rotation;
+					t.localPosition = transform.localPosition;
+					//PlaceTrap( vines );			
+					DelayedSpawner.i.addSpawnData(bats, t, 3, null);
+					
+					PlaceSign(batsSign, t, Quaternion.Euler(90, 0, 0));
+					
+					trapCurrency -= batsPrice;
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + batsPrice );
+					batsLock = true;
+				}
+				else 
+				{
+					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
+				}
+				
+			}
+			if(currentTrap == 3 && !skellyLock)
 			{
 				if(activatedAltar >= 2)
 				{
@@ -247,7 +277,7 @@ public class AztecPlayer : Player {
 			}
 
 		
-			if(currentTrap == 3 && !rangedLock)
+			if(currentTrap == 4 && !rangedLock)
 			{
 				if(activatedAltar >= 2)
 				{
@@ -281,7 +311,7 @@ public class AztecPlayer : Player {
 				
 			}
 			
-			if(currentTrap == 4 && !wallDartLock)
+			if(currentTrap == 5 && !wallDartLock)
 			{
 				if(activatedAltar >= 1)
 				{
@@ -339,7 +369,7 @@ public class AztecPlayer : Player {
 		}
 		
 		
-		if(currentTrap  == 4 && !wallDartLock && direction == Vector3.forward )
+		if(currentTrap  == 5 && !wallDartLock && direction == Vector3.forward )
 		{
 			RaycastHit r;
 			
@@ -416,6 +446,17 @@ public class AztecPlayer : Player {
 				
 				rangedCooldownTimer = 0;
 				rangedLock = false;
+			}
+		}
+		
+		if(batsLock)
+		{
+			batsCooldownTimer += Time.deltaTime;
+			if(batsCooldownTimer >= batsCooldown)
+			{
+				
+				batsCooldownTimer = 0;
+				batsLock = false;
 			}
 		}
 		
