@@ -39,9 +39,26 @@ public class Torch : MonoBehaviour
 	
 	float targetIntensity;
 	
+	void Start()
+	{
+		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) )
+		{
+			TurnOn();
+		}
+		else 
+		{
+			if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
+			{
+				TurnOn ();
+			}
+		}
+	}
+	
 	void Update()
 	{
 		light.intensity += (targetIntensity - light.intensity) * 0.1f;
+	
+		
 	}
 	
 	public void InLineOfSight()

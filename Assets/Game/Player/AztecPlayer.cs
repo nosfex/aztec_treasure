@@ -349,7 +349,7 @@ public class AztecPlayer : Player {
 			
 				if(obj2 != null) 
 				{
-				
+					
 					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
 				}
 			}
@@ -445,6 +445,15 @@ public class AztecPlayer : Player {
 	
 	void highlightArea(GameObject obj,  Color highlightColor, ref GameObject refKeep, ref Material originalMat)
 	{
+		foreach ( Transform t in obj.GetComponentsInChildren<Transform>() )
+		{
+			if ( t.gameObject.name == "Tapa" )
+			{
+				obj = t.gameObject;
+				break;
+			}
+		}
+		
 		if( originalMat == null)
 		{
 			originalMat = obj.renderer.sharedMaterial;
