@@ -29,15 +29,15 @@ public class GUITrapSelector : MonoBehaviour {
 		
 		AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
 		pos.x = traps[ p.currentTrap ].position.x;
-		if(p.activatedAltar < 1)
+		if(p.activatedAltar >= 1)
 		{
-			for(int i = 3; i < traps.Length; i++)
-			{
-				
-			//	traps[i].renderer.material.SetTexture("_MainTex", traps[i].renderer.material.GetTexture(""));
-					 
-			}
-			
+			traps[5].renderer.material.SetFloat("_EffectAmount", 0);
+		}
+		
+		if(p.activatedAltar >= 2)
+		{
+			traps[3].renderer.material.SetFloat("_EffectAmount", 0);
+			traps[4].renderer.material.SetFloat("_EffectAmount", 0);
 		}
 		cursor.position = pos;
 		

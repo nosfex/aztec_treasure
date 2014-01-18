@@ -57,6 +57,7 @@ public class Altar : BaseObject
 			{
 				currencyCooldown = 0.0f;
 				p.trapCurrency += 10;
+				
 				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "+" + 10 );
 			}
 		}
@@ -78,6 +79,8 @@ public class Altar : BaseObject
 				activatedFX.SetActive( true );
 				///efectito loco
 				//flame.SetActive( true );
+				AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
+				p.activatedAltar++;
 				Color c = new Color( 1f,1f,1f, 1.0f );
 				flameParticle.renderer.material.SetColor( "_TintColor", c );
 				flameLight.intensity = 2f;
