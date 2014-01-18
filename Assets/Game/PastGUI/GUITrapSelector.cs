@@ -7,8 +7,7 @@ public class GUITrapSelector : MonoBehaviour {
 	public Transform cursor;
 
 	public Transform[] traps;
-	Material[] resetMaterial;
-	int resetMaterialCount = 0;
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -30,7 +29,16 @@ public class GUITrapSelector : MonoBehaviour {
 		
 		AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
 		pos.x = traps[ p.currentTrap ].position.x;
-		
+		if(p.activatedAltar < 1)
+		{
+			for(int i = 3; i < traps.Length; i++)
+			{
+				
+			//	traps[i].renderer.material.SetTexture("_MainTex", traps[i].renderer.material.GetTexture(""));
+					 
+			}
+			
+		}
 		cursor.position = pos;
 		
 /*		if(resetMaterial[resetMaterialCount] == null)

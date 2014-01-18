@@ -147,7 +147,7 @@ public class AztecPlayer : Player {
 		{
 			currentTrap++;
 
-			if(currentTrap > 5)
+			if(currentTrap >= 5)
 				currentTrap = 0;
 			
 			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
