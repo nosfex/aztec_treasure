@@ -529,11 +529,13 @@ MonoBehaviour:
   trapCurrency: 20
   vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
+  bats: {fileID: 100000, guid: 101ddacb646ffa24ebb5979fc918c0ac, type: 2}
   skelly: {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
   ranged: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
   darts: {fileID: 100000, guid: 37727bfe02392424e805f5aeb8ac5356, type: 2}
   vinesSign: {fileID: 100000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
   fFloorSign: {fileID: 100000, guid: 683ea94695f26c749bf746e56dd75910, type: 2}
+  batsSign: {fileID: 100000, guid: d1642d74da78cea4a8a421e9b33c00cc, type: 2}
   skellySign: {fileID: 100000, guid: 0264b09b69b91e74895210459c43ef7c, type: 2}
   rangedSign: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
   dartsSign: {fileID: 100000, guid: d97ef5e1fa4054f0f9bec9e1516ff026, type: 2}
@@ -541,18 +543,21 @@ MonoBehaviour:
   maxCurrencyCooldown: .5
   vinesCooldown: 1
   fallingFloorCooldown: 1
+  batsCooldown: 0
   skellyCooldown: 1
   rangedCooldown: 2
   wallDartCooldown: 3
   currentTrap: 0
   vinesPrice: 70
   fallingFloorPrice: 100
+  batsPrice: 150
   skellyPrice: 100
   rangedPrice: 200
   wallDartPrice: 300
   trapNames:
   - Vines
   - Falling Floor
+  - Bat
   - Skelly
   - Ranged
   - Wall Dart
