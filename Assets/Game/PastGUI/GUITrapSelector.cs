@@ -7,16 +7,17 @@ public class GUITrapSelector : MonoBehaviour {
 	public Transform cursor;
 
 	public Transform[] traps;
+	
 	// Use this for initialization
 	void Start () 
 	{
 	//	traps = new TextMesh[ ((AztecPlayer)(GameDirector.i.worldLeft.player)).maxTraps];	
 		
-		
-	//	for(int i = 0;  i < traps.Length; i++)
+/*		resetMaterial = new Material[3]();
+		for(int i = 0;  i < 3; i++)
 		{
-			
-		}
+			resetMaterial[i] = null;	
+		}*/
 		
 		//cursor.position = new Vector3(-6.85f, cursor.position.y, cursor.position.z);
 	}
@@ -28,7 +29,21 @@ public class GUITrapSelector : MonoBehaviour {
 		
 		AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
 		pos.x = traps[ p.currentTrap ].position.x;
-		
+		if(p.activatedAltar < 1)
+		{
+			for(int i = 3; i < traps.Length; i++)
+			{
+				
+			//	traps[i].renderer.material.SetTexture("_MainTex", traps[i].renderer.material.GetTexture(""));
+					 
+			}
+			
+		}
 		cursor.position = pos;
+		
+/*		if(resetMaterial[resetMaterialCount] == null)
+		{	
+			resetMaterial[resetMaterialCount] = traps[p.currentTrap].renderer.material;
+		}*/
 	}
 }
