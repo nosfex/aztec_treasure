@@ -514,6 +514,8 @@ MonoBehaviour:
   activatedFX: {fileID: 100006}
   maxCurrencyCooldown: 1
   timeToActivate: 3
+  tipText: {fileID: 10200000}
+  tipContainer: {fileID: 100010}
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
