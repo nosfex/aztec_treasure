@@ -20,6 +20,7 @@ public class Player : BaseObject
 	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
+	[HideInInspector] public int lives;
 	
 	public bool isImmune { get { return inmuneTimer > 0; } }
 	
@@ -105,6 +106,7 @@ public class Player : BaseObject
 		torchLight = GetComponentInChildren<Light>();
 		torchRatio = 100f;
 		hearts = GameDirector.i.maxHearts;
+		lives = GameDirector.i.maxLives;
 		
 		if ( worldOwner == null )
 			Destroy ( transform.parent.gameObject );
@@ -255,6 +257,8 @@ public class Player : BaseObject
 			gravity = Vector3.zero;
 			accel = Vector3.zero;
 			torchRatio = 100;
+			lives --;
+			GUIScreenFeedback.i.ShowTriesLeft( lives );
 			
 			worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 			deathAwaits = false;

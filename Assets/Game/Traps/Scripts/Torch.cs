@@ -3,8 +3,11 @@ using System.Collections;
 
 public class Torch : MonoBehaviour 
 {
+	public static int tutorialCount = 3;
+	
 	bool turnedOn = false;
 	public Light light;
+	public GameObject tipContainer;
 	
 	public void TurnOff()
 	{
@@ -16,6 +19,14 @@ public class Torch : MonoBehaviour
 	
 	public void TurnOn()
 	{
+		if ( !turnedOn )
+		{
+			tutorialCount--;
+			
+			if ( tutorialCount == 0 )
+				GUIScreenFeedback.i.ShowTorch();
+		}
+		
 		SpriteAnimator animator = GetComponent<SpriteAnimator>();
 		animator.PlayAnim("IdleOn");
 		turnedOn = true;
@@ -44,12 +55,17 @@ public class Torch : MonoBehaviour
 		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) )
 		{
 			TurnOn();
+			tutorialCount++; // grasa pero bueh.
 		}
 		else 
 		{
-			if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
+			if ( GameDirector.i != null )
 			{
-				TurnOn ();
+				if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
+				{
+					TurnOn ();
+					tutorialCount++; // grasa pero bueh.
+				}
 			}
 		}
 	}
@@ -57,8 +73,19 @@ public class Torch : MonoBehaviour
 	void Update()
 	{
 		light.intensity += (targetIntensity - light.intensity) * 0.1f;
-	
 		
+		if ( !turnedOn )
+		{
+			if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
+				tipContainer.SetActive( tutorialCount > 0 );
+			else 
+				tipContainer.SetActive( false );
+		}
+		else 
+		{
+			if ( tipContainer.activeSelf )
+				tipContainer.SetActive( false );
+		}
 	}
 	
 	public void InLineOfSight()

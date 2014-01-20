@@ -21,6 +21,7 @@ public class GameDirector : MonoBehaviour {
 
 	
 	public int maxHearts;
+	public int maxLives = 3;
 	
 	public GameObject textPopupPrefab;
 	

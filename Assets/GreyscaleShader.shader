@@ -4,7 +4,13 @@
 		_EffectAmount ("Effect Amount", Range(0,1)) = 1
 	}
 	SubShader {
-
+         Tags { "Queue"="Transparent" }
+ 
+ 		 Blend SrcAlpha OneMinusSrcAlpha
+         Lighting Off 
+         Fog { Mode Off }
+         ZWrite Off
+        
 	 	 Pass {
  
 			CGPROGRAM
@@ -12,6 +18,8 @@
 			#pragma fragment frag
 			 
 			#include "UnityCG.cginc"
+			
+			
 			 
 			sampler2D _MainTex;
 			uniform float _EffectAmount;
