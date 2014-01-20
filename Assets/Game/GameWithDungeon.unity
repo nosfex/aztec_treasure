@@ -353,7 +353,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 6f688633c86a6224a9faee5159c877fc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8575,6 +8575,7 @@ MonoBehaviour:
   traps:
   - {fileID: 1476711100}
   - {fileID: 847870079}
+  - {fileID: 2084913849}
   - {fileID: 1078597492}
   - {fileID: 425961357}
   - {fileID: 1993074374}
