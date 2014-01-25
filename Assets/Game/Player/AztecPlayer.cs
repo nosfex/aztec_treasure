@@ -36,7 +36,7 @@ public class AztecPlayer : Player {
 	override protected void Start () 
 	{
 		base.Start();
-		trapCurrency = 1000;
+		//trapCurrency = 1000;
 	}
 	
 	
