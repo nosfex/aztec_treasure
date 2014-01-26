@@ -508,6 +508,7 @@ MonoBehaviour:
   collisionEnabled: 1
   respawns: 0
   currentFloor: {fileID: 0}
+  prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
   helperPivot: {fileID: 400012}
   lampLightNoFlip: {fileID: 0}
   lampLightFlip: {fileID: 0}
@@ -518,6 +519,7 @@ MonoBehaviour:
   canAttack: 0
   inDarkness: 0
   hearts: 5
+  lives: 0
   torchRatio: 0
   leftKey: 97
   rightKey: 100
@@ -526,7 +528,7 @@ MonoBehaviour:
   attackKey: 116
   direction: {x: 0, y: 0, z: 0}
   speed: .0299999993
-  trapCurrency: 20
+  trapCurrency: 500
   vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
   bats: {fileID: 100000, guid: 101ddacb646ffa24ebb5979fc918c0ac, type: 2}
@@ -540,13 +542,13 @@ MonoBehaviour:
   rangedSign: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
   dartsSign: {fileID: 100000, guid: d97ef5e1fa4054f0f9bec9e1516ff026, type: 2}
   activatedAltar: 0
-  maxCurrencyCooldown: .5
-  vinesCooldown: 1
-  fallingFloorCooldown: 1
+  maxCurrencyCooldown: 1
+  vinesCooldown: 0
+  fallingFloorCooldown: 0
   batsCooldown: 0
-  skellyCooldown: 1
-  rangedCooldown: 2
-  wallDartCooldown: 3
+  skellyCooldown: 0
+  rangedCooldown: 0
+  wallDartCooldown: 0
   currentTrap: 0
   vinesPrice: 70
   fallingFloorPrice: 100

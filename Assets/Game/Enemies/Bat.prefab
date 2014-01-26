@@ -109,7 +109,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.12226486, z: 0}
+  m_LocalPosition: {x: 0, y: .7430439, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -404,6 +404,7 @@ MonoBehaviour:
   collisionEnabled: 1
   respawns: 0
   currentFloor: {fileID: 0}
+  prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}

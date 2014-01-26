@@ -322,6 +322,7 @@ MonoBehaviour:
   collisionEnabled: 1
   respawns: 1
   currentFloor: {fileID: 0}
+  prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
   helperPivot: {fileID: 400004}
   liftSensor: {fileID: 11400008}
   playerSensor: {fileID: 11400010}
