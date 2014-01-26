@@ -24,7 +24,7 @@ public class GUIAltars : MonoBehaviour
 		
 		//for ( int i = 0; i < GameDirector.i.playerRight.hearts; i++ )
 		//	t += "<3\n";
-		t += "Altars Found " + altarsFound + "/" + altarsCount;
+		t += "Altars " + altarsFound + "/" + altarsCount;
 		
 		text.text = t;
 	}
