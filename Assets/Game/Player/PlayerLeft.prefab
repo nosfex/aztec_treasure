@@ -208,8 +208,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
-  m_LocalRotation: {x: .288279951, y: 0, z: 0, w: .957546175}
-  m_LocalPosition: {x: 1.85040712, y: 2.77999997, z: -18}
+  m_LocalRotation: {x: .288279802, y: 0, z: 0, w: .957546234}
+  m_LocalPosition: {x: 1.85040712, y: 2.78522992, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -281,7 +281,7 @@ Camera:
     height: 1
   near clip plane: .5
   far clip plane: 30
-  field of view: 34.9000015
+  field of view: 30
   orthographic: 0
   orthographic size: 100
   m_Depth: -1
@@ -621,28 +621,28 @@ MonoBehaviour:
     playMode: 1
     startFrame: 1
     endFrame: 4
-    frameRate: 7
+    frameRate: 12
     customFrameSequence: 
     horizontalFlip: 0
   - name: WalkUp
     playMode: 1
     startFrame: 6
     endFrame: 9
-    frameRate: 7
+    frameRate: 12
     customFrameSequence: 
     horizontalFlip: 0
   - name: WalkRight
     playMode: 1
     startFrame: 1
     endFrame: 4
-    frameRate: 7
-    customFrameSequence: 
+    frameRate: 12
+    customFrameSequence: 04000000030000000200000004000000ffffffff
     horizontalFlip: 1
   - name: WalkLeft
     playMode: 1
     startFrame: 6
     endFrame: 9
-    frameRate: 7
+    frameRate: 12
     customFrameSequence: 
     horizontalFlip: 1
   - name: AttackDown
@@ -689,18 +689,18 @@ MonoBehaviour:
     horizontalFlip: 1
   - name: IdleRight
     playMode: 0
-    startFrame: 5
-    endFrame: 5
-    frameRate: 3
-    customFrameSequence: 
-    horizontalFlip: 0
-  - name: IdleLeft
-    playMode: 0
-    startFrame: 5
-    endFrame: 5
+    startFrame: 0
+    endFrame: 0
     frameRate: 3
     customFrameSequence: 
     horizontalFlip: 1
+  - name: IdleLeft
+    playMode: 0
+    startFrame: 0
+    endFrame: 0
+    frameRate: 3
+    customFrameSequence: 
+    horizontalFlip: 0
   currentAnimation:
     name: Pija
     playMode: 2

@@ -144,9 +144,11 @@ public class BaseObject : MonoBehaviour
 		
 		velocity += accel * frameRatio;
 		float friction = frictionCoef;
-		
-		if ( gravityEnabled && transform.position.y > floorY )
+
+		if ( gravityEnabled && gravity.y > 0 )
+		{
 			friction = airFrictionCoef;
+		}
 		
 		Vector3 velocityDif = (velocity * friction) - velocity;
 		velocity += velocityDif * frameRatio;
@@ -158,9 +160,8 @@ public class BaseObject : MonoBehaviour
 		//	print (" v = "  + velocity.x  + " * " + frameRatio );
 		if ( gravityEnabled )
 		{
-			transform.position -= gravity * frameRatio;
 			//print ("floorY " + floorY );
-			if ( transform.position.y > floorY )
+			if ( transform.position.y - 0.003f > floorY )
 			{
 				
 				gravity += ( Vector3.up * 0.003f );
@@ -196,7 +197,7 @@ public class BaseObject : MonoBehaviour
 				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 
 				
-				if ( gravity.magnitude < 0.05f )
+				if ( gravity.y < 0.05f )
 					gravity = Vector3.zero;
 				else 
 				{
@@ -206,11 +207,11 @@ public class BaseObject : MonoBehaviour
 						gravity *= -bouncyness;//Vector3.zero;
 					}
 				}
-			//	print("WHAT");
 				velocity *= groundFrictionCoef;
 				//collisionEnabled = true;				
 			}
 			
+			transform.position -= gravity * frameRatio;
 		}
 		
 		accel = Vector3.zero;
