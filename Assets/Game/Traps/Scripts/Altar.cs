@@ -104,7 +104,6 @@ public class Altar : BaseObject
 				///efectito loco
 				//flame.SetActive( true );
 				AztecPlayer p = (AztecPlayer)GameDirector.i.playerLeft;
-				p.activatedAltar++;
 				Color c = new Color( 1f,1f,1f, 1.0f );
 				flameParticle.renderer.material.SetColor( "_TintColor", c );
 				flameLight.intensity = 2f;

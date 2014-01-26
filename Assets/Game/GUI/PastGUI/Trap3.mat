@@ -23,7 +23,7 @@ Material:
       data:
         first:
           name: _EffectAmount
-        second: 1
+        second: 0
     m_Colors:
       data:
         first:

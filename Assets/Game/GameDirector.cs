@@ -36,7 +36,6 @@ public class GameDirector : MonoBehaviour {
 	public Material pastFloor;
 	public Material futureFloor;
 	
-	
 	public void ShowTextPopup( GameObject source, float yOffset, string text )
 	{
 		GameObject prefab = (GameObject)(GameObject.Instantiate ( textPopupPrefab, source.transform.position + (Vector3.up * yOffset), Quaternion.identity ));

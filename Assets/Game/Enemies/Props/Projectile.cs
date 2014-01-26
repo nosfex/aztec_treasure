@@ -6,9 +6,9 @@ public class Projectile : BaseObject
 	
 	public float speed;
 	public float lifeSpan = 5.0f;
-	void Start () 
-	{
-	}
+//	public override void Start () 
+	//{
+	//}
 	
 	void Update () 
 	{

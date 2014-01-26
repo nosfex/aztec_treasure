@@ -6,23 +6,6 @@ public class AztecPlayer : Player {
 	
 	public int trapCurrency = 20;
 	
-	public GameObject vines;
-	public GameObject fFloor;
-	public GameObject bats;
-	public GameObject skelly;
-	public GameObject ranged;
-	public GameObject darts;
-	
-	
-	public GameObject vinesSign;
-	public GameObject fFloorSign;
-	public GameObject batsSign;
-	public GameObject skellySign;
-	public GameObject rangedSign;
-	public GameObject dartsSign;
-	
-	public int activatedAltar = 0;
-	
 	GameObject highlightedFloor = null;
 	GameObject highlightedWall = null;
 	
@@ -39,58 +22,41 @@ public class AztecPlayer : Player {
 		trapsPlaced = new  List<Vector2>();
 	}
 	
-	
-	public int vinesCooldown = 0;
-	public int fallingFloorCooldown = 0;
-	public int batsCooldown = 0;
-	public int skellyCooldown = 0;
-	public int rangedCooldown = 0;
-	public int wallDartCooldown = 0;
-	
-	
-	bool vinesLock = false;
-	bool fallingFloorLock = false;
-	bool batsLock	= false;
-	bool skellyLock = false;
-	bool rangedLock = false;
-	bool wallDartLock = false;
-	
-	float vinesCooldownTimer = 0;
-	float fallingFloorCooldownTimer = 0;
-	float batsCooldownTimer = 0.0f;
-	float skellyCooldownTimer = 0;
-	float rangedCooldownTimer = 0;
-	float wallDartCooldownTimer = 0;
-		
 	KeyCode placeTrap = KeyCode.T;
 	KeyCode cycleLeft = KeyCode.Q;
 	KeyCode cycleRight = KeyCode.E;
 	
-	public int currentTrap = 0;
-	
-	
-	public int vinesPrice = 70;
-	public int fallingFloorPrice = 100;
-	public int batsPrice = 150;
-	public int skellyPrice = 200;
-	public int rangedPrice = 400;
-	public int wallDartPrice = 300;
+	public int currentTrapIndex = 0;
 	
 	List<Vector2> trapsPlaced;
 	
-	public void PlaceTrap( GameObject prefab )
+	public void PlaceTrap( Trap trap )
 	{
-		GameObject vine2 = (GameObject)MonoBehaviour.Instantiate(prefab, transform.position + Vector3.up, transform.rotation);
-		vine2.transform.parent = ((World)GameDirector.i.worldRight).transform;
-		vine2.name = vine2.name.TrimEnd( "(Clone)" );
-		vine2.transform.localPosition = transform.localPosition;
-		
-		
+		if( trap.CanBePlaced() )
+		{
+			Transform t = new GameObject().transform;
+			t.position = transform.position + (Vector3.up  * 0.2f);
+			t.rotation = transform.rotation;
+			//t.localPosition = transform.localPosition;
+			
+			if(checkFreeArea(t))
+			{
+				DelayedSpawner.i.addSpawnData( trap.trapPrefab, t, 3, null);
+				PlaceSign( trap.signPrefab, transform.position, Quaternion.Euler(90, 0, 0));
+				trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
+				trapCurrency -= trap.price;
+				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + trap.price );
+			}
+			else
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
+			}	
+		}
 	}
 
-	void PlaceSign(GameObject prefab, Transform posAt, Quaternion eulerRot, Vector3 offset = new Vector3())
+	void PlaceSign(GameObject prefab, Vector3 posAt, Quaternion eulerRot, Vector3 offset = new Vector3())
 	{
-		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt.position, Quaternion.identity *eulerRot );
+		GameObject obj = (GameObject)MonoBehaviour.Instantiate( prefab, posAt, eulerRot );
 		obj.transform.parent = GameDirector.i.worldLeft.transform;
 		obj.transform.position -= (Vector3.up * 0.1f) + offset;
 		
@@ -106,8 +72,6 @@ public class AztecPlayer : Player {
 		vine2.transform.localPosition = t.localPosition;
 	}
 	
-	public string[] trapNames;
-	// Update is called once per frames
 	override protected void Update ()  
 	{
 		base.Update();
@@ -128,60 +92,46 @@ public class AztecPlayer : Player {
 
 		currencyCooldown += Time.deltaTime;
 		
+		Trap trap = GUITrapSelector.i.traps[ currentTrapIndex ];
+		
+		
 		if(Input.GetKeyDown(cycleLeft))
 		{
-			currentTrap--;
+			currentTrapIndex--;
 
-			if(currentTrap < 0)
-				currentTrap = 5;
+			if(currentTrapIndex < 0)
+				currentTrapIndex = 5;
 			
-			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
+			trap = GUITrapSelector.i.traps[ currentTrapIndex ];
+			
+			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
 		}
 		if(Input.GetKeyDown(cycleRight))
 		{
-			currentTrap++;
+			currentTrapIndex++;
 
-			if(currentTrap > 5)
-				currentTrap = 0;
+			if(currentTrapIndex > 5)
+				currentTrapIndex = 0;
 			
-			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trapNames[ currentTrap ] );
+			trap = GUITrapSelector.i.traps[ currentTrapIndex ];
+			
+			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
 		}
 		
 		if(Input.GetKeyDown(placeTrap))
 		{
-			if(currentTrap == 0 && !vinesLock)
-			{
-				if(trapCurrency > vinesPrice)
-				{
-					Transform t = new GameObject().transform;
-					t.position = transform.position;
-					t.rotation = transform.rotation;
-					t.localPosition = transform.localPosition;
-					if(checkFreeArea(t))
-					{
-						DelayedSpawner.i.addSpawnData(vines, t, 3, null);
-						
-						PlaceSign(vinesSign, t, Quaternion.Euler(90, 0, 0));
-						trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
-						trapCurrency -= vinesPrice;
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + vinesPrice );
-						vinesLock = true;
-					}
-					else
-					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
-					}
-				}
-				else 
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-				}
-				
-			}
 			
-			if(currentTrap == 1 && !fallingFloorLock)
+			if(trap.name == "Vines" || 
+				trap.name == "Skelly" || 
+				trap.name == "Bat" ||
+				trap.name == "Ranged" ) 
 			{
-				if(trapCurrency > fallingFloorPrice)
+				PlaceTrap( trap );
+			}		
+			
+			if(trap.name == "Falling Floor")
+			{
+				if(trap.CanBePlaced())
 				{
 					
 					GameObject obj2 = GameDirector.i.worldRight.objFromPos( transform.localPosition );
@@ -191,7 +141,7 @@ public class AztecPlayer : Player {
 						return;
 					
 					//Debug.Log ("obj2.name = " + obj2.name );
-					if ( obj2.name == fFloor.name )
+					if ( obj2.name == trap.trapPrefab.name )
 					{
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Already placed." );
 						return;
@@ -200,7 +150,7 @@ public class AztecPlayer : Player {
 					Transform t = obj2.transform;
 									
 					Destroy(obj2);
-					obj2 = (GameObject)MonoBehaviour.Instantiate(fFloor, t.position, t.rotation);
+					obj2 = (GameObject)MonoBehaviour.Instantiate(trap.trapPrefab, t.position, t.rotation);
 					obj2.transform.parent = GameDirector.i.worldRight.transform;
 					obj2.name = obj2.name.TrimEnd( "(Clone)" );
 					
@@ -209,11 +159,11 @@ public class AztecPlayer : Player {
 					if(checkFreeArea(tileXY))
 					{
 						trapsPlaced.Add(tileXY);
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + fallingFloorPrice );
-						trapCurrency -= fallingFloorPrice;
-						fallingFloorLock = true;
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + trap.price );
+						trapCurrency -= trap.price;
+						
 					
-						PlaceSign(fFloorSign, transform,  Quaternion.Euler(90, 0, 0));
+						PlaceSign(trap.signPrefab, transform.position,  Quaternion.Euler(90, 0, 0));
 					}
 					else
 					{
@@ -221,173 +171,43 @@ public class AztecPlayer : Player {
 					}
 						
 				}
-				else 
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-				}
-				
 			}
 			
-			
-			if(currentTrap == 2 && !batsLock)
-			{
-				if(trapCurrency > batsPrice)
-				{
-					Transform t = new GameObject().transform;
-					t.position = transform.position;
-					t.rotation = transform.rotation;
-					t.localPosition = transform.localPosition;
-					//PlaceTrap( vines );			
-					
-					if(checkFreeArea(t))
-					{
-						DelayedSpawner.i.addSpawnData(bats, t, 3, null);
-						PlaceSign(batsSign, t, Quaternion.Euler(90, 0, 0));
-						trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
-						trapCurrency -= batsPrice;
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + batsPrice );
-						batsLock = true;
-					}
-					else
-					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
-					}
-				}
-				else 
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-				}
-				
-			}
-			if(currentTrap == 3 && !skellyLock)
-			{
-				if(activatedAltar >= 2)
-				{
-					if(trapCurrency > skellyPrice)
-					{
-						Transform t = new GameObject().transform;
-						t.position = transform.position + (Vector3.up * 0.4f);
-						t.rotation = transform.rotation;
-						t.localPosition = transform.localPosition + (Vector3.up * 0.4f);
-						
-						
-						if(checkFreeArea(t))
-						{
-							DelayedSpawner.i.addSpawnData(skelly, t, 3, null);
-							trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
-							trapCurrency -= skellyPrice;
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + skellyPrice );
-							skellyLock = true;
-						
-							PlaceSign(skellySign, transform,  Quaternion.Euler(90, 0, 0));
-						}
-						else
-						{
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
-						}
-	
-					}
-					else 
-					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-					}
-				
-				}
-				else
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 2 Altars!" );
-				}
-			}
 
-		
-			if(currentTrap == 4 && !rangedLock)
+			
+			if(trap.name == "Wall Dart")
 			{
-				if(activatedAltar >= 2)
+				if ( trap.CanBePlaced() )
 				{
-					if(trapCurrency > rangedPrice)
-					{
+					RaycastHit r;
 					
+
+					if(Physics.Raycast(transform.position + Vector3.forward  *0.4f,  Vector3.forward, out r))
+					{
+						GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + Vector3.forward * 0.3f );
+					
+						if(obj2 == null) 
+							return;
+				
 						Transform t = new GameObject().transform;
-						t.position = transform.position;
-						t.rotation = transform.rotation;
-						t.localPosition = transform.localPosition;
-						
+						t.position = obj2.transform.position;
+						t.rotation = obj2.transform.rotation;
+						t.localPosition = obj2.transform.localPosition; 
 						if(checkFreeArea(t))
 						{
-							DelayedSpawner.i.addSpawnData(ranged, t, 3, null);
 							trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
-							//PlaceTrap( ranged );			
-							trapCurrency -= rangedPrice;
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + rangedPrice );
-							rangedLock = true;
-							PlaceSign(rangedSign, t,  Quaternion.Euler(90, 0, 0));
-						}
-						else
-						{
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
-						}
-						
-					}
-					else 
-					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-					}
-				}
-				else
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 2 altars!" );
-				}
-				
-			}
-			
-			if(currentTrap == 5 && !wallDartLock)
-			{
-				if(activatedAltar >= 1)
-				{
-					if( trapCurrency > wallDartPrice)
-					{
-						RaycastHit r;
-						
-						if(direction != Vector3.forward) 
-						{
-							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place this way!" );
-							return;
-						}
-						if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
-						{
-							GameObject obj2 = GameDirector.i.worldRight.objFromPos( r.point + this.direction * 0.3f );
-						
-							if(obj2 == null) 
-								return;
-					
-							Transform t = new GameObject().transform;
-							t.position = obj2.transform.position;
-							t.rotation = obj2.transform.rotation;
-							t.localPosition = obj2.transform.localPosition; 
-							if(checkFreeArea(t))
-							{
-								trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
-								DelayedSpawner.i.addSpawnData(darts, t, 3, obj2);
-								
-								PlaceSign(dartsSign, t,  Quaternion.identity, new Vector3(0, 0, 0.45f) );
-								GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + wallDartPrice );
-								wallDartLock= true;
-							}
-							else
-							{
-								GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
-							}
+							DelayedSpawner.i.addSpawnData(trap.trapPrefab, t, 3, obj2);
+							
+							PlaceSign(trap.signPrefab, r.collider.transform.position,  Quaternion.identity, new Vector3(0, 0, 0.45f) );
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + trap.price );
 							
 						}
+						else
+						{
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
+						}
+						
 					}
-					else 
-					{
-						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No money!" );
-					}
-				}
-				else
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Activate 1 altar!" );		
 				}
 				
 			}
@@ -396,13 +216,13 @@ public class AztecPlayer : Player {
 		}
 		
 		
-		if(currentTrap  == 5 && !wallDartLock && direction == Vector3.forward )
+		if(currentTrapIndex  == 5)
 		{
 			RaycastHit r;
 			
-			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  this.direction, out r))
+			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  Vector3.forward, out r))
 			{
-				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + this.direction * 0.4f );
+				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + Vector3.forward * 0.4f );
 			
 				if(obj2 != null) 
 				{
@@ -411,7 +231,8 @@ public class AztecPlayer : Player {
 				}
 			}
 		}
-		else if(direction != Vector3.forward)
+		
+		else //if(direction != Vector3.forward)
 		{
 	
 			if(highlightedWall != null)
@@ -424,7 +245,7 @@ public class AztecPlayer : Player {
 		}
 		
 		
-		if(currentTrap !=4 )
+		if(currentTrapIndex !=4 )
 		{
 			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
 			if(obj != null)
@@ -439,73 +260,6 @@ public class AztecPlayer : Player {
 				
 				highlightedFloor.renderer.material = floorMat;
 		
-			}
-		}
-		
-		if(vinesLock)
-		{
-			vinesCooldownTimer += Time.deltaTime;
-			if(vinesCooldownTimer >= vinesCooldown)
-			{
-				
-				vinesCooldownTimer = 0;
-				vinesLock = false;
-			}
-		}
-		
-		
-		if(wallDartLock)
-		{
-			wallDartCooldownTimer += Time.deltaTime;
-			if(wallDartCooldownTimer >= wallDartCooldown)
-			{
-				
-				wallDartCooldownTimer = 0;
-				wallDartLock = false;
-			}
-		}
-		
-		if(rangedLock)
-		{
-			rangedCooldownTimer += Time.deltaTime;
-			if(rangedCooldownTimer >= rangedCooldown)
-			{
-				
-				rangedCooldownTimer = 0;
-				rangedLock = false;
-			}
-		}
-		
-		if(batsLock)
-		{
-			batsCooldownTimer += Time.deltaTime;
-			if(batsCooldownTimer >= batsCooldown)
-			{
-				
-				batsCooldownTimer = 0;
-				batsLock = false;
-			}
-		}
-		
-		if(skellyLock)
-		{
-			skellyCooldownTimer += Time.deltaTime;
-			if(skellyCooldownTimer >= skellyCooldown)
-			{
-				
-				skellyCooldownTimer = 0;
-				skellyLock = false;
-			}
-		}
-		
-		if(fallingFloorLock)
-		{
-			fallingFloorCooldownTimer += Time.deltaTime;
-			if(fallingFloorCooldownTimer >= fallingFloorCooldown)
-			{
-				
-				fallingFloorCooldownTimer = 0;
-				fallingFloorLock = false;
 			}
 		}
 	}

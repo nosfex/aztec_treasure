@@ -552,9 +552,9 @@ MonoBehaviour:
   currentTrap: 0
   vinesPrice: 70
   fallingFloorPrice: 100
-  batsPrice: 150
-  skellyPrice: 100
-  rangedPrice: 200
+  batsPrice: 250
+  skellyPrice: 200
+  rangedPrice: 400
   wallDartPrice: 300
   trapNames:
   - Vines
