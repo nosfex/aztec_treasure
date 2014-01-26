@@ -12,7 +12,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: LiftSensor
+  m_Name: SwitchSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,6 +156,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100018
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400018}
+  - 65: {fileID: 6500006}
+  - 54: {fileID: 5400006}
+  - 114: {fileID: 11400012}
+  m_Layer: 0
+  m_Name: LiftSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -163,8 +181,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00430512428, y: 0, z: .174332619}
-  m_LocalScale: {x: 1, y: 1, z: 2.53006291}
+  m_LocalPosition: {x: .00430512428, y: 0, z: .269128799}
+  m_LocalScale: {x: 3.25180459, y: 1, z: 3.34265423}
   m_Children: []
   m_Father: {fileID: 400012}
 --- !u!4 &400002
@@ -238,8 +256,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400014}
-  - {fileID: 400000}
+  - {fileID: 400018}
   - {fileID: 400004}
+  - {fileID: 400000}
   m_Father: {fileID: 400010}
 --- !u!4 &400014
 Transform:
@@ -263,6 +282,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
+--- !u!4 &400018
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .00430512428, y: 0, z: .174332619}
+  m_LocalScale: {x: 1, y: 1, z: 2.53006291}
+  m_Children: []
+  m_Father: {fileID: 400012}
 --- !u!20 &2000000
 Camera:
   m_ObjectHideFlags: 1
@@ -386,6 +416,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!54 &5400006
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100018}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -421,6 +466,18 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .300000012, y: .300000012, z: .300000012}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500006
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .200000003, y: .400000006, z: .200000003}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &8100000
 AudioListener:
@@ -512,7 +569,8 @@ MonoBehaviour:
   helperPivot: {fileID: 400012}
   lampLightNoFlip: {fileID: 0}
   lampLightFlip: {fileID: 0}
-  liftSensor: {fileID: 11400000}
+  liftSensor: {fileID: 11400012}
+  switchSensor: {fileID: 11400000}
   attackSensor: {fileID: 11400004}
   dropGuide: {fileID: 100008}
   darknessMechanic: 0
@@ -529,40 +587,8 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   speed: .0299999993
   trapCurrency: 500
-  vines: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
-  fFloor: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
-  bats: {fileID: 100000, guid: 101ddacb646ffa24ebb5979fc918c0ac, type: 2}
-  skelly: {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
-  ranged: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
-  darts: {fileID: 100000, guid: 37727bfe02392424e805f5aeb8ac5356, type: 2}
-  vinesSign: {fileID: 100000, guid: eb01f163936dbea4cb8fc4e943c284ae, type: 2}
-  fFloorSign: {fileID: 100000, guid: 683ea94695f26c749bf746e56dd75910, type: 2}
-  batsSign: {fileID: 100000, guid: d1642d74da78cea4a8a421e9b33c00cc, type: 2}
-  skellySign: {fileID: 100000, guid: 0264b09b69b91e74895210459c43ef7c, type: 2}
-  rangedSign: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
-  dartsSign: {fileID: 100000, guid: d97ef5e1fa4054f0f9bec9e1516ff026, type: 2}
-  activatedAltar: 0
   maxCurrencyCooldown: 1
-  vinesCooldown: 0
-  fallingFloorCooldown: 0
-  batsCooldown: 0
-  skellyCooldown: 0
-  rangedCooldown: 0
-  wallDartCooldown: 0
-  currentTrap: 0
-  vinesPrice: 70
-  fallingFloorPrice: 100
-  batsPrice: 250
-  skellyPrice: 200
-  rangedPrice: 400
-  wallDartPrice: 300
-  trapNames:
-  - Vines
-  - Falling Floor
-  - Bat
-  - Skelly
-  - Ranged
-  - Wall Dart
+  currentTrapIndex: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -720,6 +746,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454ed612a8778d54b9f88b6e5cfa64b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensedObject: {fileID: 0}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

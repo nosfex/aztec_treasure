@@ -220,7 +220,7 @@ GameObject:
   - 54: {fileID: 5400012}
   - 114: {fileID: 11400018}
   m_Layer: 0
-  m_Name: LiftSensor
+  m_Name: SwitchSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,6 +259,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100030
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400030}
+  - 65: {fileID: 6500004}
+  - 54: {fileID: 5400004}
+  - 114: {fileID: 11400016}
+  m_Layer: 0
+  m_Name: LiftSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -292,8 +310,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
-  - {fileID: 400024}
+  - {fileID: 400030}
   - {fileID: 400012}
+  - {fileID: 400024}
   m_Father: {fileID: 400006}
 --- !u!4 &400006
 Transform:
@@ -411,8 +430,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00430512428, y: 0, z: .174332619}
-  m_LocalScale: {x: 1, y: 1, z: 2.53006291}
+  m_LocalPosition: {x: .00430512428, y: 0, z: .306401253}
+  m_LocalScale: {x: 3.75081491, y: 1, z: 3.59339738}
   m_Children: []
   m_Father: {fileID: 400004}
 --- !u!4 &400026
@@ -438,6 +457,17 @@ Transform:
   m_Children:
   - {fileID: 400026}
   m_Father: {fileID: 400006}
+--- !u!4 &400030
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .00430512428, y: 0, z: .174332619}
+  m_LocalScale: {x: 1, y: 1, z: 2.53006291}
+  m_Children: []
+  m_Father: {fileID: 400004}
 --- !u!20 &2000000
 Camera:
   m_ObjectHideFlags: 1
@@ -571,6 +601,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!54 &5400004
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!54 &5400012
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -609,6 +654,18 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .400000006, y: .300000012, z: .300000012}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500004
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .200000003, y: .400000006, z: .200000003}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500012
 BoxCollider:
@@ -885,7 +942,8 @@ MonoBehaviour:
   helperPivot: {fileID: 400004}
   lampLightNoFlip: {fileID: 11400012}
   lampLightFlip: {fileID: 11400010}
-  liftSensor: {fileID: 11400018}
+  liftSensor: {fileID: 11400016}
+  switchSensor: {fileID: 11400018}
   attackSensor: {fileID: 11400006}
   dropGuide: {fileID: 100002}
   darknessMechanic: 1
@@ -934,6 +992,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c83054f02d60b4e8283009d28d0bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454ed612a8778d54b9f88b6e5cfa64b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensedObject: {fileID: 0}
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

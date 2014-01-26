@@ -9,6 +9,7 @@ public class Player : BaseObject
 	public Lamplight lampLightNoFlip;
 	public Lamplight lampLightFlip;
 	public BaseObjectSensor liftSensor;
+	public BaseObjectSensor switchSensor;
 	public AttackSensor attackSensor;
 	public GameObject dropGuide;
 	
@@ -440,12 +441,9 @@ public class Player : BaseObject
 		
 		if ( Input.GetKey ( attackKey ) )
 		{
-			if ( liftedObject == null ) // Trata de levantar un objeto...
+			if ( switchSensor.sensedObject != null && switchSensor.sensedObject.isSwitch )
 			{
-				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isSwitch )
-				{
-					OnPressSwitch( liftSensor.sensedObject.gameObject );
-				}
+				OnPressSwitch( switchSensor.sensedObject.gameObject );
 			}
 		}
 		

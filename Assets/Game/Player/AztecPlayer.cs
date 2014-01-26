@@ -76,12 +76,9 @@ public class AztecPlayer : Player {
 	{
 		base.Update();
 
-		if ( liftedObject == null ) // Trata de levantar un objeto...
+		if ( switchSensor.sensedObject != null && switchSensor.sensedObject.isSwitch )
 		{
-			if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isSwitch )
-			{
-				return;
-			}
+			return;
 		}
 		
 		if(currencyCooldown >= maxCurrencyCooldown)
