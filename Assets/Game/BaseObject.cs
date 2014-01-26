@@ -27,6 +27,7 @@ public class BaseObject : MonoBehaviour
 	public bool respawns = false;
 	public BoxCollider currentFloor;
 	
+	public GameObject prefabShadow;
 	
 	const float STAIR_HEIGHT = 0.25f;
 	
@@ -55,7 +56,11 @@ public class BaseObject : MonoBehaviour
 		if ( respawns )
 			InitRespawn();
 		
-		
+		if ( prefabShadow != null )
+		{
+			GameObject go = (GameObject)Instantiate ( prefabShadow, transform.position, Quaternion.identity );
+			go.transform.parent = transform;
+		}
 	}
 	
 	public void InitRespawn()
@@ -82,10 +87,9 @@ public class BaseObject : MonoBehaviour
 		
 		go.transform.parent = transform.parent;
 		respawner = go.GetComponent<EnemySpawner>();
-		respawner.objectToRespawn = myPrefab; //(GameObject)myPrefab;
+		respawner.objectToRespawn = myPrefab; 
 	//	print ("Spawn spawner..." + gameObject );
 	}
-	
 	
 	
 	World findWorld( Transform t ) 
@@ -199,9 +203,7 @@ public class BaseObject : MonoBehaviour
 					
 					if ( gravity.y > 0 )
 					{
-						
 						gravity *= -bouncyness;//Vector3.zero;
-						
 					}
 				}
 			//	print("WHAT");

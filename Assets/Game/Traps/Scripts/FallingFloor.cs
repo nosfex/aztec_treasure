@@ -15,7 +15,7 @@ public class FallingFloor : MonoBehaviour
 	
 	const float TIME_TO_CRUMB = 0.25f;
 	const float TIME_TO_FALL = 0.5f;
-	const float CRUMB_AMOUNT = 0.15f;
+	const float CRUMB_AMOUNT = 0.09f;
 	
 	BaseObject objectOnTop;
 	float playerOnTopTimer = TIME_TO_CRUMB;
