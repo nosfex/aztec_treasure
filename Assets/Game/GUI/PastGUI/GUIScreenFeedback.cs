@@ -28,7 +28,7 @@ public class GUIScreenFeedback : MonoBehaviour
 		GameObject go = ShowFeedback( prefabTriesLeft );
 		
 		TextMesh text = go.GetComponentInChildren<TextMesh>();
-		text.text = "" + tries + "tries left.";
+		text.text = "" + tries + " lives left.";
 	}
 
 	public void ShowGetToTheEntrance()

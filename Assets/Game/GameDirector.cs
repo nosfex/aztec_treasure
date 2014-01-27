@@ -25,6 +25,9 @@ public class GameDirector : MonoBehaviour {
 	
 	public GameObject textPopupPrefab;
 	
+	public Transform guiContainer;
+	
+	public GameObject prefabVictoryGiver;
 	public DungeonBSP dungeonGenerator;
 	
 	public GameObject finalTreasure;
@@ -257,6 +260,31 @@ public class GameDirector : MonoBehaviour {
 		}
 		
 		return null;
+	}
+	
+	
+	public void OnRightWins()
+	{
+		GameObject o = (GameObject)Instantiate( prefabVictoryGiver, 
+			prefabVictoryGiver.transform.position, 
+			prefabVictoryGiver.transform.rotation );
+		
+		VictoryGiver v = o.GetComponentInChildren<VictoryGiver>();
+		
+		v.winnerCamera = worldRight.camera.camera;
+		v.loserCamera = worldLeft.camera.camera;
+	}
+
+	public void OnLeftWins()
+	{
+		GameObject o = (GameObject)Instantiate( prefabVictoryGiver, 
+			prefabVictoryGiver.transform.position, 
+			prefabVictoryGiver.transform.rotation );
+		
+		VictoryGiver v = o.GetComponentInChildren<VictoryGiver>();
+		
+		v.winnerCamera = worldLeft.camera.camera;
+		v.loserCamera = worldRight.camera.camera;
 	}
 	
 }

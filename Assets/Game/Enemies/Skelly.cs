@@ -364,7 +364,7 @@ public class Skelly : BaseObject
 			if ( p != null && !p.isImmune )
 			{
 				p.OnHit( gameObject );
-				p.velocity += direction * speed * attackSpeedFactor * 3f;
+				p.velocity += direction * speed * attackSpeedFactor * 1.5f;
 				p.gravity.y = -0.01f;
 				velocity *= -1.2f;
 			}

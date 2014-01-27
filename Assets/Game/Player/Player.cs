@@ -259,10 +259,19 @@ public class Player : BaseObject
 			accel = Vector3.zero;
 			torchRatio = 100;
 			lives --;
-			GUIScreenFeedback.i.ShowTriesLeft( lives );
 			
 			worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 			deathAwaits = false;
+			
+			if ( lives == -1 )
+				GameDirector.i.OnLeftWins();
+			else 
+				GUIScreenFeedback.i.ShowTriesLeft( lives );
+		}
+		
+		if ( lives < 0 )
+		{
+			return;
 		}
 		
 		dx = 0; dy = 0;
@@ -451,7 +460,7 @@ public class Player : BaseObject
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
-				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
+				if ( liftSensor != null && liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 				{
 					Transform lifted = liftSensor.sensedObject.transform;
 					lifted.parent = transform;
@@ -545,6 +554,7 @@ public class Player : BaseObject
 			if ( attackedObject )
 			{
 				attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+				
 				if ( attackedObject.GetComponent<Vine>() == null )
 					velocity *= -0.5f;
 			}
@@ -557,6 +567,21 @@ public class Player : BaseObject
 	
 	void Die()
 	{
+		if ( liftedObject != null ) // It was carrying something.
+		{
+			// TODO: Meter efecto de particulas aca
+			
+			liftedObject.transform.position = lastSafeFloor.transform.position + new Vector3(0, .4f, 0);
+			
+			liftedObject.transform.parent = worldOwner.transform;
+			liftedObject.gravityEnabled = true;
+			liftedObject.collisionEnabled = true;
+			
+			liftedObject = null;
+			liftSensor.sensedObject = null;
+			liftSensor.gameObject.SetActive( true );
+		}
+		
 		deathAwaits = true;
 	}
 	

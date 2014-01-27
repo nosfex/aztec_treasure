@@ -31,6 +31,10 @@ public class DungeonBSP : MonoBehaviour
 	
 	public Decoration[] decorations;
 	
+	public Decoration startRoomDecoration;
+	public Decoration endRoomDecoration;
+	
+	
 	//public World[] targetContainers;
 	
 	
@@ -237,6 +241,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	[HideInInspector] public BSPNode startRoom, endRoom;
 	
+	
 	public void BuildDungeon( Transform container )
 	{
 		this.container = container;
@@ -305,9 +310,11 @@ public class DungeonBSP : MonoBehaviour
 		}
 		
 		startRoom = GenerateRoom( startRoomX, startRoomY, 7, 7 );
+		startRoom.isStartRoom = true;
 		final.Add( startRoom );
 
 		endRoom = GenerateRoom( startRoomX * -1, startRoomY * -1, 11, 11 );
+		endRoom.isEndRoom = true;
 		final.Add( endRoom );
 		
 		BSPNode altar1 = GenerateAltarRoom2( 0, 1 );

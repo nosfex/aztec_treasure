@@ -17,6 +17,9 @@ public class BSPNode
 	public Room room;
 	
 	public bool isAltar = false;
+	
+	public bool isEndRoom = false;
+	public bool isStartRoom = false;
 
 	public static int instanceCount = 0;
 	
@@ -67,11 +70,17 @@ public class BSPNode
 						
 						int centeroffsetX = (width  / 2) - (deco.width / 2);
 						int centeroffsetY = (height  / 2) - (deco.height / 2);
+						
 						//Debug.Log (" CX = " + centeroffsetX );
 						//Debug.Log (" CY = " + centeroffsetY );
 						if ( i == centeroffsetX && j == centeroffsetY )
 						{
-							deco = builder.DrawDecoration();
+							if ( isEndRoom )
+								deco = builder.endRoomDecoration;
+							else if ( isStartRoom )
+								deco = builder.startRoomDecoration;
+							else 
+								deco = builder.DrawDecoration();
 							
 							GameObject o = (GameObject)Object.Instantiate( deco.gameObject );
 							o.transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
