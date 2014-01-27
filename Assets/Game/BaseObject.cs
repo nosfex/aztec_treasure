@@ -145,7 +145,7 @@ public class BaseObject : MonoBehaviour
 		velocity += accel * frameRatio;
 		float friction = frictionCoef;
 
-		if ( gravityEnabled && gravity.y > 0 )
+		if ( gravityEnabled && transform.position.y - 0.003f > floorY )
 		{
 			friction = airFrictionCoef;
 		}
@@ -197,11 +197,10 @@ public class BaseObject : MonoBehaviour
 				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 
 				
-				if ( gravity.y < 0.05f )
+				if ( Mathf.Abs( gravity.y ) < 0.01f )
 					gravity = Vector3.zero;
 				else 
 				{
-					
 					if ( gravity.y > 0 )
 					{
 						gravity *= -bouncyness;//Vector3.zero;

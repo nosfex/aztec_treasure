@@ -18,7 +18,7 @@ public class SkellyAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 1.0f && body.currentFloor != null )
+		if ( distance <= 2.0f && body.currentFloor != null )
 		{
 			float thresholdNear = 0.4f;
 			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
