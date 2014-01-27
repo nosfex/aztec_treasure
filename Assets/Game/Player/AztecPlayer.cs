@@ -37,12 +37,20 @@ public class AztecPlayer : Player {
 			Transform t = new GameObject().transform;
 			t.position = transform.position + (Vector3.up  * 0.2f);
 			t.rotation = transform.rotation;
-			//t.localPosition = transform.localPosition;
+			t.localPosition = transform.localPosition;
 			
+			Vector2 tileXY = GameDirector.i.worldRight.coordsFromPos(t.localPosition);
+			t.position = GameDirector.i.worldRight.globalTiles[(int)tileXY.x, (int)tileXY.y].transform.position +  (Vector3.up  * 0.2f);
+			t.localPosition = GameDirector.i.worldRight.globalTiles[(int)tileXY.x, (int)tileXY.y].transform.localPosition +  (Vector3.up  * 0.8f);
 			if(checkFreeArea(t))
 			{
+				
+				Transform signT = new GameObject().transform;
+				Vector2 signTileXY = GameDirector.i.worldLeft.coordsFromPos(transform.localPosition);
+				signT.position = new Vector3(signTileXY.x *0.8f, transform.position.y, signTileXY.y * 0.8f);
+				signT.rotation = transform.rotation;
 				DelayedSpawner.i.addSpawnData( trap.trapPrefab, t, 3, null);
-				PlaceSign( trap.signPrefab, transform.position, Quaternion.Euler(90, 0, 0));
+				PlaceSign( trap.signPrefab, signT.position, Quaternion.Euler(90, 0, 0));
 				trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
 				trapCurrency -= trap.price;
 				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + trap.price );
@@ -155,12 +163,19 @@ public class AztecPlayer : Player {
 					GameDirector.i.worldRight.globalTiles[ (int)tileXY.x, (int)tileXY.y ] = obj2;
 					if(checkFreeArea(tileXY))
 					{
+						
+						Transform signT = new GameObject().transform;
+						Vector2 signTileXY = GameDirector.i.worldLeft.coordsFromPos(transform.localPosition);
+						signT.position = new Vector3(signTileXY.x *0.8f, transform.position.y, signTileXY.y * 0.8f);
+						signT.rotation = transform.rotation;
+						
+						
 						trapsPlaced.Add(tileXY);
 						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "-" + trap.price );
 						trapCurrency -= trap.price;
 						
 					
-						PlaceSign(trap.signPrefab, transform.position,  Quaternion.Euler(90, 0, 0));
+						PlaceSign(trap.signPrefab, signT.position,  Quaternion.Euler(90, 0, 0));
 					}
 					else
 					{
