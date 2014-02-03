@@ -28,7 +28,11 @@ public class Dart : MonoBehaviour {
 			life--;
 			print ( "life = " + life );
 		}
-		else if ( other.tag.Contains("Wall") )
+		
+		if ( other.tag.Contains("Wall") 
+			|| other.name.Contains("Wall")
+			|| other.gameObject.tag.Contains("Wall") 
+			|| other.gameObject.name.Contains("Wall") )
 		{
 			life = 0;
 		}

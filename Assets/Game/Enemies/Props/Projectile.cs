@@ -47,7 +47,7 @@ public class Projectile : BaseObject
 			life--;
 			//print ( "life = " + life );
 		}
-		else if ( other.tag.Contains("Wall") )
+		else if ( other.gameObject.tag.Contains("Wall") || other.gameObject.name.Contains("Wall"))
 		{
 			life = 0;
 			//print ( "Projectile vs Wall = " + life );

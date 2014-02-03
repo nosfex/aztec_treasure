@@ -200,6 +200,12 @@ public class AztecPlayer : Player {
 					
 						if(obj2 == null) 
 							return;
+						
+						if(obj2.name == "WallTorchTile")
+						{
+							GameDirector.i.ShowTextPopup( gameObject, 0.8f, "No room for another trap!" );	
+							return;
+						}
 				
 						Transform t = new GameObject().transform;
 						t.position = obj2.transform.position;
@@ -238,7 +244,10 @@ public class AztecPlayer : Player {
 			
 				if(obj2 != null) 
 				{
-					
+					if(obj2.name == "WallTorchTile")
+					{
+						return;
+					}
 					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
 				}
 			}
@@ -257,7 +266,7 @@ public class AztecPlayer : Player {
 		}
 		
 		
-		if(currentTrapIndex !=4 )
+		if(currentTrapIndex !=5)
 		{
 			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
 			if(obj != null)
