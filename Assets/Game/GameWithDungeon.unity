@@ -1848,7 +1848,7 @@ MonoBehaviour:
   name: Ranged
   signPrefab: {fileID: 100000, guid: f3bbed9f795f41848af35abc601f1391, type: 2}
   trapPrefab: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
-  price: 300
+  price: 200
   altarUnlock: 2
 --- !u!1 &427190692
 GameObject:
