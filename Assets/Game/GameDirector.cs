@@ -164,7 +164,7 @@ public class GameDirector : MonoBehaviour {
 		
 		Invoke( "InitTiles", .1f );
 		//SnapAssistant.i.snapEnabled = true;
-		//InitHighQuality( true );
+		InitHighQuality( false );
 	}
 	
 	void InitTiles()
@@ -179,7 +179,7 @@ public class GameDirector : MonoBehaviour {
 	bool highQualityEnabled = true;
 	
 	float hqTimer = 0;
-	float fpsThreshold = 35;
+	float fpsThreshold = 30;
 	float timeThreshold = 5.0f;
 	bool qualityAlreadySet = false;
 	
@@ -239,7 +239,7 @@ public class GameDirector : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		UpdateQualityAssistant();
+		//UpdateQualityAssistant();
 	}
 	
 	public GameObject findMyPrefab( GameObject which )
