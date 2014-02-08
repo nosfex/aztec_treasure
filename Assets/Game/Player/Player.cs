@@ -247,6 +247,8 @@ public class Player : BaseObject
 		}
 	}	
 	
+	bool isAttacking = false;
+	
 	virtual protected void Update () 
 	{
 		if ( deathAwaits )
@@ -358,7 +360,14 @@ public class Player : BaseObject
 				torchLight.intensity = 0.4f;
 		}
 		
-		frictionCoef += (0.66f - frictionCoef) * 0.75f;
+		//if ( (dx != 0 || dy != 0) )
+		//	frictionCoef += (0.66f - frictionCoef) * 0.5f;
+
+		if ( !animator.isAnimPlaying("Attack") )
+		{
+			isAttacking = false;
+			frictionCoef += (0.66f - frictionCoef) * 0.5f;
+		}
 		
 		float threshold = 0.001f;
 		
@@ -393,11 +402,6 @@ public class Player : BaseObject
 				isSkidding = false;
 				skidEnabled = false;
 			}
-		}
-		
-		if ( animator.isAnimPlaying("Attack") )
-		{
-			frictionCoef = 0.95f;
 		}
 		
 		if ( cooldown > 0 )
@@ -493,15 +497,20 @@ public class Player : BaseObject
 						velocity *= 2.50f;
 						cooldown = 0.4f;
 						comboCount++;
+						isAttacking = true;
+						frictionCoef = 0.9f;
+						
 					}
 					else 
 					if ( comboCount == 1 )
 					{
 						animator.StopAnim();
 						animator.PlayAnim("Attack" + facing );
-						velocity *= 1.25f;
+						velocity *= 1.5f;
 						cooldown = 0.6f;
 						comboCount++;
+						frictionCoef = 0.95f;
+						isAttacking = true;
 					}
 					
 				}
@@ -684,12 +693,16 @@ public class Player : BaseObject
 			break;
 		}
 		
-		if ( animator != null && animator.isAnimPlaying("Attack") )
+		if ( animator != null && isAttacking  )
 		{
 			if ( other.tag == "Wall" )
 			{
+				isAttacking = false;
 				//animator.StopAnim();
-				velocity *= -2.0f;
+				velocity *= -.5f;
+				frictionCoef = 0.99f;
+				//if ( gravity.y > -0.03f )
+				//	gravity.y = -0.03f;
 			}
 		}
 //		else 
