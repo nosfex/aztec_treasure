@@ -688,7 +688,7 @@ public class Player : BaseObject
 		{
 			if ( other.tag == "Wall" )
 			{
-				animator.StopAnim();
+				//animator.StopAnim();
 				velocity *= -2.0f;
 			}
 		}

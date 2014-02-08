@@ -585,8 +585,8 @@ MonoBehaviour:
   downKey: 115
   attackKey: 116
   direction: {x: 0, y: 0, z: 0}
-  speed: .0299999993
-  trapCurrency: 800
+  speed: .0199999996
+  trapCurrency: 600
   maxCurrencyCooldown: 1
   currentTrapIndex: 0
 --- !u!114 &11400004
