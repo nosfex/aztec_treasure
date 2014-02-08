@@ -114,8 +114,8 @@ public class BaseObject : MonoBehaviour
 		if ( sleepPhysics )
 			return;
 		
-		float frameRatio = Mathf.Clamp01(Time.deltaTime / 0.016f);
-		
+		float frameRatio = (Time.deltaTime / 0.016f);
+		//Debug.Log ("frameRatio: " + frameRatio );
 		if ( gravityEnabled )
 		{
 			if ( currentFloor != null )
@@ -142,7 +142,7 @@ public class BaseObject : MonoBehaviour
 		
 		
 		
-		velocity += accel * frameRatio;
+		velocity += accel;
 		float friction = frictionCoef;
 
 		if ( gravityEnabled && transform.position.y - 0.003f > floorY )
@@ -151,7 +151,7 @@ public class BaseObject : MonoBehaviour
 		}
 		
 		Vector3 velocityDif = (velocity * friction) - velocity;
-		velocity += velocityDif * frameRatio;
+		velocity += velocityDif;
 		//print ("coef = " + velocityDif );
 		//velocity *= frictionCoef;
 		transform.position += velocity * frameRatio;

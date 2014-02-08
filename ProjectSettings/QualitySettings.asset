@@ -8,7 +8,7 @@ QualitySettings:
   m_QualitySettings:
   - serializedVersion: 2
     name: Low Quality
-    pixelLightCount: 7
+    pixelLightCount: 4
     shadows: 0
     shadowResolution: 2
     shadowProjection: 1
@@ -27,12 +27,12 @@ QualitySettings:
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: High Quality
-    pixelLightCount: 10
-    shadows: 2
+    pixelLightCount: 7
+    shadows: 1
     shadowResolution: 0
     shadowProjection: 1
     shadowCascades: 1
-    shadowDistance: 150
+    shadowDistance: 15
     blendWeights: 4
     textureQuality: 0
     anisotropicTextures: 0
@@ -44,4 +44,12 @@ QualitySettings:
     maximumLODLevel: 0
     particleRaycastBudget: 1024
     excludedTargetPlatforms: []
-  m_PerPlatformDefaultQuality: {}
+  m_PerPlatformDefaultQuality:
+    Android: 0
+    BlackBerry: 0
+    FlashPlayer: 0
+    Standalone: 0
+    WP8: 0
+    Web: 0
+    Windows Store Apps: 0
+    iPhone: 0
