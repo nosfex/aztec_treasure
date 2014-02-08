@@ -330,10 +330,12 @@ public class SpriteAnimator : MonoBehaviour
 
 		
 
-		
-		renderer.material.mainTextureScale = new Vector2( xScale * ( currentAnimation.horizontalFlip ? -1 : 1 ), yScale );
-		renderer.material.mainTextureOffset = new Vector2( xScale * ((frameSequence[frameIndex] % xcells) - ( currentAnimation.horizontalFlip ? -1 : 0 )), (1.0f - yScale) - (yScale * (frameSequence[frameIndex] / xcells)) );
-		
+		for ( int i = 0; i < renderer.materials.Length; i++ )
+		{
+			Material m = renderer.materials[i];
+			m.mainTextureScale = new Vector2( xScale * ( currentAnimation.horizontalFlip ? -1 : 1 ), yScale );
+			m.mainTextureOffset = new Vector2( xScale * ((frameSequence[frameIndex] % xcells) - ( currentAnimation.horizontalFlip ? -1 : 0 )), (1.0f - yScale) - (yScale * (frameSequence[frameIndex] / xcells)) );
+		}
 		
 
 	}
