@@ -606,6 +606,7 @@ public class Player : BaseObject
 		
 		inmuneTimer = 1.0f;
 		frictionCoef = 0.99f;
+		isAttacking = false;
 		
 		if ( hearts == 0 )
 			Die();

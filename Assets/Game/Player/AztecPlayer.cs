@@ -125,6 +125,18 @@ public class AztecPlayer : Player {
 		
 		if(Input.GetKeyDown(placeTrap))
 		{
+			{
+				GameObject obj2 = GameDirector.i.worldRight.objFromPos( transform.localPosition );
+				
+				if(obj2 != null)
+				{
+					if ( obj2.name == "HardFloorTile" )
+					{
+						GameDirector.i.ShowTextPopup( gameObject, 0.8f, "Can't place here." );
+						return;
+					}
+				}
+			}
 			
 			if(trap.name == "Vines" || 
 				trap.name == "Skelly" || 
@@ -234,55 +246,55 @@ public class AztecPlayer : Player {
 		}
 		
 		
-		if(currentTrapIndex  == 5)
-		{
-			RaycastHit r;
-			
-			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  Vector3.forward, out r))
-			{
-				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + Vector3.forward * 0.4f );
-			
-				if(obj2 != null) 
-				{
-					if(obj2.name == "WallTorchTile")
-					{
-						return;
-					}
-					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
-				}
-			}
-		}
-		
-		else //if(direction != Vector3.forward)
-		{
-	
-			if(highlightedWall != null)
-			{
-				
-				highlightedWall.renderer.material = wallMat;
-		
-			}
-		
-		}
-		
-		
-		if(currentTrapIndex !=5)
-		{
-			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
-			if(obj != null)
-			{
-				highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
-			}
-		}
-		else
-		{
-			if(highlightedFloor != null && highlightedFloor.renderer.material != floorMat)
-			{
-				
-				highlightedFloor.renderer.material = floorMat;
-		
-			}
-		}
+//		if(currentTrapIndex  == 5)
+//		{
+//			RaycastHit r;
+//			
+//			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  Vector3.forward, out r))
+//			{
+//				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + Vector3.forward * 0.4f );
+//			
+//				if(obj2 != null) 
+//				{
+//					if(obj2.name == "WallTorchTile")
+//					{
+//						return;
+//					}
+//					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
+//				}
+//			}
+//		}
+//		
+//		else //if(direction != Vector3.forward)
+//		{
+//	
+//			if(highlightedWall != null)
+//			{
+//				
+//				highlightedWall.renderer.material = wallMat;
+//		
+//			}
+//		
+//		}
+//		
+//		
+//		if(currentTrapIndex !=5)
+//		{
+//			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
+//			if(obj != null)
+//			{
+//				highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
+//			}
+//		}
+//		else
+//		{
+//			if(highlightedFloor != null && highlightedFloor.renderer.material != floorMat)
+//			{
+//				
+//				highlightedFloor.renderer.material = floorMat;
+//		
+//			}
+//		}
 	}
 	
 	

@@ -250,7 +250,7 @@ GameObject:
   - 114: {fileID: 11400012}
   - 65: {fileID: 6500012}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,7 +269,7 @@ GameObject:
   - 114: {fileID: 11400014}
   - 65: {fileID: 6500014}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +322,7 @@ GameObject:
   - 114: {fileID: 11400016}
   - 65: {fileID: 6500016}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,7 +413,7 @@ GameObject:
   - 114: {fileID: 11400022}
   - 65: {fileID: 6500022}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,7 +466,7 @@ GameObject:
   - 114: {fileID: 11400024}
   - 65: {fileID: 6500024}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,7 @@ GameObject:
   - 114: {fileID: 11400026}
   - 65: {fileID: 6500026}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,7 +610,7 @@ GameObject:
   - 114: {fileID: 11400032}
   - 65: {fileID: 6500032}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,7 +629,7 @@ GameObject:
   - 114: {fileID: 11400034}
   - 65: {fileID: 6500034}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -682,7 +682,7 @@ GameObject:
   - 114: {fileID: 11400036}
   - 65: {fileID: 6500036}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: HardFloorTile
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3079,7 +3079,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3133,7 +3133,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3151,7 +3151,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3277,7 +3277,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3295,7 +3295,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3349,7 +3349,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3439,7 +3439,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3493,7 +3493,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3511,7 +3511,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4c64f3d594bdea2408ee36dcf1d205f8, type: 2}
+  - {fileID: 2100000, guid: 0c89e51fb40cd0741bec8373c38d5dd8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
