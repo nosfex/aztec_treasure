@@ -13,10 +13,11 @@ public class Dart : MonoBehaviour {
 	{
 		float frameRatio = Mathf.Clamp01(Time.deltaTime / 0.016f);
 		transform.position -= transform.forward * speed * frameRatio;
+		minCollisionTime -= Time.deltaTime;
 	}
 	
+	float minCollisionTime = 1.0f;
 	int life = 2;
-	
 	void OnTriggerEnter( Collider other )
 	{
 		
@@ -29,14 +30,17 @@ public class Dart : MonoBehaviour {
 			print ( "life = " + life );
 		}
 		
-		if ( other.tag.Contains("Wall") 
-			|| other.name.Contains("Wall")
-			|| other.gameObject.tag.Contains("Wall") 
-			|| other.gameObject.name.Contains("Wall") )
+		if(minCollisionTime <=  0)
 		{
-			life = 0;
+			if ( other.tag.Contains("Wall") 
+				|| other.name.Contains("Wall")
+				|| other.gameObject.tag.Contains("Wall") 
+				|| other.gameObject.name.Contains("Wall") )
+			{
+				life = 0;
+				print("collided");
+			}
 		}
-		
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
 		
 		BaseObject bo = other.GetComponent<BaseObject>();

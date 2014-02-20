@@ -597,11 +597,16 @@ public class Player : BaseObject
 	public void OnHit( GameObject other )
 	{
 		if ( inmuneTimer > 0 )
+		{
+			print("inmune");
 			return;
-
+		}
 		if ( deathAwaits )
+		{
+			print("death awaits");
 			return;
-		
+		}	
+		print("getting killed");
 		hearts--;
 		
 		inmuneTimer = 1.0f;
