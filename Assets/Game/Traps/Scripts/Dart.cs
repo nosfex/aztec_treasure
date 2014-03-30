@@ -16,7 +16,7 @@ public class Dart : MonoBehaviour {
 		minCollisionTime -= Time.deltaTime;
 	}
 	
-	float minCollisionTime = 1.0f;
+	float minCollisionTime = 0.5f;
 	int life = 2;
 	void OnTriggerEnter( Collider other )
 	{

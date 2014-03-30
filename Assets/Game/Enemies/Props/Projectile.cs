@@ -53,6 +53,7 @@ public class Projectile : BaseObject
 			print ( "Projectile vs Wall = " + life );
 		}
 		
+		
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
