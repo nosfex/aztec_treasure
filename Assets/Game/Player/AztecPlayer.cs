@@ -272,7 +272,7 @@ public class AztecPlayer : Player {
 			if(obj != null)
 			{
 			//	highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
-				PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.2f);
+				PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.6f);
 			}
 		}
 //		
