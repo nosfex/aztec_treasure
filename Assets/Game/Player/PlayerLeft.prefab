@@ -587,6 +587,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   trapCurrency: 600
+  constructionCursor: {fileID: 100000, guid: 82c7bd180b31bab44a456104d17f832e, type: 2}
   maxCurrencyCooldown: 1
   currentTrapIndex: 0
 --- !u!114 &11400004

@@ -353,7 +353,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 6f688633c86a6224a9faee5159c877fc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8806,6 +8806,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   trapCurrency: 600
+  constructionCursor: {fileID: 100000, guid: 82c7bd180b31bab44a456104d17f832e, type: 2}
   maxCurrencyCooldown: 1
   currentTrapIndex: 0
 --- !u!1 &1993074373
