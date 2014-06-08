@@ -4,6 +4,7 @@ using System.Collections;
 public class Vine : BaseObject 
 {
 	Vector3 startPosition;
+	public GameObject prefabExplosion;
 
 	override protected void Start () 
 	{
@@ -19,15 +20,12 @@ public class Vine : BaseObject
 	void OnHit( GameObject obj )
 	{
 		sleepPhysics = false;
-		SpriteAnimator animator = GetComponentInChildren<SpriteAnimator>();
-		if (animator)
-		{
-			//animator.transform.parent = transform.parent;
-			animator.PlayAnim("Death");
-		}
-		
+
 		collisionEnabled = false;
-		//Destroy ( gameObject );
+		
+		GameObject instance = (GameObject)Instantiate( prefabExplosion, transform.position, Quaternion.identity );
+		instance.transform.parent = transform.parent;
+
 		Destroy ( gameObject );
 	}
 }

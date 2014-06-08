@@ -149,6 +149,7 @@ MonoBehaviour:
   respawns: 1
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
+  prefabExplosion: {fileID: 100000, guid: 7aad96f8320235040a0911df42cf1be2, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
