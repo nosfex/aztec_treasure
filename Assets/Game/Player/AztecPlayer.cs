@@ -9,6 +9,8 @@ public class AztecPlayer : Player {
 	GameObject highlightedFloor = null;
 	GameObject highlightedWall = null;
 	
+	public GameObject constructionCursor = null;
+	GameObject cursorObj = null;
 	Material floorMat = null;
 	Material wallMat = null;
 	
@@ -245,25 +247,34 @@ public class AztecPlayer : Player {
 		
 		}
 		
-		
-//		if(currentTrapIndex  == 5)
-//		{
-//			RaycastHit r;
-//			
-//			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  Vector3.forward, out r))
-//			{
-//				GameObject obj2 = GameDirector.i.worldLeft.objFromPos( r.point + Vector3.forward * 0.4f );
-//			
-//				if(obj2 != null) 
-//				{
-//					if(obj2.name == "WallTorchTile")
-//					{
-//						return;
-//					}
-//					highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
-//				}
-//			}
-//		}
+		if(currentTrapIndex  == 5)
+		{
+			RaycastHit r;
+			
+			if(Physics.Raycast(transform.position + Vector3.up  *0.4f,  Vector3.forward, out r))
+			{
+				GameObject obj = GameDirector.i.worldLeft.objFromPos( r.point + Vector3.forward * 0.4f );
+			
+				if(obj != null) 
+				{
+					if(obj.name == "WallTorchTile")
+					{
+						return;
+					}
+					//highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
+					PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.back);
+				}
+			}
+		}
+		else if(currentTrapIndex !=5)
+		{
+			GameObject obj = GameDirector.i.worldLeft.objFromPos(transform.position);
+			if(obj != null)
+			{
+			//	highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
+				PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.6f);
+			}
+		}
 //		
 //		else //if(direction != Vector3.forward)
 //		{
@@ -295,6 +306,23 @@ public class AztecPlayer : Player {
 //		
 //			}
 //		}
+	}
+	
+	void PlaceCursor(Vector3 posAt, Quaternion eulerRot, Vector3 offset = new Vector3())
+	{
+		if(cursorObj == null)
+		{
+			cursorObj  = (GameObject)Instantiate(constructionCursor, posAt, eulerRot);
+			cursorObj.transform.position += (Vector3.up * 0.1f) + offset;
+			cursorObj.transform.parent = GameDirector.i.worldLeft.transform;
+		}
+		else
+		{
+			
+			cursorObj.transform.position = posAt + (Vector3.up * 0.1f) + offset;
+			cursorObj.transform.rotation = eulerRot;
+			//cursorObj.transform.parent = GameDirector.i.worldLeft.transform;
+		}
 	}
 	
 	

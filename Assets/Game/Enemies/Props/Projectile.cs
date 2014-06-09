@@ -50,8 +50,9 @@ public class Projectile : BaseObject
 		else if ( other.gameObject.tag.Contains("Wall") || other.gameObject.name.Contains("Wall"))
 		{
 			life = 0;
-			//print ( "Projectile vs Wall = " + life );
+			print ( "Projectile vs Wall = " + life );
 		}
+		
 		
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
 		
