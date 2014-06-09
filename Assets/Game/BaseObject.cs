@@ -154,7 +154,7 @@ public class BaseObject : MonoBehaviour
 		velocity += velocityDif;
 		//print ("coef = " + velocityDif );
 		//velocity *= frictionCoef;
-		transform.position += velocity * frameRatio;
+		
 		
 //		if ( velocity.x != 0 )
 		//	print (" v = "  + velocity.x  + " * " + frameRatio );
@@ -212,7 +212,7 @@ public class BaseObject : MonoBehaviour
 			
 			transform.position -= gravity * frameRatio;
 		}
-		
+		transform.position += velocity * frameRatio;
 		accel = Vector3.zero;
 	}
 	

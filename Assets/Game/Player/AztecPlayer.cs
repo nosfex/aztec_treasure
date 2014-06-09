@@ -84,6 +84,7 @@ public class AztecPlayer : Player {
 	
 	override protected void Update ()  
 	{
+		canJump = false;
 		base.Update();
 
 		if ( switchSensor.sensedObject != null && switchSensor.sensedObject.isSwitch )
