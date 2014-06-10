@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class AztecPlayer : Player {
-	
-	
+
+public class AztecPlayer : Player 
+{
 	public int trapCurrency = 20;
 	
 	GameObject highlightedFloor = null;
@@ -263,6 +263,7 @@ public class AztecPlayer : Player {
 					}
 					//highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
 					PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.back);
+					//PlaceCursor(obj.transform.position, Quaternion.Euler (90,0,0), Vector3.back);
 				}
 			}
 		}
@@ -272,7 +273,9 @@ public class AztecPlayer : Player {
 			if(obj != null)
 			{
 			//	highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
-				PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.6f);
+				//PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.6f);
+				PlaceCursor(obj.transform.position, Quaternion.Euler (90,0,0), Vector3.up * 0.6f);
+
 			}
 		}
 //		
