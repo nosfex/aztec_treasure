@@ -19,6 +19,8 @@ public class Player : BaseObject
 	public bool darknessMechanic;
 	public bool canAttack = true;
 	
+	public bool canJump = true;
+	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
 	[HideInInspector] public int lives;
@@ -126,7 +128,7 @@ public class Player : BaseObject
 	public KeyCode downKey; 
 	
 	public KeyCode attackKey = KeyCode.Z;
-	//public KeyCode liftKey = KeyCode.G;
+	public KeyCode jumpKey = KeyCode.Keypad1;
 	
 	string facing = "Right";
 	
@@ -153,6 +155,9 @@ public class Player : BaseObject
 	float dx = 0, dy = 0;
 	bool walkAnimFacingUp = false;
 	bool walkAnimFlipped = false;
+	
+	public float attackJumpHeight = -0.045f;
+	public float attackSpeedFactor = 30.0f;
 
 	void UpdateAnims3FacesMode()
 	{
@@ -171,6 +176,7 @@ public class Player : BaseObject
 	
 	void UpdateAnims2FacesMode()
 	{
+		
 		if ( dy > 0 )
 			walkAnimFacingUp = true;
 		else if ( dy < 0 )
@@ -436,6 +442,13 @@ public class Player : BaseObject
 			direction = Vector3.back;
 		}
 		
+		if(Input.GetKey(jumpKey) && canJump && gravity.y == 0)
+		{
+			
+			accel += direction * speed * attackSpeedFactor;
+			gravity.y = attackJumpHeight;
+		}
+		
 		UpdateAnims2FacesMode();
 
 		helperPivot.rotation = Quaternion.LookRotation( direction );
@@ -459,7 +472,7 @@ public class Player : BaseObject
 				OnPressSwitch( switchSensor.sensedObject.gameObject );
 			}
 		}
-		
+				
 		if ( Input.GetKeyDown( attackKey )  )
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...

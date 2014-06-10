@@ -3400,6 +3400,58 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+--- !u!1001 &656504022
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: jumpKey
+      value: 257
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: attackJumpHeight
+      value: -.00449999981
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: attackSpeedFactor
+      value: 20
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+  m_RootGameObject: {fileID: 561201816}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &700120095
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,6 +3846,7 @@ MonoBehaviour:
   dropGuide: {fileID: 81755570}
   darknessMechanic: 1
   canAttack: 1
+  canJump: 1
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -3803,8 +3856,11 @@ MonoBehaviour:
   upKey: 273
   downKey: 274
   attackKey: 256
+  jumpKey: 257
   direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
+  attackJumpHeight: -.00449999981
+  attackSpeedFactor: 20
 --- !u!4 &841682421
 Transform:
   m_ObjectHideFlags: 0
@@ -9819,6 +9875,58 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1938291233}
   m_Enabled: 1
+--- !u!1001 &1939002475
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: canJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: attackJumpHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+      propertyPath: attackSpeedFactor
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 8108d7b9232a8774d80abc91d50f9e2b, type: 2}
+  m_RootGameObject: {fileID: 1248416769}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &1963346690
 GameObject:
   m_ObjectHideFlags: 0
@@ -9946,6 +10054,7 @@ MonoBehaviour:
   dropGuide: {fileID: 844479355}
   darknessMechanic: 0
   canAttack: 0
+  canJump: 0
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -9955,8 +10064,11 @@ MonoBehaviour:
   upKey: 119
   downKey: 115
   attackKey: 116
+  jumpKey: 103
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
+  attackJumpHeight: 0
+  attackSpeedFactor: 0
   trapCurrency: 600
   constructionCursor: {fileID: 100000, guid: 82c7bd180b31bab44a456104d17f832e, type: 2}
   maxCurrencyCooldown: 1
