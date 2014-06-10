@@ -445,7 +445,7 @@ public class Player : BaseObject
 		if(Input.GetKey(jumpKey) && canJump && gravity.y == 0)
 		{
 			
-			accel += direction * speed * attackSpeedFactor;
+		//	accel += direction * speed * attackSpeedFactor;
 			gravity.y = attackJumpHeight;
 		}
 		
