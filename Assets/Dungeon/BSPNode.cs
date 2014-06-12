@@ -100,7 +100,10 @@ public class BSPNode
 					if ( room.tiles[ i, j ] == null ) // Skip decoration if present...
 					{
 						room.tiles[i, j] = (GameObject)(Object.Instantiate(wall == false ? floorTile : wallTile));	
-						room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, scale.y * Room.refCount * 0, tileY * scale.z);
+						if ( Random.Range(0,50) < 10 )
+							room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) +Random.Range(-0.08f, 0) , tileY * scale.z);
+						else
+							room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) , tileY * scale.z);
 						room.tiles[i, j].transform.parent = room.roomHolder.transform;
 						room.tiles[i, j].name = room.tiles[i, j].name.TrimEnd( "(Clone)" );
 					}

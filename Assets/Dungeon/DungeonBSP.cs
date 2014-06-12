@@ -220,7 +220,20 @@ public class DungeonBSP : MonoBehaviour
 		go.transform.rotation = rotation;
 		go.transform.parent = container;
 		go.name = go.name.TrimEnd( "(Clone)" );
-
+		MeshFilter[] mfa = go.GetComponentsInChildren<MeshFilter>();
+		foreach( MeshFilter mf in mfa)
+		{
+		Vector3[] tris = mf.mesh.vertices;
+		for ( int i = 0; i < tris.Length; i++ )
+		{
+			Random.seed = (int)( ((tris[i].x + tileX) ) +  ((tris[i].z + tileY) ) );
+			float a = 0.02f;
+			tris[i] += new Vector3( Random.Range (-a, a),Random.Range (-a, 0), Random.Range (-a, a));
+		}
+		
+		mf.mesh.vertices = tris;
+		mf.mesh.RecalculateNormals();
+		}
 		globalTiles[tileX, tileY] = go;
 		
 		return go;
