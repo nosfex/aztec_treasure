@@ -338,7 +338,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: .284015357, y: 0, z: 0, w: .958819747}
-  m_LocalPosition: {x: 1.85040712, y: 8.61709785, z: -26.9802895}
+  m_LocalPosition: {x: 1.85040712, y: 19.7029343, z: -44.0509796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
@@ -485,8 +485,8 @@ Camera:
     width: .5
     height: 1
   near clip plane: .5
-  far clip plane: 30
-  field of view: 15
+  far clip plane: 50
+  field of view: 7
   orthographic: 0
   orthographic size: 100
   m_Depth: -1
@@ -704,7 +704,7 @@ Light:
   m_Type: 2
   m_Color: {r: .588235259, g: .880730212, b: 1, a: 1}
   m_Intensity: .5
-  m_Range: 5
+  m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -948,6 +948,7 @@ MonoBehaviour:
   dropGuide: {fileID: 100002}
   darknessMechanic: 1
   canAttack: 1
+  canJump: 1
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -957,8 +958,11 @@ MonoBehaviour:
   upKey: 273
   downKey: 274
   attackKey: 256
+  jumpKey: 257
   direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
+  attackJumpHeight: -.00449999981
+  attackSpeedFactor: 20
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1

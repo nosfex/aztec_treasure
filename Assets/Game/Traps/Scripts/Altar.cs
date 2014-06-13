@@ -107,6 +107,10 @@ public class Altar : BaseObject
 				Color c = new Color( 1f,1f,1f, 1.0f );
 				flameParticle.renderer.material.SetColor( "_TintColor", c );
 				flameLight.intensity = 2f;
+				
+				int initialBonus = 1000;
+				p.trapCurrency += initialBonus;
+				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "+" + initialBonus );
 			}
 		}
 	}

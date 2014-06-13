@@ -200,15 +200,21 @@ public class DungeonBSP : MonoBehaviour
 	
 	public GameObject CreateTile( GameObject tile, int tileX, int tileY )
 	{
-		return CreateTile( tile, tileX, tileY, Vector3.zero, Quaternion.identity );
+		return CreateTile( tile, tileX, tileY, Vector3.zero, Quaternion.identity,0,0 );
 	}
 
 	public GameObject CreateTile( GameObject tile, int tileX, int tileY, Vector3 offset )
 	{
-		return CreateTile( tile, tileX, tileY, offset, Quaternion.identity );
+		return CreateTile( tile, tileX, tileY, offset, Quaternion.identity,0,0 );
 	}
 	
-	public GameObject CreateTile( GameObject tile, int tileX, int tileY, Vector3 offset, Quaternion rotation )
+	public GameObject CreateTile( GameObject tile, int tileX, int tileY, Vector3 offset,  Quaternion rotation  )
+	{
+		return CreateTile( tile, tileX, tileY, offset, rotation,0,0 );
+	}
+
+	static int caca = 0;
+	public GameObject CreateTile( GameObject tile, int tileX, int tileY, Vector3 offset, Quaternion rotation, float VX, float VZ )
 	{
 		if ( globalTiles[ tileX, tileY ] != null )
 			DestroyImmediate(globalTiles[tileX, tileY]);
@@ -221,19 +227,29 @@ public class DungeonBSP : MonoBehaviour
 		go.transform.parent = container;
 		go.name = go.name.TrimEnd( "(Clone)" );
 		MeshFilter[] mfa = go.GetComponentsInChildren<MeshFilter>();
+		
 		foreach( MeshFilter mf in mfa)
 		{
-		Vector3[] tris = mf.mesh.vertices;
-		for ( int i = 0; i < tris.Length; i++ )
-		{
-			Random.seed = (int)( ((tris[i].x + tileX) ) +  ((tris[i].z + tileY) ) );
-			float a = 0.02f;
-			tris[i] += new Vector3( Random.Range (-a, a),Random.Range (-a, 0), Random.Range (-a, a));
+			Vector3[] tris = mf.mesh.vertices;
+			for ( int i = 0; i < tris.Length; i++ )
+			{
+				if ( tile != wallTile )
+					break;
+					
+				
+				//if ( caca < 10)
+			//		print ( tris[i].y );
+				if ( tris[i].y  < 0 )
+					continue;
+				Random.seed = (int)( ((tris[i].x + tileX) ) +  ((tris[i].z + tileY) ) );
+				float a = 0.02f;
+				tris[i] += new Vector3( Random.Range (-a*2, a*2),Random.Range (-a, 0), Random.Range (-a, a));
+			}
+			
+			mf.mesh.vertices = tris;
+			mf.mesh.RecalculateNormals();
 		}
-		
-		mf.mesh.vertices = tris;
-		mf.mesh.RecalculateNormals();
-		}
+		caca++;
 		globalTiles[tileX, tileY] = go;
 		
 		return go;
@@ -621,7 +637,9 @@ public class DungeonBSP : MonoBehaviour
 						if ( tile == torchWallTile )
 							tile = wallTile;
 						
-						CreateTile ( tile, col + i, row + j, posOffset );
+						
+						
+						CreateTile ( tile, col + i, row + j, posOffset, Quaternion.identity, i * 0.5f, j * 0.5f );
 //						Destroy(globalTiles[col + i, row + j]);
 //						GameObject fix = (GameObject)Instantiate(tile);
 //						
@@ -640,7 +658,7 @@ public class DungeonBSP : MonoBehaviour
 						if ( tile == torchWallTile )
 							tile = wallTile;
 
-						CreateTile ( tile, col + i, row + j, posOffset );
+						CreateTile ( tile, col + i, row + j, posOffset, Quaternion.identity, i * 0.5f, j * 0.5f  );
 //						Destroy(globalTiles[col + i, row + j]);
 //						GameObject fix = (GameObject)Instantiate(tile);
 //						
@@ -677,12 +695,15 @@ public class DungeonBSP : MonoBehaviour
 					}
 					
 					Quaternion rotation = Quaternion.identity;
+		
+					Vector3 tmpPos = new Vector3( (col + i) * 0.8f + posOffset.x, posOffset.y,  (row + j) * 0.8f + posOffset.z );
 					
-					GameObject obj = CreateTile ( tile, col + i, row + j, posOffset, rotation );
-
 					if ( tile == torchWallTile )
-						obj.transform.rotation = Quaternion.LookRotation( obj.transform.position - pos );
-//					GameObject obj = (GameObject)Instantiate(tile);
+						rotation = Quaternion.LookRotation( tmpPos - pos );
+//		
+					GameObject obj = CreateTile ( tile, col + i, row + j, posOffset, rotation, i * 0.5f, j * 0.5f );
+
+					//GameObject obj = (GameObject)Instantiate(tile);
 //					
 //					obj.transform.position = new Vector3( (col + i) * scale.x, scale.y * Room.refCount * 0, (row + j) * scale.z);
 //					obj.transform.position += posOffset;

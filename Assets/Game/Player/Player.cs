@@ -361,9 +361,9 @@ public class Player : BaseObject
 			//	OnHit ( null );
 		
 			if ( torchRatio < 50 )
-				torchLight.intensity = (torchRatio / 50f) * 0.4f;
+				torchLight.intensity = (torchRatio / 50f) * 0.8f;
 			else 
-				torchLight.intensity = 0.4f;
+				torchLight.intensity = 0.8f;
 		}
 		
 		//if ( (dx != 0 || dy != 0) )
