@@ -293,6 +293,7 @@ public class Player : BaseObject
 			hearts = GameDirector.i.maxHearts;
 			inmuneTimer = 0;
 			transform.position = worldOwner.startingPoint.position;
+			
 			velocity = Vector3.zero;
 			gravity = Vector3.zero;
 			accel = Vector3.zero;
@@ -301,6 +302,8 @@ public class Player : BaseObject
 			
 			worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 			deathAwaits = false;
+			
+			GameDirector.i.worldRight.camera.earthquakeEnabled = false;
 			
 			if ( lives == -1 )
 				GameDirector.i.OnLeftWins();

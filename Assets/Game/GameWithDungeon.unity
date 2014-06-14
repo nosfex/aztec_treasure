@@ -1206,7 +1206,7 @@ MonoBehaviour:
   downKey: 115
   attackKey: 116
   jumpKey: 257
-  potionKey: 107
+  potionKey: 258
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   attackJumpHeight: 0
@@ -2052,6 +2052,7 @@ MonoBehaviour:
   - {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
   - {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
   - {fileID: 100000, guid: 101ddacb646ffa24ebb5979fc918c0ac, type: 2}
+  - {fileID: 100000, guid: 692f52e1479214de68e0aed860efc34c, type: 2}
   pastWall: {fileID: 2100000, guid: df7758ad59058a44cb6017c0925f5227, type: 2}
   futureWall: {fileID: 2100000, guid: a8c9f628a63990a40a973f638f46dc56, type: 2}
   pastFloor: {fileID: 2100000, guid: faa20967db93d3c49a22368a321220ee, type: 2}

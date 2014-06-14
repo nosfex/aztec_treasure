@@ -8,6 +8,11 @@ public class FinalTreasure : BaseObject
 		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) )
 		{
 			isLiftable = false;
+			
+		}
+		else 
+		{
+			GameDirector.i.finalTreasureRight = gameObject;
 		}
 	}
 	
