@@ -651,7 +651,7 @@ Transform:
   m_PrefabInternal: {fileID: 365095601}
   m_GameObject: {fileID: 124395683}
   m_LocalRotation: {x: .284015357, y: 0, z: 0, w: .958819747}
-  m_LocalPosition: {x: 1.85040712, y: 19.7029343, z: -44.0509796}
+  m_LocalPosition: {x: 1.85040712, y: 27.0466137, z: -55.3592529}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 935466077}
@@ -721,7 +721,7 @@ Camera:
     width: .5
     height: 1
   near clip plane: .5
-  far clip plane: 50
+  far clip plane: 70
   field of view: 7
   orthographic: 0
   orthographic size: 100
@@ -1238,6 +1238,7 @@ MonoBehaviour:
   darknessMechanic: 0
   canAttack: 0
   canJump: 0
+  attackCooldown: .300000012
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -1248,10 +1249,16 @@ MonoBehaviour:
   downKey: 115
   attackKey: 116
   jumpKey: 257
+  potionKey: 258
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   attackJumpHeight: 0
   attackSpeedFactor: 0
+  potionType: 0
+  holdingPotion: 0
+  invisibilityCooldown: 0
+  invisible: 0
+  speedCooldown: 0
   trapCurrency: 600
   constructionCursor: {fileID: 100000, guid: 82c7bd180b31bab44a456104d17f832e, type: 2}
   maxCurrencyCooldown: 1
@@ -1425,6 +1432,7 @@ MonoBehaviour:
   darknessMechanic: 1
   canAttack: 1
   canJump: 1
+  attackCooldown: .300000012
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -1435,10 +1443,16 @@ MonoBehaviour:
   downKey: 274
   attackKey: 256
   jumpKey: 257
+  potionKey: 258
   direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
   attackJumpHeight: -.0450000018
   attackSpeedFactor: 20
+  potionType: 0
+  holdingPotion: 0
+  invisibilityCooldown: 0
+  invisible: 0
+  speedCooldown: 0
 --- !u!1 &489718915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,7 +1947,7 @@ Transform:
   m_PrefabInternal: {fileID: 42167273}
   m_GameObject: {fileID: 713250151}
   m_LocalRotation: {x: .284015357, y: 0, z: 0, w: .958819747}
-  m_LocalPosition: {x: 1.85040712, y: 19.7029343, z: -44.0509796}
+  m_LocalPosition: {x: 1.85040712, y: 27.0466137, z: -55.3592529}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1776172763}
@@ -2003,7 +2017,7 @@ Camera:
     width: .5
     height: 1
   near clip plane: .5
-  far clip plane: 50
+  far clip plane: 70
   field of view: 7
   orthographic: 0
   orthographic size: 100
@@ -2250,12 +2264,11 @@ MonoBehaviour:
   torchWallTile: {fileID: 100002, guid: d1ab4f9b21cf14dfdaf2bdf0564df978, type: 2}
   altarPrefab: {fileID: 100000, guid: e1e16e2569ac566499ed15eb69dea1cf, type: 2}
   decorations:
-  - {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4, type: 2}
+  - {fileID: 11400098, guid: 82d908bb96ea54987b4d18556347a99d, type: 2}
   - {fileID: 11400090, guid: 5e7f4644dbd66417a8b0b3f074b38621, type: 2}
   - {fileID: 11400066, guid: a7f358574b6854e7992ea44bb490fd65, type: 2}
   - {fileID: 11400008, guid: 3e4edcedd9cd2474fba590788fa77d9d, type: 2}
   - {fileID: 11400000, guid: 7bcb98c9be46e43dfafcec8d4099c546, type: 2}
-  - {fileID: 11400098, guid: 82d908bb96ea54987b4d18556347a99d, type: 2}
   startRoomDecoration: {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4,
     type: 2}
   endRoomDecoration: {fileID: 11400098, guid: 44c193adae7e44aca8f9a5a14adaadc4, type: 2}
