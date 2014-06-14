@@ -9,6 +9,11 @@ public class Torch : MonoBehaviour
 	public Light light;
 	public GameObject tipContainer;
 	
+	public bool isTurnedOn()
+	{
+		return turnedOn;
+	}
+	
 	public void TurnOff()
 	{
 		SpriteAnimator animator = GetComponent<SpriteAnimator>();

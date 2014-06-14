@@ -151,8 +151,20 @@ public class Player : BaseObject
 			if ( minLightDistance < 1.2f ) //nearestLight.range * 0.33f )
 			{
 				torchOn = false;
-				nearestLight.TurnOn();
-				torchRatio = 100f;
+				
+				if ( torchRatio > 0 )
+				{
+					if ( !nearestLight.isTurnedOn() && torchRatio > 0 )
+					{
+						nearestLight.TurnOn();
+						torchRatio = 100f;
+					}
+					else
+					if ( nearestLight.isTurnedOn() )
+					{
+						torchRatio = 100f;
+					}
+				}
 			}
 		}
 	}
@@ -367,20 +379,32 @@ public class Player : BaseObject
 		if ( dx != 0 && dy != 0 )
 			tmpSpeed *= 0.707f;
 		
-		accel += tmpSpeed * new Vector3( dx, 0, dy );
 		
 		if ( torchLight && darknessMechanic )
 		{
 			if ( inDarkness )
 			{
 				torchOn = true;
+				
 			//	darkTestThreshold = 0.6f;
 			}
 			
-			if ( torchOn )
+			if ( torchOn && torchRatio > 0 )
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
+				
+				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
+				
+				if ( torchRatio <= 0 && inDarkness )
+				{
+					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+				}
+			}
+			
+			if ( torchRatio < 0 && inDarkness )
+			{
+				dx *= 0.5f;
+				dy *= 0.5f;
 			}
 //			else 
 //			{
@@ -396,6 +420,8 @@ public class Player : BaseObject
 				torchLight.intensity = 0.8f;
 		}
 		
+		accel += tmpSpeed * new Vector3( dx, 0, dy );
+
 		//if ( (dx != 0 || dy != 0) )
 		//	frictionCoef += (0.66f - frictionCoef) * 0.5f;
 
@@ -508,6 +534,11 @@ public class Player : BaseObject
 				
 		if ( Input.GetKeyDown( attackKey )  )
 		{
+			if ( torchRatio <= 0 && inDarkness )
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Can't see :(");
+			}
+			else
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
 				if ( liftSensor != null && liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
