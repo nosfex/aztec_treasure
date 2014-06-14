@@ -56,6 +56,8 @@ public class BSPNode
 				
 				if ( !wall )
 				{
+					Decoration deco = builder.PeekDecoration();
+
 					if ( isAltar && i == 3 && j == 3 )
 					{
 						GameObject o = (GameObject)Object.Instantiate( builder.altarPrefab );
@@ -64,10 +66,8 @@ public class BSPNode
 						//room.tiles[ i, j ] = o;
 					}
 					else
-					if ( width >= 10 && height >= 10 )
+					if ( width >= deco.width + 3 && height >= deco.height + 3 )
 					{
-						Decoration deco = builder.PeekDecoration();
-						
 						int centeroffsetX = (width  / 2) - (deco.width / 2);
 						int centeroffsetY = (height  / 2) - (deco.height / 2);
 						
@@ -100,10 +100,12 @@ public class BSPNode
 					if ( room.tiles[ i, j ] == null ) // Skip decoration if present...
 					{
 						room.tiles[i, j] = (GameObject)(Object.Instantiate(wall == false ? floorTile : wallTile));	
+						
 						if ( Random.Range(0,50) < 10 )
-							room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) +Random.Range(-0.08f, 0) , tileY * scale.z);
+							room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) +Random.Range(0, 0.08f) , tileY * scale.z);
 						else
 							room.tiles[i, j].transform.position = new Vector3(tileX * scale.x, (scale.y * Room.refCount * 0) , tileY * scale.z);
+						
 						room.tiles[i, j].transform.parent = room.roomHolder.transform;
 						room.tiles[i, j].name = room.tiles[i, j].name.TrimEnd( "(Clone)" );
 					}

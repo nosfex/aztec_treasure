@@ -65,7 +65,7 @@ public class DungeonBSP : MonoBehaviour
 			shuffledDecorations.Add ( decorations[i] );
 
 		// shuffle decorations
-		for ( int i = 0; i < shuffledDecorations.Count - 2; i++ )
+		for ( int i = 0; i < shuffledDecorations.Count - 1; i++ )
 		{
 			Decoration swap = shuffledDecorations[ i ];
 			int rand = Random.Range( i + 1, shuffledDecorations.Count - 1 );
@@ -959,6 +959,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	public Decoration DrawDecoration()
 	{
+		print ( "shuffledcount = " + shuffledDecorations.Count );
 		if ( shuffledDecorations.Count == 0 )
 			return decorations[0];
 		
