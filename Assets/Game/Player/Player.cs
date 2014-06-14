@@ -21,6 +21,8 @@ public class Player : BaseObject
 	
 	public bool canJump = true;
 	
+	public float attackCooldown = 0.3f;
+	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
 	[HideInInspector] public int lives;
@@ -517,14 +519,14 @@ public class Player : BaseObject
 					
 					//dropGuide.SetActive( true );
 				}
-				else if ( cooldown <= 0.4f && canAttack ) // Si no hay objeto, trata de pegar
+				else if ( cooldown <= attackCooldown && canAttack ) // Si no hay objeto, trata de pegar
 				{
 					if ( comboCount == 0 )
 					{
 						animator.StopAnim();
 						animator.PlayAnim("Attack2" + facing );
 						velocity *= 2.50f;
-						cooldown = 0.4f;
+						cooldown = attackCooldown;
 						comboCount++;
 						isAttacking = true;
 						frictionCoef = 0.9f;
@@ -536,7 +538,7 @@ public class Player : BaseObject
 						animator.StopAnim();
 						animator.PlayAnim("Attack" + facing );
 						velocity *= 1.5f;
-						cooldown = 0.6f;
+						cooldown = attackCooldown * 1.25f;
 						comboCount++;
 						frictionCoef = 0.95f;
 						isAttacking = true;

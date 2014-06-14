@@ -32,13 +32,13 @@ public class Projectile : BaseObject
 		
 		if ( other.gameObject == transform.parent.gameObject )
 		{
-			//print("Projectile vs Parent");
+			print("Projectile vs Parent");
 			return;
 		}
 		
 		if ( other.GetComponent<EnemyRanged>() != null )
 		{
-			//print("Projectile vs enemyRanged");
+			print("Projectile vs enemyRanged");
 			return;
 		}
 		
