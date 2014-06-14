@@ -2067,7 +2067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b857061353843b94a9da2adf3cf256c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapSize: .200000003
+  snapSize: .400000006
   snapEnabled: 1
 --- !u!114 &725628873
 MonoBehaviour:

@@ -6,13 +6,19 @@ public class AdvancedObjectSpawner : MonoBehaviour
 	public GameObject[] objectList;
 	
 	public int randomGroup = 0;
-	public int percentSpawnChance = 100;
+	public float percentSpawnChance = 100;
 	
 	void Start()
 	{
+		if ( transform.parent.gameObject.layer == LayerMask.NameToLayer("Past") )
+		{
+			Destroy( gameObject );
+			return;
+		}
+		
 		Random.seed = (int)transform.parent.localPosition.x + (int)transform.parent.localPosition.z + randomGroup;
 
-		if ( Random.Range( 0, 100 ) > percentSpawnChance )
+		if ( Random.Range( 0, 100f ) > percentSpawnChance )
 		{
 			Destroy( gameObject );
 			return;
