@@ -305,6 +305,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
+      propertyPath: attackJumpHeight
+      value: -.0450000018
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55eb04140d2504751b3449a2a62d041f, type: 2}
   m_RootGameObject: {fileID: 1776172762}
@@ -1433,7 +1437,7 @@ MonoBehaviour:
   jumpKey: 257
   direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
-  attackJumpHeight: -.00449999981
+  attackJumpHeight: -.0450000018
   attackSpeedFactor: 20
 --- !u!1 &489718915
 GameObject:

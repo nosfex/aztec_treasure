@@ -457,7 +457,8 @@ public class Player : BaseObject
 			direction = Vector3.back;
 		}
 		
-		if(Input.GetKey(jumpKey) && canJump && gravity.y == 0)
+		
+		if(Input.GetKey(jumpKey) && canJump && currentFloor != null)
 		{
 			
 		//	accel += direction * speed * attackSpeedFactor;
