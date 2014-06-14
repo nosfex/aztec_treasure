@@ -11,7 +11,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
   m_Layer: 0
-  m_Name: ThingsSpawner
+  m_Name: PotterySpawner
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.82807302, y: 1.89311469, z: 2.74552917}
+  m_LocalPosition: {x: 2.4000001, y: 1.20000005, z: 2.4000001}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,7 +40,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectList:
-  - {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
+  - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
+  - {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   randomGroup: 1
   percentSpawnChance: 70
 --- !u!114 &11400002

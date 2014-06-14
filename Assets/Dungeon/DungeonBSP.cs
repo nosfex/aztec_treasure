@@ -55,6 +55,7 @@ public class DungeonBSP : MonoBehaviour
 	
 	void Awake()
 	{
+		Random.seed = (int)(Time.realtimeSinceStartup * 100);
 		wallPattern = new GameObject[] { wallTile, wallTile, wallTile,
 						     			 torchWallTile, null, torchWallTile,
 							 			 null, torchWallTile, null	};
