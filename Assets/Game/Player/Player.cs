@@ -18,7 +18,7 @@ public class Player : BaseObject
 	
 	public bool darknessMechanic;
 	public bool canAttack = true;
-	
+	public bool canUsePotion = false;
 	public bool canJump = true;
 	
 	public float attackCooldown = 0.3f;
@@ -41,7 +41,9 @@ public class Player : BaseObject
 	
 	public KeyCode attackKey = KeyCode.Z;
 	public KeyCode jumpKey = KeyCode.Keypad1;
-	public KeyCode potionKey = KeyCode.Keypad2;
+	public KeyCode potionKey = KeyCode.K;
+	
+	
 	
 	string facing = "Right";
 	
@@ -614,8 +616,9 @@ public class Player : BaseObject
 		}
 		// GH: Adding potion effects
 		
-		if(holdingPotion && Input.GetKey(potionKey))
+		if(holdingPotion && Input.GetKey(potionKey) && canUsePotion)
 		{
+			Debug.Break();
 			consumePotion();
 		}
 		
@@ -666,9 +669,9 @@ public class Player : BaseObject
 				invisibilityCooldown = 20.0f;
 				invisible = true;
 				//renderer.material.SetColor();
-				Material mat = GetComponentInChildren<Renderer>().material;
+				Material mat = animator.renderer.material;
 				mat.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
-				
+				Debug.Break();
 			break;
 			
 			case Fountain.FOUNTAIN_SPEED:

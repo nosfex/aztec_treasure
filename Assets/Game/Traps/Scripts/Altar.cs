@@ -20,6 +20,7 @@ public class Altar : BaseObject
 	public TextMesh tipText;
 	public GameObject tipContainer;
 	
+	
 	//[HideInInspector] public int isFuture;
 	
 	void Start()
