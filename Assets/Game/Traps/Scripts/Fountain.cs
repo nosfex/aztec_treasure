@@ -107,6 +107,7 @@ public class Fountain : BaseObject
 				
 			//	int initialBonus = 1000;
 				//p.trapCurrency += initialBonus;
+				Debug.Break();
 				p.addPotionType(fountainType);
 				GameDirector.i.ShowTextPopup( gameObject, 0.8f, "POTION: " + fountainType.ToString() );
 			}

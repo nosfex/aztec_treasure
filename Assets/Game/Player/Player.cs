@@ -74,12 +74,12 @@ public class Player : BaseObject
 	public float attackJumpHeight = -0.045f;
 	public float attackSpeedFactor = 30.0f;
 	
-	public int potionType = 0;
-	public bool holdingPotion = false;
+	int potionType = 0;
+	bool holdingPotion = false;
 	
-	public float invisibilityCooldown = 0;
+	float invisibilityCooldown = 0;
 	public bool invisible = false;
-	public float speedCooldown = 0;
+	float speedCooldown = 0;
 	
 	bool isAttacking = false;
 	float guideTimer = 0;
@@ -628,7 +628,7 @@ public class Player : BaseObject
 			
 			invisibilityCooldown -= Time.deltaTime;
 		}
-		else
+		else if(invisibilityCooldown < 0.0f)
 		{
 			invisibilityCooldown = 0.0f;
 			
@@ -641,7 +641,7 @@ public class Player : BaseObject
 		{
 			speedCooldown -= Time.deltaTime;
 		}
-		else
+		else if(speedCooldown < 0.0f)
 		{
 			speedCooldown = 0.0f;
 			//speed -= 0.01f;
@@ -654,7 +654,8 @@ public class Player : BaseObject
 	{
 		Material mat = GetComponentInChildren<Renderer>().material;
 		mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	
+		Debug.Break();
+		invisible = false;
 	}
 	
 	public void consumePotion()
@@ -676,6 +677,7 @@ public class Player : BaseObject
 			
 			case Fountain.FOUNTAIN_SPEED:
 				speed += 0.01f;
+				speedCooldown = 20;
 			break;
 			
 			
@@ -688,6 +690,7 @@ public class Player : BaseObject
 	{
 		potionType = type;
 		holdingPotion = true;
+		canUsePotion = true;
 	}
 	
 	void Die()

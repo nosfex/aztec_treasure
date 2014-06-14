@@ -961,16 +961,12 @@ MonoBehaviour:
   downKey: 274
   attackKey: 256
   jumpKey: 257
-  potionKey: 258
+  potionKey: 107
   direction: {x: 0, y: 0, z: 0}
   speed: .0160000008
   attackJumpHeight: -.0450000018
   attackSpeedFactor: 20
-  potionType: 0
-  holdingPotion: 0
-  invisibilityCooldown: 0
   invisible: 0
-  speedCooldown: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
