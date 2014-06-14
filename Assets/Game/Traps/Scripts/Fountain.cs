@@ -100,7 +100,7 @@ public class Fountain : BaseObject
 				activatedFX.SetActive( true );
 				///efectito loco
 				//flame.SetActive( true );
-				Player p = (Player)GameDirector.i.playerLeft;
+				Player p = (Player)GameDirector.i.playerRight;
 				Color c = new Color( 1f,1f,1f, 1.0f );
 				flameParticle.renderer.material.SetColor( "_TintColor", c );
 				flameLight.intensity = 2f;

@@ -618,7 +618,6 @@ public class Player : BaseObject
 		
 		if(holdingPotion && Input.GetKey(potionKey) && canUsePotion)
 		{
-			Debug.Break();
 			consumePotion();
 		}
 		
@@ -645,6 +644,7 @@ public class Player : BaseObject
 		{
 			speedCooldown = 0.0f;
 			//speed -= 0.01f;
+			speed -= 0.01f;
 		}
 		
 		lockLeft--; lockRight--; lockDown--; lockUp--;
@@ -652,9 +652,8 @@ public class Player : BaseObject
 	
 	private void reverseInvisibility()
 	{
-		Material mat = GetComponentInChildren<Renderer>().material;
+		Material mat = animator.renderer.material;
 		mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		Debug.Break();
 		invisible = false;
 	}
 	
@@ -672,7 +671,6 @@ public class Player : BaseObject
 				//renderer.material.SetColor();
 				Material mat = animator.renderer.material;
 				mat.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
-				Debug.Break();
 			break;
 			
 			case Fountain.FOUNTAIN_SPEED:
