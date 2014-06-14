@@ -641,7 +641,7 @@ public class Player : BaseObject
 		else
 		{
 			speedCooldown = 0.0f;
-			speed -= 0.01f;
+			//speed -= 0.01f;
 		}
 		
 		lockLeft--; lockRight--; lockDown--; lockUp--;
