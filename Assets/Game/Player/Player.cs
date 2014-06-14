@@ -254,9 +254,11 @@ public class Player : BaseObject
 	}	
 	
 	bool isAttacking = false;
-	
+	float guideTimer = 0;
 	virtual protected void Update () 
 	{
+
+		
 		if ( deathAwaits )
 		{
 			hearts = GameDirector.i.maxHearts;
@@ -313,8 +315,19 @@ public class Player : BaseObject
 		}
 		
 		if ( dx != 0 || dy != 0 )
+		{
+			if ( worldOwner == GameDirector.i.worldRight )
+			{
+				guideTimer += Time.deltaTime;
+				if ( guideTimer > 0.2f )
+				{
+					guideTimer -= 0.2f;
+					GameDirector.i.SpawnGuideBlob();
+				}
+			}
+			
 			straightTimer += Time.deltaTime;
-
+		}
 
 		//print ("timer = " + straightTimer );
 		
@@ -372,7 +385,9 @@ public class Player : BaseObject
 		if ( !animator.isAnimPlaying("Attack") )
 		{
 			isAttacking = false;
-			frictionCoef += (0.66f - frictionCoef) * 0.5f;
+			
+			
+			frictionCoef += (0.66f - frictionCoef) * 0.9f;
 		}
 		
 		float threshold = 0.001f;

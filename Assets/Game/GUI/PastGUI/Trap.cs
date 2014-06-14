@@ -8,6 +8,7 @@ public class Trap : MonoBehaviour
 	public GameObject trapPrefab;
 	public int price;
 	public int altarUnlock;
+	public int spawnDelay;
 	
 	TextMesh priceTag;
 	// Use this for initialization

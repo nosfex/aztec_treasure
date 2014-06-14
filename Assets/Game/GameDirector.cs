@@ -31,6 +31,7 @@ public class GameDirector : MonoBehaviour {
 	public DungeonBSP dungeonGenerator;
 	
 	public GameObject finalTreasure;
+	public GameObject guideBlobPrefab;
 	
 	public GameObject[] spawnPrefabsList;
 	
@@ -38,6 +39,11 @@ public class GameDirector : MonoBehaviour {
 	public Material futureWall;
 	public Material pastFloor;
 	public Material futureFloor;
+	
+	public void SpawnGuideBlob()
+	{
+		GameObject o = (GameObject)Instantiate ( guideBlobPrefab );
+	}
 	
 	public void ShowTextPopup( GameObject source, float yOffset, string text )
 	{

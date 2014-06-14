@@ -1056,6 +1056,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: d5c7eaca4bbeedc4e8e013468178f180, type: 2}
   price: 200
   altarUnlock: 0
+  spawnDelay: 3
 --- !u!1 &427190692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,6 +2077,7 @@ MonoBehaviour:
   prefabVictoryGiver: {fileID: 100002, guid: ce758fca53dea411b91fe78b006b9d03, type: 2}
   dungeonGenerator: {fileID: 793500934}
   finalTreasure: {fileID: 100000, guid: 692f52e1479214de68e0aed860efc34c, type: 2}
+  guideBlobPrefab: {fileID: 100002, guid: ee0a45335cc139746ad9c6ea98b07388, type: 2}
   spawnPrefabsList:
   - {fileID: 100002, guid: 8ced3119f23622f46a047f8699cc540d, type: 2}
   - {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
@@ -2534,6 +2536,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: d8b75575d165ef542a68a4a63aaa90e9, type: 2}
   price: 300
   altarUnlock: 0
+  spawnDelay: 3
 --- !u!1 &855827066
 GameObject:
   m_ObjectHideFlags: 0
@@ -6587,6 +6590,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: 131379ba8f63de74780ec228c414e7b3, type: 2}
   price: 150
   altarUnlock: 0
+  spawnDelay: 3
 --- !u!1 &1127521994
 GameObject:
   m_ObjectHideFlags: 0
@@ -9458,6 +9462,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   price: 100
   altarUnlock: 0
+  spawnDelay: 1
 --- !u!1 &1502081121
 GameObject:
   m_ObjectHideFlags: 0
@@ -10447,6 +10452,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: 37727bfe02392424e805f5aeb8ac5356, type: 2}
   price: 300
   altarUnlock: 0
+  spawnDelay: 3
 --- !u!1 &2001341251
 GameObject:
   m_ObjectHideFlags: 0
@@ -10599,6 +10605,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 100000, guid: 101ddacb646ffa24ebb5979fc918c0ac, type: 2}
   price: 250
   altarUnlock: 0
+  spawnDelay: 3
 --- !u!1 &2122170432
 GameObject:
   m_ObjectHideFlags: 0

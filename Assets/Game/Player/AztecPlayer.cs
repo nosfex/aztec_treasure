@@ -51,7 +51,7 @@ public class AztecPlayer : Player
 				Vector2 signTileXY = GameDirector.i.worldLeft.coordsFromPos(transform.localPosition);
 				signT.position = new Vector3(signTileXY.x *0.8f, transform.position.y, signTileXY.y * 0.8f);
 				signT.rotation = transform.rotation;
-				DelayedSpawner.i.addSpawnData( trap.trapPrefab, t, 3, null);
+				DelayedSpawner.i.addSpawnData( trap.trapPrefab, t, trap.spawnDelay, null);
 				PlaceSign( trap.signPrefab, signT.position, Quaternion.Euler(90, 0, 0));
 				trapsPlaced.Add(GameDirector.i.worldRight.coordsFromPos(t.transform.position));
 				trapCurrency -= trap.price;
@@ -263,7 +263,7 @@ public class AztecPlayer : Player
 						return;
 					}
 					//highlightArea(obj2, Color.green, ref highlightedWall, ref wallMat);
-					PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.back);
+					PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.back * 0.45f);
 					//PlaceCursor(obj.transform.position, Quaternion.Euler (90,0,0), Vector3.back);
 				}
 			}
@@ -275,7 +275,7 @@ public class AztecPlayer : Player
 			{
 			//	highlightArea(obj, Color.green, ref highlightedFloor, ref floorMat);
 				//PlaceCursor(obj.transform.position, obj.transform.rotation, Vector3.up * 0.6f);
-				PlaceCursor(obj.transform.position, Quaternion.Euler (90,0,0), Vector3.up * 0.6f);
+				PlaceCursor(obj.transform.position, Quaternion.Euler (90,0,0), Vector3.up * 0.4f);
 
 			}
 		}
@@ -317,14 +317,16 @@ public class AztecPlayer : Player
 		if(cursorObj == null)
 		{
 			cursorObj  = (GameObject)Instantiate(constructionCursor, posAt, eulerRot);
+			
+			
 			cursorObj.transform.position += (Vector3.up * 0.1f) + offset;
 			cursorObj.transform.parent = GameDirector.i.worldLeft.transform;
 		}
 		else
 		{
 			
-			cursorObj.transform.position = posAt + (Vector3.up * 0.1f) + offset;
-			cursorObj.transform.rotation = eulerRot;
+			cursorObj.transform.position = Vector3.Lerp ( cursorObj.transform.position, posAt + (Vector3.up * 0.1f) + offset, 0.5f );
+			cursorObj.transform.rotation = Quaternion.Lerp ( cursorObj.transform.rotation, eulerRot, 0.5f );
 			//cursorObj.transform.parent = GameDirector.i.worldLeft.transform;
 		}
 	}
