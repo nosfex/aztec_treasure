@@ -26,13 +26,66 @@ public class Player : BaseObject
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
 	[HideInInspector] public int lives;
-	
-	public bool isImmune { get { return inmuneTimer > 0; } }
-	
+
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
 	float darkTestThreshold = 1.3f;
 	bool torchOn = false;
+
+	Vector3 cameraTarget;
+	
+	public KeyCode leftKey; 
+	public KeyCode rightKey; 
+	public KeyCode upKey; 
+	public KeyCode downKey; 
+	
+	public KeyCode attackKey = KeyCode.Z;
+	public KeyCode jumpKey = KeyCode.Keypad1;
+	public KeyCode potionKey = KeyCode.Keypad2;
+	
+	string facing = "Right";
+	
+	float cooldown = 0;
+	
+	float lockDown = 0;
+	float lockUp = 0;
+	float lockRight = 0;
+	float lockLeft = 0;
+	
+	float straightTimer = 0;
+	float inmuneTimer = 0;
+	
+	bool skidEnabled = false;
+	bool isSkidding = false;
+	float isFlipping = 0;
+	
+	protected BaseObject liftedObject;
+	public Vector3 direction;
+	public float speed = 0.5f;
+	
+	float comboCount;
+	
+	float dx = 0, dy = 0;
+	bool walkAnimFacingUp = false;
+	bool walkAnimFlipped = false;
+	
+	public float attackJumpHeight = -0.045f;
+	public float attackSpeedFactor = 30.0f;
+	
+	public int potionType = 0;
+	public bool holdingPotion = false;
+	
+	public float invisibilityCooldown = 0;
+	public bool invisible = false;
+	public float speedCooldown = 0;
+	
+	bool isAttacking = false;
+	float guideTimer = 0;
+	
+	bool deathAwaits = false;
+	
+	
+	public bool isImmune { get { return inmuneTimer > 0; } }
 	
 	void TestDarkness()
 	{
@@ -121,45 +174,6 @@ public class Player : BaseObject
 	
 	}
 	
-
-	Vector3 cameraTarget;
-	
-	public KeyCode leftKey; 
-	public KeyCode rightKey; 
-	public KeyCode upKey; 
-	public KeyCode downKey; 
-	
-	public KeyCode attackKey = KeyCode.Z;
-	public KeyCode jumpKey = KeyCode.Keypad1;
-	
-	string facing = "Right";
-	
-	float cooldown = 0;
-	
-	float lockDown = 0;
-	float lockUp = 0;
-	float lockRight = 0;
-	float lockLeft = 0;
-	
-	float straightTimer = 0;
-	float inmuneTimer = 0;
-	
-	bool skidEnabled = false;
-	bool isSkidding = false;
-	float isFlipping = 0;
-	
-	protected BaseObject liftedObject;
-	public Vector3 direction;
-	public float speed = 0.5f;
-	
-	float comboCount;
-	
-	float dx = 0, dy = 0;
-	bool walkAnimFacingUp = false;
-	bool walkAnimFlipped = false;
-	
-	public float attackJumpHeight = -0.045f;
-	public float attackSpeedFactor = 30.0f;
 
 	void UpdateAnims3FacesMode()
 	{
@@ -255,8 +269,7 @@ public class Player : BaseObject
 		}
 	}	
 	
-	bool isAttacking = false;
-	float guideTimer = 0;
+	
 	virtual protected void Update () 
 	{
 
@@ -321,7 +334,7 @@ public class Player : BaseObject
 			if ( worldOwner == GameDirector.i.worldRight )
 			{
 				guideTimer += Time.deltaTime;
-				if ( guideTimer > 0.2f )
+				if ( guideTimer > 0.2f && invisible == false )
 				{
 					guideTimer -= 0.2f;
 					GameDirector.i.SpawnGuideBlob();
@@ -599,11 +612,80 @@ public class Player : BaseObject
 					velocity *= -0.5f;
 			}
 		}
+		// GH: Adding potion effects
+		
+		if(holdingPotion && Input.GetKey(potionKey))
+		{
+			consumePotion();
+		}
+		
+		// GH: invisbility checks
+		if(invisibilityCooldown > 0.0f)
+		{
+			
+			invisibilityCooldown -= Time.deltaTime;
+		}
+		else
+		{
+			invisibilityCooldown = 0.0f;
+			
+			// GH: Restore to normalcy
+			reverseInvisibility();
+		}
+		
+		// GH: Speed checks 
+		if(speedCooldown > 0.0f)
+		{
+			speedCooldown -= Time.deltaTime;
+		}
+		else
+		{
+			speedCooldown = 0.0f;
+			speed -= 0.01f;
+		}
 		
 		lockLeft--; lockRight--; lockDown--; lockUp--;
 	}
 	
-	bool deathAwaits = false;
+	private void reverseInvisibility()
+	{
+		Material mat = GetComponentInChildren<Renderer>().material;
+		mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	}
+	
+	public void consumePotion()
+	{
+		switch(potionType)
+		{
+			case Fountain.FOUNTAIN_LIFE: 
+				hearts = GameDirector.i.maxHearts;
+			break;
+			
+			case Fountain.FOUNTAIN_INVISIBILITY:
+				invisibilityCooldown = 20.0f;
+				invisible = true;
+				//renderer.material.SetColor();
+				Material mat = GetComponentInChildren<Renderer>().material;
+				mat.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+				
+			break;
+			
+			case Fountain.FOUNTAIN_SPEED:
+				speed += 0.01f;
+			break;
+			
+			
+		}
+	
+		holdingPotion = false;
+	}
+	
+	public void addPotionType(int type)
+	{
+		potionType = type;
+		holdingPotion = true;
+	}
 	
 	void Die()
 	{

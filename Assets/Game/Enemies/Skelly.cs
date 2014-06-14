@@ -89,7 +89,8 @@ public class Skelly : BaseObject
 	
 	void UpdateSleeping()
 	{
-		if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null )
+		if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null  
+			&&  ((Player)(playerSensor.sensedObject)).invisible == false)
 		{
 			controller.playerTarget = (Player)playerSensor.sensedObject;
 			state = State.WALKING;
@@ -266,11 +267,13 @@ public class Skelly : BaseObject
 	
 	void Attack()
 	{
+		
 		state = State.ATTACKING;
 	}
 	
 	virtual protected void Update () 
 	{
+		
 		switch ( state )
 		{
 			case State.SLEEPING:
