@@ -681,7 +681,7 @@ public class DungeonBSP : MonoBehaviour
 
 					if ( tile == torchWallTile )
 					{
-						float lightDistThreshold = 0.8f * 16;
+						float lightDistThreshold = 0.8f * 32;
 						
 						if ( globalTiles[col, row].name == floorTile.name )
 							lightDistThreshold = 0.8f * 3;

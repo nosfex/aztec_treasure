@@ -29,7 +29,7 @@ public class Player : BaseObject
 
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
-	float darkTestThreshold = 1.3f;
+	float darkTestThreshold = 4.0f;
 	bool torchOn = false;
 
 	Vector3 cameraTarget;
@@ -104,25 +104,48 @@ public class Player : BaseObject
 			
 			float dist = Vector3.Distance( transform.position, torch.transform.position );
 	
+			if ( dist < 1.2f ) //nearestLight.range * 0.33f )
+			{
+				torchOn = false;
+				
+				if ( torchRatio > 0 )
+				{
+					if ( !torch.isTurnedOn() && torchRatio > 0 )
+					{
+						torch.TurnOn();
+						
+					}
+				}
+				
+				if ( torch.isTurnedOn() )
+				{
+					torchRatio = 100f;
+				}
+				
+			}			
+			if ( dist > 8 )
+				continue;
+			
 			if ( dist < minLightDistance )
 			{	
 				Vector3 myXZ = transform.position;
-				myXZ.y = 0;
+				//myXZ.y = 0;
 	
 				Vector3 hisXZ = torch.transform.position;
-				hisXZ.y = 0;
+				//hisXZ.y = 0;
 				
 				Vector3 dir = myXZ - hisXZ;
-				dir.Normalize();
+				//dir.Normalize();
 				
 				RaycastHit[] info = Physics.RaycastAll( torch.transform.position, dir, dist );
-				Debug.DrawRay( torch.transform.position, dir, Color.white, 0.6f );
 				bool obstructed = false;
 	
 				foreach ( RaycastHit i in info )
 				{
 					if ( i.collider.gameObject.name.Contains("Tile") )
 					{
+						//Debug.DrawRay( torch.transform.position, i.point - torch.transform.position, Color.red, 0.2f );
+
 						obstructed = true;
 						break;
 					}
@@ -136,37 +159,55 @@ public class Player : BaseObject
 				
 				torch.InLineOfSight();
 				
-				minLightDistance = dist;
-				nearestLight = torch;
-			}
-		}
-		
-		if ( nearestLight != null )
-		{	
-			if ( nearestLight.light.intensity > .2f )
-				inDarkness = minLightDistance > nearestLight.light.range * darkTestThreshold;
-			else 
-				inDarkness = true;
-			
-			if ( minLightDistance < 1.2f ) //nearestLight.range * 0.33f )
-			{
-				torchOn = false;
-				
-				if ( torchRatio > 0 )
+				if ( torch.light.intensity > .2f )
 				{
-					if ( !nearestLight.isTurnedOn() && torchRatio > 0 )
-					{
-						nearestLight.TurnOn();
-						torchRatio = 100f;
-					}
+					/*
+					if ( dist < 8 )
+						Debug.DrawRay( torch.transform.position, dir, Color.white, 0.2f );
 					else
-					if ( nearestLight.isTurnedOn() )
-					{
-						torchRatio = 100f;
-					}
+						Debug.DrawRay( torch.transform.position, dir, Color.blue, 0.2f );
+					 */
+					minLightDistance = dist;
+					nearestLight = torch;
+				
 				}
 			}
 		}
+		
+		
+		bool preInDarkness = inDarkness;
+		
+		if ( nearestLight != null )
+		{	
+			//Debug.DrawRay( nearestLight.transform.position+ Vector3.one*0.1f, transform.position - (nearestLight.transform.position + Vector3.one*0.1f), Color.green, 0.3f );
+			if ( nearestLight.light.intensity > .2f )
+			{
+				inDarkness = minLightDistance > (nearestLight.light.range * darkTestThreshold);
+				
+				if ( !inDarkness )
+					torchOn = false;					
+			}
+			else 
+				inDarkness = true;
+		}
+		else 
+			inDarkness = true;
+		
+		
+		if ( torchRatio == 0 && preInDarkness != inDarkness )
+		{
+			if ( inDarkness )
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+				speed *= 0.5f;
+			}
+			else
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "I can see again!" );
+				speed *= 2.0f;
+			}
+		}
+
 	}
 	
 	override protected void Start () 
@@ -398,17 +439,13 @@ public class Player : BaseObject
 				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 				
-				if ( torchRatio <= 0 && inDarkness )
+				if ( torchRatio == 0 && inDarkness )
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+					speed *= 0.5f;				
 				}
 			}
 			
-			if ( torchRatio < 0 && inDarkness )
-			{
-				dx *= 0.5f;
-				dy *= 0.5f;
-			}
 //			else 
 //			{
 //				darkTestThreshold = 0.9f;
