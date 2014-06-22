@@ -15,7 +15,7 @@ public class GUITorch : MonoBehaviour {
 	{
 		string t = "";
 		
-		t = "Torch: " + (int)GameDirector.i.playerRight.torchRatio + "%";
+		t = "" + (int)GameDirector.i.playerRight.torchRatio + "%";
 		
 		text.text = t;
 	}
