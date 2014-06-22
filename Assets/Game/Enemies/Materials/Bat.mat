@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Bat
-  m_Shader: {fileID: 30, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
   m_ShaderKeywords: []
   m_SavedProperties:
     serializedVersion: 2
@@ -28,6 +28,18 @@ Material:
         first:
           name: _Shininess
         second: .0378518663
+      data:
+        first:
+          name: _Power
+        second: 1
+      data:
+        first:
+          name: _Distortion
+        second: 0
+      data:
+        first:
+          name: _Scale
+        second: .5
     m_Colors:
       data:
         first:
@@ -41,3 +53,7 @@ Material:
         first:
           name: _Emission
         second: {r: .25, g: .25, b: .25, a: 0}
+      data:
+        first:
+          name: _SubColor
+        second: {r: 1, g: 1, b: 1, a: 1}

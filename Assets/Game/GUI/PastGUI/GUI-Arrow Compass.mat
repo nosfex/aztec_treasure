@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: GUI-Arrow Compass
-  m_Shader: {fileID: 10101, guid: 0000000000000000e000000000000000, type: 0}
+  m_Shader: {fileID: 34, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_SavedProperties:
     serializedVersion: 2
@@ -23,7 +23,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .699999988
+        second: 1
       data:
         first:
           name: _InvFade
@@ -36,12 +36,12 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: 1, g: 1, b: 1, a: 0}
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Emission
+        second: {r: .95588237, g: .520112455, b: .520112455, a: 1}
       data:
         first:
           name: _TintColor
         second: {r: 1, g: 1, b: 1, a: .403921574}
-      data:
-        first:
-          name: _Emission
-        second: {r: 1, g: 1, b: 1, a: 0}

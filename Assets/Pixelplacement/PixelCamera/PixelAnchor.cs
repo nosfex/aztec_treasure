@@ -116,6 +116,7 @@ public class PixelAnchor : MonoBehaviour {
 			break;
 		}	
 		anchorPosition += offset;
+		
 		transform.localPosition = anchorPosition;
 	}
 }
