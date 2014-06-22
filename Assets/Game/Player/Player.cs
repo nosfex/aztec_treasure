@@ -764,6 +764,8 @@ public class Player : BaseObject
 	
 	void Die()
 	{
+		if ( deathAwaits )
+			return;
 		if ( liftedObject != null ) // It was carrying something.
 		{
 			// TODO: Meter efecto de particulas aca
@@ -780,6 +782,10 @@ public class Player : BaseObject
 		}
 		
 		deathAwaits = true;
+		
+		((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 500;
+		GameDirector.i.ShowTextPopup( GameDirector.i.playerLeft.gameObject, 0.8f, "+" + 500 );
+		
 	}
 	
 	public void OnHit( GameObject other )
@@ -797,12 +803,20 @@ public class Player : BaseObject
 		print("getting killed");
 		hearts--;
 		
+		
 		inmuneTimer = 1.0f;
 		frictionCoef = 0.99f;
 		isAttacking = false;
 		
 		if ( hearts == 0 )
+		{
 			Die();
+		}
+		else 
+		{
+			((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 200;
+			GameDirector.i.ShowTextPopup( ((AztecPlayer)GameDirector.i.playerLeft).gameObject, 0.8f, "+" + 200 );
+		}
 	}
 	
 	virtual protected void OnPressSwitch( GameObject switchPressed )

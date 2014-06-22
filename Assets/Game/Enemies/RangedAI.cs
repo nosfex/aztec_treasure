@@ -6,8 +6,10 @@ public class RangedAI : EnemyController
 	EnemyRanged body;
 	
 	float walkTimer;
+	float drawTimer;
 	
-	
+	bool drawAndShoot = false;
+	bool nearX = false, nearY = false;
 	void Start()
 	{
 		body = GetComponent<EnemyRanged>();
@@ -19,36 +21,66 @@ public class RangedAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 2.5f && body.currentFloor != null )
+		if ( distance <= 5f && body.currentFloor != null && !drawAndShoot )
 		{
 			float thresholdNear = 0.2f;
-			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear );// && ( goingUp || goingDown );
-			bool nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear );// && ( goingRight || goingLeft );
+			nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear );// && ( goingUp || goingDown );
+			nearY = ( Mathf.Abs( playerPos.z - myPos.z ) < thresholdNear );// && ( goingRight || goingLeft );
 			
 			if ( nearX || nearY )
 			{
-				if ( !attacking )
+				if ( !attacking && body.cooldown <= 0 )
 				{
-					if ( body.cooldown <= 0 )
+					if ( nearX )
 					{
-						if ( nearX )
-						{
-							if ( playerPos.z > myPos.z )
-								goingUp = true;
-							else if ( playerPos.z < myPos.z )
-								goingDown = true;
-						}
-						else if ( nearY )
-						{
-							if ( playerPos.x > myPos.x )
-								goingRight = true;
-							else if ( playerPos.x < myPos.x )
-								goingLeft = true;
-						}
+						if ( playerPos.z > myPos.z )
+							goingUp = true;
+						else if ( playerPos.z < myPos.z )
+							goingDown = true;
 					}
-
-					attacking = true;
+					else if ( nearY )
+					{
+						if ( playerPos.x > myPos.x )
+							goingRight = true;
+						else if ( playerPos.x < myPos.x )
+							goingLeft = true;
+					}					
+					drawAndShoot = true;
 				}
+			}
+		}
+		
+		if ( drawAndShoot )
+		{
+			drawTimer += Time.deltaTime;
+			if ( drawTimer > 1.0f )
+			{	
+				if ( nearX )
+				{
+					if ( playerPos.z > myPos.z )
+						goingUp = true;
+					else if ( playerPos.z < myPos.z )
+						goingDown = true;
+				}
+				else if ( nearY )
+				{
+					if ( playerPos.x > myPos.x )
+						goingRight = true;
+					else if ( playerPos.x < myPos.x )
+						goingLeft = true;
+				}						
+				drawTimer = 0;
+				attacking = true;
+				drawAndShoot = false;
+				body.animator.renderer.material.color = new Color(1,1,1,1);
+			}
+			else 
+			{
+				goingRight = goingLeft = goingUp = goingDown = false;
+				if ( Time.frameCount % 2 == 0 )
+					body.animator.renderer.material.color = new Color(1,1,1,1);
+				else
+					body.animator.renderer.material.color = new Color(0.5f,0.5f,0.5f,1);
 			}
 		}
 	}
@@ -62,14 +94,25 @@ public class RangedAI : EnemyController
 	{
 		if ( body.currentFloor == null )
 			return;
-		
-		
 
+		walkTimer += Time.deltaTime;
+
+		if ( walkTimer > 1.0f && !drawAndShoot )
+		{
+			walkTimer = 0;
+			upDownWalkPriority = !upDownWalkPriority;
+			
+			if ( playerTarget.isImmune || body.cooldown > 0 )
+			{
+				goingRight = goingLeft = goingUp = goingDown = attacking = false;				
+				ChangeDirectionAwayFromPlayer();
+			}
+		}
 		
-		bool stuckRight = goingRight && body.canGoRight;
-		bool stuckLeft = goingLeft && body.canGoLeft;
-		bool stuckDown = goingDown && body.canGoDown;
-		bool stuckUp = goingUp && body.canGoUp;
+		bool stuckRight = goingRight && body.CantGoRight;
+		bool stuckLeft = goingLeft && body.CantGoLeft;
+		bool stuckDown = goingDown && body.CantGoDown;
+		bool stuckUp = goingUp && body.CantGoUp;
 		
 		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
 		
@@ -84,22 +127,9 @@ public class RangedAI : EnemyController
 			goingRight = goingLeft = goingUp = goingDown = attacking = false;
 			TryToAttack();
 			
-			if ( !attacking )
+			if ( !attacking && !drawAndShoot )
 				ChangeDirectionTowardsPlayer();
 		}
 		
-		walkTimer += Time.deltaTime;
-
-		if ( walkTimer > .66f )
-		{
-			walkTimer = 0;
-			upDownWalkPriority = !upDownWalkPriority;
-			
-			if ( playerTarget.isImmune || body.cooldown > 0 )
-			{
-				goingRight = goingLeft = goingUp = goingDown = attacking = false;				
-				ChangeDirectionAwayFromPlayer();
-			}
-		}		
 	}
 }

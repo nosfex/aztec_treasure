@@ -200,7 +200,7 @@ public class GameDirector : MonoBehaviour {
 		highQualityEnabled = hq;
 		hqTimer = 0;
 		qualityAlreadySet = true;
-		
+		//highQualityEnabled=true;
 		if ( highQualityEnabled )
 		{
 			QualitySettings.SetQualityLevel( 1 );	
