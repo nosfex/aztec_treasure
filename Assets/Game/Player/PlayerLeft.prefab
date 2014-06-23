@@ -317,7 +317,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294966783
+    m_Bits: 4294965759
   m_RenderingPath: 2
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
@@ -502,7 +502,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 3
   m_Type: 2
-  m_Color: {r: .997058809, g: 1, b: .786764741, a: 1}
+  m_Color: {r: 1, g: .936850727, b: .447058797, a: 1}
   m_Intensity: .699999988
   m_Range: 20
   m_SpotAngle: 30
@@ -575,7 +575,9 @@ MonoBehaviour:
   dropGuide: {fileID: 100008}
   darknessMechanic: 0
   canAttack: 0
+  canUsePotion: 0
   canJump: 0
+  attackCooldown: .300000012
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -586,10 +588,12 @@ MonoBehaviour:
   downKey: 115
   attackKey: 116
   jumpKey: 257
+  potionKey: 107
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   attackJumpHeight: 0
   attackSpeedFactor: 0
+  invisible: 0
   trapCurrency: 600
   constructionCursor: {fileID: 100000, guid: 82c7bd180b31bab44a456104d17f832e, type: 2}
   maxCurrencyCooldown: 1

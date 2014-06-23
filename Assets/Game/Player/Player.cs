@@ -29,7 +29,7 @@ public class Player : BaseObject
 
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
-	float darkTestThreshold = 1.3f;
+	float darkTestThreshold = 4.0f;
 	bool torchOn = false;
 
 	Vector3 cameraTarget;
@@ -104,25 +104,48 @@ public class Player : BaseObject
 			
 			float dist = Vector3.Distance( transform.position, torch.transform.position );
 	
+			if ( dist < 1.2f ) //nearestLight.range * 0.33f )
+			{
+				torchOn = false;
+				
+				if ( torchRatio > 0 )
+				{
+					if ( !torch.isTurnedOn() && torchRatio > 0 )
+					{
+						torch.TurnOn();
+						
+					}
+				}
+				
+				if ( torch.isTurnedOn() )
+				{
+					torchRatio = 100f;
+				}
+				
+			}			
+			if ( dist > 8 )
+				continue;
+			
 			if ( dist < minLightDistance )
 			{	
 				Vector3 myXZ = transform.position;
-				myXZ.y = 0;
+				//myXZ.y = 0;
 	
 				Vector3 hisXZ = torch.transform.position;
-				hisXZ.y = 0;
+				//hisXZ.y = 0;
 				
 				Vector3 dir = myXZ - hisXZ;
-				dir.Normalize();
+				//dir.Normalize();
 				
 				RaycastHit[] info = Physics.RaycastAll( torch.transform.position, dir, dist );
-				Debug.DrawRay( torch.transform.position, dir, Color.white, 0.6f );
 				bool obstructed = false;
 	
 				foreach ( RaycastHit i in info )
 				{
 					if ( i.collider.gameObject.name.Contains("Tile") )
 					{
+						//Debug.DrawRay( torch.transform.position, i.point - torch.transform.position, Color.red, 0.2f );
+
 						obstructed = true;
 						break;
 					}
@@ -136,25 +159,55 @@ public class Player : BaseObject
 				
 				torch.InLineOfSight();
 				
-				minLightDistance = dist;
-				nearestLight = torch;
+				if ( torch.light.intensity > .2f )
+				{
+					/*
+					if ( dist < 8 )
+						Debug.DrawRay( torch.transform.position, dir, Color.white, 0.2f );
+					else
+						Debug.DrawRay( torch.transform.position, dir, Color.blue, 0.2f );
+					 */
+					minLightDistance = dist;
+					nearestLight = torch;
+				
+				}
 			}
 		}
 		
+		
+		bool preInDarkness = inDarkness;
+		
 		if ( nearestLight != null )
 		{	
+			//Debug.DrawRay( nearestLight.transform.position+ Vector3.one*0.1f, transform.position - (nearestLight.transform.position + Vector3.one*0.1f), Color.green, 0.3f );
 			if ( nearestLight.light.intensity > .2f )
-				inDarkness = minLightDistance > nearestLight.light.range * darkTestThreshold;
+			{
+				inDarkness = minLightDistance > (nearestLight.light.range * darkTestThreshold);
+				
+				if ( !inDarkness )
+					torchOn = false;					
+			}
 			else 
 				inDarkness = true;
-			
-			if ( minLightDistance < 1.2f ) //nearestLight.range * 0.33f )
+		}
+		else 
+			inDarkness = true;
+		
+		
+		if ( torchRatio == 0 && preInDarkness != inDarkness )
+		{
+			if ( inDarkness )
 			{
-				torchOn = false;
-				nearestLight.TurnOn();
-				torchRatio = 100f;
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+				speed *= 0.5f;
+			}
+			else
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "I can see again!" );
+				speed *= 2.0f;
 			}
 		}
+
 	}
 	
 	override protected void Start () 
@@ -281,6 +334,7 @@ public class Player : BaseObject
 			hearts = GameDirector.i.maxHearts;
 			inmuneTimer = 0;
 			transform.position = worldOwner.startingPoint.position;
+			
 			velocity = Vector3.zero;
 			gravity = Vector3.zero;
 			accel = Vector3.zero;
@@ -289,6 +343,8 @@ public class Player : BaseObject
 			
 			worldOwner.BroadcastMessage( "OnPlayerDead", SendMessageOptions.DontRequireReceiver );
 			deathAwaits = false;
+			
+			GameDirector.i.worldRight.camera.earthquakeEnabled = false;
 			
 			if ( lives == -1 )
 				GameDirector.i.OnLeftWins();
@@ -367,21 +423,29 @@ public class Player : BaseObject
 		if ( dx != 0 && dy != 0 )
 			tmpSpeed *= 0.707f;
 		
-		accel += tmpSpeed * new Vector3( dx, 0, dy );
 		
 		if ( torchLight && darknessMechanic )
 		{
 			if ( inDarkness )
 			{
 				torchOn = true;
+				
 			//	darkTestThreshold = 0.6f;
 			}
 			
-			if ( torchOn )
+			if ( torchOn && torchRatio > 0 )
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
+				
+				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
+				
+				if ( torchRatio == 0 && inDarkness )
+				{
+					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+					speed *= 0.5f;				
+				}
 			}
+			
 //			else 
 //			{
 //				darkTestThreshold = 0.9f;
@@ -396,14 +460,18 @@ public class Player : BaseObject
 				torchLight.intensity = 0.8f;
 		}
 		
+		accel += tmpSpeed * new Vector3( dx, 0, dy );
+
 		//if ( (dx != 0 || dy != 0) )
 		//	frictionCoef += (0.66f - frictionCoef) * 0.5f;
 
 		if ( !animator.isAnimPlaying("Attack") )
 		{
 			isAttacking = false;
-			
-			
+		}
+		
+		if ( !isAttacking )
+		{
 			frictionCoef += (0.66f - frictionCoef) * 0.9f;
 		}
 		
@@ -508,6 +576,11 @@ public class Player : BaseObject
 				
 		if ( Input.GetKeyDown( attackKey )  )
 		{
+			if ( torchRatio <= 0 && inDarkness )
+			{
+				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Can't see :(");
+			}
+			else
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
 				if ( liftSensor != null && liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
@@ -610,8 +683,8 @@ public class Player : BaseObject
 			{
 				attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 				
-				if ( attackedObject.GetComponent<Vine>() == null )
-					velocity *= -0.5f;
+				//if ( attackedObject.GetComponent<Vine>() == null )
+				//	velocity *= -0.5f;
 			}
 		}
 		// GH: Adding potion effects
@@ -693,6 +766,8 @@ public class Player : BaseObject
 	
 	void Die()
 	{
+		if ( deathAwaits )
+			return;
 		if ( liftedObject != null ) // It was carrying something.
 		{
 			// TODO: Meter efecto de particulas aca
@@ -709,6 +784,10 @@ public class Player : BaseObject
 		}
 		
 		deathAwaits = true;
+		
+		((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 500;
+		GameDirector.i.ShowTextPopup( GameDirector.i.playerLeft.gameObject, 0.8f, "+" + 500 );
+		
 	}
 	
 	public void OnHit( GameObject other )
@@ -726,12 +805,20 @@ public class Player : BaseObject
 		print("getting killed");
 		hearts--;
 		
+		
 		inmuneTimer = 1.0f;
 		frictionCoef = 0.99f;
 		isAttacking = false;
 		
 		if ( hearts == 0 )
+		{
 			Die();
+		}
+		else 
+		{
+			((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 200;
+			GameDirector.i.ShowTextPopup( ((AztecPlayer)GameDirector.i.playerLeft).gameObject, 0.8f, "+" + 200 );
+		}
 	}
 	
 	virtual protected void OnPressSwitch( GameObject switchPressed )
@@ -820,6 +907,7 @@ public class Player : BaseObject
 		{
 			if ( other.tag == "Wall" )
 			{
+				print ("bounce wall");
 				isAttacking = false;
 				//animator.StopAnim();
 				velocity *= -.5f;

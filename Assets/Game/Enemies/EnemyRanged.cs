@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyRanged : BaseObject {
 
-	SpriteAnimator animator;
+	public SpriteAnimator animator;
 	
 	public Transform helperPivot;
 	public BaseObjectSensor liftSensor;
@@ -47,10 +47,10 @@ public class EnemyRanged : BaseObject {
 	float lockRight = 0;
 	float lockLeft = 0;
 	
-	public bool canGoDown { get { return lockDown > 0; } }
-	public bool canGoUp { get { return lockUp > 0; } }
-	public bool canGoRight { get { return lockRight > 0; } }
-	public bool canGoLeft { get { return lockLeft > 0; } }
+	public bool CantGoDown { get { return lockDown > 0; } }
+	public bool CantGoUp { get { return lockUp > 0; } }
+	public bool CantGoRight { get { return lockRight > 0; } }
+	public bool CantGoLeft { get { return lockLeft > 0; } }
 	
 	
 	float straightTimer = 0;

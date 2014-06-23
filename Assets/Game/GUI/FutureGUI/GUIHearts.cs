@@ -3,21 +3,21 @@ using System.Collections;
 
 public class GUIHearts : MonoBehaviour {
 
-	TextMesh text;
+	public SpriteAnimator[] hearts;
 	// Use this for initialization
 	void Start () 
 	{
-		text = GetComponent<TextMesh>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		string t = "";
-		
-		for ( int i = 0; i < GameDirector.i.playerRight.hearts; i++ )
-			t += "<3\n";
-		
-		text.text = t;
+		for ( int i = 0;  i < hearts.Length; i++ )
+		{
+			if ( GameDirector.i.playerRight.hearts >= i + 1 )
+				hearts[i].PlayAnim("HeartFull");
+			else
+				hearts[i].PlayAnim("HeartEmpty");
+		}
 	}
 }

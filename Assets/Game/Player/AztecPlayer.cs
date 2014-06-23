@@ -112,7 +112,7 @@ public class AztecPlayer : Player
 			
 			trap = GUITrapSelector.i.traps[ currentTrapIndex ];
 			
-			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
+			//GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
 		}
 		if(Input.GetKeyDown(cycleRight))
 		{
@@ -123,7 +123,7 @@ public class AztecPlayer : Player
 			
 			trap = GUITrapSelector.i.traps[ currentTrapIndex ];
 			
-			GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
+			//GameDirector.i.ShowTextPopup( gameObject, 0.8f, trap.name );
 		}
 		
 		if(Input.GetKeyDown(placeTrap))

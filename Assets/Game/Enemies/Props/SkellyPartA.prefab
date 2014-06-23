@@ -31,7 +31,7 @@ GameObject:
   - 54: {fileID: 5400004}
   m_Layer: 0
   m_Name: SkellyPartA
-  m_TagString: WallDestructable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   collisionEnabled: 0
   respawns: 0
   currentFloor: {fileID: 0}
+  prefabShadow: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

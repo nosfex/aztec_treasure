@@ -226,7 +226,7 @@ MonoBehaviour:
   isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
-  respawns: 0
+  respawns: 1
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
 --- !u!114 &11400004

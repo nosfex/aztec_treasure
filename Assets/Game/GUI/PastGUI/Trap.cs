@@ -6,11 +6,13 @@ public class Trap : MonoBehaviour
 	public string name;
 	public GameObject signPrefab;
 	public GameObject trapPrefab;
+	
 	public int price;
 	public int altarUnlock;
 	public int spawnDelay;
 	
 	TextMesh priceTag;
+	
 	// Use this for initialization
 	
 	void Start () 
@@ -24,7 +26,7 @@ public class Trap : MonoBehaviour
 		priceTag.text = price.ToString();
 		
 		renderer.material.SetFloat("_EffectAmount", GUIAltars.i.altarsFound >= altarUnlock ? 0f : 1.0f );
-
+		
 	}
 	
 	public bool CanBePlaced()
