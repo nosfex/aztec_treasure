@@ -468,8 +468,10 @@ public class Player : BaseObject
 		if ( !animator.isAnimPlaying("Attack") )
 		{
 			isAttacking = false;
-			
-			
+		}
+		
+		if ( !isAttacking )
+		{
 			frictionCoef += (0.66f - frictionCoef) * 0.9f;
 		}
 		
@@ -681,8 +683,8 @@ public class Player : BaseObject
 			{
 				attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 				
-				if ( attackedObject.GetComponent<Vine>() == null )
-					velocity *= -0.5f;
+				//if ( attackedObject.GetComponent<Vine>() == null )
+				//	velocity *= -0.5f;
 			}
 		}
 		// GH: Adding potion effects
@@ -905,6 +907,7 @@ public class Player : BaseObject
 		{
 			if ( other.tag == "Wall" )
 			{
+				print ("bounce wall");
 				isAttacking = false;
 				//animator.StopAnim();
 				velocity *= -.5f;
