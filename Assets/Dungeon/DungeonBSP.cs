@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class DungeonBSP : MonoBehaviour
 {
-	public const int WORLD_TILE_WIDTH = 50;
-	public const int WORLD_TILE_HEIGHT = 50;
+	public const int WORLD_TILE_WIDTH = 80;
+	public const int WORLD_TILE_HEIGHT = 30;
 	
 	public int minRoomSize = 9;
 
@@ -89,8 +89,8 @@ public class DungeonBSP : MonoBehaviour
 			
 			node.width = Random.Range(11, 15);
 			node.height = 11;//Random.Range(10, 10);
-			node.initPosX = Random.Range (0, 8) * 5;//WORLD_TILE_WIDTH-node.width-0);
-			node.initPosY = Random.Range (0, 8) * 5;//WORLD_TILE_HEIGHT-node.height-0);
+			node.initPosX = Random.Range (0, 13) * 5;//WORLD_TILE_WIDTH-node.width-0);
+			node.initPosY = Random.Range (0, (WORLD_TILE_HEIGHT - 10) / 5) * 5;//WORLD_TILE_HEIGHT-node.height-0);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;		
 		
@@ -109,8 +109,8 @@ public class DungeonBSP : MonoBehaviour
 			node.height = Random.Range(11, 15);
 //			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width-0);
 //			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height-0);
-			node.initPosX = Random.Range (0, 8) * 5;//WORLD_TILE_WIDTH-node.width-0);
-			node.initPosY = Random.Range (0, 8) * 5;//WORLD_TILE_HEIGHT-node.height-0);
+			node.initPosX = Random.Range (0, 13) * 5;//WORLD_TILE_WIDTH-node.width-0);
+			node.initPosY = Random.Range (0, (WORLD_TILE_HEIGHT - 10) / 5) * 5;//WORLD_TILE_HEIGHT-node.height-0);
 
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
