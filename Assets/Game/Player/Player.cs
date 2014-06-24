@@ -327,8 +327,6 @@ public class Player : BaseObject
 	
 	virtual protected void Update () 
 	{
-
-		
 		if ( deathAwaits )
 		{
 			hearts = GameDirector.i.maxHearts;

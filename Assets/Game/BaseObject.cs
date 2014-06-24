@@ -298,7 +298,8 @@ public class BaseObject : MonoBehaviour
 			break;
 		}
 		velocity *= -bouncyness;
-		
+		print ("base bounce wall");
+
 		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
 										  transform.position.y, 
 										  adjustZ ? closestBoundExit.z : transform.position.z );		

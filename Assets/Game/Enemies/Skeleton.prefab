@@ -15,7 +15,7 @@ GameObject:
   - 54: {fileID: 5400000}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: WallDestructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
   isLiftable: 0
   isSwitch: 0
   gravity: {x: 0, y: 0, z: 0}
-  collisionEnabled: 0
+  collisionEnabled: 1
   respawns: 1
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}

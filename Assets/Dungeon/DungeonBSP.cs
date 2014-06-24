@@ -87,10 +87,10 @@ public class DungeonBSP : MonoBehaviour
 			bailout--;
 			if ( bailout == 0 ) return null;
 			
-			node.width = Random.Range(10, 15);
-			node.height = Random.Range(6, 8);
-			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width-0);
-			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height-0);
+			node.width = Random.Range(11, 15);
+			node.height = 11;//Random.Range(10, 10);
+			node.initPosX = Random.Range (0, 8) * 5;//WORLD_TILE_WIDTH-node.width-0);
+			node.initPosY = Random.Range (0, 8) * 5;//WORLD_TILE_HEIGHT-node.height-0);
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;		
 		
@@ -105,10 +105,13 @@ public class DungeonBSP : MonoBehaviour
 		{
 			bailout--;
 			if ( bailout == 0 ) return null;
-			node.width = Random.Range(6, 8);
-			node.height = Random.Range(10, 15);
-			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width-0);
-			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height-0);
+			node.width = 11;//Random.Range(8, 10);
+			node.height = Random.Range(11, 15);
+//			node.initPosX = Random.Range (0, WORLD_TILE_WIDTH-node.width-0);
+//			node.initPosY = Random.Range (0, WORLD_TILE_HEIGHT-node.height-0);
+			node.initPosX = Random.Range (0, 8) * 5;//WORLD_TILE_WIDTH-node.width-0);
+			node.initPosY = Random.Range (0, 8) * 5;//WORLD_TILE_HEIGHT-node.height-0);
+
 		}
 		while( doesThisNodeOverlapWithAnotherNodeOrNot( node ) ); // Repeat if overlap;	
 		
@@ -349,7 +352,7 @@ public class DungeonBSP : MonoBehaviour
 		
 		BSPNode altar1 = GenerateAltarRoom2( 0, 1 );
 		if ( altar1 != null ) final.Add( altar1 );
-		
+//		
 		BSPNode altar2 = GenerateAltarRoom2( 1, 0 );
 		if ( altar2 != null ) final.Add( altar2 );
 		
@@ -396,12 +399,13 @@ public class DungeonBSP : MonoBehaviour
 			printToGlobalTiles(a);
 		}
 		
-		makeDoors();
-		
 		if ( altar1 != null ) createDoorConnectingWithNearest( altar1 );
 		if ( altar2 != null ) createDoorConnectingWithNearest( altar2 );
 		if ( altar3 != null ) createDoorConnectingWithNearest( altar3 );
 		if ( altar4 != null ) createDoorConnectingWithNearest( altar4 );
+
+		makeDoors();
+		
 		
 		initialRoom = startRoom.room;
 		Debug.Log ("added: " + initialRoom );
@@ -425,56 +429,98 @@ public class DungeonBSP : MonoBehaviour
 	
 	
 	public void createDoorConnectingWith( BSPNode walker, BSPNode min )
-	{
-		Vector2 walkerCenter = walker.room.getCenter();
-		Vector2 minCenter = min.room.getCenter();
-	
-		int compX = (int)Mathf.Abs(walkerCenter.x - minCenter.x);
-		int compY = (int)Mathf.Abs(walkerCenter.y - minCenter.y);
+	{	
+		bool freeRight = false;
+		bool freeLeft = false;
+		bool freeUp = false;
+		bool freeDown = false;
 		
-		if(walker.initPosX >= min.initPosX + min.width)
+		
+		
+		if ( walker.initPosX 				 >= min.initPosX + min.width )
+			freeRight = true; 
+
+		if ( walker.initPosX + walker.width  < min.initPosX )
+			freeLeft = true;
+
+		if ( walker.initPosY 				 >= min.initPosY + min.height )
+			freeUp = true;
+
+		if ( walker.initPosY + walker.height < min.initPosY )
+			freeDown = true;
+		
+		Debug.Log ("Start createDoorConnectingWith");
+		
+		if ( freeLeft )
 		{
-			bool left = walker.initPosX > min.initPosX;
-			int sideA = 99;
-			int sideB = 99;
-			if(left)
-			{
-				sideA = walker.room.checkSideFree(Room.LEFT) ? Room.LEFT : Room.RIGHT;
-				sideB = min.room.checkSideFree(Room.RIGHT) ? Room.RIGHT : Room.LEFT;
-			}
-			else
-			{
-				sideA = walker.room.checkSideFree(Room.RIGHT) ? Room.RIGHT : Room.LEFT;
-				sideB = min.room.checkSideFree(Room.LEFT) ? Room.LEFT : Room.RIGHT;
-			}
-			walker.room.createDoorAtSide(sideA,  floorTile);
-			min.room.createDoorAtSide(sideB, floorTile);
+			bool isGood = false;
+			isGood |= walker.room.checkSideFree( Room.LEFT );
+			isGood |= min.room.checkSideFree( Room.RIGHT );
 			
-			
+			if ( isGood )
+			{
+				Debug.Log ("Create door freeLeft");
+				walker.room.createDoorAtSide( Room.RIGHT, floorTile );
+				min.room.createDoorAtSide( Room.LEFT, floorTile );
+				walker.room.getLastDoor().target = min.room.getLastDoor();
+				min.room.getLastDoor().target = walker.room.getLastDoor();		
+				return;
+			}
 		}
-		else
+		
+		if ( freeRight )
 		{
-			bool top = walker.initPosY > min.initPosY;
-			int sideA = 99;
-			int sideB = 99;
-			if(top)
+			bool isGood = false;
+			isGood |= walker.room.checkSideFree( Room.RIGHT );
+			isGood |= min.room.checkSideFree( Room.LEFT );
+			
+			if ( isGood )
 			{
-				sideA = walker.room.checkSideFree(Room.BOTTOM) ? Room.BOTTOM : Room.TOP;
-				sideB = min.room.checkSideFree(Room.TOP) ? Room.TOP : Room.BOTTOM;
+				Debug.Log ("Create door freeRight");
+				walker.room.createDoorAtSide( Room.LEFT, floorTile );
+				min.room.createDoorAtSide( Room.RIGHT, floorTile );
+				walker.room.getLastDoor().target = min.room.getLastDoor();
+				min.room.getLastDoor().target = walker.room.getLastDoor();		
+				return;
 			}
-			else
+		}
+		
+		if ( freeUp )
+		{
+			bool isGood = false;
+			isGood |= walker.room.checkSideFree( Room.TOP );
+			isGood |= min.room.checkSideFree( Room.BOTTOM );
+			
+			if ( isGood )
 			{
-				sideA = walker.room.checkSideFree(Room.TOP) ? Room.TOP : Room.BOTTOM;
-				sideB = min.room.checkSideFree(Room.BOTTOM) ? Room.BOTTOM : Room.TOP;
+				Debug.Log ("Create door freeUp");
 				
+				walker.room.createDoorAtSide( Room.BOTTOM, floorTile );
+				min.room.createDoorAtSide( Room.TOP, floorTile );
+				walker.room.getLastDoor().target = min.room.getLastDoor();
+				min.room.getLastDoor().target = walker.room.getLastDoor();		
+				return;
 			}
-			walker.room.createDoorAtSide(sideA, floorTile);
-			min.room.createDoorAtSide(sideB, floorTile);
-			
 		}
 		
-		walker.room.getLastDoor().target = min.room.getLastDoor();
-		min.room.getLastDoor().target = walker.room.getLastDoor();		
+		if ( freeDown )
+		{
+			bool isGood = false;
+			isGood |= walker.room.checkSideFree( Room.BOTTOM );
+			isGood |= min.room.checkSideFree( Room.TOP );
+			
+			if ( isGood )
+			{
+				Debug.Log ("Create door freeDown");
+
+				walker.room.createDoorAtSide( Room.TOP, floorTile );
+				min.room.createDoorAtSide( Room.BOTTOM, floorTile );
+				walker.room.getLastDoor().target = min.room.getLastDoor();
+				min.room.getLastDoor().target = walker.room.getLastDoor();		
+				return;
+			}
+		}
+		
 	}
 	
 	public void makeDoors()
@@ -681,7 +727,7 @@ public class DungeonBSP : MonoBehaviour
 
 					if ( tile == torchWallTile )
 					{
-						float lightDistThreshold = 0.8f * 32;
+						float lightDistThreshold = 0.8f * 10;
 						
 						if ( globalTiles[col, row].name == floorTile.name )
 							lightDistThreshold = 0.8f * 3;

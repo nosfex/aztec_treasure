@@ -138,11 +138,11 @@ public class Room
 		
 		if(iAxis)
 		{
-			i = Random.Range(1, width - 2);
+			i = Random.Range(3, width - 4);
 		}
 		else
 		{
-			j = Random.Range(1, height - 2);
+			j = Random.Range(3, height - 4);
 		}
 		
 		
