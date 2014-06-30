@@ -21,7 +21,7 @@ public class RangedAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 5f && body.currentFloor != null && !drawAndShoot )
+		if ( distance <= 5f && body.isGrounded && !drawAndShoot )
 		{
 			float thresholdNear = 0.2f;
 			nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear );// && ( goingUp || goingDown );
@@ -72,15 +72,16 @@ public class RangedAI : EnemyController
 				drawTimer = 0;
 				attacking = true;
 				drawAndShoot = false;
-				body.animator.renderer.material.color = new Color(1,1,1,1);
+				body.animator.renderer.material.SetColor( "_AddColor", new Color(0,0,0,1) );
 			}
 			else 
 			{
 				goingRight = goingLeft = goingUp = goingDown = false;
-				if ( Time.frameCount % 2 == 0 )
-					body.animator.renderer.material.color = new Color(1,1,1,1);
+				
+				if ( Time.frameCount % 4 < 2 )
+					body.animator.renderer.material.SetColor( "_AddColor", new Color(0.5f,0.5f,0.5f,1) );
 				else
-					body.animator.renderer.material.color = new Color(0.5f,0.5f,0.5f,1);
+					body.animator.renderer.material.SetColor( "_AddColor", new Color(0,0,0,1) );
 			}
 		}
 	}
@@ -92,7 +93,7 @@ public class RangedAI : EnemyController
 	
 	override public void UpdateAI()
 	{
-		if ( body.currentFloor == null )
+		if ( !body.isGrounded )
 			return;
 
 		walkTimer += Time.deltaTime;
@@ -109,14 +110,7 @@ public class RangedAI : EnemyController
 			}
 		}
 		
-		bool stuckRight = goingRight && body.CantGoRight;
-		bool stuckLeft = goingLeft && body.CantGoLeft;
-		bool stuckDown = goingDown && body.CantGoDown;
-		bool stuckUp = goingUp && body.CantGoUp;
-		
-		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
-		
-		if ( stuck )
+		if ( body.stuck )
 		{
 			goingRight = goingLeft = goingUp = goingDown = attacking = false;
 			upDownWalkPriority = !upDownWalkPriority;

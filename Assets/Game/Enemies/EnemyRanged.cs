@@ -42,17 +42,6 @@ public class EnemyRanged : BaseObject {
 	
 	[HideInInspector] public float cooldown = 0;
 	
-	float lockDown = 0;
-	float lockUp = 0;
-	float lockRight = 0;
-	float lockLeft = 0;
-	
-	public bool CantGoDown { get { return lockDown > 0; } }
-	public bool CantGoUp { get { return lockUp > 0; } }
-	public bool CantGoRight { get { return lockRight > 0; } }
-	public bool CantGoLeft { get { return lockLeft > 0; } }
-	
-	
 	float straightTimer = 0;
 	float inmuneTimer = 0;
 	
@@ -122,18 +111,18 @@ public class EnemyRanged : BaseObject {
 		
 		float dx = 0, dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") && currentFloor != null  )
+		if ( !animator.isAnimPlaying("Attack") && isGrounded )
 		{
-			if ( controller.GetKey( KeyCode.LeftArrow ) && lockLeft < 0 )
+			if ( controller.GetKey( KeyCode.LeftArrow ) && !stuckLeft )
 				dx = -1;
 			
-			if ( controller.GetKey( KeyCode.RightArrow ) && lockRight < 0 )
+			if ( controller.GetKey( KeyCode.RightArrow ) && !stuckRight )
 				dx = 1;
 			
-			if ( controller.GetKey( KeyCode.UpArrow ) && lockUp < 0)
+			if ( controller.GetKey( KeyCode.UpArrow ) && !stuckForward )
 				dy = 1;
 			
-			if ( controller.GetKey( KeyCode.DownArrow ) && lockDown < 0 )
+			if ( controller.GetKey( KeyCode.DownArrow ) && !stuckBack )
 				dy = -1;
 		}
 		
@@ -320,11 +309,6 @@ public class EnemyRanged : BaseObject {
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 			Die ();
-		
-		lockLeft--;
-		lockRight--;
-		lockDown--;
-		lockUp--;
 	}
 	
 	void Die()
@@ -342,8 +326,10 @@ public class EnemyRanged : BaseObject {
 	public void OnHit( GameObject other )
 	{
 		BaseObject bo = other.GetComponent<BaseObject>();
+		
 		if(bo == null)
 			return;
+		
 		if(bo.name == "Projectile(Clone)")
 			return;
 		
@@ -360,20 +346,6 @@ public class EnemyRanged : BaseObject {
 	
 	override protected void OnTriggerEnter( Collider other )
 	{
-		/*
-		if ( other.GetComponent<Player>() != null )
-		{
-			Player p = other.GetComponent<Player>();
-
-			if ( !p.isImmune )
-			{
-				p.OnHit( gameObject );
-				p.velocity += direction * speed * attackSpeedFactor * 3f;
-				p.gravity.y = -0.01f;
-				velocity *= -1.2f;
-			}
-		}*/
-		
 		base.OnTriggerEnter( other );
 	}
 	
@@ -392,72 +364,10 @@ public class EnemyRanged : BaseObject {
 		BaseObject bo = other.GetComponent<BaseObject>();
 
 		if ( bo != null )
-		{
-			if ( !bo.collisionEnabled )
-			{
-				return;
-			}
-			
 			if(bo.name == "Projectile(Clone)")
-				
 				return;
-		}
 		
-		
-		
-		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
-		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
-		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
-		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * margin);
-		Vector3 down = other.ClosestPointOnBounds( transform.position + (Vector3.back * 100) ) + (Vector3.back * margin);
-		
-		Vector3[] vv = { left, right, up, down };
-		
-		float minDistance = 9999999999f;
-		Vector3 closestBoundExit = transform.position;
-
-		int lockIndex = -1;
-		
-		for ( int i = 0 ;  i < vv.Length; i++ )
-		{
-			Vector3 v = vv[i];
-			float distance = Vector3.Distance( v, transform.position );
-			
-			if ( distance < minDistance ) 
-			{
-				minDistance = distance;
-				closestBoundExit = v;
-				lockIndex = i;
-			}
-		}
-		
-		bool adjustX = false;
-		bool adjustZ = false;
-		
-		switch( lockIndex )
-		{
-		case 0:
-			adjustX = true;
-			lockRight = 5;
-			break;
-		case 1:
-			adjustX = true;
-			lockLeft = 5;
-			break;
-		case 2:
-			adjustZ = true;
-			lockDown = 5;
-			break;
-		case 3:
-			adjustZ = true;
-			lockUp = 5;
-			break;
-		}
-		
-		straightTimer = 0;
-		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
-										  transform.position.y, 
-										  adjustZ ? closestBoundExit.z : transform.position.z );
+		base.TestWalls( other );
 	}
 
 		

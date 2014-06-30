@@ -362,22 +362,25 @@ public class Skelly : BaseObject
 		
 		if ( state != State.DYING )
 		{
-			Player p = other.GetComponent<Player>();
-
-			if ( p != null && !p.isImmune )
+			if ( !isGrounded )
 			{
-				p.OnHit( gameObject );
-				p.velocity += direction * speed * attackSpeedFactor * 4.0f;
-				//p.gravity.y = -0.03f;
-				//p.transform.position += Vector3.up * 0.03f;
-				p.frictionCoef = 0.999f;
-				velocity *= -1.2f;
+				Player p = other.GetComponent<Player>();
+	
+				if ( p != null && !p.isImmune )
+				{
+					p.OnHit( gameObject );
+					p.velocity += direction * speed * attackSpeedFactor * .5f;
+					//p.gravity.y = -0.03f;
+					//p.transform.position += Vector3.up * 0.03f;
+					//p.frictionCoef = 0.999f;
+					velocity *= -1.2f;
+				}
+				
+				Vine v = other.GetComponent<Vine>();
+				
+				if ( v != null )
+					v.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 			}
-			
-			Vine v = other.GetComponent<Vine>();
-			
-			if ( v != null )
-				v.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
 				
 		}
 		
@@ -396,72 +399,18 @@ public class Skelly : BaseObject
 	
 	override protected void TestWalls( Collider other )
 	{
-		BaseObject bo = other.GetComponent<BaseObject>();
-
-		if ( bo != null )
+		base.TestWalls( other );
+		
+		if ( animator != null && !isGrounded )
 		{
-			if ( !bo.collisionEnabled )
+			if ( other.tag == "Wall" )
 			{
-				return;
+				print ("bounce wall");
+				state = State.WALKING;
+
+				velocity *= -.5f;
+				frictionCoef = 0.99f;
 			}
 		}
-		
-		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
-		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
-		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
-		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * margin);
-		Vector3 down = other.ClosestPointOnBounds( transform.position + (Vector3.back * 100) ) + (Vector3.back * margin);
-		
-		Vector3[] vv = { left, right, up, down };
-		
-		float minDistance = 9999999999f;
-		Vector3 closestBoundExit = transform.position;
-
-		int lockIndex = -1;
-		
-		for ( int i = 0 ;  i < vv.Length; i++ )
-		{
-			Vector3 v = vv[i];
-			float distance = Vector3.Distance( v, transform.position );
-			
-			if ( distance < minDistance ) 
-			{
-				minDistance = distance;
-				closestBoundExit = v;
-				lockIndex = i;
-			}
-		}
-		
-		bool adjustX = false;
-		bool adjustZ = false;
-		
-		switch( lockIndex )
-		{
-		case 0:
-			adjustX = true;
-			lockRight = 5;
-			break;
-		case 1:
-			adjustX = true;
-			lockLeft = 5;
-			break;
-		case 2:
-			adjustZ = true;
-			lockDown = 5;
-			break;
-		case 3:
-			adjustZ = true;
-			lockUp = 5;
-			break;
-		}
-		
-		straightTimer = 0;
-		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
-										  transform.position.y, 
-										  adjustZ ? closestBoundExit.z : transform.position.z );
 	}
-
-		
-		
-		
 }

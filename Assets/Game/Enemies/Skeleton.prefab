@@ -311,13 +311,14 @@ MonoBehaviour:
   worldOwner: {fileID: 0}
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .970000029
-  airFrictionCoef: .99000001
+  airFrictionCoef: .999000013
   groundFrictionCoef: .660000026
   bouncyness: .200000003
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
   isLiftable: 0
   isSwitch: 0
+  dontCollideWhenImmune: 1
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 1
@@ -330,8 +331,8 @@ MonoBehaviour:
   hearts: 0
   maxHearts: 1
   speed: .0160000008
-  attackJumpHeight: -.0399999991
-  attackSpeedFactor: 7
+  attackJumpHeight: -.0250000004
+  attackSpeedFactor: 6
   attackCooldown: 1.5
   stateValue: 0
 --- !u!114 &11400002

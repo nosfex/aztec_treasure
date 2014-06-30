@@ -561,6 +561,7 @@ MonoBehaviour:
   gravityEnabled: 1
   isLiftable: 0
   isSwitch: 0
+  dontCollideWhenImmune: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0

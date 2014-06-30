@@ -21,6 +21,8 @@ public class BaseObject : MonoBehaviour
 	public bool isLiftable = true;
 	public bool isSwitch = false;
 	
+	public bool dontCollideWhenImmune = false;
+	
 	[HideInInspector] public Vector3 gravity = Vector3.zero;
 	
 	public bool collisionEnabled = true;
@@ -32,23 +34,44 @@ public class BaseObject : MonoBehaviour
 	const float STAIR_HEIGHT = 0.25f;
 	
 	EnemySpawner respawner;
+	
+	float stuckDownTimer = 0;
+	float stuckUpTimer = 0;
+	float stuckRightTimer = 0;
+	float stuckLeftTimer = 0;
+	
+	public bool stuckBack
+	{
+		get { return stuckDownTimer > 0; }
+	}
+	
+	public bool stuckForward
+	{
+		get { return stuckUpTimer > 0; }
+	}
+	
+	public bool stuckRight
+	{
+		get { return stuckRightTimer > 0; }
+	}
+	
+	public bool stuckLeft
+	{
+		get { return stuckLeftTimer > 0; }
+	}
+	
+	public bool stuck
+	{
+		get { return stuckBack || stuckForward || stuckRight || stuckLeft; }
+	}
+	
+	public bool isGrounded
+	{
+		get { return currentFloor != null; }
+	}
 
 	virtual protected void Start()
 	{
-//#if UNITY_EDITOR
-//		if ( myPrefab == null )
-//		{
-//			Object prefab = UnityEditor.EditorUtility.GetPrefabParent(gameObject);
-//	
-//			if ( prefab != null )
-//			{
-//				myPrefab = (GameObject)prefab;
-//				myPrefab.GetComponent<BaseObject>().myPrefab = myPrefab;
-//			}
-//		}
-//#endif
-		
-		
 		World myWorld = findWorld( transform );
 			
 		worldOwner = myWorld;
@@ -140,92 +163,73 @@ public class BaseObject : MonoBehaviour
 			gravity = Vector3.zero;
 		}
 		
-		
-		
 		velocity += accel;
 		float friction = frictionCoef;
+		
+		bool isGrounded = transform.position.y - 0.003f <= floorY;
 
-		if ( gravityEnabled && transform.position.y - 0.003f > floorY )
+		if ( gravityEnabled && !isGrounded )
 		{
 			friction = airFrictionCoef;
 		}
 		
 		Vector3 velocityDif = (velocity * friction) - velocity;
 		velocity += velocityDif;
-		//print ("coef = " + velocityDif );
-		//velocity *= frictionCoef;
-		
-		
-//		if ( velocity.x != 0 )
-		//	print (" v = "  + velocity.x  + " * " + frameRatio );
+
 		if ( gravityEnabled )
 		{
-			//print ("floorY " + floorY );
-			if ( transform.position.y - 0.003f > floorY )
+			if ( !isGrounded )
 			{
-				
 				gravity += ( Vector3.up * 0.003f );
-				//gravity *= 0.99f;
 			}
 			else 
 			{
 				
-				if ( transform.position.y < floorY && (transform.position.y + STAIR_HEIGHT) > floorY )
+				//if ( transform.position.y < floorY && (transform.position.y + STAIR_HEIGHT) > floorY )
+				if ( isGrounded && (transform.position.y + STAIR_HEIGHT) > floorY )
 				{
-					//if ( gravity.y >= 0 )
+					float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
+					transform.position += Vector3.up * Mathf.Min( 0.05f, dif );
+					
+					if ( transform.position.y > floorY )
 					{
-						float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
-						//gravity -= Vector3.up * dif;
-						transform.position += Vector3.up * Mathf.Min( 0.05f, dif );
-						
-						if ( transform.position.y > floorY )
-						{
-							gravity = Vector3.zero;
-							transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
-						}
+						gravity = Vector3.zero;
+						transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
 					}
-					//iTween.MoveTo( gameObject, iTween.Hash( "y", floorY, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack ) );
 				}
 				else 
-				if ( transform.position.y < floorY )
+				if ( isGrounded )
 				{
 					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
-					//gravity = Vector3.zero;
-					//gravityEnabled = false;
-					//print ("eh?");
 				}
-				//transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
-
 				
 				if ( Mathf.Abs( gravity.y ) < 0.01f )
 					gravity = Vector3.zero;
 				else 
 				{
 					if ( gravity.y > 0 )
-					{
 						gravity *= -bouncyness;//Vector3.zero;
-					}
 				}
 				velocity *= groundFrictionCoef;
-				//collisionEnabled = true;				
 			}
 			
 			transform.position -= gravity * frameRatio;
 		}
+		
 		transform.position += velocity * frameRatio;
 		accel = Vector3.zero;
+		
+		stuckLeftTimer--; stuckRightTimer--; stuckDownTimer--; stuckUpTimer--;
+		
 	}
 	
 	
 	virtual protected void OnTriggerExit( Collider other )
 	{
-		//if ( other.tag.Contains( "Floor" ) )
+		if ( other == currentFloor )
 		{
-			if ( other == currentFloor )
-			{
-				currentFloor = null;
-				other.SendMessage( "ExitObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
-			}
+			currentFloor = null;
+			other.SendMessage( "ExitObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
 		}
 	}
 	
@@ -244,20 +248,14 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void TestWalls( Collider other )
 	{
-		BaseObject bo = other.GetComponent<BaseObject>();
-
-		if ( bo != null && !bo.collisionEnabled )
-			return;
-		
-		if ( !collisionEnabled )
-			return;
-		
 		Bounds b = ((BoxCollider)collider).bounds;
 		
-		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * b.extents.x);
-		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * b.extents.x);
-		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * b.extents.z);
-		Vector3 down = other.ClosestPointOnBounds( transform.position + (Vector3.back * 100) ) + (Vector3.back * b.extents.z);
+		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
+		
+		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
+		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
+		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * margin);
+		Vector3 down = other.ClosestPointOnBounds( transform.position + (Vector3.back * 100) ) + (Vector3.back * margin);
 		
 		Vector3[] vv = { left, right, up, down };
 		
@@ -286,19 +284,23 @@ public class BaseObject : MonoBehaviour
 		{
 		case 0:
 			adjustX = true;
+			stuckRightTimer = 3;
 			break;
 		case 1:
 			adjustX = true;
+			stuckLeftTimer = 3;
 			break;
 		case 2:
 			adjustZ = true;
+			stuckDownTimer = 3;
 			break;
 		case 3:
 			adjustZ = true;
+			stuckUpTimer = 3;
 			break;
 		}
-		velocity *= -bouncyness;
-		print ("base bounce wall");
+		
+		//velocity *= -bouncyness;
 
 		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
 										  transform.position.y, 
@@ -308,30 +310,20 @@ public class BaseObject : MonoBehaviour
 	virtual protected void OnTriggerStay( Collider other )
 	{
 		OnTriggerEnter( other );
-//		if ( other.tag.Contains( "Floor" ) )
-//			TestFloor( other );
-//
-//		
-//		if ( other.tag.Contains("Floor") )
-//		{
-//			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-//			float MISPIES = transform.position.y - collider.bounds.extents.y;
-//			float yDif = TECHODELPISO - MISPIES;
-//			
-//			if ( yDif >= 0.3f ) // Enough to climb
-//			{
-//				TestWalls( other ); // Treat as wall!
-//			}
-//		}
-//		
-//		if ( other.tag.Contains( "Wall" ) )
-//			TestWalls( other );
 	}
 
 	virtual protected void OnTriggerEnter( Collider other )
 	{
 		if ( other.tag.Contains( "Floor" ) )
 			TestFloor( other );
+
+		BaseObject bo = other.GetComponent<BaseObject>();
+
+		if ( bo != null && !bo.collisionEnabled )
+			return;
+		
+		if ( !collisionEnabled )
+			return;
 		
 		if ( other.tag.Contains("Floor") )
 		{

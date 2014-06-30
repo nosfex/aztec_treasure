@@ -32,6 +32,7 @@
 Shader "Custom/Transparent-Diffuse-CullOff" {
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)
+		_AddColor ("Add Color", Color) = (0,0,0,0)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 	}
 	SubShader {
@@ -45,6 +46,7 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
 
 		sampler2D _MainTex;//, _BumpMap, _Thickness;
 		fixed4 _Color;
+		fixed4 _AddColor;
 		//half _Shininess;
 
 		struct Input {
@@ -60,26 +62,11 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
 
 		inline fixed4 LightingTranslucent (SurfaceOutput s, fixed3 lightDir, fixed3 viewDir, fixed atten)
 		{		
-			// You can remove these two lines,
-			// to save some instructions. They're just
-			// here for visual fidelity.
-
-			// Translucency.
-			half3 transLightDir = lightDir;
-			float transDot = pow ( max (0, dot ( viewDir, -transLightDir ) ), 1f );
-			fixed3 transLight = (atten * 2) * ( transDot ) * s.Alpha;
-			fixed3 transAlbedo = s.Albedo * _LightColor0.rgb * transLight;
-
-			// Regular BlinnPhong. <- cambie por diffuse
-			half3 h = normalize (lightDir + viewDir);
-			fixed diff = max (0, dot (s.Normal, lightDir));
-			float nh = max (0, dot (s.Normal, h));
-			//float spec = pow (nh, s.Specular*128.0) * s.Gloss;
-			//fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb) * (atten * 2);
-		    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 2);
+			fixed diff = max (0, length(viewDir - lightDir));
+		    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 1);
 			// Add the two together.
 			fixed4 c;
-			c.rgb = diffAlbedo + transAlbedo;
+			c.rgb = diffAlbedo + (_AddColor * 0.5);
 			c.a = _LightColor0.a * s.Alpha * atten;
 			return c;
 		}

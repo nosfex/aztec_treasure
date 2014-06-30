@@ -968,7 +968,7 @@ public class DungeonBSP : MonoBehaviour
 		foreach ( Light light in lights )
 		{
 			if ( light == null ) continue;
-			if ( light.type != LightType.Point ) continue;
+			if ( light.type != LightType.Spot ) continue;
 			
 			float dist = Vector3.Distance( point, light.transform.position );
 			

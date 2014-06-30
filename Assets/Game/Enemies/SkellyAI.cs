@@ -18,7 +18,7 @@ public class SkellyAI : EnemyController
 		Vector3 myPos = transform.position;
 		float distance = Vector3.Distance( playerPos, myPos );
 		
-		if ( distance <= 2.0f && body.currentFloor != null )
+		if ( distance <= 2.0f && body.isGrounded )
 		{
 			float thresholdNear = 0.4f;
 			bool nearX = ( Mathf.Abs( playerPos.x - myPos.x ) < thresholdNear ) && ( goingUp || goingDown );
@@ -38,7 +38,7 @@ public class SkellyAI : EnemyController
 	
 	override public void UpdateAI()
 	{
-		if ( body.currentFloor == null )
+		if ( !body.isGrounded )
 			return;
 		
 		walkTimer += Time.deltaTime;
@@ -52,12 +52,12 @@ public class SkellyAI : EnemyController
 				ChangeDirectionRandom();
 		}
 		
-		bool stuckRight = goingRight && body.CantGoRight;
-		bool stuckLeft = goingLeft && body.CantGoLeft;
-		bool stuckDown = goingDown && body.CantGoDown;
-		bool stuckUp = goingUp && body.CantGoUp;
+		bool stuckBack = body.stuckBack && goingDown; 
+		bool stuckForward = body.stuckForward && goingUp; 
+		bool stuckRight = body.stuckRight && goingRight; 
+		bool stuckLeft = body.stuckLeft && goingLeft; 
 		
-		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
+		bool stuck = stuckBack || stuckForward || stuckRight || stuckLeft;
 		
 		if ( stuck )
 		{

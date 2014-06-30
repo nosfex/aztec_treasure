@@ -12,7 +12,25 @@ public class Player : BaseObject
 		DYING
 	};
 	
-	protected State state = State.IDLE;
+	State _state = State.IDLE;
+	float stateTimer = 0;
+	protected State state 
+	{
+		get { return _state; }
+		
+		set 
+		{ 
+			_state = value;
+			stateTimer = 0;
+			switch ( _state )
+			{
+				case State.HIT:
+					frictionCoef = 0.999f;
+					break;
+			}
+		}
+			
+	}
 	
 	SpriteAnimator animator;
 	
@@ -60,10 +78,6 @@ public class Player : BaseObject
 	
 	float cooldown = 0;
 	
-	float lockDown = 0;
-	float lockUp = 0;
-	float lockRight = 0;
-	float lockLeft = 0;
 	
 	float straightTimer = 0;
 	float inmuneTimer = 0;
@@ -103,8 +117,9 @@ public class Player : BaseObject
 	
 	override protected void Start () 
 	{
-		animator = GetComponentInChildren<SpriteAnimator>();
 		base.Start();
+
+		animator = GetComponentInChildren<SpriteAnimator>();
 		direction = Vector3.right;
 		lights = (Torch[])FindObjectsOfType( typeof( Torch ) );
 		torchLight = GetComponentInChildren<Light>();
@@ -123,7 +138,7 @@ public class Player : BaseObject
 	void UpdateAnims3FacesMode()
 	{
 		
-		if ( !animator.isAnimPlaying("Attack") )
+		if ( state != State.ATTACKING )
 		{
 			if ( dx != 0 || dy != 0 )
 			{
@@ -148,18 +163,20 @@ public class Player : BaseObject
 		{
 			if ( dy == 0 )
 				walkAnimFacingUp = false;
+			
 			walkAnimFlipped = false;
 		}
 		else if ( facing == "Right" )
 		{
 			if ( dy == 0 )
 				walkAnimFacingUp = false;
+			
 			walkAnimFlipped = true;
 		}
 		
 		if ( lampLightFlip != null && lampLightNoFlip != null )
 		{
-			if ( animator.isAnimPlaying("Attack") )
+			if ( state == State.ATTACKING )
 			{
 				lampLightNoFlip.gameObject.SetActive( false );
 				lampLightFlip.gameObject.SetActive( false );
@@ -181,7 +198,7 @@ public class Player : BaseObject
 		
 		string anim = "Idle";
 		
-		if ( !animator.isAnimPlaying("Attack") )
+		if ( state != State.ATTACKING )
 		{
 			if ( dx != 0 || dy != 0 )
 				anim = "Walk";
@@ -412,18 +429,18 @@ public class Player : BaseObject
 		
 		dx = 0; dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") )
+		if ( state != State.ATTACKING )
 		{
-			if ( Input.GetKey(leftKey) && lockLeft < 0 )
+			if ( Input.GetKey(leftKey) && !stuckLeft )
 				dx = -1;
 			
-			if ( Input.GetKey(rightKey) && lockRight < 0 )
+			if ( Input.GetKey(rightKey) && !stuckRight )
 				dx = 1;
 			
-			if ( Input.GetKey(upKey) && lockUp < 0 )
+			if ( Input.GetKey(upKey) && !stuckForward )
 				dy = 1;
 			
-			if ( Input.GetKey(downKey) && lockDown < 0 )
+			if ( Input.GetKey(downKey) && !stuckBack )
 				dy = -1;
 			
 			if ( Input.GetKeyDown(leftKey) || 
@@ -444,7 +461,7 @@ public class Player : BaseObject
 
 		if ( inmuneTimer > 0 )
 		{
-			animator.renderer.enabled = !animator.renderer.enabled;
+			animator.renderer.enabled = Time.frameCount % 4 < 2;
 			inmuneTimer -= Time.deltaTime;
 			
 			if ( inmuneTimer <= 0 )
@@ -464,8 +481,6 @@ public class Player : BaseObject
 		//if ( (dx != 0 || dy != 0) )
 		//	frictionCoef += (0.66f - frictionCoef) * 0.5f;
 
-		if ( state != State.ATTACKING )
-			frictionCoef += (0.66f - frictionCoef) * 0.9f;
 		
 		float threshold = 0.001f;
 		
@@ -494,6 +509,8 @@ public class Player : BaseObject
 			direction = Vector3.back;
 		}
 		
+		stateTimer += Time.deltaTime;
+		
 		switch( state )
 		{
 			case State.IDLE:
@@ -510,6 +527,9 @@ public class Player : BaseObject
 						OnPressSwitch( switchSensor.sensedObject.gameObject );
 					}
 				}
+			
+				frictionCoef += (0.66f - frictionCoef) * 0.9f;
+
 			
 				break;
 			case State.ATTACKING:
@@ -530,7 +550,16 @@ public class Player : BaseObject
 				break;
 			case State.WALKING:
 				if ( dx == 0 && dy == 0 )
-					state = State.IDLE;			
+					state = State.IDLE;
+			
+				frictionCoef += (0.66f - frictionCoef) * 0.9f;
+			
+				break;
+			case State.HIT:
+				frictionCoef += (0.66f - frictionCoef) * 0.1f;
+			
+				if ( stateTimer > 0.3f )
+					state = State.IDLE;
 				break;
 		}
 
@@ -612,7 +641,6 @@ public class Player : BaseObject
 			speed -= 0.01f;
 		}
 		
-		lockLeft--; lockRight--; lockDown--; lockUp--;
 	}
 	
 	private void reverseInvisibility()
@@ -699,7 +727,7 @@ public class Player : BaseObject
 		print("getting killed");
 		hearts--;
 		
-		inmuneTimer = 1.0f;
+		inmuneTimer = 2.0f;
 		frictionCoef = 0.99f;
 
 		state = State.HIT;
@@ -737,64 +765,14 @@ public class Player : BaseObject
 	{
 		if ( deathAwaits )
 			return;
-
+		
 		BaseObject bo = other.GetComponent<BaseObject>();
-
-		if ( bo != null )
+		
+		bool collidedAgainstEnemyImmune = bo != null && bo.dontCollideWhenImmune && isImmune;
+		
+		if ( !collidedAgainstEnemyImmune )
 		{
-			if ( !bo.collisionEnabled )
-			{
-				return;
-			}
-		}
-		
-		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
-		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
-		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
-		Vector3 up = other.ClosestPointOnBounds( transform.position + (Vector3.forward * 100) ) + (Vector3.forward * margin);
-		Vector3 down = other.ClosestPointOnBounds( transform.position + (Vector3.back * 100) ) + (Vector3.back * margin);
-		
-		Vector3[] vv = { left, right, up, down };
-		
-		float minDistance = 9999999999f;
-		Vector3 closestBoundExit = transform.position;
-
-		int lockIndex = -1;
-		
-		for ( int i = 0 ;  i < vv.Length; i++ )
-		{
-			Vector3 v = vv[i];
-			float distance = Vector3.Distance( v, transform.position );
-			
-			if ( distance < minDistance )
-			{
-				minDistance = distance;
-				closestBoundExit = v;
-				lockIndex = i;
-			}
-		}
-		
-		bool adjustX = false;
-		bool adjustZ = false;
-		
-		switch( lockIndex )
-		{
-		case 0:
-			adjustX = true;
-			lockRight = 2;
-			break;
-		case 1:
-			adjustX = true;
-			lockLeft = 2;
-			break;
-		case 2:
-			adjustZ = true;
-			lockDown = 2;
-			break;
-		case 3:
-			adjustZ = true;
-			lockUp = 2;
-			break;
+			base.TestWalls( other );
 		}
 		
 		if ( animator != null && state == State.ATTACKING )
@@ -808,14 +786,6 @@ public class Player : BaseObject
 				frictionCoef = 0.99f;
 			}
 		}
-		
-		straightTimer = 0;
-		
-		
-
-		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
-										  transform.position.y, 
-										  adjustZ ? closestBoundExit.z : transform.position.z );
 	}
 
 

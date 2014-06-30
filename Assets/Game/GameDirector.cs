@@ -40,6 +40,8 @@ public class GameDirector : MonoBehaviour {
 	public Material pastFloor;
 	public Material futureFloor;
 	
+	public bool forceHighQuality;
+	
 	public void SpawnGuideBlob()
 	{
 		GameObject o = (GameObject)Instantiate ( guideBlobPrefab );
@@ -200,7 +202,10 @@ public class GameDirector : MonoBehaviour {
 		highQualityEnabled = hq;
 		hqTimer = 0;
 		qualityAlreadySet = true;
-		//highQualityEnabled=true;
+		
+		if ( forceHighQuality )
+			highQualityEnabled=true;
+		
 		if ( highQualityEnabled )
 		{
 			QualitySettings.SetQualityLevel( 1 );	
