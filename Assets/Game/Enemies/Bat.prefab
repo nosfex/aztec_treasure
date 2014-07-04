@@ -404,7 +404,7 @@ MonoBehaviour:
   dontCollideWhenImmune: 1
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
-  respawns: 0
+  respawns: 1
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
   helperPivot: {fileID: 400004}
@@ -415,7 +415,7 @@ MonoBehaviour:
   maxHearts: 1
   speed: .00999999978
   attackJumpHeight: -.0399999991
-  attackSpeedFactor: 7
+  attackSpeedFactor: 10
   attackCooldown: 1.5
   stateValue: 0
 --- !u!135 &13500000

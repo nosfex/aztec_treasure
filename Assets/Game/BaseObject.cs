@@ -300,7 +300,7 @@ public class BaseObject : MonoBehaviour
 			break;
 		}
 		
-		//velocity *= -bouncyness;
+		velocity *= -bouncyness;
 
 		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
 										  transform.position.y, 

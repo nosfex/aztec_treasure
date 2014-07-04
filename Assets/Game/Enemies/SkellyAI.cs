@@ -41,17 +41,6 @@ public class SkellyAI : EnemyController
 		if ( !body.isGrounded )
 			return;
 		
-		walkTimer += Time.deltaTime;
-
-		if ( walkTimer > .66f )
-		{
-			walkTimer = 0;
-			upDownWalkPriority = !upDownWalkPriority;
-			
-			if ( playerTarget.isImmune )
-				ChangeDirectionRandom();
-		}
-		
 		bool stuckBack = body.stuckBack && goingDown; 
 		bool stuckForward = body.stuckForward && goingUp; 
 		bool stuckRight = body.stuckRight && goingRight; 
@@ -65,11 +54,27 @@ public class SkellyAI : EnemyController
 			upDownWalkPriority = !upDownWalkPriority;
 			ChangeDirectionRotate();
 		}
-		else if ( !playerTarget.isImmune )
+		else 
 		{
-			goingRight = goingLeft = goingUp = goingDown = attacking = false;
-			ChangeDirectionTowardsPlayer();
-			TryToAttack();
+			bool playerInSight = CheckIfPlayerInSight();
+		
+			if ( !playerInSight || playerTarget.isImmune )
+			{
+				walkTimer += Time.deltaTime;
+				if ( walkTimer > .66f )
+				{
+					walkTimer = 0;
+					upDownWalkPriority = !upDownWalkPriority;
+					ChangeDirectionRandom();
+				}
+			}
+			else
+			if ( playerInSight )
+			{
+				goingRight = goingLeft = goingUp = goingDown = attacking = false;
+				ChangeDirectionTowardsPlayer();
+				TryToAttack();
+			}
 		}
 	}
 }

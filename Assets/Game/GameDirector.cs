@@ -42,6 +42,8 @@ public class GameDirector : MonoBehaviour {
 	
 	public bool forceHighQuality;
 	
+	public AudioSource sfxEarthquake;
+	
 	public void SpawnGuideBlob()
 	{
 		GameObject o = (GameObject)Instantiate ( guideBlobPrefab );

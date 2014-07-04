@@ -290,11 +290,12 @@ public class EnemyRanged : BaseObject {
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
-				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
-				{
-					LiftObject();
-				}
-				else if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
+//				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable  && liftSensor.sensedObject.isGrounded )
+//				{
+//					LiftObject();
+//				}
+//				else 
+				if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
 				{
 					Attack();
 				}

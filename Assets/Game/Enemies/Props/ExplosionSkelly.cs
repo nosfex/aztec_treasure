@@ -16,7 +16,7 @@ public class ExplosionSkelly : MonoBehaviour
 			float force = 0.025f;
 			bo.velocity.x = Random.Range ( -force, force );
 			bo.velocity.z = Random.Range ( -force, force );
-			bo.gravity.y = -0.01f;
+			bo.gravity.y = Random.Range( -0.01f, -0.03f );
 			
 			SpriteAnimator spr = instance.GetComponentInChildren<SpriteAnimator>();
 			spr.startingAnimationName = "Part" + partIndex;

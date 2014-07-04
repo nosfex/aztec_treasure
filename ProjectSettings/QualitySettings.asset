@@ -32,7 +32,7 @@ QualitySettings:
     shadowResolution: 0
     shadowProjection: 1
     shadowCascades: 1
-    shadowDistance: 99
+    shadowDistance: 150
     blendWeights: 4
     textureQuality: 0
     anisotropicTextures: 0
@@ -50,6 +50,6 @@ QualitySettings:
     FlashPlayer: 0
     Standalone: 0
     WP8: 0
-    Web: 0
+    Web: 1
     Windows Store Apps: 0
     iPhone: 0

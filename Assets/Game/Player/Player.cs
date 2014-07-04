@@ -24,6 +24,19 @@ public class Player : BaseObject
 			stateTimer = 0;
 			switch ( _state )
 			{
+				case State.ATTACKING:
+					if ( Random.Range (0,2) == 0)
+					{
+						sfxAttack1.pitch = Random.Range (0.8f, 1.2f);
+						sfxAttack1.Play();
+					}
+					else 
+					{
+						sfxAttack2.pitch = Random.Range (0.8f, 1.2f);
+						sfxAttack2.Play();
+					}
+				
+					break;
 				case State.HIT:
 					frictionCoef = 0.999f;
 					break;
@@ -58,6 +71,9 @@ public class Player : BaseObject
 
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
+	
+	
+	
 	float darkTestThreshold = 4.0f;
 	bool torchOn = false;
 
@@ -72,7 +88,8 @@ public class Player : BaseObject
 	public KeyCode jumpKey = KeyCode.Keypad1;
 	public KeyCode potionKey = KeyCode.K;
 	
-	
+	public AudioSource sfxAttack1;
+	public AudioSource sfxAttack2;
 	
 	string facing = "Right";
 	
@@ -176,7 +193,9 @@ public class Player : BaseObject
 		
 		if ( lampLightFlip != null && lampLightNoFlip != null )
 		{
-			if ( state == State.ATTACKING )
+			//GetComponentInChildren<Light>().enabled = torchOn;
+
+			if ( animator.isAnimPlaying("Attack") )//|| !torchOn )
 			{
 				lampLightNoFlip.gameObject.SetActive( false );
 				lampLightFlip.gameObject.SetActive( false );
@@ -198,7 +217,7 @@ public class Player : BaseObject
 		
 		string anim = "Idle";
 		
-		if ( state != State.ATTACKING )
+		if ( !animator.isAnimPlaying("Attack") )
 		{
 			if ( dx != 0 || dy != 0 )
 				anim = "Walk";
@@ -247,7 +266,7 @@ public class Player : BaseObject
 				if ( torchRatio == 0 && inDarkness )
 				{
 					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
-					speed *= 0.5f;				
+					speed *= 0.7f;				
 				}
 			}
 		
@@ -343,6 +362,7 @@ public class Player : BaseObject
 	
 	void UpdateCompass()
 	{
+		
 		if ( worldOwner == GameDirector.i.worldRight )
 		{
 			guideTimer += Time.deltaTime;
@@ -755,7 +775,7 @@ public class Player : BaseObject
 
 		base.TestFloor( other );
 		
-		if ( currentFloor != null && currentFloor.tag == "Floor" )
+		if ( currentFloor != null && currentFloor.tag == "Floor" && currentFloor.name != "FloorFallingFuture" )
 		{
 			lastSafeFloor = currentFloor;
 		}
@@ -779,11 +799,11 @@ public class Player : BaseObject
 		{
 			if ( other.tag == "Wall" )
 			{
-				print ("bounce wall");
-				state = State.IDLE;
+				//print ("bounce wall");
+				state = State.HIT;
 
-				velocity *= -.5f;
-				frictionCoef = 0.99f;
+				//velocity *= -.5f;
+				//frictionCoef = 0.999f;
 			}
 		}
 	}
@@ -882,7 +902,7 @@ public class Player : BaseObject
 			//Debug.DrawRay( nearestLight.transform.position+ Vector3.one*0.1f, transform.position - (nearestLight.transform.position + Vector3.one*0.1f), Color.green, 0.3f );
 			if ( nearestLight.light.intensity > .2f )
 			{
-				inDarkness = minLightDistance > (nearestLight.light.range * darkTestThreshold);
+				inDarkness = minLightDistance > (2 * darkTestThreshold);
 				
 				if ( !inDarkness )
 					torchOn = false;					
@@ -899,12 +919,12 @@ public class Player : BaseObject
 			if ( inDarkness )
 			{
 				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
-				speed *= 0.5f;
+				speed *= 0.7f;
 			}
 			else
 			{
 				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "I can see again!" );
-				speed *= 2.0f;
+				speed *= 1.4f;
 			}
 		}
 

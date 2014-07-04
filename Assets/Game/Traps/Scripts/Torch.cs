@@ -17,6 +17,10 @@ public class Torch : MonoBehaviour
 	public void TurnOff()
 	{
 		SpriteAnimator animator = GetComponent<SpriteAnimator>();
+		
+		if ( animator == null ) 
+			return;
+		
 		animator.PlayAnim("IdleOff");
 		turnedOn = false;
 		UpdateLightIntensity();
@@ -24,6 +28,10 @@ public class Torch : MonoBehaviour
 	
 	public void TurnOn()
 	{
+		SpriteAnimator animator = GetComponent<SpriteAnimator>();
+		if ( animator == null ) 
+			return;
+
 		if ( !turnedOn )
 		{
 			tutorialCount--;
@@ -32,7 +40,6 @@ public class Torch : MonoBehaviour
 				GUIScreenFeedback.i.ShowTorch();
 		}
 		
-		SpriteAnimator animator = GetComponent<SpriteAnimator>();
 		animator.PlayAnim("IdleOn");
 		turnedOn = true;
 		UpdateLightIntensity();
@@ -41,7 +48,7 @@ public class Torch : MonoBehaviour
 	void UpdateLightIntensity()
 	{
 		if ( turnedOn )
-			targetIntensity = 2.0f;
+			targetIntensity = 1.0f;
 		else
 			targetIntensity = 0f;
 	}
@@ -57,6 +64,10 @@ public class Torch : MonoBehaviour
 	
 	void Start()
 	{
+		SpriteAnimator animator = GetComponent<SpriteAnimator>();
+		if ( animator == null ) 
+			return;
+		
 		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) )
 		{
 			TurnOn();
@@ -78,6 +89,9 @@ public class Torch : MonoBehaviour
 	void Update()
 	{
 		light.intensity += (targetIntensity - light.intensity) * 0.1f;
+		
+		if ( tipContainer == null )
+			return;
 		
 		if ( !turnedOn )
 		{

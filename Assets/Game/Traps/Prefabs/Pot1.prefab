@@ -26,10 +26,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400002}
-  - 114: {fileID: 11400006}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400004}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Pot1
   m_TagString: WallDestructable
@@ -153,7 +153,7 @@ MonoBehaviour:
     frameRate: 30
     customFrameSequence: 
     horizontalFlip: 0
---- !u!114 &11400004
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -161,18 +161,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da6939739da95684083773fd38a51d7a, type: 3}
+  m_Script: {fileID: 11500000, guid: b637d43d5394d4ea2ae2c422f8e1fbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   worldOwner: {fileID: 0}
@@ -185,11 +174,24 @@ MonoBehaviour:
   gravityEnabled: 1
   isLiftable: 1
   isSwitch: 0
+  dontCollideWhenImmune: 0
   gravity: {x: 0, y: 0, z: 0}
   collisionEnabled: 1
   respawns: 0
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
+  prefabExplosion: {fileID: 100002, guid: b2c77f220daf74541960f2737d5aeab4, type: 2}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

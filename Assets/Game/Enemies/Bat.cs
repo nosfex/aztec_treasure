@@ -44,8 +44,13 @@ public class Bat : Skelly
 			Player p = other.GetComponent<Player>();
 			animator.StopAnim();
 			animator.PlayAnim("Attack" + facing );
-			//cooldown = attackCooldown;
 			
+			if ( p != null && !p.isImmune )
+			{
+				p.OnHit( gameObject );
+				p.velocity += direction * speed * attackSpeedFactor * .5f;
+				velocity *= -1.2f;
+			}
 		}
 	}
 	

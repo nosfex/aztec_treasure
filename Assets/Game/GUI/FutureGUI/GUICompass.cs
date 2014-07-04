@@ -47,6 +47,8 @@ public class GUICompass : MonoBehaviour
 	{
 		bool isPlayerStanding = GameDirector.i.playerRight.velocity.magnitude < 0.01f;
 		
+		//isPlayerStanding = false;
+		
 		if ( arrowVisible )
 		{
 			if ( isPlayerStanding )
@@ -54,7 +56,7 @@ public class GUICompass : MonoBehaviour
 			else 
 				offTimer += Time.deltaTime;
 			
-			if ( offTimer > 1.0f )
+			if ( offTimer > 2.0f )
 				TurnOff ();
 		}
 		else 
@@ -64,7 +66,7 @@ public class GUICompass : MonoBehaviour
 			else
 				onTimer = 0;
 			
-			if ( onTimer > 1.0f )
+			if ( onTimer > 2.0f )
 				TurnOn ();
 		}
 			

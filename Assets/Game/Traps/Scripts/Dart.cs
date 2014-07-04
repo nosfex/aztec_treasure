@@ -38,7 +38,7 @@ public class Dart : MonoBehaviour {
 				|| other.gameObject.name.Contains("Wall") )
 			{
 				life = 0;
-				print("collided");
+//				print("collided");
 			}
 		}
 		other.SendMessage( "OnHit", gameObject, SendMessageOptions.DontRequireReceiver );

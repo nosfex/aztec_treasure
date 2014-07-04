@@ -51,10 +51,10 @@ public class BatAI : EnemyController
 //				ChangeDirectionRandom();
 //		}
 		
-		bool stuckRight = goingRight && body.CantGoRight;
-		bool stuckLeft = goingLeft && body.CantGoLeft;
-		bool stuckDown = goingDown && body.CantGoDown;
-		bool stuckUp = goingUp && body.CantGoUp;
+		bool stuckRight = goingRight && body.stuckRight;
+		bool stuckLeft = goingLeft && body.stuckLeft;
+		bool stuckDown = goingDown && body.stuckBack;
+		bool stuckUp = goingUp && body.stuckForward;
 		
 		bool stuck = stuckRight || stuckLeft || stuckUp || stuckDown;
 		

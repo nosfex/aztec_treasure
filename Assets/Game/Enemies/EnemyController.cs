@@ -88,6 +88,29 @@ public class EnemyController : MonoBehaviour
 		ChangeDirectionTowardsPlayer( 0.04f );
 	}
 	
+	public bool CheckIfPlayerInSight()
+	{
+		Vector3 myPos = transform.position;
+		Vector3 hisPos = GameDirector.i.playerRight.transform.position;
+		
+		Vector3 dir = myPos - hisPos;
+		float dist = Vector3.Distance( myPos, hisPos );
+		
+		RaycastHit[] info = Physics.RaycastAll( transform.position, dir, dist );
+		bool inSight = true;
+
+		foreach ( RaycastHit i in info )
+		{
+			if ( i.collider.gameObject.name.Contains("Tile") )
+			{
+				inSight = false;
+				break;
+			}
+		}
+		
+		return inSight;
+	}
+	
 	public void ChangeDirectionTowardsPlayer( float thresholdNear )
 	{
 		//int dir = Random.Range( 0, 4 );

@@ -19,6 +19,13 @@ Material:
           m_Texture: {fileID: 2800000, guid: e91e75ed5e4d8c440b606baab11df757, type: 3}
           m_Scale: {x: .25, y: .333333343}
           m_Offset: {x: 0, y: .666666627}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -32,7 +39,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .507352948, g: .507352948, b: .507352948, a: 1}
+        second: {r: .544117689, g: .544117689, b: .544117689, a: 1}
       data:
         first:
           name: _SpecColor

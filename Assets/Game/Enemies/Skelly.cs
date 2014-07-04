@@ -42,17 +42,6 @@ public class Skelly : BaseObject
 	
 	protected float cooldown = 0;
 	
-	float lockDown = 0;
-	float lockUp = 0;
-	float lockRight = 0;
-	float lockLeft = 0;
-	
-	public bool CantGoDown { get { return lockDown > 0; } }
-	public bool CantGoUp { get { return lockUp > 0; } }
-	public bool CantGoRight { get { return lockRight > 0; } }
-	public bool CantGoLeft { get { return lockLeft > 0; } }
-	
-	
 	float straightTimer = 0;
 	float inmuneTimer = 0;
 	
@@ -62,7 +51,7 @@ public class Skelly : BaseObject
 	
 	BaseObject liftedObject;
 	EnemyController controller;
-	Vector3 direction;
+	protected Vector3 direction;
 	
 	//bool sleeping = true;
 	float prevdx, prevdy;
@@ -121,18 +110,18 @@ public class Skelly : BaseObject
 		
 		float dx = 0, dy = 0;
 		
-		if ( !animator.isAnimPlaying("Attack") && (currentFloor != null || !gravityEnabled)  )
+		if ( !animator.isAnimPlaying("Attack") && (isGrounded || !gravityEnabled)  )
 		{
-			if ( controller.GetKey( KeyCode.LeftArrow ) && lockLeft < 0 )
+			if ( controller.GetKey( KeyCode.LeftArrow ) && !stuckLeft )
 				dx = -1;
 			
-			if ( controller.GetKey( KeyCode.RightArrow ) && lockRight < 0 )
+			if ( controller.GetKey( KeyCode.RightArrow ) && !stuckRight )
 				dx = 1;
 			
-			if ( controller.GetKey( KeyCode.UpArrow ) && lockUp < 0)
+			if ( controller.GetKey( KeyCode.UpArrow ) && !stuckForward )
 				dy = 1;
 			
-			if ( controller.GetKey( KeyCode.DownArrow ) && lockDown < 0 )
+			if ( controller.GetKey( KeyCode.DownArrow ) && !stuckBack )
 				dy = -1;
 		}
 		
@@ -305,11 +294,12 @@ public class Skelly : BaseObject
 		{
 			if ( liftedObject == null ) // Trata de levantar un objeto...
 			{
-				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
-				{
-					LiftObject();
-				}
-				else if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
+//				if ( liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable && liftSensor.sensedObject.isGrounded )
+//				{
+//					LiftObject();
+//				}
+//				else 
+				if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
 				{
 					Attack();
 				}
@@ -318,17 +308,12 @@ public class Skelly : BaseObject
 			{
 				ThrowObject();
 			}
-			
 		}
 		
 		// DEATH BY FALL
 		if ( transform.position.y < worldOwner.deathYLimit.position.y )
 			Die ();
-		
-		lockLeft--;
-		lockRight--;
-		lockDown--;
-		lockUp--;
+
 	}
 	
 	virtual protected void Die()
@@ -368,6 +353,7 @@ public class Skelly : BaseObject
 	
 				if ( p != null && !p.isImmune )
 				{
+					//print ("skelly ataca algo");
 					p.OnHit( gameObject );
 					p.velocity += direction * speed * attackSpeedFactor * .5f;
 					//p.gravity.y = -0.03f;
@@ -405,7 +391,7 @@ public class Skelly : BaseObject
 		{
 			if ( other.tag == "Wall" )
 			{
-				print ("bounce wall");
+				//print ("bounce wall");
 				state = State.WALKING;
 
 				velocity *= -.5f;
