@@ -23,22 +23,27 @@ public class TextPopup : MonoBehaviour
 	void Start() 
 	{
 
-		iTween.ScaleFrom ( gameObject, iTween.Hash ( "scale", Vector3.one * 0.001f, "time", 0.2f, "easetype", iTween.EaseType.easeOutBack ) );
+		iTween.ScaleFrom ( gameObject, iTween.Hash ( "scale", Vector3.one * 0.001f, "time", 0.3f, "easetype", iTween.EaseType.easeOutBack ) );
 	}
-	
+	float timer = 0;
 	// Update is called once per frame
 	void Update () 
 	{
-		transform.position += Vector3.up * 0.01f;
-		alpha -= 0.02f;
+		transform.position += Vector3.up * 0.002f;
+		transform.rotation = Quaternion.LookRotation( transform.position - Camera.main.transform.position );
+		
+		timer += Time.deltaTime;
+		if ( timer > 1.0f )
+			alpha -= 0.02f;
 		
 		alpha = Mathf.Clamp01 ( alpha );
 		
+		text.color = new Color( text.color.r, text.color.g, text.color.b, alpha );
+		shadow.color = new Color( shadow.color.r, shadow.color.g, shadow.color.b, alpha );
+		
 		if ( alpha == 0 )
 			Destroy ( gameObject );
-		
-		text.color = new Color( text.color.r, text.color.g, text.color.b, alpha );
-		
+
 		shadow.text = text.text;
 		
 		

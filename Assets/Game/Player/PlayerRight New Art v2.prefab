@@ -551,7 +551,7 @@ Camera:
     m_Bits: 4294966015
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
-  m_HDR: 0
+  m_HDR: 1
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -709,7 +709,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .280000001, y: .300000012, z: .49000001}
+  m_Size: {x: .5, y: .300000012, z: .49000001}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500004
 BoxCollider:

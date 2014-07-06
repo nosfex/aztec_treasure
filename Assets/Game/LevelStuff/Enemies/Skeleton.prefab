@@ -16,7 +16,7 @@ GameObject:
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: WallDestructable
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.680705786, y: 10.1293688, z: -2.05955219}
+  m_LocalPosition: {x: 23.5993462, y: 0, z: 1.41470242}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -332,8 +332,9 @@ MonoBehaviour:
   maxHearts: 1
   speed: .0160000008
   attackJumpHeight: -.0250000004
-  attackSpeedFactor: 6
+  attackSpeedFactor: 8
   attackCooldown: 1.5
+  playerKnockbackHitFactor: .5
   stateValue: 0
 --- !u!114 &11400002
 MonoBehaviour:

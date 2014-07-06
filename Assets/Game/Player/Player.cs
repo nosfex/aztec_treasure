@@ -44,6 +44,8 @@ public class Player : BaseObject
 		}
 			
 	}
+	[HideInInspector] public bool hasLamp = false;
+	[HideInInspector] public bool hasGhostSword = false;
 	
 	SpriteAnimator animator;
 	
@@ -147,7 +149,7 @@ public class Player : BaseObject
 		if ( worldOwner == null )
 			Destroy ( transform.parent.gameObject );
 		
-		if ( darknessMechanic )
+		//if ( darknessMechanic )
 			InvokeRepeating( "TestDarkness", 0, 0.3f );
 	}
 	
@@ -195,7 +197,7 @@ public class Player : BaseObject
 		{
 			//GetComponentInChildren<Light>().enabled = torchOn;
 
-			if ( animator.isAnimPlaying("Attack") )//|| !torchOn )
+			if ( animator.isAnimPlaying("Attack") || !darknessMechanic )//|| !torchOn )
 			{
 				lampLightNoFlip.gameObject.SetActive( false );
 				lampLightFlip.gameObject.SetActive( false );
@@ -253,8 +255,15 @@ public class Player : BaseObject
 	
 	void UpdateDarknessMechanic()
 	{
+		if ( torchLight && !darknessMechanic )
+		{
+			torchLight.enabled = false;			
+		}
+		
 		if ( torchLight && darknessMechanic )
 		{
+			torchLight.enabled = true;
+			
 			if ( inDarkness )
 				torchOn = true;
 
@@ -423,6 +432,8 @@ public class Player : BaseObject
 	
 	virtual protected void Update () 
 	{
+		velocity = Vector3.Normalize( velocity ) * Mathf.Clamp ( velocity.magnitude, 0, speed * 2 );
+		
 		if ( deathAwaits )
 		{
 			hearts = GameDirector.i.maxHearts;
@@ -812,6 +823,9 @@ public class Player : BaseObject
 
 	void TestDarkness()
 	{
+		if ( !darknessMechanic )
+			return;
+		
 		float minLightDistance = 9999999f;
 		Torch nearestLight = null;
 		

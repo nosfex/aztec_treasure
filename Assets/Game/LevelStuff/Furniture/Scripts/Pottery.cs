@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Pottery : BaseObject 
 {
+	public float graceTime = 1.0f;
 	public GameObject prefabExplosion;
 	
 	// Use this for initialization
@@ -10,7 +11,12 @@ public class Pottery : BaseObject
 	{
 		base.Start ();
 	}
-
+	
+	override protected void LateUpdate()
+	{
+		base.LateUpdate ();
+		graceTime -= Time.deltaTime;
+	}
 		
 	void Die()
 	{
@@ -25,11 +31,25 @@ public class Pottery : BaseObject
 		Destroy( gameObject );
 	}
 	
+	override protected void TestFloor( Collider other )
+	{
+		if ( graceTime > 0 )
+			return;
+		Die ();		
+	}
+	
 	override protected void TestWalls( Collider other )
 	{
+		if ( graceTime > 0 )
+			return;
 		Player p = other.GetComponent<Player>();
 		
 		if ( p != null )
+			return;
+
+		Skelly s = other.GetComponent<Skelly>();
+
+		if ( s != null )
 			return;
 
 		other.SendMessage("OnHit", gameObject, SendMessageOptions.DontRequireReceiver );

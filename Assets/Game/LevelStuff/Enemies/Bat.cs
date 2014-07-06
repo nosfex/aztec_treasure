@@ -92,12 +92,12 @@ public class Bat : Skelly
 			animator.StopAnim();
 			animator.PlayAnim("Attack" + facing );
 			
-			if ( p != null && !p.isImmune )
-			{
-				p.OnHit( gameObject );
-				p.velocity += direction * speed * attackSpeedFactor * .5f;
-				velocity *= -1.2f;
-			}
+//			if ( p != null && !p.isImmune )
+//			{
+//				p.OnHit( gameObject );
+//				p.velocity += direction * speed * attackSpeedFactor * .5f;
+//				velocity *= -1.2f;
+//			}
 		}
 	}
 	

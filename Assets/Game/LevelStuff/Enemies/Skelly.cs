@@ -95,9 +95,11 @@ public class Skelly : BaseObject
 	
 	virtual protected void UpdateAttacking()
 	{
-		if ( stateTimer > 0.33f )
-		{
+		if ( animator.isPlaying )
 			animator.StopAnim();
+
+		if ( stateTimer > 0.5f )
+		{
 			animator.PlayAnim("Attack" + facing );
 			velocity = direction * speed * attackSpeedFactor;
 			cooldown = attackCooldown;

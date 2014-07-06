@@ -53,6 +53,7 @@ public class GameDirector : MonoBehaviour {
 	{
 		GameObject prefab = (GameObject)(GameObject.Instantiate ( textPopupPrefab, source.transform.position + (Vector3.up * yOffset), Quaternion.identity ));
 		TextPopup popup = prefab.GetComponentInChildren<TextPopup>();
+		popup.transform.parent = source.transform;
 		popup.caption = text;
 	}
 	
