@@ -13,9 +13,10 @@ public class SnapAssistant : MonoBehaviour
 	{
 		instance = this;
 	}
-	
+	public Vector3 snapOffset;
 	public float snapSize = 0.2f;
 	public bool snapEnabled = true;
+	public bool useOffset = false;
 	
 	void Start() 
 	{

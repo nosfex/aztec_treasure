@@ -63,7 +63,7 @@ public class Player : BaseObject
 	public bool canUsePotion = false;
 	public bool canJump = true;
 	
-	public float attackCooldown = 0.3f;
+	public float attackCooldown = 0.6f;
 	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
@@ -438,9 +438,9 @@ public class Player : BaseObject
 			
 			GameDirector.i.worldRight.camera.earthquakeEnabled = false;
 			
-			if ( lives == -1 )
-				GameDirector.i.OnLeftWins();
-			else 
+//			if ( lives == -1 )
+//				GameDirector.i.OnLeftWins();
+//			else 
 				GUIScreenFeedback.i.ShowTriesLeft( lives );
 		}
 		
@@ -726,8 +726,8 @@ public class Player : BaseObject
 		
 		deathAwaits = true;
 		
-		((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 500;
-		GameDirector.i.ShowTextPopup( GameDirector.i.playerLeft.gameObject, 0.8f, "+" + 500 );
+//		((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 500;
+//		GameDirector.i.ShowTextPopup( GameDirector.i.playerLeft.gameObject, 0.8f, "+" + 500 );
 		
 	}
 	
@@ -743,6 +743,7 @@ public class Player : BaseObject
 			print("death awaits");
 			return;
 		}	
+		
 
 		print("getting killed");
 		hearts--;
@@ -758,8 +759,8 @@ public class Player : BaseObject
 		}
 		else 
 		{
-			((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 200;
-			GameDirector.i.ShowTextPopup( ((AztecPlayer)GameDirector.i.playerLeft).gameObject, 0.8f, "+" + 200 );
+//			((AztecPlayer)GameDirector.i.playerLeft).trapCurrency += 200;
+//			GameDirector.i.ShowTextPopup( ((AztecPlayer)GameDirector.i.playerLeft).gameObject, 0.8f, "+" + 200 );
 		}
 	}
 	

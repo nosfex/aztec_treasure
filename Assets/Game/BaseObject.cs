@@ -31,7 +31,7 @@ public class BaseObject : MonoBehaviour
 	
 	public GameObject prefabShadow;
 	
-	const float STAIR_HEIGHT = 0.25f;
+	protected float minStairClimb = 0.23f;
 	
 	EnemySpawner respawner;
 	
@@ -146,7 +146,7 @@ public class BaseObject : MonoBehaviour
 				// Si el nuevo esta mas abajo o igual, lo asigna.
 				float TECHODELPISO = currentFloor.transform.position.y + currentFloor.bounds.extents.y;
 				
-				if ( TECHODELPISO < floorY + STAIR_HEIGHT || floorY == -100f )
+				if ( TECHODELPISO < floorY + minStairClimb || floorY == -100f )
 					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + collider.bounds.extents.y;
 				else 
 					print("wtf");
@@ -186,7 +186,7 @@ public class BaseObject : MonoBehaviour
 			{
 				
 				//if ( transform.position.y < floorY && (transform.position.y + STAIR_HEIGHT) > floorY )
-				if ( isGrounded && (transform.position.y + STAIR_HEIGHT) > floorY )
+				if ( isGrounded && (transform.position.y + minStairClimb) > floorY )
 				{
 					float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
 					transform.position += Vector3.up * Mathf.Min( 0.05f, dif );
@@ -239,7 +239,7 @@ public class BaseObject : MonoBehaviour
 		float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
 		float yDif = TECHODELPISO - MISPIES;
 		
-		if ( yDif >= STAIR_HEIGHT ) // Enough to climb
+		if ( yDif >= minStairClimb ) // Enough to climb
 			return;
 
 		currentFloor = (BoxCollider)other;
@@ -284,23 +284,23 @@ public class BaseObject : MonoBehaviour
 		{
 		case 0:
 			adjustX = true;
-			stuckRightTimer = 3;
+			stuckRightTimer = 5;
 			break;
 		case 1:
 			adjustX = true;
-			stuckLeftTimer = 3;
+			stuckLeftTimer = 5;
 			break;
 		case 2:
 			adjustZ = true;
-			stuckDownTimer = 3;
+			stuckDownTimer = 5;
 			break;
 		case 3:
 			adjustZ = true;
-			stuckUpTimer = 3;
+			stuckUpTimer = 5;
 			break;
 		}
 		
-		velocity *= -bouncyness;
+		//velocity *= -bouncyness;
 
 		transform.position = new Vector3( adjustX ? closestBoundExit.x : transform.position.x, 
 										  transform.position.y, 
@@ -331,7 +331,7 @@ public class BaseObject : MonoBehaviour
 			float MISPIES = transform.position.y - collider.bounds.extents.y;
 			float yDif = TECHODELPISO - MISPIES;
 			
-			if ( yDif >= STAIR_HEIGHT ) // Enough to climb
+			if ( yDif >= minStairClimb ) // Enough to climb
 			{
 				TestWalls( other ); // Treat as wall!
 			}

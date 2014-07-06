@@ -22,9 +22,12 @@ public class SnapToGrid : MonoBehaviour
 		
 		if ( SnapAssistant.i && SnapAssistant.i.snapEnabled )
 		{
-			Vector3 caca = transform.position / SnapAssistant.i.snapSize;
+			Vector3 caca = (transform.position) / SnapAssistant.i.snapSize;
 			caca = new Vector3( Mathf.RoundToInt( caca.x ), Mathf.RoundToInt( caca.y ), Mathf.RoundToInt( caca.z ) );
 			transform.position = caca * SnapAssistant.i.snapSize;
+			
+			if ( SnapAssistant.i.useOffset )
+				transform.position += SnapAssistant.i.snapOffset;
 			
 			caca = transform.localScale / SnapAssistant.i.snapSize;
 			caca = new Vector3( Mathf.RoundToInt( caca.x ) , Mathf.RoundToInt( caca.y ), Mathf.RoundToInt( caca.z ) );
