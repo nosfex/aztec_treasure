@@ -102,14 +102,26 @@ public class EnemyController : MonoBehaviour
 
 		foreach ( RaycastHit i in info )
 		{
-			if (  i.collider.gameObject.name.Contains("Tile") || i.collider.gameObject.tag.Contains("Wall") )
+			if ( i.collider.gameObject.name.Contains("Tile") )
+			{
+				inSight = false;
+				break;
+			}
+			
+			BaseObject b = i.collider.gameObject.GetComponent<BaseObject>();
+		
+			if (   b != null 
+				&& b != this 
+				&& b != GameDirector.i.playerRight 
+				&& !b.isLiftable 
+				&& b.collisionEnabled )
 			{
 				inSight = false;
 				break;
 			}
 		}
 
-		Debug.DrawRay( transform.position, dir, inSight ? Color.white : Color.red );
+		//Debug.DrawRay( transform.position, dir, inSight ? Color.white : Color.red );
 		
 		return inSight;
 	}

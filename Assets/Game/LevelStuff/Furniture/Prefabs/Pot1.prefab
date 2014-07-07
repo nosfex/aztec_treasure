@@ -44,7 +44,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .0791975856, z: .15204072}
+  m_LocalPosition: {x: 0, y: .0791978836, z: -.193109512}
   m_LocalScale: {x: 1.60000002, y: 1.60000002, z: 1.60000002}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.26739502, y: 2.7671876, z: 3.81225777}
+  m_LocalPosition: {x: -2.8673954, y: 2.7671876, z: -4.98774242}
   m_LocalScale: {x: .400000006, y: .400000006, z: .400000006}
   m_Children:
   - {fileID: 400000}
@@ -180,6 +180,7 @@ MonoBehaviour:
   respawns: 0
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 100002, guid: 857eddc9a5f50b846bc63b2e1a085e1b, type: 2}
+  graceTime: 1
   prefabExplosion: {fileID: 100002, guid: b2c77f220daf74541960f2737d5aeab4, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:

@@ -6,6 +6,8 @@ public class BaseObjectSensor : MonoBehaviour
 	public BaseObject sensedObject;
 	public System.Type typeFilter;
 	
+	public bool detectOnlyLiftable = false;
+	
 	void OnTriggerEnter( Collider other )
 	{
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
@@ -18,7 +20,15 @@ public class BaseObjectSensor : MonoBehaviour
 			
 		if ( bo )
 		{
-			sensedObject = bo;
+			if ( detectOnlyLiftable && bo.isLiftable )
+			{
+				sensedObject = bo;	
+			}
+			else if ( !detectOnlyLiftable )
+			{
+				sensedObject = bo;
+			}
+			
 		}
 	}
 	

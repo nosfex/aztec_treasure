@@ -44,7 +44,7 @@ public class Player : BaseObject
 		}
 			
 	}
-	[HideInInspector] public bool hasLamp = false;
+	 public bool hasLamp = true;
 	[HideInInspector] public bool hasGhostSword = false;
 	
 	SpriteAnimator animator;
@@ -105,7 +105,7 @@ public class Player : BaseObject
 	bool isSkidding = false;
 	float isFlipping = 0;
 	
-	protected BaseObject liftedObject;
+	[HideInInspector] public BaseObject liftedObject;
 	public Vector3 direction;
 	public float speed = 0.5f;
 	
@@ -286,6 +286,12 @@ public class Player : BaseObject
 		}		
 	}
 	
+	public void ResetLiftSensor()
+	{
+		liftedObject = null;
+		liftSensor.sensedObject = null;
+		liftSensor.gameObject.SetActive( true );		
+	}
 	// 
  	// Returns true if any object was lifted or thrown. Return false otherwise. 
 	//
@@ -326,9 +332,7 @@ public class Player : BaseObject
 			liftedObject.gravityEnabled = true;
 			liftedObject.collisionEnabled = true;
 			
-			liftedObject = null;
-			liftSensor.sensedObject = null;
-			liftSensor.gameObject.SetActive( true );
+			ResetLiftSensor();
 			
 			return true;
 		}
@@ -730,9 +734,7 @@ public class Player : BaseObject
 			liftedObject.gravityEnabled = true;
 			liftedObject.collisionEnabled = true;
 			
-			liftedObject = null;
-			liftSensor.sensedObject = null;
-			liftSensor.gameObject.SetActive( true );
+			ResetLiftSensor();
 		}
 		
 		deathAwaits = true;
@@ -754,7 +756,8 @@ public class Player : BaseObject
 			print("death awaits");
 			return;
 		}	
-		
+		//if ( state == State.ATTACKING )
+		//	return;
 
 		print("getting killed");
 		hearts--;

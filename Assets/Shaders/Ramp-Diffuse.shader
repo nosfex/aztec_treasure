@@ -11,7 +11,7 @@ Shader "Custom/Ramp-Diffuse" {
 		LOD 200
 
 		CGPROGRAM
-		#pragma surface surf Ramp
+		#pragma surface surf Ramp fullforwardshadows
 	//	#pragma exclude_renderers flash
 
 		sampler2D _MainTex;//, _BumpMap, _Thickness;

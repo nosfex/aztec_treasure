@@ -33,27 +33,38 @@ public class Pottery : BaseObject
 	
 	override protected void TestFloor( Collider other )
 	{
-		if ( graceTime > 0 )
-			return;
-		Die ();		
+		base.TestFloor( other );
+		//if ( graceTime > 0 )
+		//	return;
+		
+//		if ( gravity.y > 0 )
+//		{
+//			Die ();
+//		}
 	}
 	
 	override protected void TestWalls( Collider other )
 	{
+		//base.TestWalls( other );
+		
 		if ( graceTime > 0 )
 			return;
+		
 		Player p = other.GetComponent<Player>();
 		
 		if ( p != null )
 			return;
 
-		Skelly s = other.GetComponent<Skelly>();
-
-		if ( s != null )
-			return;
-
-		other.SendMessage("OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
-		Die ();		
+//		Skelly s = other.GetComponent<Skelly>();
+//
+//		if ( s != null )
+//			return;
+		
+		if ( velocity.magnitude > 0.01f )
+		{
+			other.SendMessage("OnHit", gameObject, SendMessageOptions.DontRequireReceiver );
+			Die ();
+		}
 	}
 
 }

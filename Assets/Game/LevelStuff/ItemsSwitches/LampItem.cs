@@ -22,6 +22,7 @@ public class LampItem : BaseObject
 	{
 		GameDirector.i.playerRight.hasLamp = true;
 		Destroy( gameObject );
+		GameDirector.i.playerRight.ResetLiftSensor();
 	}
 		
 //	void Die()
