@@ -148,8 +148,8 @@ public class BaseObject : MonoBehaviour
 				
 				if ( TECHODELPISO < floorY + minStairClimb || floorY == -100f )
 					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + collider.bounds.extents.y;
-				else 
-					print("wtf");
+			//	else 
+			//		print("wtf");
 			}
 			else
 			{

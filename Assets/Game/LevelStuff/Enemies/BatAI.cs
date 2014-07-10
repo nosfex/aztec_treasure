@@ -101,9 +101,12 @@ public class BatAI : EnemyController
 					offset = new Vector3( Random.insideUnitCircle.x * 2, 0, Random.insideUnitCircle.y * 2 );
 					state = 2;
 				}
-
-				goingRight = goingLeft = goingUp = goingDown = attacking = false;
-				ChangeDirectionTowardsPlayerNoXYLock( 0.1f );
+				
+				if ( Time.frameCount % 10 == 0 )
+				{
+					goingRight = goingLeft = goingUp = goingDown = attacking = false;
+					ChangeDirectionTowardsPlayerNoXYLock( 0.1f );
+				}
 			}
 			else if ( state == 2 )
 			{

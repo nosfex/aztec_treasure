@@ -19,16 +19,38 @@ Material:
           m_Texture: {fileID: 2800000, guid: 558da1f323897eb40b43b0a23abc5032, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 8ae3c77a317ec4f0984b6bea635285fc, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ParallaxMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
       data:
         first:
           name: _Shininess
         second: .100000016
+      data:
+        first:
+          name: _Parallax
+        second: .00499999989
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .463235319, g: .463235319, b: .463235319, a: 1}
+        second: {r: .529411793, g: .529411793, b: .529411793, a: 1}
       data:
         first:
           name: _SpecColor
@@ -37,3 +59,7 @@ Material:
         first:
           name: _Emission
         second: {r: .257352948, g: .257352948, b: .257352948, a: 0}
+      data:
+        first:
+          name: _AddColor
+        second: {r: 0, g: 0, b: 0, a: 0}

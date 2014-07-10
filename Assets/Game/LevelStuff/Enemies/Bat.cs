@@ -111,7 +111,33 @@ public class Bat : Skelly
 		animator.transform.position -= Vector3.up * 0.4f;
 		transform.position += Vector3.up * 0.4f;
 		gravity.y = -0.05f;
-		velocity *= -1.2f;
+		
+		Player p = other.GetComponent<Player>();
+		
+		if ( p != null )
+		{
+			velocity = p.direction * 0.02f;
+		}
+		
+//		float zdist = Mathf.Abs( other.transform.position.z - transform.position.z );
+//		float xdist = Mathf.Abs( other.transform.position.x - transform.position.x );
+//		
+//		if ( zdist < 0.1f )
+//		{
+//			if ( other.transform.position.x > transform.position.x )
+//				velocity.x = -0.02f;
+//			else
+//				velocity.x = 0.02f;
+//		}
+//		else 
+//		if ( xdist < 0.1f )
+//		{
+//			if ( other.transform.position.z > transform.position.z )
+//				velocity.z = -0.02f;
+//			else
+//				velocity.z = 0.02f;
+//		}
+		
 		gravityEnabled = true;
 		collisionEnabled = false;
 

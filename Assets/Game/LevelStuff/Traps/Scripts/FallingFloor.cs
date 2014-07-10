@@ -117,6 +117,7 @@ public class FallingFloor : MonoBehaviour
 	
 	public void OnPlayerDead()
 	{
-		ResetState ();
+		if ( state != FallingFloor.State.IDLE )
+			ResetState ();
 	}
 }
