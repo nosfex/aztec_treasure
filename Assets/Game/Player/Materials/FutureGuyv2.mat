@@ -26,6 +26,13 @@ Material:
           m_Texture: {fileID: 2800000, guid: 914c8c0cb8e81084aaf22912a05b2f35, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ParallaxMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 8ae3c77a317ec4f0984b6bea635285fc, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -51,6 +58,10 @@ Material:
         first:
           name: _InvFade
         second: 1
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
     m_Colors:
       data:
         first:

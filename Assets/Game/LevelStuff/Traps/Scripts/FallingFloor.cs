@@ -11,7 +11,7 @@ public class FallingFloor : MonoBehaviour
 		FALLING
 	};
 	
-	State state;
+	State state = State.IDLE;
 	
 	const float TIME_TO_CRUMB = 0.25f;
 	const float TIME_TO_FALL = 0.5f;

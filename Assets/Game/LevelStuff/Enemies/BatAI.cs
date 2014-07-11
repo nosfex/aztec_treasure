@@ -59,7 +59,7 @@ public class BatAI : EnemyController
 			state = 3;
 		}
 		
-		if ( walkTimer > 3.0f )
+		if ( walkTimer > 1.0f )
 		{
 			if ( CheckIfPlayerInSight() && !playerTarget.isImmune )
 			{

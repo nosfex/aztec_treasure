@@ -22,6 +22,7 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
         _BumpMap ("Bumpmap", 2D) = "bump" {}
 		_AddColor ("Add Color", Color) = (0,0,0,0)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
+		//_Ramp ("Shading Ramp (RGB)", 2D) = "white" {}
 	}
 	SubShader {
 		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
@@ -34,6 +35,8 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
 
 		sampler2D _MainTex;
         sampler2D _BumpMap;
+		//sampler2D _Ramp;
+        
 		fixed4 _Color;
 		fixed4 _AddColor;
 		//half _Shininess;
@@ -57,6 +60,7 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
 			lightDir.y += 1.0;
 			half NdotL = dot (s.Normal, lightDir);
         	half diff = NdotL;// * 0.5 + 0.5;//max (0, length(viewDir - lightDir));
+        	//half3 ramp = tex2D (_Ramp, float2(diff)).rgb;
         	//half4 c;
         //c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten * 2);
 		
