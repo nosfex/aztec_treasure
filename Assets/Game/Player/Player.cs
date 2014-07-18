@@ -637,7 +637,7 @@ public class Player : BaseObject
 				{
 					foreach( FallingFloor floor in worldOwner.GetComponentsInChildren<FallingFloor>() )
 					{
-						floor.ResetState();
+						floor.OnPlayerDead();
 					}
 				}
 			}

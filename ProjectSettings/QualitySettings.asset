@@ -4,11 +4,11 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 1
+  m_CurrentQuality: 0
   m_QualitySettings:
   - serializedVersion: 2
     name: Low Quality
-    pixelLightCount: 4
+    pixelLightCount: 8
     shadows: 0
     shadowResolution: 2
     shadowProjection: 1

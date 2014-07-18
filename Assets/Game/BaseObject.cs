@@ -322,8 +322,8 @@ public class BaseObject : MonoBehaviour
 		if ( bo != null && !bo.collisionEnabled )
 			return;
 		
-		if ( !collisionEnabled )
-			return;
+		//if ( !collisionEnabled )
+		//	return;
 		
 		if ( other.tag.Contains("Floor") )
 		{
