@@ -19,6 +19,20 @@ Material:
           m_Texture: {fileID: 2800000, guid: 8b6703c3bf6c94b1aab6bf33893d1a47, type: 3}
           m_Scale: {x: .333333343, y: .5}
           m_Offset: {x: 0, y: .5}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: a1a47699c60f9470d94f17773caebdad, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -53,6 +67,10 @@ Material:
         first:
           name: _Emission
         second: {r: .301470578, g: .301470578, b: .301470578, a: 0}
+      data:
+        first:
+          name: _AddColor
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _SubColor

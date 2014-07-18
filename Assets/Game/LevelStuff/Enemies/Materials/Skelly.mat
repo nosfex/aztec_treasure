@@ -19,6 +19,20 @@ Material:
           m_Texture: {fileID: 2800000, guid: 9e79cd92553bb3746904a202bbcaaa7a, type: 3}
           m_Scale: {x: .333333343, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 914c8c0cb8e81084aaf22912a05b2f35, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
