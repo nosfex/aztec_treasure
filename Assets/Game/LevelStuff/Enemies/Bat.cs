@@ -34,28 +34,29 @@ public class Bat : Skelly
 		{
 			if ( !floorBelow || isGrounded )
 				gravityEnabled = false;
+
+			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.4f) - transform.position.y) * 0.5f, 0 );
 		}
-		
+
+
 		base.Update();
 	}
 	
 	override protected void UpdateDying()
 	{
-		
-		
 		if ( hearts > 0 )
 		{
-			Vector3 animOrigY = new Vector3( animator.transform.position.x, GameDirector.i.playerRight.transform.position.y+ 0.4f, animator.transform.position.z );
+			//Vector3 animOrigY = new Vector3( animator.transform.position.x, GameDirector.i.playerRight.transform.position.y+ 0.4f, animator.transform.position.z );
 			
 			if ( stateTimer > .25f )
 			{
-				animator.transform.position += (animOrigY - animator.transform.position) * 0.2f;
+				//animator.transform.position += (animOrigY - animator.transform.position) * 0.2f;
 			}
 			
 			if ( stateTimer > .75f )
 			{
-				transform.position = animOrigY + (Vector3.down * 0.4f);
-				animator.transform.position = animOrigY;
+				//transform.position = animOrigY + (Vector3.down * 0.4f);
+				//animator.transform.position = animOrigY;
 				gravityEnabled = true;
 				collisionEnabled = true;	
 				
@@ -105,11 +106,14 @@ public class Bat : Skelly
 	
 	public override void OnHit( GameObject other )
 	{
+		if ( inmuneTimer > 0 )
+			return;
+
 		base.OnHit ( other );
-		
-		animatorOriginalY = animator.transform.position.y;
-		animator.transform.position -= Vector3.up * 0.4f;
-		transform.position += Vector3.up * 0.4f;
+
+		//animatorOriginalY = animator.transform.position.y;
+		//animator.transform.position -= Vector3.up * 0.4f;
+		//transform.position += Vector3.up * 0.4f;
 		gravity.y = -0.05f;
 		
 		Player p = other.GetComponent<Player>();

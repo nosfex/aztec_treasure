@@ -88,7 +88,15 @@ public class Torch : MonoBehaviour
 	
 	void Update()
 	{
-		light.intensity += (targetIntensity - light.intensity) * 0.1f;
+		light.intensity += (targetIntensity - light.intensity) * 0.5f;
+
+		if ( turnedOn )
+		{
+			if ( Time.frameCount % 16 < 8 )
+				targetIntensity = 0.68f;
+			else 
+				targetIntensity = 0.7f;
+		}
 		
 		if ( tipContainer == null )
 			return;

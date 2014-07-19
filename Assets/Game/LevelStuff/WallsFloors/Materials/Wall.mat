@@ -7,8 +7,9 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Wall
-  m_Shader: {fileID: 4, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 9b79812d5dae2c14bb2396ea5ff8db23, type: 3}
   m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -42,10 +43,24 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _PaletteTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 721e2a6f3f4c84feab04547db02dfd6e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
-          m_Texture: {fileID: 2800000, guid: 7d3b76edc2aaf44e8af7a1e47fbc2faf, type: 3}
-          m_Scale: {x: .5, y: 1}
+          m_Texture: {fileID: 2800000, guid: 0dcd5052ed8fc4696aef0fefadd7ab6d, type: 3}
+          m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -61,8 +76,20 @@ Material:
         second: .355296671
       data:
         first:
+          name: _PaletteHeight
+        second: 128
+      data:
+        first:
+          name: _DitherSize
+        second: 4
+      data:
+        first:
+          name: _EffectAmount
+        second: 1
+      data:
+        first:
           name: _Parallax
-        second: .0199999996
+        second: .0136538455
     m_Colors:
       data:
         first:
@@ -70,12 +97,16 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
+          name: _Emission
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
           name: _SpecColor
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _Emission
-        second: {r: 0, g: 0, b: 0, a: 0}
+          name: _AddColor
+        second: {r: .0955882072, g: .0955882072, b: .0955882072, a: 0}
       data:
         first:
           name: _ReflectColor

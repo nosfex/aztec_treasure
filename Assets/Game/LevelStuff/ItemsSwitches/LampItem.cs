@@ -3,25 +3,14 @@ using System.Collections;
 
 public class LampItem : BaseObject 
 {
-	//public float graceTime = 1.0f;
-	//public GameObject prefabExplosion;
-	
-	// Use this for initialization
-	override protected void Start () 
-	{
-		base.Start ();
-	}
-	
-	override protected void LateUpdate()
-	{
-		base.LateUpdate ();
-		//graceTime -= Time.deltaTime;
-	}
-	
 	void OnLifted( GameObject src )
 	{
 		GameDirector.i.playerRight.hasLamp = true;
 		Destroy( gameObject );
+	}
+	
+	void OnDestroy()
+	{
 		GameDirector.i.playerRight.ResetLiftSensor();
 	}
 		

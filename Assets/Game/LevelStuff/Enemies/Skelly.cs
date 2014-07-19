@@ -41,18 +41,18 @@ public class Skelly : BaseObject
 	}	
 
 	protected string facing = "Right";
-	
+
 	protected float cooldown = 0;
 	
 	float straightTimer = 0;
-	float inmuneTimer = 0;
+	protected float inmuneTimer = 0;
 	
 	bool skidEnabled = false;
 	bool isSkidding = false;
 	float isFlipping = 0;
 	
 	BaseObject liftedObject;
-	EnemyController controller;
+	protected EnemyController controller;
 	protected Vector3 direction;
 	
 	//bool sleeping = true;
@@ -260,7 +260,6 @@ public class Skelly : BaseObject
 	
 	void Attack()
 	{
-		
 		state = State.ATTACKING;
 	}
 	

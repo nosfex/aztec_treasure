@@ -7,8 +7,9 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Vines
-  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2ea2d2a04fc5a46ebbed8cdbe521d142, type: 3}
   m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -19,24 +20,68 @@ Material:
           m_Texture: {fileID: 2800000, guid: 084ecf648c883eb4391f96e1fb25942a, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 9fc77f45ec1f84ba08e7072a12428279, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: 2160f9439eaba432cb2d25603dd92bf6, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _PaletteTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 721e2a6f3f4c84feab04547db02dfd6e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: .5, y: .5}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
       data:
         first:
           name: _Shininess
         second: .699999988
+      data:
+        first:
+          name: _PaletteHeight
+        second: 128
+      data:
+        first:
+          name: _DitherSize
+        second: 4
+      data:
+        first:
+          name: _ColorCount
+        second: 3
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .522058845, g: .522058845, b: .522058845, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: 1, g: 1, b: 1, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _Emission
         second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 1, g: 1, b: 1, a: 0}
       data:
         first:
           name: _AddColor
