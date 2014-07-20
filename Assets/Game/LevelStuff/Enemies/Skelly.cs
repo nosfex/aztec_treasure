@@ -401,7 +401,8 @@ public class Skelly : BaseObject
 			if ( other.tag == "Wall" )
 			{
 				//print ("bounce wall");
-				state = State.WALKING;
+				if ( state != State.DYING )
+					state = State.WALKING;
 
 				velocity *= -.5f;
 				frictionCoef = 0.99f;

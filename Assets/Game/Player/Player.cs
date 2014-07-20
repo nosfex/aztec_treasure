@@ -92,7 +92,8 @@ public class Player : BaseObject
 	
 	public AudioSource sfxAttack1;
 	public AudioSource sfxAttack2;
-	
+	public AudioSource sfxAttackEnemy;
+	public AudioSource sfxAttackWall;
 	string facing = "Right";
 	
 	float cooldown = 0;
@@ -579,7 +580,12 @@ public class Player : BaseObject
 					BaseObject attackedObject = attackSensor.CheckSensorOnce();
 		
 					if ( attackedObject )
+					{
+						if ( attackedObject.collisionEnabled )
+							sfxAttackEnemy.Play();
+						
 						attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+					}
 				}
 			
 				break;

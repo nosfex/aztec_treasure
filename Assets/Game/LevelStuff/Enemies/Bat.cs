@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Bat : Skelly 
 {
+	public AudioSource[] SFXDeath;
+
 	override protected void Start()
 	{
 		base.Start ();
@@ -30,13 +32,15 @@ public class Bat : Skelly
 		
 		gravityEnabled = true;
 		
-		if ( state != Skelly.State.DYING )
+		if ( state != State.DYING )
 		{
 			if ( !floorBelow || isGrounded )
 				gravityEnabled = false;
 
-			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.4f) - transform.position.y) * 0.5f, 0 );
+			animator.renderer.enabled = true;
+			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.2f) - transform.position.y) * 0.5f, 0 );
 		}
+
 
 
 		base.Update();
@@ -87,19 +91,19 @@ public class Bat : Skelly
 	{
 		base.OnTriggerEnter( other );
 		
-		if ( other.GetComponent<Player>() != null && state != Skelly.State.DYING )
-		{
-			Player p = other.GetComponent<Player>();
-			animator.StopAnim();
-			animator.PlayAnim("Attack" + facing );
-			
-//			if ( p != null && !p.isImmune )
-//			{
-//				p.OnHit( gameObject );
-//				p.velocity += direction * speed * attackSpeedFactor * .5f;
-//				velocity *= -1.2f;
-//			}
-		}
+//		if ( other.GetComponent<Player>() != null && state != State.DYING )
+//		{
+//			Player p = other.GetComponent<Player>();
+//			animator.StopAnim();
+//			animator.PlayAnim("Attack" + facing );
+//			
+////			if ( p != null && !p.isImmune )
+////			{
+////				p.OnHit( gameObject );
+////				p.velocity += direction * speed * attackSpeedFactor * .5f;
+////				velocity *= -1.2f;
+////			}
+//		}
 	}
 	
 	float animatorOriginalY;
@@ -147,6 +151,13 @@ public class Bat : Skelly
 
 		state = State.DYING;
 		animator.PlayAnim( "Death" );
+
+		if ( SFXDeath.Length > 0 )
+		{
+			AudioSource sfxdeath = SFXDeath[ Random.Range(0, SFXDeath.Length) ];
+			sfxdeath.pitch = Random.Range (0.9f, 1.1f);
+			sfxdeath.Play();
+		}
 	}
 	
 	
