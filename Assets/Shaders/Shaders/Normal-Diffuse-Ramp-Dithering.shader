@@ -86,8 +86,8 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 			//fixed dither = GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
 			//	      _PaletteHeight, i.ditherPos, 3);
 			
-			color.rgb *= GetDitherColor(color.rgb * 1.0, _DitherTex, _PaletteTex,
-				      _PaletteHeight, i.ditherPos, 2) * 1.0;
+			color.rgb *= GetDitherColor(color.rgb * 1, _DitherTex, _PaletteTex,
+				      _PaletteHeight, i.ditherPos, 2);
 		}
 
 		void surf (Input IN, inout SurfaceOutput o) {
