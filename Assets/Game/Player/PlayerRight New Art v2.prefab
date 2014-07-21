@@ -1401,7 +1401,7 @@ MonoBehaviour:
   respawns: 0
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 0}
-  hasLamp: 1
+  hasLamp: 0
   hasGhostSword: 0
   helperPivot: {fileID: 400004}
   lampLightNoFlip: {fileID: 11400012}
@@ -1434,7 +1434,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   speed: .0199999996
   attackJumpHeight: -.0450000018
-  attackSpeedFactor: 3
+  attackSpeedFactor: 5
   invisible: 0
 --- !u!114 &11400010
 MonoBehaviour:

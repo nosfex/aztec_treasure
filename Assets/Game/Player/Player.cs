@@ -273,7 +273,7 @@ public class Player : BaseObject
 
 			if ( torchOn && torchRatio > 0 )
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
+				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 				
 				if ( torchRatio == 0 && inDarkness )
@@ -809,7 +809,8 @@ public class Player : BaseObject
 		
 		if ( currentFloor != null && currentFloor.tag == "Floor" && currentFloor.name != "FloorFallingFuture" )
 		{
-			lastSafeFloor = currentFloor;
+			if ( !currentFloor.name.Contains( "Unsafe" ) ) 
+				lastSafeFloor = currentFloor;
 		}
 	}
 	
