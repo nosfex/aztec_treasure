@@ -23,7 +23,7 @@ public class Skelly : BaseObject
 	
 	public float playerKnockbackHitFactor = 0;
 
-	BoxCollider lastSafeFloor;
+	//BoxCollider lastSafeFloor;
 	
 	Vector3 startPosition;
 	
@@ -83,6 +83,7 @@ public class Skelly : BaseObject
 		if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null  
 			&&  ((Player)(playerSensor.sensedObject)).invisible == false)
 		{
+			print ("activate");
 			controller.playerTarget = (Player)playerSensor.sensedObject;
 			state = State.WALKING;
 			sleepPhysics = false;
@@ -336,20 +337,29 @@ public class Skelly : BaseObject
 	{
 		if ( inmuneTimer > 0 )
 			return;
-		
+
 		hearts--;
 		
 		inmuneTimer = 0.5f;
 
 		Player p = other.GetComponentInChildren<Player>();
+
 		if ( p != null && playerKnockbackHitFactor > 0 )
 		{	
 			p.velocity *= -playerKnockbackHitFactor;
 			p.frictionCoef = 0.999f;
 		}
-		
+
 		if ( hearts == 0 )
+		{
 			Die();
+		}
+		else 
+		{
+
+			velocity = direction * -0.05f;
+			state = State.WALKING;
+		}
 		
 	}
 	
@@ -366,7 +376,7 @@ public class Skelly : BaseObject
 				{
 					//print ("skelly ataca algo");
 					p.OnHit( gameObject );
-					p.velocity += direction * speed * attackSpeedFactor * .5f;
+					p.velocity += direction * speed * attackSpeedFactor * 1.5f;
 
 					velocity *= -1.2f;
 				}
@@ -386,10 +396,10 @@ public class Skelly : BaseObject
 	{
 		base.TestFloor( other );
 		
-		if ( currentFloor != null && currentFloor.tag == "Floor" )
-		{
-			lastSafeFloor = currentFloor;
-		}
+//		if ( currentFloor != null && currentFloor.tag == "Floor" )
+//		{
+//			lastSafeFloor = currentFloor;
+//		}
 	}
 	
 	override protected void TestWalls( Collider other )

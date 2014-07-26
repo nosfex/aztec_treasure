@@ -46,6 +46,7 @@ public class Player : BaseObject
 
 	public bool hasLamp = true;
 	[HideInInspector] public bool hasGhostSword = false;
+	public int keysCount = 0;
 	
 	SpriteAnimator animator;
 	
@@ -440,9 +441,10 @@ public class Player : BaseObject
 			}
 		}
 	}
-	
+
 	virtual protected void Update () 
 	{
+
 		objectToIgnoreTimer -= Time.deltaTime;
 
 		if ( objectToIgnoreTimer < 0 )
@@ -763,11 +765,21 @@ public class Player : BaseObject
 	
 	public void OnHit( GameObject other )
 	{
+		if ( state == State.ATTACKING && attackSensor.sensedObject != null )
+		{
+			if ( attackSensor.sensedObject == other.GetComponentInChildren<Skelly>() )
+				return;
+
+			if ( attackSensor.sensedObject == other.GetComponentInChildren<Bat>() )
+				return;
+		}
+
 		if ( inmuneTimer > 0 )
 		{
 			print("inmune");
 			return;
 		}
+
 		if ( deathAwaits )
 		{
 			print("death awaits");

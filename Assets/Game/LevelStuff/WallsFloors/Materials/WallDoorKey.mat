@@ -73,6 +73,10 @@ Material:
         second: .361391187
       data:
         first:
+          name: _InvFade
+        second: 1
+      data:
+        first:
           name: _PaletteHeight
         second: 128
       data:
@@ -82,10 +86,6 @@ Material:
       data:
         first:
           name: _EffectAmount
-        second: 1
-      data:
-        first:
-          name: _InvFade
         second: 1
     m_Colors:
       data:

@@ -73,16 +73,16 @@ Material:
         second: .00999999978
       data:
         first:
+          name: _InvFade
+        second: 1
+      data:
+        first:
           name: _PaletteHeight
         second: 128
       data:
         first:
           name: _DitherSize
         second: 4
-      data:
-        first:
-          name: _InvFade
-        second: 1
     m_Colors:
       data:
         first:

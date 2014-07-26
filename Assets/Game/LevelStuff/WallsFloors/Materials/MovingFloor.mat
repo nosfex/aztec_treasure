@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: MovingFloor
-  m_Shader: {fileID: 4800000, guid: 2ea2d2a04fc5a46ebbed8cdbe521d142, type: 3}
+  m_Shader: {fileID: 4800000, guid: f6176a829a58a41fc847070ab23fbae9, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:

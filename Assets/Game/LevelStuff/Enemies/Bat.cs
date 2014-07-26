@@ -82,10 +82,10 @@ public class Bat : Skelly
 		}
 	}
 	
-	override protected void TestFloor( Collider other )
-	{
-		currentFloor = (BoxCollider)other;
-	}
+//	override protected void TestFloor( Collider other )
+//	{
+//		currentFloor = (BoxCollider)other;
+//	}
 	
 	override protected void OnTriggerEnter( Collider other )
 	{
