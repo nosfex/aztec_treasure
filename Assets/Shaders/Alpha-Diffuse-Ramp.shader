@@ -48,14 +48,14 @@ Shader "Custom/Transparent-Diffuse-CullOff-Ramp" {
 		};
 
 		void surf (Input IN, inout SurfaceOutput o) {
-			IN.uv_MainTex.x /= 2.0;
-			IN.uv_MainTex.y /= 2.0;
+			//IN.uv_MainTex.x /= 2.0;
+			//IN.uv_MainTex.y /= 2.0;
 			
 			//IN.uv_MainTex.x = (int)IN.uv_MainTex.x;
 			//IN.uv_MainTex.y = (int)IN.uv_MainTex.y;
 
-			IN.uv_MainTex.x *= 2.0;
-			IN.uv_MainTex.y *= 2.0;			
+			//IN.uv_MainTex.x *= 2.0;
+			//IN.uv_MainTex.y *= 2.0;			
 			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
 			o.Albedo = tex.rgb * _Color.rgb;
 			o.Alpha = tex.a;//tex2D(_Thickness, IN.uv_MainTex).r;
@@ -69,11 +69,12 @@ Shader "Custom/Transparent-Diffuse-CullOff-Ramp" {
 		{	
 
 			
-			lightDir.z = max( 0.5, lightDir.z + 1.0 );
-			lightDir.y += 1.0;
+			lightDir.z = max( 0.5, lightDir.z +0.2);
+			
+			lightDir.y += .5;
 			half NdotL = dot (s.Normal, lightDir);
         	half diff = NdotL;// * 0.5 + 0.5;//max (0, length(viewDir - lightDir));
-        	half3 ramp = tex2D (_Ramp, float2(diff)).rgb;
+        	half3 ramp = tex2D (_Ramp, float2(0,diff)).rgb;
         	//half4 c;
         //c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten * 2);
 		

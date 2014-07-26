@@ -114,12 +114,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.5993462, y: 0, z: 1.41470242}
+  m_LocalPosition: {x: -3.92945457, y: 62.1720657, z: -3.5309906}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
   - {fileID: 400002}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -131,6 +132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
+  m_RootOrder: 1
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -145,6 +147,7 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400008}
   m_Father: {fileID: 400000}
+  m_RootOrder: 0
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -156,6 +159,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: .100000001, z: .800000012}
   m_Children: []
   m_Father: {fileID: 400004}
+  m_RootOrder: 0
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -167,6 +171,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
+  m_RootOrder: 2
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -178,6 +183,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
+  m_RootOrder: 1
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -196,6 +202,8 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
 --- !u!23 &2300002
 Renderer:
   m_ObjectHideFlags: 1
@@ -214,6 +222,8 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
 --- !u!33 &3300000
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -311,8 +321,8 @@ MonoBehaviour:
   worldOwner: {fileID: 0}
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .970000029
-  airFrictionCoef: .999000013
-  groundFrictionCoef: .660000026
+  airFrictionCoef: .949999988
+  groundFrictionCoef: .949999988
   bouncyness: .200000003
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
@@ -329,10 +339,10 @@ MonoBehaviour:
   playerSensor: {fileID: 11400010}
   prefabExplosion: {fileID: 100002, guid: 6064ede2577634fd8931f5f23514c3c5, type: 2}
   hearts: 0
-  maxHearts: 1
-  speed: .0160000008
+  maxHearts: 2
+  speed: .00200000009
   attackJumpHeight: -.0250000004
-  attackSpeedFactor: 8
+  attackSpeedFactor: 30
   attackCooldown: 1.5
   playerKnockbackHitFactor: .5
   stateValue: 0
@@ -425,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensedObject: {fileID: 0}
+  detectOnlyLiftable: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -437,6 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensedObject: {fileID: 0}
+  detectOnlyLiftable: 0
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,7 +471,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:

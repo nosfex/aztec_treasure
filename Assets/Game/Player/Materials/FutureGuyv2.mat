@@ -7,8 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: FutureGuyv2
-  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
-  m_ShaderKeywords: []
+  m_Shader: {fileID: 4800000, guid: 2ea2d2a04fc5a46ebbed8cdbe521d142, type: 3}
+  m_ShaderKeywords:
+  - PIXELSNAP_ON
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -16,7 +18,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: a481ba3d1453449459f3790fada3a1d6, type: 3}
+          m_Texture: {fileID: 2800000, guid: e2461256b14dba6469abc826e7fa289d, type: 3}
           m_Scale: {x: .166666672, y: .200000003}
           m_Offset: {x: 0, y: .800000012}
       data:
@@ -24,6 +26,27 @@ Material:
           name: _BumpMap
         second:
           m_Texture: {fileID: 2800000, guid: 914c8c0cb8e81084aaf22912a05b2f35, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _PaletteTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 721e2a6f3f4c84feab04547db02dfd6e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -40,7 +63,27 @@ Material:
         second: .38174513
       data:
         first:
+          name: PixelSnap
+        second: 1
+      data:
+        first:
           name: _Shininess
+        second: 1
+      data:
+        first:
+          name: _PaletteHeight
+        second: 128
+      data:
+        first:
+          name: _DitherSize
+        second: 8
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
+      data:
+        first:
+          name: _InvFade
         second: 1
       data:
         first:
@@ -54,36 +97,28 @@ Material:
         first:
           name: _Scale
         second: 1
-      data:
-        first:
-          name: _InvFade
-        second: 1
-      data:
-        first:
-          name: _Parallax
-        second: .0199999996
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .786764741, g: .786764741, b: .786764741, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _Emission
         second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
+          name: _SpecColor
+        second: {r: .5, g: .5, b: .5, a: 0}
+      data:
+        first:
           name: _AddColor
         second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
-          name: _SubColor
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
           name: _TintColor
         second: {r: .5, g: .5, b: .5, a: .5}
+      data:
+        first:
+          name: _SubColor
+        second: {r: 1, g: 1, b: 1, a: 1}

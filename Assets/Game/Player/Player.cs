@@ -42,10 +42,11 @@ public class Player : BaseObject
 					break;
 			}
 		}
-			
 	}
-	 public bool hasLamp = true;
+
+	public bool hasLamp = true;
 	[HideInInspector] public bool hasGhostSword = false;
+	public int keysCount = 0;
 	
 	SpriteAnimator animator;
 	
@@ -92,7 +93,8 @@ public class Player : BaseObject
 	
 	public AudioSource sfxAttack1;
 	public AudioSource sfxAttack2;
-	
+	public AudioSource sfxAttackEnemy;
+	public AudioSource sfxAttackWall;
 	string facing = "Right";
 	
 	float cooldown = 0;
@@ -131,7 +133,10 @@ public class Player : BaseObject
 	
 	
 	public bool isImmune { get { return inmuneTimer > 0; } }
-	
+
+
+	private BaseObject objectToIgnore;
+	private float objectToIgnoreTimer;
 
 	
 	override protected void Start () 
@@ -269,7 +274,7 @@ public class Player : BaseObject
 
 			if ( torchOn && torchRatio > 0 )
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 20f; // / secs
+				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
 				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
 				
 				if ( torchRatio == 0 && inDarkness )
@@ -308,7 +313,7 @@ public class Player : BaseObject
 				lifted.parent = transform;
 				
 				// Pone el objeto en la cabeza del flaco.
-				iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.4f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
+				iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.6f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
 				
 				// To keep track.
 				liftedObject = lifted.gameObject.GetComponent<BaseObject>();
@@ -331,7 +336,10 @@ public class Player : BaseObject
 			liftedObject.transform.parent = worldOwner.transform;
 			liftedObject.gravityEnabled = true;
 			liftedObject.collisionEnabled = true;
-			
+
+			objectToIgnore = liftedObject;
+			objectToIgnoreTimer = 0.3f;
+
 			ResetLiftSensor();
 			
 			return true;
@@ -433,9 +441,15 @@ public class Player : BaseObject
 			}
 		}
 	}
-	
+
 	virtual protected void Update () 
 	{
+
+		objectToIgnoreTimer -= Time.deltaTime;
+
+		if ( objectToIgnoreTimer < 0 )
+			objectToIgnore = null;
+
 		velocity = Vector3.Normalize( velocity ) * Mathf.Clamp ( velocity.magnitude, 0, speed * 2 );
 		
 		if ( deathAwaits )
@@ -579,7 +593,12 @@ public class Player : BaseObject
 					BaseObject attackedObject = attackSensor.CheckSensorOnce();
 		
 					if ( attackedObject )
+					{
+						if ( attackedObject.collisionEnabled )
+							sfxAttackEnemy.Play();
+						
 						attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
+					}
 				}
 			
 				break;
@@ -746,11 +765,21 @@ public class Player : BaseObject
 	
 	public void OnHit( GameObject other )
 	{
+		if ( state == State.ATTACKING && attackSensor.sensedObject != null )
+		{
+			if ( attackSensor.sensedObject == other.GetComponentInChildren<Skelly>() )
+				return;
+
+			if ( attackSensor.sensedObject == other.GetComponentInChildren<Bat>() )
+				return;
+		}
+
 		if ( inmuneTimer > 0 )
 		{
 			print("inmune");
 			return;
 		}
+
 		if ( deathAwaits )
 		{
 			print("death awaits");
@@ -792,7 +821,8 @@ public class Player : BaseObject
 		
 		if ( currentFloor != null && currentFloor.tag == "Floor" && currentFloor.name != "FloorFallingFuture" )
 		{
-			lastSafeFloor = currentFloor;
+			if ( !currentFloor.name.Contains( "Unsafe" ) ) 
+				lastSafeFloor = currentFloor;
 		}
 	}
 	
@@ -802,7 +832,10 @@ public class Player : BaseObject
 			return;
 		
 		BaseObject bo = other.GetComponent<BaseObject>();
-		
+
+		if ( objectToIgnore != null && bo == objectToIgnore )
+			return;
+
 		bool collidedAgainstEnemyImmune = bo != null && bo.dontCollideWhenImmune && isImmune;
 		
 		if ( !collidedAgainstEnemyImmune )

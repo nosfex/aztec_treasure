@@ -131,12 +131,13 @@ public class BaseObject : MonoBehaviour
 	
 	float floorY = 0;
 	protected bool sleepPhysics = false;
-	
+	Vector3 lastFloorPos;
+
 	protected virtual void LateUpdate()
 	{
 		if ( sleepPhysics )
 			return;
-		
+
 		float frameRatio = (Time.deltaTime / 0.016f);
 		//Debug.Log ("frameRatio: " + frameRatio );
 		if ( gravityEnabled )
@@ -215,7 +216,17 @@ public class BaseObject : MonoBehaviour
 			
 			transform.position -= gravity * frameRatio;
 		}
-		
+
+		if ( currentFloor != null && gravityEnabled )
+		{
+			Vector3 currentFloorPos = new Vector3( currentFloor.transform.position.x, 0, currentFloor.transform.position.z );
+			Vector3 floorDelta = currentFloorPos - lastFloorPos;
+			
+			transform.position += floorDelta;
+			
+			lastFloorPos = currentFloorPos;
+		}
+
 		transform.position += velocity * frameRatio;
 		accel = Vector3.zero;
 		
@@ -243,6 +254,8 @@ public class BaseObject : MonoBehaviour
 			return;
 
 		currentFloor = (BoxCollider)other;
+		lastFloorPos = new Vector3( currentFloor.transform.position.x, 0, currentFloor.transform.position.z );
+
 		other.SendMessage( "EnterObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 	
 	}
 	

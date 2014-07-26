@@ -7,8 +7,9 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Skelly
-  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
+  m_Shader: {fileID: 4800000, guid: ad00ed244034d48468e4498c78cc1055, type: 3}
   m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -30,7 +31,7 @@ Material:
         first:
           name: _Ramp
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -61,12 +62,12 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _SpecColor
-        second: {r: .279411793, g: .279411793, b: .279411793, a: 0}
-      data:
-        first:
           name: _Emission
         second: {r: .301470578, g: .301470578, b: .301470578, a: 0}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .279411793, g: .279411793, b: .279411793, a: 0}
       data:
         first:
           name: _AddColor
