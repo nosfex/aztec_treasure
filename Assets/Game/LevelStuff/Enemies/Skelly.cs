@@ -322,8 +322,7 @@ public class Skelly : BaseObject
 	
 	virtual protected void Die()
 	{
-		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
-
+	
 		if ( prefabExplosion != null )
 		{
 			GameObject explosion = (GameObject)Instantiate( prefabExplosion, transform.position, Quaternion.identity );
@@ -331,6 +330,9 @@ public class Skelly : BaseObject
 		}
 		
 		Destroy( gameObject );
+
+		worldOwner.BroadcastMessage( "OnEnemyDead", this, SendMessageOptions.DontRequireReceiver );
+
 	}
 	
 	public virtual void OnHit( GameObject other )
