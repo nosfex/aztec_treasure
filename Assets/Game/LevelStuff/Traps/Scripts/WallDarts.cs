@@ -34,10 +34,7 @@ public class WallDarts : MonoBehaviour {
 			alreadyTriggered = true;
 		}
 		
-		if( other.gameObject.tag.Contains("Wall") || other.gameObject.name.Contains("Wall") )
-		{
-			Destroy ( gameObject );	
-		}
+
 	}
 	
 	void OnPlayerDead()

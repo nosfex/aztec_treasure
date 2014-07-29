@@ -258,7 +258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100030
 GameObject:
   m_ObjectHideFlags: 1
@@ -285,7 +285,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400032}
-  - 108: {fileID: 10800002}
+  - 119: {fileID: 11900000}
   m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
@@ -375,6 +375,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100044
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400044}
+  - 108: {fileID: 10800002}
+  m_Layer: 0
+  m_Name: Point light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -434,8 +450,9 @@ Transform:
   - {fileID: 400016}
   - {fileID: 400000}
   - {fileID: 400004}
-  - {fileID: 400032}
+  - {fileID: 400044}
   - {fileID: 400028}
+  - {fileID: 400032}
   m_Father: {fileID: 400010}
   m_RootOrder: 0
 --- !u!4 &400008
@@ -458,7 +475,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.3384438, y: 7.17512798, z: 6.94912195}
+  m_LocalPosition: {x: 18.317709, y: 7.02227259, z: 45.7591553}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -595,11 +612,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100032}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -4.76837158e-07, y: .51499939, z: 0}
+  m_LocalPosition: {x: -.0341744423, y: .460771322, z: -.108550072}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
-  m_RootOrder: 8
+  m_RootOrder: 10
 --- !u!4 &400034
 Transform:
   m_ObjectHideFlags: 1
@@ -660,6 +677,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400008}
   m_RootOrder: 0
+--- !u!4 &400044
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100044}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: -4.76837158e-07, y: .570789576, z: 9.53674316e-07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400006}
+  m_RootOrder: 8
 --- !u!20 &2000000
 Camera:
   m_ObjectHideFlags: 1
@@ -1159,13 +1188,13 @@ Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100032}
+  m_GameObject: {fileID: 100044}
   m_Enabled: 1
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: .978093266, b: .801470578, a: 1}
   m_Intensity: .699999988
-  m_Range: 14
+  m_Range: 17
   m_SpotAngle: 90
   m_CookieSize: 10
   m_Shadows:
@@ -1401,8 +1430,9 @@ MonoBehaviour:
   respawns: 0
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 0}
-  hasLamp: 0
+  hasLamp: 1
   hasGhostSword: 0
+  keysCount: 0
   helperPivot: {fileID: 400004}
   lampLightNoFlip: {fileID: 11400012}
   lampLightFlip: {fileID: 11400010}
@@ -1507,6 +1537,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copySource: {fileID: 2300002}
+--- !u!119 &11900000
+Projector:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100032}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: .100000001
+  m_FarClipPlane: 2
+  m_FieldOfView: 40.7599983
+  m_AspectRatio: 1
+  m_Orthographic: 1
+  m_OrthographicSize: .300000012
+  m_Material: {fileID: 2100000, guid: 4dbcbcc2136094a4a98ffdf32e194cd3, type: 2}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

@@ -22,7 +22,7 @@ public class MovingFloor : MonoBehaviour
 	void OnTriggerEnter( Collider other )
 	{
 		//Debug.Log( "oso! ", other );
-		if ( enterTriggerCooldown < 0 && other.gameObject.name == "WallTile" )
+		if ( enterTriggerCooldown < 0 && (other.gameObject.name == "WallTile" || other.gameObject.name == "InvisibleWall") )
 		{
 
 			velocity *= -1;

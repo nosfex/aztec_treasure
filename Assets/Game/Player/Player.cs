@@ -894,7 +894,7 @@ public class Player : BaseObject
 				}
 				
 			}			
-			if ( dist > 8 )
+			if ( dist > 10 )
 				continue;
 			
 			if ( dist < minLightDistance )

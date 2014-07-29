@@ -32,13 +32,13 @@ public class Torch : MonoBehaviour
 		if ( animator == null ) 
 			return;
 
-		if ( !turnedOn )
-		{
-			tutorialCount--;
-			
-			if ( tutorialCount == 0 )
-				GUIScreenFeedback.i.ShowTorch();
-		}
+//		if ( !turnedOn )
+//		{
+//			tutorialCount--;
+//			
+//			if ( tutorialCount == 0 )
+//				GUIScreenFeedback.i.ShowTorch();
+//		}
 		
 		animator.PlayAnim("IdleOn");
 		turnedOn = true;
@@ -67,6 +67,9 @@ public class Torch : MonoBehaviour
 		SpriteAnimator animator = GetComponent<SpriteAnimator>();
 		if ( animator == null ) 
 			return;
+
+		startOn = true;
+
 		
 		if ( gameObject.layer == LayerMask.NameToLayer( "Past" ) || startOn )
 		{
@@ -98,21 +101,21 @@ public class Torch : MonoBehaviour
 				targetIntensity = 0.7f;
 		}
 		
-		if ( tipContainer == null )
-			return;
-		
-		if ( !turnedOn )
-		{
-			if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
-				tipContainer.SetActive( tutorialCount > 0 );
-			else 
-				tipContainer.SetActive( false );
-		}
-		else 
-		{
-			if ( tipContainer.activeSelf )
-				tipContainer.SetActive( false );
-		}
+//		if ( tipContainer == null )
+//			return;
+//		
+//		if ( !turnedOn )
+//		{
+//			if ( Vector3.Distance( transform.position, GameDirector.i.playerRight.transform.position ) < 3.0f )
+//				tipContainer.SetActive( tutorialCount > 0 );
+//			else 
+//				tipContainer.SetActive( false );
+//		}
+//		else 
+//		{
+//			if ( tipContainer.activeSelf )
+//				tipContainer.SetActive( false );
+//		}
 	}
 	
 	public void InLineOfSight()

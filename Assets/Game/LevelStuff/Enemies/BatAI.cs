@@ -43,6 +43,9 @@ public class BatAI : EnemyController
 	
 	override public void UpdateAI()
 	{
+		if ( playerTarget == null )
+			return;
+
 		walkTimer += Time.deltaTime;
 		
 		bool stuckRight = goingRight && body.stuckRight;
