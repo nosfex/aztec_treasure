@@ -83,7 +83,7 @@ public class Skelly : BaseObject
 		if ( playerSensor.sensedObject != null && playerSensor.sensedObject.GetComponent<Player>() != null  
 			&&  ((Player)(playerSensor.sensedObject)).invisible == false)
 		{
-			print ("activate");
+			//print ("activate");
 			controller.playerTarget = (Player)playerSensor.sensedObject;
 			state = State.WALKING;
 			sleepPhysics = false;
@@ -92,20 +92,50 @@ public class Skelly : BaseObject
 	}
 
 	virtual protected void UpdateDying()
-	{}
-	
+	{
+
+	}
+	bool jumpAttacking = false;
 	virtual protected void UpdateAttacking()
 	{
-		if ( animator.isPlaying )
-			animator.StopAnim();
-
+		//if ( animator.isPlaying )
+		//	animator.StopAnim();
 		if ( stateTimer > 0.5f )
+		{ 
+			if ( !jumpAttacking )
+			{
+				jumpAttacking = true;
+				//animator.PlayAnim("Attack" + facing );
+				velocity = direction * speed * attackSpeedFactor;
+				cooldown = attackCooldown;
+				gravity.y = attackJumpHeight;
+				animator.PlayAnim("Walk" + facing );
+			}
+			else 
+			{
+				animator.StopAnim();
+				if ( Time.frameCount % 4 < 2 )
+					animator.renderer.material.SetColor ( "_AddColor", Color.red );
+				else 
+					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+				
+				if ( isGrounded && gravity.y > 0 )
+				{
+					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+					jumpAttacking = false;
+					state = State.WALKING;
+				}
+			}
+			//state = State.WALKING;
+		}
+		else 
 		{
-			animator.PlayAnim("Attack" + facing );
-			velocity = direction * speed * attackSpeedFactor;
-			cooldown = attackCooldown;
-			gravity.y = attackJumpHeight;
-			state = State.WALKING;
+			if ( facing == "Left" )
+				animator.PlayAnim("AttackLeft");
+			else if ( facing == "Right" )
+				animator.PlayAnim("AttackRight");
+			else 
+				animator.PlayAnim("AttackRight");
 		}
 	}
 	
@@ -114,7 +144,7 @@ public class Skelly : BaseObject
 		controller.UpdateAI ();
 		
 		float dx = 0, dy = 0;
-		
+
 		if ( !animator.isAnimPlaying("Attack") && (isGrounded || !gravityEnabled)  )
 		{
 			if ( controller.GetKey( KeyCode.LeftArrow ) && !stuckLeft )
@@ -360,6 +390,8 @@ public class Skelly : BaseObject
 		{
 
 			velocity = direction * -0.05f;
+			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			jumpAttacking = false;
 			state = State.WALKING;
 		}
 		
@@ -379,7 +411,7 @@ public class Skelly : BaseObject
 					//print ("skelly ataca algo");
 					p.OnHit( gameObject );
 					p.velocity += direction * speed * attackSpeedFactor * 1.5f;
-
+					p.frictionCoef = 0.999f;
 					velocity *= -1.2f;
 				}
 				
@@ -414,7 +446,11 @@ public class Skelly : BaseObject
 			{
 				//print ("bounce wall");
 				if ( state != State.DYING )
+				{
 					state = State.WALKING;
+					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+					jumpAttacking = false;
+				}
 
 				velocity *= -.5f;
 				frictionCoef = 0.99f;

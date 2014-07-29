@@ -19,7 +19,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: b633f816eeb9aad41a3674a51fb90d97, type: 3}
           m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 91.7895966, y: 9.01002026}
+          m_Offset: {x: 214.032532, y: 9.01002026}
       data:
         first:
           name: _BumpMap
@@ -36,16 +36,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Ramp
+          name: _Detail
         second:
-          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Detail
+          name: _Ramp
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:

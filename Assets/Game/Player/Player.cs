@@ -14,6 +14,7 @@ public class Player : BaseObject
 	
 	State _state = State.IDLE;
 	float stateTimer = 0;
+
 	protected State state 
 	{
 		get { return _state; }
@@ -66,7 +67,7 @@ public class Player : BaseObject
 	public bool canUsePotion = false;
 	public bool canJump = true;
 	
-	public float attackCooldown = 0.6f;
+	public float comboCooldown = 0.6f;
 	
 	[HideInInspector] public bool inDarkness = true;
 	[HideInInspector] public int hearts;
@@ -415,25 +416,27 @@ public class Player : BaseObject
 				GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Can't see :(" );
 			}
 			else
-			if ( !TryToLiftObject() && cooldown <= attackCooldown && canAttack )
+			if ( !TryToLiftObject() && cooldown <= comboCooldown && canAttack )
 			{
+				//if ( comboCount == 1 )
+				//	print ("que..." + animator.GetPlayTime() );
 				if ( comboCount == 0 )
 				{
 					animator.StopAnim();
 					animator.PlayAnim("Attack2" + facing );
 					velocity *= 2.50f;
-					cooldown = attackCooldown;
+					cooldown = comboCooldown;
 					comboCount++;
 					frictionCoef = 0.9f;
 					state = State.ATTACKING;
 				}
 				else 
-				if ( comboCount == 1 )
+				if ( comboCount == 1 )// && animator.GetPlayTime() > 0.18f )
 				{
 					animator.StopAnim();
 					animator.PlayAnim("Attack" + facing );
 					velocity *= 1.5f;
-					cooldown = attackCooldown * 1.25f;
+					cooldown = comboCooldown * 1.25f;
 					comboCount++;
 					frictionCoef = 0.95f;
 					state = State.ATTACKING;
@@ -579,7 +582,6 @@ public class Player : BaseObject
 			
 				frictionCoef += (0.66f - frictionCoef) * 0.9f;
 
-			
 				break;
 			case State.ATTACKING:
 				if ( !animator.isAnimPlaying("Attack") )
@@ -607,13 +609,18 @@ public class Player : BaseObject
 					state = State.IDLE;
 			
 				frictionCoef += (0.66f - frictionCoef) * 0.9f;
-			
+
 				break;
 			case State.HIT:
 				frictionCoef += (0.66f - frictionCoef) * 0.1f;
-			
+				canAttack = false;
+
 				if ( stateTimer > 0.3f )
+				{
 					state = State.IDLE;
+					canAttack = true;
+				}
+
 				break;
 		}
 

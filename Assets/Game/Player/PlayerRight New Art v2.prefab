@@ -462,7 +462,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: .284015357, y: 0, z: 0, w: .958819747}
-  m_LocalPosition: {x: 4.27704334, y: 27.0466137, z: -54.9737244}
+  m_LocalPosition: {x: 4.27704239, y: 26.2607899, z: -54.9737244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400042}
@@ -475,7 +475,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.317709, y: 7.02227259, z: 45.7591553}
+  m_LocalPosition: {x: -24.2839661, y: 6.91540384, z: 48.6838417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -489,8 +489,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0198206902, y: 0, z: .200005531}
-  m_LocalScale: {x: 1.166749, y: 1, z: 1.14966083}
+  m_LocalPosition: {x: -4.76837158e-07, y: 0, z: .210103035}
+  m_LocalScale: {x: 1.166749, y: 1, z: 1.37753403}
   m_Children: []
   m_Father: {fileID: 400004}
   m_RootOrder: 2
@@ -636,7 +636,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100036}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .019821167, y: .0908470154, z: .057715416}
+  m_LocalPosition: {x: .019821167, y: .355044603, z: -.0468168259}
   m_LocalScale: {x: 1.70000005, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -911,7 +911,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .699999988, y: .699999988, z: .649999976}
+  m_Size: {x: .800000012, y: .699999988, z: .649999976}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500004
 BoxCollider:
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   accel: {x: 0, y: 0, z: 0}
   frictionCoef: .660000026
   airFrictionCoef: .5
-  groundFrictionCoef: 1
+  groundFrictionCoef: .899999976
   bouncyness: .200000003
   velocity: {x: 0, y: 0, z: 0}
   gravityEnabled: 1
@@ -1444,7 +1444,7 @@ MonoBehaviour:
   canAttack: 1
   canUsePotion: 1
   canJump: 1
-  attackCooldown: .300000012
+  comboCooldown: .300000012
   inDarkness: 0
   hearts: 5
   lives: 0
@@ -1453,7 +1453,7 @@ MonoBehaviour:
   rightKey: 275
   upKey: 273
   downKey: 274
-  attackKey: 256
+  attackKey: 122
   jumpKey: 0
   potionKey: 107
   sfxAttack1: {fileID: 8200002}
@@ -1537,6 +1537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copySource: {fileID: 2300002}
+  position: {fileID: 400012}
 --- !u!119 &11900000
 Projector:
   m_ObjectHideFlags: 1

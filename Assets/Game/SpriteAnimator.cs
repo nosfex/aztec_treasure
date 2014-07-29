@@ -259,6 +259,11 @@ public class SpriteAnimator : MonoBehaviour
 	}
 	
 	float timer = 0;
+
+	public float GetPlayTime()
+	{
+		return timer;
+	}
 	
 	public void GoToFrame( int frame )
 	{
