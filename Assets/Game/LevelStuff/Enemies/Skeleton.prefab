@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.2713003, y: 2.96926308, z: 56.4439926}
+  m_LocalPosition: {x: -22.6370068, y: 2.96926308, z: 42.3288689}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -339,7 +339,7 @@ MonoBehaviour:
   playerSensor: {fileID: 11400010}
   prefabExplosion: {fileID: 100002, guid: 6064ede2577634fd8931f5f23514c3c5, type: 2}
   hearts: 0
-  maxHearts: 4
+  maxHearts: 6
   speed: .00200000009
   attackJumpHeight: -.0250000004
   attackSpeedFactor: 30

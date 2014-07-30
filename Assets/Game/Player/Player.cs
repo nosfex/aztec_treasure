@@ -470,7 +470,7 @@ public class Player : BaseObject
 						animator.StopAnim();
 						animator.PlayAnim("Attack2" + facing );
 					};
-					velocity *= 1.5f;
+					velocity *= 3.0f;
 					cooldown = comboCooldown * 1.25f;
 					comboCount++;
 					frictionCoef = 0.95f;
