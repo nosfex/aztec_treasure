@@ -7,11 +7,14 @@ public class AttackSensor : MonoBehaviour
 
 	//public List<BaseObject> sensedObjects;
 	public HashSet<BaseObject> sensedObjects;
+	public HashSet<BaseObject> testedObjects;
+
 	bool alreadyChecked = false;
 
 	public void Start()
 	{
 		sensedObjects = new HashSet<BaseObject>();
+		testedObjects = new HashSet<BaseObject>();
 	}
 
 	public BaseObject CheckSensorOnce()
@@ -21,11 +24,24 @@ public class AttackSensor : MonoBehaviour
 			HashSet<BaseObject>.Enumerator e = sensedObjects.GetEnumerator();
 			e.MoveNext();
 			BaseObject bo = e.Current;
+			testedObjects.Add ( e.Current );
 			sensedObjects.Remove ( e.Current );
 			return e.Current;
 		}
 		
 		return null;
+	}
+
+	public void ResetSensorChecks()
+	{
+		while ( testedObjects.Count > 0 )
+		{
+			HashSet<BaseObject>.Enumerator e = testedObjects.GetEnumerator();
+			e.MoveNext();
+			BaseObject bo = e.Current;
+			sensedObjects.Add ( e.Current );
+			testedObjects.Remove ( e.Current );
+		}
 	}
 	
 	void OnTriggerEnter( Collider other )
@@ -49,6 +65,12 @@ public class AttackSensor : MonoBehaviour
 		{
 			alreadyChecked = false;
 			sensedObjects.Remove(bo);
+		}		
+
+		if ( bo && testedObjects.Contains(bo) )
+		{
+			alreadyChecked = false;
+			testedObjects.Remove(bo);
 		}
 
 		if ( bo && bo == sensedObject )

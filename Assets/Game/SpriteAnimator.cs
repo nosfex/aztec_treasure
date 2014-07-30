@@ -69,7 +69,14 @@ public class SpriteAnimator : MonoBehaviour
 	{
 		return currentAnimation.name.Contains( animName ) && headState == PlayHeadState.PLAY;
 	}
-	
+
+	string nextAnim = "";
+
+	public void AppendAnim( string animName )
+	{
+		nextAnim = animName;
+	}
+
 	public void PlayAnim( string animName )
 	{
 		if ( animations.Length == 0 )
@@ -259,6 +266,11 @@ public class SpriteAnimator : MonoBehaviour
 	}
 	
 	float timer = 0;
+
+	public float GetPlayTime()
+	{
+		return timer;
+	}
 	
 	public void GoToFrame( int frame )
 	{
@@ -313,7 +325,18 @@ public class SpriteAnimator : MonoBehaviour
 		timer = Mathf.Clamp( timer, 0, frameTime * (frameSequence.Length) );
 		
 		if ( timer >= (frameTime * (frameSequence.Length)) - 0.01f )
-			headState = PlayHeadState.STOP;
+		{
+			if ( nextAnim != "" )
+			{
+				StopAnim();
+				PlayAnim ( nextAnim );
+				nextAnim = "";
+			}
+			else 
+			{
+				headState = PlayHeadState.STOP;
+			}	
+		}
 
 		frameIndex = (int)(timer / frameTime);
 		
