@@ -4,7 +4,7 @@ Shader "Projector/Multiply" {
 		_FalloffTex ("FallOff", 2D) = "white" {}
 	}
 	Subshader {
-		Tags {"Queue"="Transparent+20"}
+		Tags {"Queue"="Transparent"}
 		Pass {
 			ZWrite Off
 			Fog { Color (1, 1, 1) }

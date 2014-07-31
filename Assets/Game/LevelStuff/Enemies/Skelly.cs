@@ -93,9 +93,10 @@ public class Skelly : BaseObject
 
 	virtual protected void UpdateDying()
 	{
-
 	}
-	bool jumpAttacking = false;
+
+	protected bool jumpAttacking = false;
+
 	virtual protected void UpdateAttacking()
 	{
 		//if ( animator.isPlaying )
@@ -295,7 +296,7 @@ public class Skelly : BaseObject
 		state = State.ATTACKING;
 	}
 
-	float hitFeedbackTimer = 0;
+	protected float hitFeedbackTimer = 0;
 	
 	virtual protected void Update () 
 	{
@@ -388,6 +389,9 @@ public class Skelly : BaseObject
 
 		hearts--;
 
+		if ( other.GetComponentInChildren<Pottery>() != null )
+			hearts -= 2;
+
 		hitFeedbackTimer = 0.2f;
 		//inmuneTimer = 0.3f;
 
@@ -399,7 +403,7 @@ public class Skelly : BaseObject
 			p.frictionCoef = 0.999f;
 		}
 
-		if ( hearts == 0 )
+		if ( hearts <= 0 )
 		{
 			Die();
 		}
@@ -431,7 +435,7 @@ public class Skelly : BaseObject
 					velocity *= -1.2f;
 				}
 				
-				BaseObject v = other.GetComponent<BaseObject>();
+				Vine v = other.GetComponent<Vine>();
 				
 				if ( v != null )
 					v.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
