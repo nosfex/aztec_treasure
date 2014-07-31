@@ -75,9 +75,7 @@ public class Player : BaseObject
 
 	public float torchRatio;
 	BoxCollider lastSafeFloor;
-	
-	
-	
+
 	float darkTestThreshold = 4.0f;
 	bool torchOn = false;
 
