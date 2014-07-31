@@ -14,9 +14,12 @@ public class ArenaSpawner : MonoBehaviour {
 	bool advanceNextWaveCheck = false;
 	double nextWaveCheckTimer = 0.0;
 	
+	bool activated = false;
+	
 	
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
@@ -66,7 +69,13 @@ public class ArenaSpawner : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
+		if(activated)
+		{
+			return;
+			
+		}
 		Player player = other.gameObject.GetComponentInChildren<Player>();
+		
 		if(player == null)
 		{
 			return;
@@ -74,6 +83,7 @@ public class ArenaSpawner : MonoBehaviour {
 		else
 		{
 			int activeCount = enemiesToSpawn.Length;
+			activated = true;
 			
 			for(int i = 0 ; i < enemiesToSpawn.Length; i++)
 			{
@@ -82,6 +92,7 @@ public class ArenaSpawner : MonoBehaviour {
 					activeCount--;
 				}
 			}
+			
 			
 			if(activeCount == 0)
 			{

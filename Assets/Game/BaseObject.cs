@@ -5,7 +5,7 @@ public class BaseObject : MonoBehaviour
 {
 	public World worldOwner;
 	//public Object myPrefab;
-
+	[HideInInspector] public int hearts;
 	[HideInInspector] public Vector3 accel = Vector3.zero;
 	[HideInInspector] public float frictionCoef = 0.97f;
 	
