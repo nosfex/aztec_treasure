@@ -113,44 +113,44 @@ public class Bat : Skelly
 		if ( inmuneTimer > 0 )
 			return;
 
-		base.OnHit ( other );
+		if ( state == State.DYING )
+			return;
 
-		//animatorOriginalY = animator.transform.position.y;
-		//animator.transform.position -= Vector3.up * 0.4f;
-		//transform.position += Vector3.up * 0.4f;
-		gravity.y = -0.05f;
+		hearts--;
+
+		if ( other.GetComponentInChildren<Pottery>() != null )
+			hearts -= 2;
+
+		hitFeedbackTimer = 0.2f;
+		//inmuneTimer = 0.3f;
+
+		Player p = other.GetComponentInChildren<Player>();
 		
-		Player p = other.GetComponent<Player>();
-		
-		if ( p != null )
-		{
-			velocity = p.direction * 0.02f;
+		if ( p != null )//&& playerKnockbackHitFactor > 0 )
+		{	
+			p.velocity *= -playerKnockbackHitFactor;
+			p.frictionCoef = 0.999f;
+			velocity = p.direction * 0.03f;
 		}
 		
-//		float zdist = Mathf.Abs( other.transform.position.z - transform.position.z );
-//		float xdist = Mathf.Abs( other.transform.position.x - transform.position.x );
-//		
-//		if ( zdist < 0.1f )
-//		{
-//			if ( other.transform.position.x > transform.position.x )
-//				velocity.x = -0.02f;
-//			else
-//				velocity.x = 0.02f;
-//		}
-//		else 
-//		if ( xdist < 0.1f )
-//		{
-//			if ( other.transform.position.z > transform.position.z )
-//				velocity.z = -0.02f;
-//			else
-//				velocity.z = 0.02f;
-//		}
-		
-		gravityEnabled = true;
-		collisionEnabled = false;
+		if ( hearts <= 0 )
+		{
+			gravity.y = -0.05f;
+			Die();
+			state = State.DYING;
+			animator.PlayAnim( "Death" );
+			collisionEnabled = false;
+		}
+		else 
+		{
 
-		state = State.DYING;
-		animator.PlayAnim( "Death" );
+			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			jumpAttacking = false;
+			state = State.WALKING;
+		}
+
+		gravityEnabled = true;
+
 
 		if ( SFXDeath.Length > 0 )
 		{
