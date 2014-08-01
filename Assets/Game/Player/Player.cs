@@ -14,7 +14,7 @@ public class Player : BaseObject
 	
 	State _state = State.IDLE;
 	float stateTimer = 0;
-
+	
 	protected State state 
 	{
 		get { return _state; }

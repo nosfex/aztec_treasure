@@ -11,8 +11,8 @@ public class Skelly : BaseObject
 	
 	public GameObject prefabExplosion;
 	
-	[HideInInspector]
-	public int hearts;
+	[HideInInspector] public int hearts;
+	
 	
 	public int maxHearts = 2;
 	
