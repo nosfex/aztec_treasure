@@ -48,7 +48,7 @@ public class AttackSensor : MonoBehaviour
 	{
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 			
-		if ( bo )
+		if ( bo && bo.collisionEnabled )
 		{
 			alreadyChecked = false;			
 			sensedObject = bo;
@@ -61,19 +61,19 @@ public class AttackSensor : MonoBehaviour
 	{
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 
-		if ( bo && sensedObjects.Contains(bo) )
+		if ( bo && bo.collisionEnabled && sensedObjects.Contains(bo) )
 		{
 			alreadyChecked = false;
 			sensedObjects.Remove(bo);
 		}		
 
-		if ( bo && testedObjects.Contains(bo) )
+		if ( bo && bo.collisionEnabled && testedObjects.Contains(bo) )
 		{
 			alreadyChecked = false;
 			testedObjects.Remove(bo);
 		}
 
-		if ( bo && bo == sensedObject )
+		if ( bo && bo.collisionEnabled && bo == sensedObject )
 		{
 			alreadyChecked = false;
 			sensedObject = null;

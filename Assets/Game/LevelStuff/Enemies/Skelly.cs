@@ -11,8 +11,8 @@ public class Skelly : BaseObject
 	
 	public GameObject prefabExplosion;
 	
-	[HideInInspector] public int hearts;
-	
+	[HideInInspector]
+	public int hearts;
 	
 	public int maxHearts = 2;
 	
@@ -38,6 +38,7 @@ public class Skelly : BaseObject
 		playerSensor.typeFilter = typeof( Player );
 		startPosition = transform.position;
 		controller = GetComponent<EnemyController>();
+		minStairClimb = 0.1f;
 	}	
 
 	protected string facing = "Right";
@@ -392,6 +393,10 @@ public class Skelly : BaseObject
 		if ( other.GetComponentInChildren<Pottery>() != null )
 			hearts -= 2;
 
+		if ( other.name.Contains ( "Tile" ) )
+			hearts = 0;
+
+
 		hitFeedbackTimer = 0.2f;
 		//inmuneTimer = 0.3f;
 
@@ -411,8 +416,11 @@ public class Skelly : BaseObject
 		{
 			velocity = direction * -0.05f;
 			animator.renderer.material.SetColor ( "_AddColor", Color.black );
-			jumpAttacking = false;
-			state = State.WALKING;
+			//if ( jumpAttacking )
+			{
+				jumpAttacking = false;
+				state = State.WALKING;
+			}
 		}
 		
 	}
@@ -459,18 +467,23 @@ public class Skelly : BaseObject
 	override protected void TestWalls( Collider other )
 	{
 		base.TestWalls( other );
-		
+
+		if ( hitFeedbackTimer > 0 ) 
+		{
+			OnHit( other.gameObject );
+		}
+
 		if ( animator != null && !isGrounded )
 		{
 			if ( other.tag == "Wall" )
 			{
-				//print ("bounce wall");
 				if ( state != State.DYING )
 				{
 					state = State.WALKING;
 					animator.renderer.material.SetColor ( "_AddColor", Color.black );
 					jumpAttacking = false;
 				}
+
 
 				velocity *= -.5f;
 				frictionCoef = 0.99f;

@@ -14,7 +14,7 @@ public class Player : BaseObject
 	
 	State _state = State.IDLE;
 	float stateTimer = 0;
-	
+
 	protected State state 
 	{
 		get { return _state; }
@@ -624,11 +624,11 @@ public class Player : BaseObject
 					break;
 				}
 			
-				if ( attackSensor.sensedObject != null )
-				{
+				//if ( attackSensor.sensedObject != null )
+				//{
 					BaseObject attackedObject = attackSensor.CheckSensorOnce();
 		
-					if ( attackedObject )
+					if ( attackedObject ) // && animator.GetPlayTime() < 0.3f )
 					{
 						if ( attackedObject.collisionEnabled )
 							sfxAttackEnemy.Play();
@@ -639,7 +639,7 @@ public class Player : BaseObject
 							attackedObject = attackSensor.CheckSensorOnce();
 						}
 					}
-				}
+				//}
 			
 				break;
 			case State.WALKING:
