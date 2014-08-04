@@ -28,6 +28,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -41,7 +42,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectList:
   - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
-  - {fileID: 100000, guid: c9519facec296be4dbe5b5e73b719749, type: 2}
   randomGroup: 1
   percentSpawnChance: 70
 --- !u!114 &11400002

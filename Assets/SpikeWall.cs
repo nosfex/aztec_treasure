@@ -25,6 +25,16 @@ public class SpikeWall : MonoBehaviour {
 		}	
 
 	}
+
+	void OnTriggerStay(Collider other)
+	{
+		Player p = other.gameObject.GetComponent<Player>();
+		if(p != null)
+		{
+			p.OnHit(this.gameObject);
+		}	
+		
+	}
 	
 	void OnCollisionEnter(Collision other)
 	{

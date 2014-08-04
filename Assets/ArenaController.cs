@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ArenaSpawner : MonoBehaviour {
+public class ArenaController : MonoBehaviour {
 	
 	
 	public GameObject[] enemiesToSpawn; 
@@ -37,7 +37,6 @@ public class ArenaSpawner : MonoBehaviour {
 			if(enemyCheck == null)
 			{
 				advanceNextWaveCheck = false;
-				enemiesToSpawn[currentActive].SetActive(false);
 				// GH: Start the next wave
 				currentActive++;
 				if(currentActive >= enemiesToSpawn.Length)
@@ -49,21 +48,21 @@ public class ArenaSpawner : MonoBehaviour {
 				{
 					// GH: Start the next wave
 					enemiesToSpawn[currentActive].SetActive(true);
-					iTween.MoveTo(spikeWallLeft, iTween.Hash("x", spikeWallLeft.transform.position.x - 1.5, "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
-					iTween.MoveTo(spikeWallRight, iTween.Hash("x", spikeWallRight.transform.position.x + 1.5 , "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
+					iTween.MoveTo(spikeWallLeft, iTween.Hash("x", spikeWallLeft.transform.position.x - .5, "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
+					iTween.MoveTo(spikeWallRight, iTween.Hash("x", spikeWallRight.transform.position.x + .5 , "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
 				}
 			}		
 			nextWaveCheckTimer += Time.deltaTime;
 			
-			if(nextWaveCheckTimer >= 2.0)
+			if(nextWaveCheckTimer >= 3.0)
 			{
 				advanceNextWaveCheck = false;
+				nextWaveCheckTimer = 0;
 			}
 		}
 		
-		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true)
+		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true && !(currentActive >= enemiesToSpawn.Length))
 		{
-			
 			if(Vector3.Distance(spikeWallLeft.transform.position, spikeWallRight.transform.position) > 1.2 && setBackWalls == false)
 			{
 				Vector3 posLeft = spikeWallLeft.transform.position;
@@ -146,6 +145,8 @@ public class ArenaSpawner : MonoBehaviour {
 	public void OnEnemyDead(Skelly enemy)
 	{
 		// GH: Force the loop check to see if we have to advance the wave
+
+		print("Advance next wave check");
 		advanceNextWaveCheck = true;
 		
 	}
