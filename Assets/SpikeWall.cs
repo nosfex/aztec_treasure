@@ -4,6 +4,8 @@ using System.Collections;
 public class SpikeWall : MonoBehaviour {
 
 	// Use this for initialization
+	
+	[HideInInspector] public bool touchingWall = false;
 	void Start () {
 	
 	}
@@ -13,14 +15,31 @@ public class SpikeWall : MonoBehaviour {
 	{
 	}
 	
-	void OnCollisionEnter(Collision collision)
+	
+	void OnTriggerEnter(Collider other)
 	{
-		print("WALL IS COLLIDING");
-		Player p = collision.gameObject.GetComponent<Player>();
+		Player p = other.gameObject.GetComponent<Player>();
 		if(p != null)
 		{
-			p.OnHit(gameObject);
-			
+			p.OnHit(this.gameObject);
+		}	
+
+	}
+	
+	void OnCollisionEnter(Collision other)
+	{
+		print("collision");
+		Player p = other.gameObject.GetComponent<Player>();
+		if(p != null)
+		{
+			p.OnHit(this.gameObject);
+		}	
+
+		SpikeWall wall = other.gameObject.GetComponent<SpikeWall>();
+		if(wall != null)
+		{
+			print("WALL VS WALL");
+			touchingWall = true;
 		}
 	}
 	
