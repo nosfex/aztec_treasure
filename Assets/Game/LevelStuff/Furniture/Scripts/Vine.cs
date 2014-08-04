@@ -17,7 +17,7 @@ public class Vine : BaseObject
 		sleepPhysics = true;
 	}
 	
-	void OnHit( GameObject obj )
+	public override void OnHit( GameObject obj )
 	{
 		sleepPhysics = false;
 

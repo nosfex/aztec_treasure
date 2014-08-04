@@ -14,7 +14,13 @@ public class GameDirector : MonoBehaviour {
 	public GameObject enemySpawnerPrefab;
 	
 	//[HideInInspector] public Player playerLeft;
-	public Player playerRight;
+	public Player playerRight
+	{
+		get 
+		{
+			return worldRight.player;
+		}
+	}
 	
 	//[HideInInspector] public World worldLeft;
 	public World worldRight;

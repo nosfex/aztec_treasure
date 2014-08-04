@@ -19,7 +19,7 @@ public class Projectile : BaseObject
 			Destroy(gameObject);
 	}
 	
-	void OnHit( GameObject other )
+	public override void OnHit( GameObject other )
 	{
 		//print("projectile vs " + other.ToString() );
 		Destroy ( gameObject );

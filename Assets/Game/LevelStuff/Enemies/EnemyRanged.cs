@@ -324,7 +324,7 @@ public class EnemyRanged : BaseObject {
 		Destroy( gameObject );
 	}
 	
-	public void OnHit( GameObject other )
+	public override void OnHit( GameObject other )
 	{
 		BaseObject bo = other.GetComponent<BaseObject>();
 		

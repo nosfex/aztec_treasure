@@ -16,6 +16,9 @@ public class World : MonoBehaviour
 	void Awake()
 	{
 		globalTiles = new GameObject[DungeonBSP.WORLD_TILE_WIDTH, DungeonBSP.WORLD_TILE_HEIGHT];
+
+		camera = GetComponentInChildren<FollowSmooth>();
+		player = GetComponentInChildren<Player>();
 	}
 	
 	public void InitTiles()

@@ -27,7 +27,7 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 		_PaletteHeight ("Palette Height", float) = 128
 		_PaletteTex ("Palette", 2D) = "black" {}
 		_DitherSize ("Dither Size (Width/Height)", float) = 8
-		_DitherTex ("Dither", 2D) = "black" {}
+		//_DitherTex ("Dither", 2D) = "black" {}
 		
 	}
 	SubShader {
@@ -38,8 +38,9 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 		LOD 200
 
 		CGPROGRAM
-		#pragma target 3.0
-		#pragma surface surf Translucent fullforwardshadows vertex:vert finalcolor:dither
+		//#pragma target 3.0
+		#pragma surface surf Translucent fullforwardshadows finalcolor:dither 
+		//vertex:vert 
 		#include "CGIncludes/Dithering.cginc"
 		#include "UnityCG.cginc"
 
@@ -66,10 +67,10 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 		float _PaletteHeight;
 		float _DitherSize;
 		
-		void vert(inout appdata_full v, out Input o) {
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.ditherPos = GetDitherPos( v.vertex, _DitherSize);
-		}		
+		//void vert(inout appdata_full v, out Input o) {
+		//	UNITY_INITIALIZE_OUTPUT(Input, o);
+		//	o.ditherPos = GetDitherPos( v.vertex, _DitherSize);
+		//}		
 		
 		void dither(Input i, SurfaceOutput o, inout fixed4 color) {
 			//color.rgb = ( GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
@@ -86,8 +87,8 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 			//fixed dither = GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
 			//	      _PaletteHeight, i.ditherPos, 3);
 			
-			color.rgb *= GetDitherColor(color.rgb * 1, _DitherTex, _PaletteTex,
-				      _PaletteHeight, i.ditherPos, 2);
+			color.rgb *= GetDitherColorFast(color.rgb * 1, _PaletteTex,
+				      _PaletteHeight);
 		}
 
 		void surf (Input IN, inout SurfaceOutput o) {

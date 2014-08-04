@@ -30,7 +30,8 @@ public class BaseObject : MonoBehaviour
 	
 	public GameObject prefabShadow;
 	
-	protected float minStairClimb = 0.23f;
+	protected float minStairClimb = 0f;
+	protected bool climbStairs = false;
 	
 	EnemySpawner respawner;
 	
@@ -186,7 +187,7 @@ public class BaseObject : MonoBehaviour
 			{
 				
 				//if ( transform.position.y < floorY && (transform.position.y + STAIR_HEIGHT) > floorY )
-				if ( isGrounded && (transform.position.y + minStairClimb) > floorY )
+				if ( climbStairs && isGrounded && (transform.position.y + minStairClimb) > floorY )
 				{
 					float dif = Mathf.Abs( floorY - transform.position.y ) * 1.0f;
 					transform.position += Vector3.up * Mathf.Min( 0.05f, dif );
@@ -200,7 +201,8 @@ public class BaseObject : MonoBehaviour
 				else 
 				if ( isGrounded )
 				{
-					transform.position = new Vector3( transform.position.x, floorY, transform.position.z );
+
+					transform.position = new Vector3( transform.position.x, floorY-0.003f, transform.position.z );
 				}
 				
 				if ( Mathf.Abs( gravity.y ) < 0.01f )
@@ -208,11 +210,15 @@ public class BaseObject : MonoBehaviour
 				else 
 				{
 					if ( gravity.y > 0 )
+					{
 						gravity *= -bouncyness;//Vector3.zero;
+					}
 				}
+
 				velocity *= groundFrictionCoef;
 			}
 			
+
 			transform.position -= gravity * frameRatio;
 		}
 
@@ -232,12 +238,37 @@ public class BaseObject : MonoBehaviour
 		stuckLeftTimer--; stuckRightTimer--; stuckDownTimer--; stuckUpTimer--;
 		
 	}
+
+	public void SetVelocity( Vector3 newVelocity )
+	{
+		if ( newVelocity.x < 0 && stuckLeft )
+			newVelocity.x = 0;
+
+		if ( newVelocity.x > 0 && stuckRight )
+			newVelocity.x = 0;
+
+		if ( newVelocity.z > 0 && stuckForward )
+			newVelocity.z = 0;
+
+		if ( newVelocity.z < 0 && stuckBack )
+			newVelocity.z = 0;
+
+		velocity = newVelocity;
+	}
 	
 	
 	virtual protected void OnTriggerExit( Collider other )
 	{
+		if ( sleepPhysics )
+			return;
+
+
 		if ( other == currentFloor )
 		{
+			if ( gameObject.name.Contains ("Part") )
+			{
+				//Debug.Log ("??" );
+			}
 			currentFloor = null;
 			other.SendMessage( "ExitObjectLaid", this, SendMessageOptions.DontRequireReceiver ); 
 		}
@@ -245,13 +276,16 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void TestFloor( Collider other )
 	{
-		float TECHODELPISO = other.transform.position.y + other.bounds.extents.y + other.bounds.center.y;
-		float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
-		float yDif = TECHODELPISO - MISPIES;
-		
-		if ( yDif >= minStairClimb ) // Enough to climb
-			return;
-
+		if ( climbStairs )
+		{
+			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y + other.bounds.center.y;
+			float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
+			float yDif = TECHODELPISO - MISPIES;
+			
+			if ( yDif >= minStairClimb ) // Enough to climb
+				return;
+		}
+	
 		currentFloor = (BoxCollider)other;
 		lastFloorPos = new Vector3( currentFloor.transform.position.x, 0, currentFloor.transform.position.z );
 
@@ -321,11 +355,17 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void OnTriggerStay( Collider other )
 	{
+		if ( sleepPhysics )
+			return;
+
 		OnTriggerEnter( other );
 	}
 
 	virtual protected void OnTriggerEnter( Collider other )
 	{
+		if ( sleepPhysics )
+			return;
+
 		if ( other.tag.Contains( "Floor" ) )
 			TestFloor( other );
 
@@ -339,13 +379,17 @@ public class BaseObject : MonoBehaviour
 		
 		if ( other.tag.Contains("Floor") )
 		{
-			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-			float MISPIES = transform.position.y - collider.bounds.extents.y;
-			float yDif = TECHODELPISO - MISPIES;
-			
-			if ( yDif >= minStairClimb ) // Enough to climb
+			if ( climbStairs )
 			{
-				TestWalls( other ); // Treat as wall!
+				float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
+				float MISPIES = transform.position.y - collider.bounds.extents.y;
+				float yDif = TECHODELPISO - MISPIES;
+				
+				if ( yDif >= minStairClimb ) // Enough to climb
+				{
+					TestWalls( other ); // Treat as wall!
+					return;
+				}
 			}
 		}		
 		
@@ -363,4 +407,6 @@ public class BaseObject : MonoBehaviour
 			respawner.Respawn();
 		}
 	}
+
+	virtual public void OnHit( GameObject other ) {}
 }

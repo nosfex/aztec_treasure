@@ -14,7 +14,6 @@ public class Player : BaseObject
 	
 	State _state = State.IDLE;
 	float stateTimer = 0;
-
 	protected State state 
 	{
 		get { return _state; }
@@ -26,6 +25,8 @@ public class Player : BaseObject
 			switch ( _state )
 			{
 				case State.ATTACKING:
+					testedAttacks = false;
+
 					if ( Random.Range (0,2) == 0)
 					{
 						sfxAttack1.pitch = Random.Range (0.8f, 1.2f);
@@ -49,6 +50,8 @@ public class Player : BaseObject
 	[HideInInspector] public bool hasGhostSword = false;
 	public int keysCount = 0;
 	
+	bool testedAttacks = false;
+
 	SpriteAnimator animator;
 	
 	public Transform helperPivot;
@@ -56,7 +59,13 @@ public class Player : BaseObject
 	public Lamplight lampLightFlip;
 	public BaseObjectSensor liftSensor;
 	public BaseObjectSensor switchSensor;
-	public AttackSensor attackSensor;
+
+	public AttackSensor attackSensorForward;
+	public AttackSensor attackSensorBack;
+	public AttackSensor attackSensorLeft;
+	public AttackSensor attackSensorRight;
+
+	private AttackSensor attackSensor;
 	public GameObject dropGuide;
 	
 	private Torch[] lights;
@@ -149,6 +158,8 @@ public class Player : BaseObject
 		torchRatio = 100f;
 		hearts = GameDirector.i.maxHearts;
 		lives = GameDirector.i.maxLives;
+		minStairClimb = 0.23f;
+		climbStairs = true;
 		
 		if ( worldOwner == null )
 			Destroy ( transform.parent.gameObject );
@@ -435,7 +446,7 @@ public class Player : BaseObject
 					comboCount++;
 					frictionCoef = 0.9f;
 					state = State.ATTACKING;
-					attackSensor.ResetSensorChecks();
+					//attackSensor.ResetSensorChecks();
 				}
 				else 
 				if ( comboCount == 1 )// && animator.GetPlayTime() > 0.18f )
@@ -454,7 +465,7 @@ public class Player : BaseObject
 					comboCount++;
 					frictionCoef = 0.95f;
 					state = State.ATTACKING;
-					attackSensor.ResetSensorChecks();
+					//attackSensor.ResetSensorChecks();
 				} 
 				else 
 				if ( comboCount == 2 )// && animator.GetPlayTime() > 0.18f )
@@ -473,7 +484,7 @@ public class Player : BaseObject
 					comboCount++;
 					frictionCoef = 0.95f;
 					state = State.ATTACKING;
-					attackSensor.ResetSensorChecks();
+					//attackSensor.ResetSensorChecks();
 				}
 			}
 		}
@@ -515,7 +526,7 @@ public class Player : BaseObject
 		
 		dx = 0; dy = 0;
 		
-		if ( state != State.ATTACKING )
+		if ( state != State.ATTACKING  )
 		{
 			if ( Input.GetKey(leftKey) && !stuckLeft )
 				dx = -1;
@@ -547,11 +558,17 @@ public class Player : BaseObject
 
 		if ( inmuneTimer > 0 )
 		{
-			animator.renderer.enabled = Time.frameCount % 4 < 2;
 			inmuneTimer -= Time.deltaTime;
-			
+
 			if ( inmuneTimer <= 0 )
-				animator.renderer.enabled = true;
+				animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			else 
+			{
+				if ( Time.frameCount % 4 < 2 )
+					animator.renderer.material.SetColor ( "_AddColor", new Color(0.1f,0.1f,0.1f) );
+				else 
+					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			}
 		}
 		
 		float tmpSpeed = speed;
@@ -573,26 +590,34 @@ public class Player : BaseObject
 		UpdateSkidding();
 
 		
-		
-		if ( Input.GetKey(leftKey) )
+		if ( state != State.ATTACKING )
 		{
-			facing = "Left";
-			direction = Vector3.left;
-		}
-		else if ( Input.GetKey(rightKey) )
-		{
-			facing = "Right";
-			direction = Vector3.right;
-		}
-		else if ( Input.GetKey(upKey) )
-		{
-			facing = "Up";
-			direction = Vector3.forward;
-		}
-		else if ( Input.GetKey(downKey) )
-		{
-			facing = "Down";
-			direction = Vector3.back;
+			if ( Input.GetKey(leftKey) )
+			{
+				attackSensor = attackSensorLeft;
+				facing = "Left";
+				direction = Vector3.left;
+			}
+			else if ( Input.GetKey(rightKey) )
+			{
+				attackSensor = attackSensorRight;
+				facing = "Right";
+				direction = Vector3.right;
+			}
+			else if ( Input.GetKey(upKey) )
+			{
+				attackSensor = attackSensorForward;
+
+				facing = "Up";
+				direction = Vector3.forward;
+			}
+			else if ( Input.GetKey(downKey) )
+			{
+				attackSensor = attackSensorBack;
+
+				facing = "Down";
+				direction = Vector3.back;
+			}
 		}
 		
 		stateTimer += Time.deltaTime;
@@ -618,30 +643,30 @@ public class Player : BaseObject
 
 				break;
 			case State.ATTACKING:
+			{
 				if ( !animator.isAnimPlaying("Attack") )
 				{
 					state = State.IDLE;
 					break;
 				}
-			
-				//if ( attackSensor.sensedObject != null )
-				//{
-					BaseObject attackedObject = attackSensor.CheckSensorOnce();
-		
-					if ( attackedObject ) // && animator.GetPlayTime() < 0.3f )
+
+				if ( !testedAttacks )
+				{
+					testedAttacks = true;
+					sfxAttackEnemy.Play();
+				}
+
+				attackSensor.Cleanup();
+
+				if ( attackSensor.sensedObjects.Count > 0 && animator.GetPlayTime() < 0.3f )
+				{
+					foreach ( BaseObject bo in attackSensor.sensedObjects )
 					{
-						if ( attackedObject.collisionEnabled )
-							sfxAttackEnemy.Play();
-						
-						while ( attackedObject != null )
-						{
-							attackedObject.SendMessage ("OnHit", gameObject, SendMessageOptions.DontRequireReceiver);
-							attackedObject = attackSensor.CheckSensorOnce();
-						}
+						bo.OnHit( gameObject );
 					}
-				//}
-			
-				break;
+				}
+			}
+			break;
 			case State.WALKING:
 				if ( dx == 0 && dy == 0 )
 					state = State.IDLE;
@@ -808,14 +833,13 @@ public class Player : BaseObject
 		
 	}
 	
-	public void OnHit( GameObject other )
+	public override void OnHit( GameObject other )
 	{
-		if ( state == State.ATTACKING && attackSensor.sensedObject != null )
-		{
-			if ( attackSensor.sensedObject == other.GetComponentInChildren<Skelly>() )
-				return;
+		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 
-			if ( attackSensor.sensedObject == other.GetComponentInChildren<Bat>() )
+		if ( state == State.ATTACKING && attackSensor.IsObjectInside( bo ) )
+		{
+			if ( bo is Skelly || bo is Bat )
 				return;
 		}
 
@@ -881,9 +905,9 @@ public class Player : BaseObject
 		if ( objectToIgnore != null && bo == objectToIgnore )
 			return;
 
-		bool collidedAgainstEnemyImmune = bo != null && bo.dontCollideWhenImmune && isImmune;
+		//bool collidedAgainstEnemyImmune = bo != null && bo.dontCollideWhenImmune && isImmune;
 		
-		if ( !collidedAgainstEnemyImmune )
+		//if ( !collidedAgainstEnemyImmune )
 		{
 			base.TestWalls( other );
 		}

@@ -38,7 +38,9 @@ public class Skelly : BaseObject
 		playerSensor.typeFilter = typeof( Player );
 		startPosition = transform.position;
 		controller = GetComponent<EnemyController>();
+
 		minStairClimb = 0.1f;
+		climbStairs = true;
 	}	
 
 	protected string facing = "Right";
@@ -102,7 +104,12 @@ public class Skelly : BaseObject
 	{
 		//if ( animator.isPlaying )
 		//	animator.StopAnim();
-		if ( stateTimer > 1.0f )
+		if ( Time.frameCount % 4 < 2 )
+			animator.renderer.material.SetColor ( "_AddColor", Color.red );
+		else 
+			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+
+		if ( stateTimer > 0.6f )
 		{ 
 			if ( !jumpAttacking )
 			{
@@ -117,11 +124,6 @@ public class Skelly : BaseObject
 			{
 				animator.StopAnim();
 
-				if ( Time.frameCount % 4 < 2 )
-					animator.renderer.material.SetColor ( "_AddColor", Color.red );
-				else 
-					animator.renderer.material.SetColor ( "_AddColor", Color.black );
-				
 				if ( isGrounded && gravity.y > 0 )
 				{
 					animator.renderer.material.SetColor ( "_AddColor", Color.black );
@@ -294,7 +296,8 @@ public class Skelly : BaseObject
 	
 	void Attack()
 	{
-		state = State.ATTACKING;
+		if ( state != State.ATTACKING )
+			state = State.ATTACKING;
 	}
 
 	protected float hitFeedbackTimer = 0;
@@ -383,28 +386,28 @@ public class Skelly : BaseObject
 
 	}
 	
-	public virtual void OnHit( GameObject other )
+	public override void OnHit( GameObject other )
 	{
-		if ( inmuneTimer > 0 )
+		//Debug.Log ("Hit");
+		if ( inmuneTimer > 0 || hitFeedbackTimer > 0 )
 			return;
 
 		hearts--;
 
-		if ( other.GetComponentInChildren<Pottery>() != null )
-			hearts -= 2;
+		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 
-		if ( other.name.Contains ( "Tile" ) )
-			hearts = 0;
+		if ( bo is Pottery )
+			hearts -= 5;
 
+		hitFeedbackTimer = 0.15f;
+		Player p = (bo is Player) ? (Player)bo : null;
 
-		hitFeedbackTimer = 0.2f;
-		//inmuneTimer = 0.3f;
-
-		Player p = other.GetComponentInChildren<Player>();
+		Vector3 bounceDirection = Vector3.Normalize( transform.position - other.transform.position );
+		bounceDirection.y = 0;
 
 		if ( p != null )//&& playerKnockbackHitFactor > 0 )
-		{	
-			p.velocity *= -playerKnockbackHitFactor;
+		{
+			p.SetVelocity( p.velocity * -playerKnockbackHitFactor );
 			p.frictionCoef = 0.999f;
 		}
 
@@ -414,7 +417,18 @@ public class Skelly : BaseObject
 		}
 		else 
 		{
-			velocity = direction * -0.05f;
+			if ( p != null )
+			{
+
+				float mag = Mathf.Max ( p.velocity.magnitude, 0.05f );
+				//print("mag = " + mag );
+				SetVelocity( ( Vector3.Normalize( bounceDirection ) * mag ) + (bounceDirection * 0.02f) );
+			}
+			else 
+			{
+				SetVelocity( bounceDirection * -0.05f );
+			}
+
 			animator.renderer.material.SetColor ( "_AddColor", Color.black );
 			//if ( jumpAttacking )
 			{

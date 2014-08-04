@@ -19,7 +19,7 @@ public class Rock : BaseObject
 		
 	}
 		
-	void OnHit( GameObject obj )
+	public override void OnHit( GameObject obj )
 	{
 		/*
 		SpriteAnimator animator = GetComponentInChildren<SpriteAnimator>();
