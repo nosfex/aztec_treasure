@@ -8,11 +8,12 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: ArenaEnemySpawner
   m_TagString: Untagged
-  m_Icon: {fileID: 796366903, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.20218086, y: -3.60549068, z: 9.97183418}
+  m_LocalPosition: {x: 8.64600945, y: .406375885, z: 1.69556999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -36,10 +37,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640ca0155a7bbda499834d6de368ef6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToRespawn: {fileID: 100000, guid: 9ef0c80871f8f2243bc51683b99bab48, type: 2}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc010a4c1a3de41a292e31824c1cb5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectList:
+  - {fileID: 100000, guid: 9d862aefa72f5e94bab99cdf7d9d0f31, type: 2}
+  randomGroup: 0
+  percentSpawnChance: 100
+  effectToRun: {fileID: 100000, guid: 82e89d1eab2954ea8854f3830b29e67c, type: 2}
+  effectTime: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

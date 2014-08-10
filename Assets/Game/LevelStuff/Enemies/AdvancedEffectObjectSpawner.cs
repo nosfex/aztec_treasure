@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AdvancedObjectSpawner : MonoBehaviour 
+public class AdvancedEffectObjectSpawner : MonoBehaviour 
 {
+
 	public GameObject[] objectList;
 	
 	public int randomGroup = 0;
 	public float percentSpawnChance = 100;
+
+	public GameObject effectToRun;
+	public float effectTime;
 	
 	void Start()
+	{
+		//effectToRun.GetComponent<ParticleSystem>().Play();
+		GameObject particle = (GameObject)Instantiate(effectToRun);
+		particle.transform.parent = transform;
+		particle.transform.localPosition = Vector3.zero;
+
+		Invoke("onEffectFinished", effectTime);
+	}
+
+
+	void onEffectFinished()
 	{
 		if ( transform.parent.gameObject.layer == LayerMask.NameToLayer("Past") )
 		{
@@ -17,7 +32,7 @@ public class AdvancedObjectSpawner : MonoBehaviour
 		}
 		
 		Random.seed = (int)transform.parent.localPosition.x + (int)transform.parent.localPosition.z + randomGroup;
-
+		
 		if ( Random.Range( 0, 100f ) > percentSpawnChance )
 		{
 			Destroy( gameObject );
@@ -34,7 +49,5 @@ public class AdvancedObjectSpawner : MonoBehaviour
 			Destroy ( gameObject );
 			//Debug.Log ("spawning.. " + objectToRespawn, go );
 		}
-
-
 	}
 }

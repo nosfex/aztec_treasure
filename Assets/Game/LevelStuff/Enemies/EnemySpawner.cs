@@ -7,13 +7,16 @@ public class EnemySpawner : MonoBehaviour
 	
 	public void Respawn()
 	{
+		print("Trying to respawn");
 		if ( objectToRespawn )
 		{
+		
+
 			GameObject go = (GameObject)Instantiate ( objectToRespawn, transform.position, transform.rotation );
 			go.transform.parent = transform.parent;
 			
 			Destroy ( gameObject );
-			//Debug.Log ("spawning.. " + objectToRespawn, go );
+			Debug.Log ("spawning.. " + objectToRespawn, go );
 		}
 	}
 }
