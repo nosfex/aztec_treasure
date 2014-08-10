@@ -10,8 +10,8 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 		
 		_PaletteHeight ("Palette Height", float) = 128
 		_PaletteTex ("Palette", 2D) = "black" {}
-		_DitherSize ("Dither Size (Width/Height)", float) = 8
-		_DitherTex ("Dither", 2D) = "black" {}
+		//_DitherSize ("Dither Size (Width/Height)", float) = 8
+		//_DitherTex ("Dither", 2D) = "black" {}
 		
 	}
 	
@@ -27,7 +27,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 			
 			//#pragma target 3.0
 			
-			#pragma surface surf Translucent vertex:vert finalcolor:dither
+			#pragma surface surf Translucent finalcolor:dither
 			#include "CGIncludes/Dithering.cginc"
 			
 			sampler2D _MainTex;
@@ -35,7 +35,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 			//sampler2D _Ramp;
 	        
 			sampler2D _PaletteTex;
-			sampler2D _DitherTex;
+			//sampler2D _DitherTex;
 
 			fixed4 _Color;
 			fixed4 _AddColor;
@@ -46,19 +46,19 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 			struct Input 
 			{
 				float2 uv_MainTex;
-		        float4 ditherPos;
-		        float2 uv_BumpMap;
+		        //float4 ditherPos;
+		        //float2 uv_BumpMap;
 		        float3 worldPos;
 			};
 			
 			//float _ColorCount;
 			float _PaletteHeight;
-			float _DitherSize;
+			//float _DitherSize;
 			
-			void vert(inout appdata_full v, out Input o) {
-				UNITY_INITIALIZE_OUTPUT(Input, o);
-				o.ditherPos = GetDitherPos(v.vertex, _DitherSize);
-			}		
+//			void vert(inout appdata_full v, out Input o) {
+//				UNITY_INITIALIZE_OUTPUT(Input, o);
+//				o.ditherPos = GetDitherPos(v.vertex, _DitherSize);
+//			}		
 			
 			void dither(Input i, SurfaceOutput o, inout fixed4 color) {
 				//color.rgb = ( GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
@@ -75,8 +75,8 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 				//fixed dither = GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
 				//	      _PaletteHeight, i.ditherPos, 3);
 				
-				color.rgb *= GetDitherColor(color.rgb * 1.0, _DitherTex, _PaletteTex,
-					      _PaletteHeight, i.ditherPos, 2) * 1.0;
+				color.rgb *= GetDitherColorFast(color.rgb * 1.0, _PaletteTex,
+					      _PaletteHeight) * 1.0;
 			}
 
 			void surf (Input IN, inout SurfaceOutput o) {
