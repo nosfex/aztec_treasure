@@ -8,7 +8,8 @@ public class SkellyMage : Skelly
 	Vector3 playerPosition;
 	
 	public GameObject attackObject;
-	public float firingDistance = 1.52f;
+	public GameObject targetObject;
+	public float firingDistance = 1.852f;
 	override protected void Start()
 	{
 		base.Start ();
@@ -47,6 +48,8 @@ public class SkellyMage : Skelly
 			GameObject attack = (GameObject)Instantiate(attackObject);
 			attack.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
 			attack.GetComponent<AttackObject>().playerPosition = playerPosition;
+			GameObject target = (GameObject)Instantiate(targetObject);
+			target.transform.position = new Vector3(playerPosition.x, playerPosition.y + 0.2f, playerPosition.z);
 		}
 		
 		float distance = Vector3.Distance(playerPosition, transform.position);
