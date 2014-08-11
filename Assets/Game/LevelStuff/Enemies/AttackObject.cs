@@ -9,6 +9,9 @@ public class AttackObject : MonoBehaviour {
 	
 	public float maxLifeSpan = 1.2f;
 	float lifeSpan = 0;
+	public float maxIdleCount = 0.3f;
+	float idleCount = 0;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -17,6 +20,12 @@ public class AttackObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		if(idleCount < maxIdleCount)
+		{
+			idleCount += Time.deltaTime;
+			return;
+		}
+		
 		UpdateAttack();
 		
 		if(lifeSpan >= maxLifeSpan)

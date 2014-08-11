@@ -48,8 +48,8 @@ public class ArenaController : MonoBehaviour {
 				{
 					// GH: Start the next wave
 					enemiesToSpawn[currentActive].SetActive(true);
-					iTween.MoveTo(spikeWallLeft, iTween.Hash("x", spikeWallLeft.transform.position.x - .5, "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
-					iTween.MoveTo(spikeWallRight, iTween.Hash("x", spikeWallRight.transform.position.x + .5 , "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
+					iTween.MoveTo(spikeWallLeft, iTween.Hash("x", spikeWallLeft.transform.position.x - 1, "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
+					iTween.MoveTo(spikeWallRight, iTween.Hash("x", spikeWallRight.transform.position.x + 1 , "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
 				}
 			}		
 			nextWaveCheckTimer += Time.deltaTime;
