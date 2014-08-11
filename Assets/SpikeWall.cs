@@ -18,7 +18,7 @@ public class SpikeWall : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
-		BaseObject p = other.gameObject.GetComponent<BaseObject>();
+		Player p = other.gameObject.GetComponent<Player>();
 		if(p != null)
 		{
 			p.OnHit(this.gameObject);
@@ -28,7 +28,7 @@ public class SpikeWall : MonoBehaviour {
 
 	void OnTriggerStay(Collider other)
 	{
-		BaseObject p = other.gameObject.GetComponent<BaseObject>();
+		Player p = other.gameObject.GetComponent<Player>();
 		if(p != null)
 		{
 			p.OnHit(this.gameObject);
@@ -39,18 +39,13 @@ public class SpikeWall : MonoBehaviour {
 	void OnCollisionEnter(Collision other)
 	{
 		print("collision");
-		BaseObject p = other.gameObject.GetComponent<BaseObject>();
+		Player p = other.gameObject.GetComponent<Player>();
 		if(p != null)
 		{
 			p.OnHit(this.gameObject);
 		}	
 
-		SpikeWall wall = other.gameObject.GetComponent<SpikeWall>();
-		if(wall != null)
-		{
-			print("WALL VS WALL");
-			touchingWall = true;
-		}
+		
 	}
 	
 }
