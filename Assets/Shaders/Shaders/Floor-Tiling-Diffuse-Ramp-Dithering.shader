@@ -112,7 +112,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 			
 				
 				//fixed diff = max (0, length(viewDir - lightDir));
-			    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 1);
+			    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 2);
 				// Add the two together.
 				fixed4 c;
 
