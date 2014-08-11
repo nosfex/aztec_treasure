@@ -48,7 +48,7 @@ public class Torch : MonoBehaviour
 	void UpdateLightIntensity()
 	{
 		if ( turnedOn )
-			targetIntensity = .7f;
+			targetIntensity = .5f;
 		else
 			targetIntensity = 0f;
 	}
@@ -57,7 +57,7 @@ public class Torch : MonoBehaviour
 	{
 		//renderer.enabled = false;
 		if ( turnedOn )
-			targetIntensity = .7f;
+			targetIntensity = .5f;
 	}
 	
 	float targetIntensity;
@@ -96,9 +96,9 @@ public class Torch : MonoBehaviour
 		if ( turnedOn )
 		{
 			if ( Time.frameCount % 16 < 8 )
-				targetIntensity = 0.68f;
+				targetIntensity = 0.48f;
 			else 
-				targetIntensity = 0.7f;
+				targetIntensity = 0.5f;
 		}
 		
 //		if ( tipContainer == null )
