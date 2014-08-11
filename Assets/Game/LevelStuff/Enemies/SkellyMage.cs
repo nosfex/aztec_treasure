@@ -26,11 +26,18 @@ public class SkellyMage : Skelly
 		
 		float distance = Vector3.Distance(playerPosition, transform.position);
 	
-		if(distance < firingDistance && stateTimer > 0.4f)
+		if(distance < firingDistance && stateTimer > 0.4f && state == State.WALKING)
 		{
-			state = State.ATTACKING;
+		//	Attack();
+			if(state != State.ATTACKING)
+				state = State.ATTACKING;			
 		}
-	
+		
+		if(distance >= firingDistance && state == State.ATTACKING)
+		{
+			state = State.WALKING;
+			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+		}
 	}
 	
 	override protected void UpdateAttacking()
@@ -41,13 +48,12 @@ public class SkellyMage : Skelly
 		else 
 			animator.renderer.material.SetColor ( "_AddColor", Color.black );
 		// GH: Launch an attack and get back to walking
-		if ( stateTimer > 0.31f )
+		if ( stateTimer > 0.521f )
 		{
 			state = State.WALKING;
-			
-			GameObject attack = (GameObject)Instantiate(attackObject);
-			attack.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
-			attack.GetComponent<AttackObject>().playerPosition = playerPosition;
+			//Invoke("launchAttack", 0.05f);
+			launchAttack();
+			//stateTimer = 0;
 			GameObject target = (GameObject)Instantiate(targetObject);
 			target.transform.position = new Vector3(playerPosition.x, playerPosition.y + 0.2f, playerPosition.z);
 		}
@@ -56,8 +62,16 @@ public class SkellyMage : Skelly
 		if(distance >= firingDistance)
 		{
 			state = State.WALKING;
+			animator.renderer.material.SetColor ( "_AddColor", Color.black );
 		}
 		
+	}
+	
+	void launchAttack()
+	{
+		GameObject attack = (GameObject)Instantiate(attackObject);
+		attack.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+		attack.GetComponent<AttackObject>().playerPosition = playerPosition;
 	}
 }
 
