@@ -83,8 +83,8 @@ Shader "Custom/Transparent-Diffuse-Ramp-Dithering" {
 			//fixed dither = GetDitherColor(color.rgb, _DitherTex, _PaletteTex,
 			//	      _PaletteHeight, i.ditherPos, 3);
 			
-			color.rgb *= GetDitherColor(color.rgb * 2.0, _DitherTex, _PaletteTex,
-				      _PaletteHeight, i.ditherPos, 2) * 1.0;
+			color.rgb *= GetDitherColorFast(color.rgb * 3.0, _PaletteTex,
+				      _PaletteHeight ) * 1.5;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o) {
@@ -116,13 +116,13 @@ Shader "Custom/Transparent-Diffuse-Ramp-Dithering" {
 			lightDir.y += .5;
 			half NdotL = dot (s.Normal, lightDir);
         	half diff = NdotL;// * 0.5 + 0.5;//max (0, length(viewDir - lightDir));
-        	half3 ramp = tex2D (_Ramp, float2(0,diff)).rgb;
+        	//half3 ramp = tex2D (_Ramp, float2(0,diff)).rgb;
         	//half4 c;
         //c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten * 2);
 		
 			
 			//fixed diff = max (0, length(viewDir - lightDir));
-		    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * ramp) * (atten * 2);
+		    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 2);
 			// Add the two together.
 			fixed4 c;
 

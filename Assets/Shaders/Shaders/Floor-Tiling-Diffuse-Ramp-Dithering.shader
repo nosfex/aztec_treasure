@@ -76,7 +76,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 				//	      _PaletteHeight, i.ditherPos, 3);
 				
 				color.rgb *= GetDitherColorFast(color.rgb * 1.0, _PaletteTex,
-					      _PaletteHeight) * 1.0;
+					      _PaletteHeight);
 			}
 
 			void surf (Input IN, inout SurfaceOutput o) {
