@@ -12,7 +12,9 @@ public class ArenaController : MonoBehaviour {
 	
 	Vector3 initPosSpikeWallLeft;
 	Vector3 initPosSpikeWallRight;
-	int currentActive = 0;
+	int currentMinorActive = 0;
+	int currentMajorActive = 0;
+	public int enemyThreshold = 2;
 	bool advanceNextWaveCheck = false;
 	double nextWaveCheckTimer = 0.0;
 	
@@ -33,25 +35,49 @@ public class ArenaController : MonoBehaviour {
 		if(advanceNextWaveCheck)
 		{
 			// GH: If we are checking for the next wave, we shouldn't have any enemies from the previous one
-			Skelly enemyCheck = enemiesToSpawn[currentActive].GetComponentInChildren<Skelly>();
-			if(enemyCheck == null)
+			ArenaWave children = enemiesToSpawn[currentMajorActive].GetComponent<ArenaWave>();//.GetComponentInChildren<Skelly>();
+			//print(enemyCheck[0]);
+			int maxEnemies = 0;
+			
+
+			for(int i = 0; i < children.waves.Length ; i++ )
+			{
+				maxEnemies += (children.waves[i]).GetComponentsInChildren<Skelly>().Length;
+				
+			}
+			if(maxEnemies == 0)
 			{
 				advanceNextWaveCheck = false;
 				// GH: Start the next wave
-				currentActive++;
-				if(currentActive >= enemiesToSpawn.Length)
+				currentMajorActive++;
+				if(currentMajorActive >= enemiesToSpawn.Length)
 				{
 					// GH: We don't have more waves, YAY!
+					print ("NO MORE WAVES");
 					return;
 				}
-				if(enemiesToSpawn[currentActive].activeSelf == false)	
+				
+			}
+			
+			Skelly[] enemyCheck = (children.waves[currentMinorActive]).GetComponentsInChildren<Skelly>();
+			if(enemyCheck.Length <= enemyThreshold)
+			{
+				currentMinorActive++;
+				
+				if(currentMinorActive >= children.waves.Length)
 				{
+					// GH: No more subwaves here, skip
+					currentMinorActive = children.waves.Length - 1 ;
+				}
+				else if((children.waves[currentMinorActive]).gameObject.activeSelf == false)	
+				{
+					
 					// GH: Start the next wave
-					enemiesToSpawn[currentActive].SetActive(true);
+					children.waves[currentMinorActive].gameObject.SetActive(true);
 					iTween.MoveTo(spikeWallLeft, iTween.Hash("x", spikeWallLeft.transform.position.x - 1, "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
 					iTween.MoveTo(spikeWallRight, iTween.Hash("x", spikeWallRight.transform.position.x + 1 , "time", 1.0f, "easeType", iTween.EaseType.easeOutBack));
 				}
-			}		
+			}
 			nextWaveCheckTimer += Time.deltaTime;
 			
 			if(nextWaveCheckTimer >= 3.0)
@@ -61,7 +87,7 @@ public class ArenaController : MonoBehaviour {
 			}
 		}
 		
-		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true && !(currentActive >= enemiesToSpawn.Length))
+		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true && !(currentMajorActive >= enemiesToSpawn.Length))
 		{
 			if(Vector3.Distance(spikeWallLeft.transform.position, spikeWallRight.transform.position) > 1.2 && setBackWalls == false)
 			{
@@ -108,24 +134,27 @@ public class ArenaController : MonoBehaviour {
 		}
 		else
 		{
-			int activeCount = enemiesToSpawn.Length;
-			activated = true;
+			ArenaWave children = enemiesToSpawn[currentMajorActive].GetComponent<ArenaWave>();
 			
-			for(int i = 0 ; i < enemiesToSpawn.Length; i++)
+			int activeCount = children.waves.Length;
+			activated = true;
+		//	print("ActiveCount: " + enemiesToSpawn[currentMajorActive]..Length.ToString() );
+			for(int i = 0 ; i < children.waves.Length; i++)
 			{
-				if(enemiesToSpawn[i].activeSelf == false)	
+				
+				if(children.waves[i].gameObject.activeSelf == false)	
 				{
 					activeCount--;
+					
 				}
 			}
 			
 			
 			if(activeCount == 0)
 			{
-				currentActive = 0;
-				
-				enemiesToSpawn[currentActive].SetActive(true);
-				
+				print("Initializing 1st");
+				currentMinorActive = 0;
+				children.waves[currentMinorActive].gameObject.SetActive(true);
 			}
 			
 			trapDoor.SetActive(true);
