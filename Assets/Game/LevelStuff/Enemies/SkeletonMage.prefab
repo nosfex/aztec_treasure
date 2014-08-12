@@ -349,7 +349,7 @@ MonoBehaviour:
   SFXDeath: []
   attackObject: {fileID: 100000, guid: 71e0a6d10a668f249abac3ac7923ef47, type: 2}
   targetObject: {fileID: 100000, guid: 441ed4e018050ca4dbed925415c8e03e, type: 2}
-  firingDistance: 1.51999998
+  firingDistance: 2.51999998
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
