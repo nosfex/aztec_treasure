@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPosition: {x: 0, y: 0, z: 0}
-  maxLifeSpan: 1.20000005
+  maxLifeSpan: 2
   maxIdleCount: .300000012
 --- !u!1001 &100100000
 Prefab:

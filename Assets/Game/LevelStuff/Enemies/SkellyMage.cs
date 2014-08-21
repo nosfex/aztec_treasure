@@ -70,7 +70,7 @@ public class SkellyMage : Skelly
 	void launchAttack()
 	{
 		GameObject attack = (GameObject)Instantiate(attackObject);
-		attack.transform.position = new Vector3(transform.position.x, transform.position.y , transform.position.z);
+		attack.transform.position = new Vector3(transform.position.x, transform.position.y + 0.4f, transform.position.z);
 		attack.GetComponent<AttackObject>().playerPosition = playerPosition;
 	}
 }

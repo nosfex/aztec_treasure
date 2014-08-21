@@ -12,7 +12,7 @@ public class AttackObject : MonoBehaviour {
 	public float maxIdleCount = 0.3f;
 	float idleCount = 0;
 
-	float ySpeed = 0.8421f ;
+	float ySpeed = 10.8421f ;
 	
 	// Use this for initialization
 	void Start ()
@@ -42,14 +42,14 @@ public class AttackObject : MonoBehaviour {
 	public void  UpdateAttack()
 	{
 
-		transform.position +=  (playerPosition - transform.position) * 0.08125f;
+		transform.position +=  ((playerPosition - transform.position) * 0.058125f) ;
 
 		float y  = (transform.position.y * Mathf.Sin(transform.position.x / transform.position.y )) * 0.001f;
-		y = Mathf.Atan2(transform.position.y, transform.position.x) / 8 ; 
+		y = Mathf.Atan2(transform.position.y, transform.position.x) * Time.deltaTime  ; 
 
 		//y *= -0.00181f;
-		ySpeed *= y;
-		ySpeed -= (float)(0.15f * Time.deltaTime);
+		ySpeed *= y / 8 ;
+		ySpeed -= (float)(0.01f * Time.deltaTime);
 		print(y.ToString());
 		transform.position = new Vector3(transform.position.x, transform.position.y  +ySpeed , transform.position.z);
 	}
