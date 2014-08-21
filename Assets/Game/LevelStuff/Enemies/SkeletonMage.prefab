@@ -432,10 +432,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd0dd979cd91484fa0e621c9287ad82, type: 3}
+  m_Script: {fileID: 11500000, guid: c6c50bce110fe4cfaa15889c9fcb43c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerTarget: {fileID: 0}
+  firingDistance: 4
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,7 +479,6 @@ MonoBehaviour:
   SFXDeath: []
   attackObject: {fileID: 100000, guid: 71e0a6d10a668f249abac3ac7923ef47, type: 2}
   targetObject: {fileID: 100000, guid: 441ed4e018050ca4dbed925415c8e03e, type: 2}
-  firingDistance: 2.51999998
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

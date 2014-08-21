@@ -76,7 +76,7 @@ public class Skelly : BaseObject
 	
 	protected State state
 	{ 
-		set { if ( stateValue != value ) { stateValue = value; stateTimer = 0; } } 
+		set { if ( stateValue != value ) { stateValue = value; print("state = " + value ); stateTimer = 0; } } 
 		get { return stateValue; } 
 	}
 	
@@ -128,6 +128,7 @@ public class Skelly : BaseObject
 				{
 					animator.renderer.material.SetColor ( "_AddColor", Color.black );
 					jumpAttacking = false;
+
 					state = State.WALKING;
 				}
 			}
@@ -146,7 +147,7 @@ public class Skelly : BaseObject
 	
 	virtual protected void UpdateWalking()
 	{
-		controller.UpdateAI ();
+		controller.UpdateAI();
 		
 		float dx = 0, dy = 0;
 
@@ -357,6 +358,7 @@ public class Skelly : BaseObject
 				if ( cooldown < 0 ) // Si no hay objeto, trata de pegar
 				{
 					Attack();
+
 				}
 			}
 			else // Ya tiene un objeto en la capocha, tirarlo!

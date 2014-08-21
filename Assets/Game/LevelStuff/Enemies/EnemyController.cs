@@ -35,7 +35,6 @@ public class EnemyController : MonoBehaviour
 	protected bool goingDown;
 	protected bool attacking;
 	
-	
 	public void ClearActions()
 	{
 		goingUp = goingLeft = goingDown = goingUp = attacking = false;

@@ -35,6 +35,7 @@ public class ArenaController : MonoBehaviour {
 		if(advanceNextWaveCheck)
 		{
 			// GH: If we are checking for the next wave, we shouldn't have any enemies from the previous one
+		
 			ArenaWave children = enemiesToSpawn[currentMajorActive].GetComponent<ArenaWave>();//.GetComponentInChildren<Skelly>();
 			//print(enemyCheck[0]);
 			int maxEnemies = 0;
@@ -53,6 +54,7 @@ public class ArenaController : MonoBehaviour {
 				if(currentMajorActive >= enemiesToSpawn.Length)
 				{
 					// GH: We don't have more waves, YAY!
+					currentMajorActive = enemiesToSpawn.Length-1;
 					print ("NO MORE WAVES");
 					return;
 				}
@@ -86,8 +88,29 @@ public class ArenaController : MonoBehaviour {
 				nextWaveCheckTimer = 0;
 			}
 		}
+
+		else 
+		{
+			
+			ArenaWave children = enemiesToSpawn[currentMajorActive].GetComponent<ArenaWave>();//.GetComponentInChildren<Skelly>();
+			//print(enemyCheck[0]);
+			int maxEnemies = 0;
+			
+			
+			for(int i = 0; i < children.waves.Length ; i++ )
+			{
+				maxEnemies += (children.waves[i]).GetComponentsInChildren<Skelly>().Length;
+				
+			}
+
+			if(maxEnemies == 0)
+			{
+				setBackWalls = true;
+
+			}
+		}
 		
-		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true && !(currentMajorActive >= enemiesToSpawn.Length))
+		if(spikeWallLeft.activeSelf == true && spikeWallRight.activeSelf == true)
 		{
 			if(Vector3.Distance(spikeWallLeft.transform.position, spikeWallRight.transform.position) > 1.2 && setBackWalls == false)
 			{
@@ -110,6 +133,8 @@ public class ArenaController : MonoBehaviour {
 				}
 			}
 		}
+
+
 	}
 	
 	
