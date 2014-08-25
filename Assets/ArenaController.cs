@@ -26,7 +26,16 @@ public class ArenaController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-	
+	/*	for(int i = 0; i < enemiesToSpawn.Length; i++)
+		{
+			
+			ArenaWave children = enemiesToSpawn[i].GetComponent<ArenaWave>();
+			for(int j = 0 ; j < children.waves.Length; j++)
+			{
+				
+				children.waves[j].gameObject.SetActive( false);
+			}
+		}*/
 	}
 	
 	// Update is called once per frame
