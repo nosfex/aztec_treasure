@@ -12,8 +12,10 @@ public class ArenaController : MonoBehaviour {
 	
 	Vector3 initPosSpikeWallLeft;
 	Vector3 initPosSpikeWallRight;
-	int currentMinorActive = 0;
-	int currentMajorActive = 0;
+	[HideInInspector]
+	public int currentMinorActive = 0;
+	[HideInInspector]
+	public int currentMajorActive = 0;
 	public int enemyThreshold = 2;
 	bool advanceNextWaveCheck = false;
 	double nextWaveCheckTimer = 0.0;
@@ -26,16 +28,6 @@ public class ArenaController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-	/*	for(int i = 0; i < enemiesToSpawn.Length; i++)
-		{
-			
-			ArenaWave children = enemiesToSpawn[i].GetComponent<ArenaWave>();
-			for(int j = 0 ; j < children.waves.Length; j++)
-			{
-				
-				children.waves[j].gameObject.SetActive( false);
-			}
-		}*/
 	}
 	
 	// Update is called once per frame
@@ -201,6 +193,8 @@ public class ArenaController : MonoBehaviour {
 			initPosSpikeWallRight = spikeWallRight.transform.position;
 			spikeWallRight.SetActive(true);
 			iTween.MoveFrom(spikeWallRight, iTween.Hash("y", spikeWallRight.transform.position.y - 3, "time", 1.0f, "easetype", iTween.EaseType.easeOutBack));
+			
+			
 			
 		}
 	}
