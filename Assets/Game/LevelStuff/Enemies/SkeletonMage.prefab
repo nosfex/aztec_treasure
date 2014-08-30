@@ -469,7 +469,7 @@ MonoBehaviour:
   playerSensor: {fileID: 11400004}
   prefabExplosion: {fileID: 100002, guid: 6064ede2577634fd8931f5f23514c3c5, type: 2}
   hearts: 0
-  maxHearts: 5
+  maxHearts: 3
   speed: .00200000009
   attackJumpHeight: -.0250000004
   attackSpeedFactor: 30

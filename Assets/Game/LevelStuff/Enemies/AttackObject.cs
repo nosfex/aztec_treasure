@@ -81,12 +81,12 @@ public class AttackObject : MonoBehaviour {
 	
 	public void OnTriggerEnter(Collider other)
 	{
-		Player player = other.gameObject.GetComponentInChildren<Player>();
-
-		if(player != null)
-		{
-			player.OnHit(this.gameObject);
-			
-		}
+//		Player player = other.gameObject.GetComponentInChildren<Player>();
+//
+//		if(player != null)
+//		{
+//			player.OnHit(this.gameObject);
+//			
+//		}
 	}
 }

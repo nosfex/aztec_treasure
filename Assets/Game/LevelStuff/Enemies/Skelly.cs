@@ -407,6 +407,11 @@ public class Skelly : BaseObject
 		Vector3 bounceDirection = Vector3.Normalize( transform.position - other.transform.position );
 		bounceDirection.y = 0;
 
+		if ( Mathf.Abs ( bounceDirection.z ) > Mathf.Abs ( bounceDirection.x ) )
+			bounceDirection.x = 0;
+		else 
+			bounceDirection.z = 0;
+
 		if ( p != null )//&& playerKnockbackHitFactor > 0 )
 		{
 			p.SetVelocity( p.velocity * -playerKnockbackHitFactor );

@@ -228,7 +228,7 @@ public class SpriteAnimator : MonoBehaviour
 				return findWorld ( t.parent );
 		}
 	}
-	
+	int updateRotationInterval = 0;
 	void Start () 
 	{
 		if ( Application.isEditor && !Application.isPlaying )
@@ -241,7 +241,9 @@ public class SpriteAnimator : MonoBehaviour
 		frameIndex = 0;
 		
 		currentAnimation = null;
-		
+
+		updateRotationInterval = Random.Range (0,9);
+
 		if ( animations.Length == 0 )
 			return;
 		
@@ -285,7 +287,8 @@ public class SpriteAnimator : MonoBehaviour
 		timer = Mathf.Clamp( timer, 0, frameTime * frameSequence[ frame ] );
 		frameIndex = (int)(timer / frameTime);
 	}	
-	
+
+
 	void Update () 
 	{
 		
@@ -297,10 +300,14 @@ public class SpriteAnimator : MonoBehaviour
 		
 		if ( isBillboard )
 		{
-			if ( billboardCamera  )
+			if ( billboardCamera )
 			{
-				transform.rotation = Quaternion.LookRotation( transform.position - billboardCamera.transform.position );
-				transform.rotation = Quaternion.Euler ( transform.rotation.eulerAngles.x, 0, 0 );
+
+				if ( Time.frameCount % 10 == updateRotationInterval )
+				{
+					transform.rotation = Quaternion.LookRotation( transform.position - billboardCamera.transform.position );
+					transform.rotation = Quaternion.Euler ( transform.rotation.eulerAngles.x, 0, 0 );
+				}
 			}
 			else 
 				FindBillboardCamera();
