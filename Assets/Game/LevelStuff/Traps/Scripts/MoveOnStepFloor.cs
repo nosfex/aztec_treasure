@@ -3,22 +3,44 @@ using System.Collections;
 
 public class MoveOnStepFloor : MonoBehaviour 
 {
-	public Vector3 startingVelocity;
+	public float startingVelocity;
+
 	Vector3 velocity;
+	public AnyObjectSensor sensor;
 
 	bool activated = false;
-	// Use this for initialization
-	void Start () {
-		velocity = startingVelocity;
+
+	void Start () 
+	{
+		velocity = transform.right * startingVelocity;
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
 		enterTriggerCooldown -= Time.deltaTime;
 
 		if ( activated )
 			transform.position += velocity * Time.deltaTime;
+
+		if ( sensor.sensedObject != null )
+		{
+			Collider other = sensor.sensedObject;
+
+			if ( other == collider )
+			{
+				//print ("Error....");
+				return;
+			}
+
+			if ( other.gameObject.name == "WallTile" || 
+			    other.gameObject.name == "InvisibleWall" || 
+			    other.gameObject.name == "FloorMoveOnStep" ||
+			    other.gameObject.name.Contains("Floor") )
+			{
+				if ( activated )
+					velocity = Vector3.zero;
+			}
+		}
 	}
 
 	float enterTriggerCooldown = 0.5f;
@@ -30,14 +52,5 @@ public class MoveOnStepFloor : MonoBehaviour
 
 	void OnTriggerEnter( Collider other )
 	{
-		Debug.Log( "oso! ", other );
-		if ( other.gameObject.name == "WallTile" || 
-		     other.gameObject.name == "InvisibleWall" || 
-		     other.gameObject.name == "FloorMoveOnStep"  )
-		{
-			if ( activated )
-				velocity = Vector3.zero;
-			//enterTriggerCooldown = 0.5f;
-		}
 	}
 }

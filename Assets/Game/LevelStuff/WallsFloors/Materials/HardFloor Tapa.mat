@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: HardFloor Tapa
-  m_Shader: {fileID: 4800000, guid: b93811fd506c5304284230c73c1c2a26, type: 3}
+  m_Shader: {fileID: 4800000, guid: f6176a829a58a41fc847070ab23fbae9, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -36,13 +36,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Detail
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _PaletteTex
         second:
           m_Texture: {fileID: 2800000, guid: 721e2a6f3f4c84feab04547db02dfd6e, type: 3}
@@ -51,6 +44,13 @@ Material:
       data:
         first:
           name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Detail
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -84,7 +84,7 @@ Material:
       data:
         first:
           name: _AddColor
-        second: {r: 0, g: 0, b: 0, a: 0}
+        second: {r: .110294104, g: .110294104, b: .110294104, a: 0}
       data:
         first:
           name: _TintColor

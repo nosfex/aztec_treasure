@@ -12,8 +12,8 @@ public class SkellyMage : Skelly
 	override protected void Start()
 	{
 		base.Start ();
-		minStairClimb = 0.4f;
-		attackCooldown = 1.2f;
+		minStairClimb = 0.2f;
+		attackCooldown = 2.0f;
 	}
 	
 	// Update is called once per frame
@@ -43,7 +43,7 @@ public class SkellyMage : Skelly
 			playerPosition = GameDirector.i.playerRight.transform.position;	
 			target.transform.position = new Vector3(playerPosition.x, playerPosition.y - 0.35f, playerPosition.z);
 		}
-		if ( stateTimer > 0.521f)
+		if ( stateTimer > 1 )//0.521f)
 		{
 		
 			launchAttack();

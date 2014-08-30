@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: c9bbf0a5e6a1f4ad3897f0c7e963361d, type: 3}
+          m_Texture: {fileID: 2800000, guid: 26a09777974bffc4bab7a8888300c1d0, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -36,16 +36,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Detail
+          name: _Ramp
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Ramp
+          name: _Detail
         second:
-          m_Texture: {fileID: 2800000, guid: b673ad0cce4186845a32998b10f51f05, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -95,7 +95,7 @@ Material:
       data:
         first:
           name: _AddColor
-        second: {r: .0588235259, g: .0588235259, b: .0588235259, a: 0}
+        second: {r: .132352948, g: .132352948, b: .132352948, a: 0}
       data:
         first:
           name: _TintColor

@@ -83,6 +83,10 @@ Material:
         first:
           name: _InvFade
         second: 1
+      data:
+        first:
+          name: _TileSize
+        second: 1.29999995
     m_Colors:
       data:
         first:

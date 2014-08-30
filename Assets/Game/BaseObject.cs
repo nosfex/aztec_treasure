@@ -30,7 +30,7 @@ public class BaseObject : MonoBehaviour
 	
 	public GameObject prefabShadow;
 	
-	protected float minStairClimb = 0f;
+	protected float minStairClimb = 0.2f;
 	protected bool climbStairs = false;
 	
 	EnemySpawner respawner;

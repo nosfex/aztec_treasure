@@ -8,8 +8,11 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		//_Ramp ("Shading Ramp (RGB)", 2D) = "white" {}
 		
-		_PaletteHeight ("Palette Height", float) = 128
+		//_PaletteHeight ("Palette Height", float) = 128
 		_PaletteTex ("Palette", 2D) = "black" {}
+		
+		_TileSize ("Tile Size", float) = 1.3
+		
 		//_DitherSize ("Dither Size (Width/Height)", float) = 8
 		//_DitherTex ("Dither", 2D) = "black" {}
 		
@@ -52,7 +55,8 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 			};
 			
 			//float _ColorCount;
-			float _PaletteHeight;
+			//float _PaletteHeight;
+			float _TileSize;
 			//float _DitherSize;
 			
 //			void vert(inout appdata_full v, out Input o) {
@@ -76,7 +80,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 				//	      _PaletteHeight, i.ditherPos, 3);
 				
 				color.rgb *= GetDitherColorFast(color.rgb * 1.0, _PaletteTex,
-					      _PaletteHeight);
+					      128);
 			}
 
 			void surf (Input IN, inout SurfaceOutput o) {
@@ -88,7 +92,7 @@ Shader "Custom/Floor-Tiling-Diffuse-Ramp-Dithering"
 
 				//IN.uv_MainTex.x *= 2.0;
 				//IN.uv_MainTex.y *= 2.0;
-				fixed4 tex = tex2D(_MainTex, IN.worldPos.xz*1.3);
+				fixed4 tex = tex2D(_MainTex, IN.worldPos.xz * _TileSize);
 
 					      
 				o.Albedo = tex.rgb * _Color.rgb;

@@ -43,13 +43,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Detail
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _PaletteTex
         second:
           m_Texture: {fileID: 2800000, guid: 721e2a6f3f4c84feab04547db02dfd6e, type: 3}
@@ -58,6 +51,13 @@ Material:
       data:
         first:
           name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Detail
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}

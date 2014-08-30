@@ -24,11 +24,11 @@ public class SkellyMageAI : EnemyController
 		{
 			attacking = true;
 
-			print ("ALALALLAALLA");
+			//print ("ALALALLAALLA");
 		}
 		else
 		{
-			print("ATTACKING=FALSE");
+			//print("ATTACKING=FALSE");
 			attacking = false;
 
 		}
@@ -41,7 +41,7 @@ public class SkellyMageAI : EnemyController
 	
 	override public void UpdateAI()
 	{
-		print ("BODY IS BEHAVING WEIRD");
+		//print ("BODY IS BEHAVING WEIRD");
 		if ( !body.isGrounded )
 		{
 

@@ -181,7 +181,7 @@ public class GameDirector : MonoBehaviour {
 		
 		Invoke( "InitTiles", .1f );
 		//SnapAssistant.i.snapEnabled = true;
-		InitHighQuality( false );
+		//InitHighQuality( false );
 	}
 	
 	void InitTiles()

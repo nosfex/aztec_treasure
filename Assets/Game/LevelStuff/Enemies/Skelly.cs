@@ -39,7 +39,7 @@ public class Skelly : BaseObject
 		startPosition = transform.position;
 		controller = GetComponent<EnemyController>();
 
-		minStairClimb = 0.1f;
+		minStairClimb = 0.2f;
 		climbStairs = true;
 	}	
 

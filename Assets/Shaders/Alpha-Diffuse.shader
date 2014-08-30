@@ -49,7 +49,7 @@ Shader "Custom/Transparent-Diffuse-CullOff" {
 		void surf (Input IN, inout SurfaceOutput o) {
 			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
 			o.Albedo = tex.rgb * _Color.rgb;
-			o.Alpha = tex.a;//tex2D(_Thickness, IN.uv_MainTex).r;
+			o.Alpha = tex.a * _Color.a;//tex2D(_Thickness, IN.uv_MainTex).r;
 			o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
 			//o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_MainTex));
 		}

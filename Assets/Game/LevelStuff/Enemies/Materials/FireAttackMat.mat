@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: FireAttackMat
-  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 90510eba9f900dc4685dfb01fafbbb8f, type: 3}
+          m_Texture: {fileID: 2800000, guid: 66fe239c3650e674b9bc42255a9c7429, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -27,7 +27,11 @@ Material:
           m_Texture: {fileID: 2800000, guid: 914c8c0cb8e81084aaf22912a05b2f35, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+    m_Floats:
+      data:
+        first:
+          name: _InvFade
+        second: 1
     m_Colors:
       data:
         first:
@@ -37,3 +41,7 @@ Material:
         first:
           name: _AddColor
         second: {r: 1, g: .478431374, b: 0, a: 0}
+      data:
+        first:
+          name: _TintColor
+        second: {r: .529411793, g: .529411793, b: .529411793, a: .501960814}
