@@ -6,20 +6,25 @@ public class Cocodrile : Skelly {
 	public AudioSource[] SFXDeath;
 	Vector3 playerPosition;
 	public ParticleSystem trailParticles;
-
+	ParticleSystem particles;
+	GameObject trailP;
 	override protected void Start()
 	{
 		base.Start ();
 		minStairClimb = 0.4f;
 		attackCooldown = 1.2f;
-		trailParticles.Stop();
+		trailP = (GameObject)Instantiate(trailParticles.gameObject);
+		particles = trailP.GetComponent<ParticleSystem>();
+		trailP.transform.parent = this.transform;
+		trailP.renderer.material = this.renderer.material;
+		particles.Stop();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		base.Update();
-		trailParticles.transform.position = transform.position;
+		trailP.transform.position = transform.position;
 	}
 	
 	override protected void UpdateWalking()
@@ -41,7 +46,7 @@ public class Cocodrile : Skelly {
 		}
 		if ( stateTimer > 0.521f && stateTimer < 0.8f) 
 		{
-			trailParticles.Play();
+			particles.Play();
 			velocity = direction * speed * attackSpeedFactor;
 			cooldown = attackCooldown;
 		}
@@ -50,7 +55,7 @@ public class Cocodrile : Skelly {
 		{
 			state = State.WALKING;
 			cooldown = attackCooldown;
-			trailParticles.Stop();
+			particles.Stop();
 			animator.renderer.material.SetColor ( "_AddColor", Color.black );
 		}
 	}
@@ -86,6 +91,17 @@ public class Cocodrile : Skelly {
 		}
 		
 		base.OnTriggerEnter( other );
+	}
+
+	override protected void TestWalls( Collider other )
+	{
+		base.TestWalls( other );
+		if(state == State.ATTACKING)
+		{
+			state = State.WALKING;
+			cooldown = attackCooldown;
+			velocity = Vector3.zero;
+		}
 	}
 
 }
