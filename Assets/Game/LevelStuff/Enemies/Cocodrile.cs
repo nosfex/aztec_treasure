@@ -16,7 +16,7 @@ public class Cocodrile : Skelly {
 		trailP = (GameObject)Instantiate(trailParticles.gameObject);
 		particles = trailP.GetComponent<ParticleSystem>();
 		trailP.transform.parent = this.transform;
-		trailP.renderer.material = this.renderer.material;
+		particles.transform.parent = this.transform;
 		particles.Stop();
 	}
 	
@@ -46,7 +46,11 @@ public class Cocodrile : Skelly {
 		}
 		if ( stateTimer > 0.521f && stateTimer < 0.8f) 
 		{
-			particles.Play();
+			if(!particles.isPlaying)
+			{
+				
+				particles.Play();
+			}
 			velocity = direction * speed * attackSpeedFactor;
 			cooldown = attackCooldown;
 		}
@@ -55,7 +59,11 @@ public class Cocodrile : Skelly {
 		{
 			state = State.WALKING;
 			cooldown = attackCooldown;
-			particles.Stop();
+			if(particles.isPlaying)
+			{
+				particles.Stop();
+				
+			}
 			animator.renderer.material.SetColor ( "_AddColor", Color.black );
 		}
 	}
