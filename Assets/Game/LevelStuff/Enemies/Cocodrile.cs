@@ -17,6 +17,7 @@ public class Cocodrile : Skelly {
 		particles = trailP.GetComponent<ParticleSystem>();
 		trailP.transform.parent = this.transform;
 		particles.transform.parent = this.transform;
+
 		particles.Stop();
 	}
 	
@@ -48,7 +49,10 @@ public class Cocodrile : Skelly {
 		{
 			if(!particles.isPlaying)
 			{
-				
+			
+				particles.renderer.material.mainTextureOffset = animator.renderer.material.mainTextureOffset;
+				particles.renderer.material.mainTextureScale = animator.renderer.material.mainTextureScale;
+
 				particles.Play();
 			}
 			velocity = direction * speed * attackSpeedFactor;
