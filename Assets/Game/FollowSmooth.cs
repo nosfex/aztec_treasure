@@ -430,8 +430,7 @@ public class FollowSmooth : MonoBehaviour
 		else 
 			adjust.z = (adjustUp + adjustDown);
 
-		print ("Adjust L = " + adjustLeft + "... adjust R = " + adjustRight );
-
+		//print ("Adjust L = " + adjustLeft + "... adjust R = " + adjustRight );
 
 		tempTarget += adjust;
 

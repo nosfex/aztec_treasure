@@ -8,19 +8,19 @@ public class GUITorch : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		text = GetComponent<TextMesh>();
+		//text = GetComponent<TextMesh>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 		bool equipped = GameDirector.i.playerRight.hasLamp;
-		renderer.enabled = equipped;
+		//renderer.enabled = equipped;
 		icon.enabled = equipped;
-		string t = "";
+		//string t = "";
 		
-		t = "" + (int)GameDirector.i.playerRight.torchRatio + "%";
+		//t = "" + (int)GameDirector.i.playerRight.torchRatio + "%";
 		
-		text.text = t;
+		//text.text = t;
 	}
 }

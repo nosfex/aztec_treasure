@@ -7,6 +7,7 @@ public class DarkZone : MonoBehaviour {
 	Color origColor;
 	bool inside = false;
 	float insideTimer = 1.0f;
+	public GameObject objectToHide;
 	void Start () 
 	{
 		origColor = RenderSettings.ambientLight;	
@@ -26,6 +27,10 @@ public class DarkZone : MonoBehaviour {
 		if ( found )
 		{
 			RenderSettings.ambientLight = Color.Lerp( RenderSettings.ambientLight, Color.black, 0.01f );
+
+			if ( objectToHide != null )
+				objectToHide.SetActive( false );
+
 			inside = true;
 			
 			if ( GameDirector.i.playerRight.hasLamp )
@@ -33,6 +38,7 @@ public class DarkZone : MonoBehaviour {
 		}
 		else if ( inside )
 		{
+
 			insideTimer += Time.deltaTime;
 
 			if ( insideTimer > 3.0f )
@@ -40,6 +46,8 @@ public class DarkZone : MonoBehaviour {
 				GameDirector.i.playerRight.darknessMechanic = false;
 				inside = false;
 				insideTimer = 0;
+				if ( objectToHide != null )
+					objectToHide.SetActive( true );
 			}
 			
 			RenderSettings.ambientLight = Color.Lerp( RenderSettings.ambientLight, origColor, 0.01f );

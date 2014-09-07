@@ -342,9 +342,9 @@ MonoBehaviour:
   maxHearts: 5
   speed: .00200000009
   attackJumpHeight: -.0250000004
-  attackSpeedFactor: 30
+  attackSpeedFactor: 50
   attackCooldown: 1.5
-  playerKnockbackHitFactor: -1.5
+  playerKnockbackHitFactor: -1
   stateValue: 0
 --- !u!114 &11400002
 MonoBehaviour:

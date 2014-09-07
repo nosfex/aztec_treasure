@@ -497,13 +497,12 @@ public class Player : BaseObject
 
 	virtual protected void Update () 
 	{
-
 		objectToIgnoreTimer -= Time.deltaTime;
 
 		if ( objectToIgnoreTimer < 0 )
 			objectToIgnore = null;
 
-		velocity = Vector3.Normalize( velocity ) * Mathf.Clamp ( velocity.magnitude, 0, speed * 2 );
+		velocity = Vector3.Normalize( velocity ) * Mathf.Clamp ( velocity.magnitude, 0, speed * 4 );
 		
 		if ( deathAwaits )
 		{
@@ -531,7 +530,7 @@ public class Player : BaseObject
 		
 		dx = 0; dy = 0;
 		
-		if ( state != State.ATTACKING  )
+		if ( state != State.ATTACKING && state != State.HIT )
 		{
 			if ( Input.GetKey(leftKey) && !stuckLeft )
 				dx = -1;
@@ -680,7 +679,7 @@ public class Player : BaseObject
 
 				break;
 			case State.HIT:
-				frictionCoef += (0.66f - frictionCoef) * 0.1f;
+				frictionCoef += (0.66f - frictionCoef) * 0.01f;
 				canAttack = false;
 
 				if ( stateTimer > 0.3f )
@@ -871,8 +870,21 @@ public class Player : BaseObject
 		inmuneTimer = 2.0f;
 		frictionCoef = 0.99f;
 
-		state = State.HIT;
-		
+		if ( state != State.HIT )
+		{
+			state = State.HIT;
+
+			Vector3 bounceDirection = Vector3.Normalize( transform.position - other.transform.position );
+			bounceDirection.y = 0;
+			
+			if ( Mathf.Abs ( bounceDirection.z ) > Mathf.Abs ( bounceDirection.x ) )
+				bounceDirection.x = 0;
+			else 
+				bounceDirection.z = 0;
+
+			SetVelocity( bounceDirection );
+		}
+
 		if ( hearts == 0 )
 		{
 			Die();
@@ -925,7 +937,7 @@ public class Player : BaseObject
 			if ( other.tag == "Wall" )
 			{
 				//print ("bounce wall");
-				state = State.HIT;
+				//state = State.HIT;
 
 				//velocity *= -.5f;
 				//frictionCoef = 0.999f;

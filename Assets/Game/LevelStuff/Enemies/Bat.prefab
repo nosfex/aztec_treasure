@@ -600,7 +600,7 @@ MonoBehaviour:
   attackJumpHeight: -.0399999991
   attackSpeedFactor: 30
   attackCooldown: 1.5
-  playerKnockbackHitFactor: -1.5
+  playerKnockbackHitFactor: -1
   stateValue: 0
   SFXDeath:
   - {fileID: 8200002}
