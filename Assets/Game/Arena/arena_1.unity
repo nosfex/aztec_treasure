@@ -747,7 +747,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 716263988}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!114 &23209280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4440,7 +4440,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!114 &171558600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6262,7 +6262,7 @@ GameObject:
   - 114: {fileID: 232340898}
   - 114: {fileID: 232340897}
   m_Layer: 0
-  m_Name: PotterySpawner
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -6275,7 +6275,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 232340895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.37484169, y: -1.58291936, z: -4.73930693}
+  m_LocalPosition: {x: 1.38980103, y: -1.58291888, z: -2.20060444}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -6646,7 +6646,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 716263988}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &245929039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6928,7 +6928,7 @@ GameObject:
   - 114: {fileID: 259964996}
   - 114: {fileID: 259964995}
   m_Layer: 0
-  m_Name: PotterySpawner
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -6941,7 +6941,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 259964993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.41019821, y: -1.58291888, z: -3.70060444}
+  m_LocalPosition: {x: -3.41019821, y: -1.58291888, z: -2.30060482}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -7024,7 +7024,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: .389801025
+      value: 1.18980217
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -7032,7 +7032,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3.60060453
+      value: -4.30060434
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -7061,6 +7061,10 @@ Prefab:
     - target: {fileID: 11400002, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
@@ -7567,7 +7571,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 4
+  m_RootOrder: 0
 --- !u!114 &279209628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8669,63 +8673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effect: {fileID: 19800000, guid: 82e89d1eab2954ea8854f3830b29e67c, type: 2}
---- !u!1 &354063631
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100016, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 354063632}
-  - 114: {fileID: 354063634}
-  - 114: {fileID: 354063633}
-  m_Layer: 0
-  m_Name: PotterySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &354063632
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400016, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 354063631}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.42515945, y: -1.58291936, z: -3.23332977}
-  m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
-  m_Children: []
-  m_Father: {fileID: 1340271467}
-  m_RootOrder: 0
---- !u!114 &354063633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400032, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 354063631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &354063634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400034, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 354063631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2357eb686df0dfa4bbbef8a97fee7141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectList:
-  - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
-  randomGroup: 1
-  percentSpawnChance: 100
 --- !u!1 &354508940
 GameObject:
   m_ObjectHideFlags: 0
@@ -9258,7 +9205,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!114 &378590047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9829,7 +9776,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1614892998}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!114 &384339213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10846,15 +10793,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.63159943
+      value: -2.61019897
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.77059436
+      value: -1.78291869
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -4.30520725
+      value: -2.40060425
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -10874,7 +10821,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
@@ -16487,7 +16438,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 6
+  m_RootOrder: 3
 --- !u!114 &597008274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17694,13 +17645,13 @@ Transform:
   m_LocalPosition: {x: 7.07201958, y: -.225390673, z: 5.19281626}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2059201363}
-  - {fileID: 1718518162}
-  - {fileID: 1349104649}
   - {fileID: 1929070532}
   - {fileID: 1689323281}
   - {fileID: 1758240212}
   - {fileID: 597008273}
+  - {fileID: 2059201363}
+  - {fileID: 1718518162}
+  - {fileID: 1349104649}
   m_Father: {fileID: 1915335296}
   m_RootOrder: 3
 --- !u!114 &634859528
@@ -18315,7 +18266,7 @@ GameObject:
   - 114: {fileID: 670159483}
   - 114: {fileID: 670159482}
   m_Layer: 0
-  m_Name: PotterySpawner
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -18328,7 +18279,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 670159480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .989801407, y: -1.58291888, z: -6.90060425}
+  m_LocalPosition: {x: 1.48980141, y: -1.58291888, z: -6.50060463}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -18601,7 +18552,7 @@ GameObject:
   - 114: {fileID: 681105832}
   - 114: {fileID: 681105831}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -18614,11 +18565,11 @@ Transform:
   m_PrefabInternal: {fileID: 1347688343}
   m_GameObject: {fileID: 681105829}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .653171539, y: -1.77059436, z: -6.72896099}
+  m_LocalPosition: {x: -1.01019859, y: -1.78291869, z: -3.40060425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1340271467}
-  m_RootOrder: 6
+  m_RootOrder: 1
 --- !u!114 &681105831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19127,11 +19078,11 @@ Transform:
   m_LocalPosition: {x: 5.77201939, y: -1.12539053, z: 2.29281616}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 987589659}
   - {fileID: 1775598932}
   - {fileID: 245929038}
   - {fileID: 1658699054}
   - {fileID: 23209279}
-  - {fileID: 987589659}
   m_Father: {fileID: 1915335296}
   m_RootOrder: 5
 --- !u!114 &716263989
@@ -19585,63 +19536,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1651560363}
   m_GameObject: {fileID: 727447671}
   m_Mesh: {fileID: 4300000, guid: da553cd3acf86104084d85613a897009, type: 3}
---- !u!1 &729172186
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100012, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 729172187}
-  - 114: {fileID: 729172189}
-  - 114: {fileID: 729172188}
-  m_Layer: 0
-  m_Name: PotterySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &729172187
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400012, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 729172186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.37484169, y: -1.58291936, z: -6.77492666}
-  m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
-  m_Children: []
-  m_Father: {fileID: 1340271467}
-  m_RootOrder: 1
---- !u!114 &729172188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400026, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 729172186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &729172189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400024, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 729172186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2357eb686df0dfa4bbbef8a97fee7141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectList:
-  - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
-  randomGroup: 1
-  percentSpawnChance: 100
 --- !u!1001 &733194553
 Prefab:
   m_ObjectHideFlags: 0
@@ -19709,7 +19603,7 @@ GameObject:
   - 114: {fileID: 733734242}
   - 114: {fileID: 733734241}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -19722,7 +19616,7 @@ Transform:
   m_PrefabInternal: {fileID: 2143308855}
   m_GameObject: {fileID: 733734239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .68980217, y: -1.78291869, z: -6.70060444}
+  m_LocalPosition: {x: -.910198212, y: -1.78291869, z: -5.30060482}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -20665,7 +20559,7 @@ GameObject:
   - 114: {fileID: 762164780}
   - 114: {fileID: 762164779}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -20678,7 +20572,7 @@ Transform:
   m_PrefabInternal: {fileID: 265820916}
   m_GameObject: {fileID: 762164777}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .389801025, y: -1.78291869, z: -3.60060453}
+  m_LocalPosition: {x: 1.18980217, y: -1.78291869, z: -4.30060434}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -22863,7 +22757,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!114 &837430743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25218,7 +25112,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1614892998}
-  m_RootOrder: 3
+  m_RootOrder: 1
 --- !u!114 &890178949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28785,7 +28679,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 716263988}
-  m_RootOrder: 4
+  m_RootOrder: 0
 --- !u!114 &987589660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31105,8 +30999,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1035478024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -362.26886, y: 14.9829712, z: 0}
-  m_LocalScale: {x: 15, y: 15, z: 15}
+  m_LocalPosition: {x: -417.986938, y: 41.8302917, z: 0}
+  m_LocalScale: {x: 10.2192411, y: 10.2192402, z: 10.2192402}
   m_Children: []
   m_Father: {fileID: 943220435}
   m_RootOrder: 0
@@ -32473,7 +32367,7 @@ GameObject:
   - 114: {fileID: 1054371300}
   - 114: {fileID: 1054371299}
   m_Layer: 0
-  m_Name: PotterySpawner
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -32486,7 +32380,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1054371297}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.41019821, y: -1.58291888, z: -6.30060482}
+  m_LocalPosition: {x: -3.41019821, y: -1.58291888, z: -6.50060463}
   m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -34599,7 +34493,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1614892998}
-  m_RootOrder: 2
+  m_RootOrder: 0
 --- !u!114 &1097195436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36906,12 +36800,12 @@ Transform:
   m_LocalPosition: {x: 6.57201958, y: -1.02539062, z: 3.59281778}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 279209627}
+  - {fileID: 1256416290}
   - {fileID: 171558599}
   - {fileID: 1727505156}
   - {fileID: 1913008030}
   - {fileID: 1965572896}
-  - {fileID: 279209627}
-  - {fileID: 1256416290}
   m_Father: {fileID: 1915335296}
   m_RootOrder: 4
 --- !u!114 &1150620038
@@ -37175,7 +37069,7 @@ GameObject:
   - 114: {fileID: 1169991907}
   - 114: {fileID: 1169991906}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -37188,7 +37082,7 @@ Transform:
   m_PrefabInternal: {fileID: 1824470253}
   m_GameObject: {fileID: 1169991904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.61019897, y: -1.78291869, z: -4.30060434}
+  m_LocalPosition: {x: -3.11019897, y: -1.78291869, z: -4.30060434}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -37234,7 +37128,7 @@ GameObject:
   - 114: {fileID: 1171126755}
   - 114: {fileID: 1171126754}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: SkellyMage
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -37247,7 +37141,7 @@ Transform:
   m_PrefabInternal: {fileID: 1647120162}
   m_GameObject: {fileID: 1171126752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.21019745, y: -1.78291869, z: -6.70060444}
+  m_LocalPosition: {x: -1.01019859, y: -1.78291869, z: -6.90060425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353836104}
@@ -41925,7 +41819,7 @@ Transform:
   m_LocalScale: {x: .799999952, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 4
+  m_RootOrder: 0
 --- !u!114 &1235486724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43177,7 +43071,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 5
+  m_RootOrder: 1
 --- !u!114 &1256416291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44866,14 +44760,10 @@ Transform:
   m_LocalPosition: {x: 4.10034561, y: -2.20655012, z: 11.4902687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 354063632}
-  - {fileID: 729172187}
-  - {fileID: 1887032700}
-  - {fileID: 1450255021}
-  - {fileID: 1344445496}
   - {fileID: 1360881728}
   - {fileID: 681105830}
   - {fileID: 2141928951}
+  - {fileID: 1344445496}
   m_Father: {fileID: 1003716253}
   m_RootOrder: 9
 --- !u!1001 &1342250980
@@ -44943,7 +44833,7 @@ GameObject:
   - 114: {fileID: 1344445498}
   - 114: {fileID: 1344445497}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Mage
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -44956,11 +44846,11 @@ Transform:
   m_PrefabInternal: {fileID: 2001676898}
   m_GameObject: {fileID: 1344445495}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.63159943, y: -1.7705946, z: -6.72896099}
+  m_LocalPosition: {x: -1.01019859, y: -1.78291869, z: -6.70060444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1340271467}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!114 &1344445497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45016,7 +44906,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1344855566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.99014664, y: -4.58946896, z: 5.48966408}
+  m_LocalPosition: {x: 2.99014664, y: -4.58946896, z: 7.08966398}
   m_LocalScale: {x: 1, y: 4.69988775, z: .600000024}
   m_Children: []
   m_Father: {fileID: 1003716253}
@@ -45031,7 +44921,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 2, z: 10}
+  m_Size: {x: 10, y: 2, z: 10.9899998}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1344855569
 MonoBehaviour:
@@ -45052,7 +44942,7 @@ MonoBehaviour:
   wallSpeed: .100000001
   currentMinorActive: 0
   currentMajorActive: 0
-  enemyThreshold: 2
+  enemyThreshold: 1
 --- !u!114 &1344855570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45073,15 +44963,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: .653171539
+      value: -1.01019859
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.77059436
+      value: -1.78291869
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.72896099
+      value: -3.40060425
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -45101,7 +44991,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
@@ -45138,7 +45032,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 2
+  m_RootOrder: 6
 --- !u!114 &1349104650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45525,7 +45419,7 @@ GameObject:
   - 114: {fileID: 1360881730}
   - 114: {fileID: 1360881729}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -45538,11 +45432,11 @@ Transform:
   m_PrefabInternal: {fileID: 426857401}
   m_GameObject: {fileID: 1360881727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.63159943, y: -1.77059436, z: -4.30520725}
+  m_LocalPosition: {x: -2.61019897, y: -1.78291869, z: -2.40060425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1340271467}
-  m_RootOrder: 5
+  m_RootOrder: 0
 --- !u!114 &1360881729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49591,63 +49485,6 @@ MonoBehaviour:
     frameRate: 30
     customFrameSequence: 
     horizontalFlip: 0
---- !u!1 &1450255020
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100008, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1450255021}
-  - 114: {fileID: 1450255023}
-  - 114: {fileID: 1450255022}
-  m_Layer: 0
-  m_Name: PotterySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1450255021
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400008, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1450255020}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.15937805, y: -1.58291936, z: -5.79781628}
-  m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
-  m_Children: []
-  m_Father: {fileID: 1340271467}
-  m_RootOrder: 3
---- !u!114 &1450255022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400018, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1450255020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1450255023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400016, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1450255020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2357eb686df0dfa4bbbef8a97fee7141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectList:
-  - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
-  randomGroup: 1
-  percentSpawnChance: 100
 --- !u!1001 &1454459877
 Prefab:
   m_ObjectHideFlags: 0
@@ -50002,12 +49839,12 @@ Transform:
   m_LocalPosition: {x: -2.22798157, y: -1.02539062, z: 5.19281626}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1235486723}
+  - {fileID: 1894287534}
   - {fileID: 837430742}
   - {fileID: 378590046}
   - {fileID: 1828464250}
   - {fileID: 1490380782}
-  - {fileID: 1235486723}
-  - {fileID: 1894287534}
   m_Father: {fileID: 1915335296}
   m_RootOrder: 1
 --- !u!114 &1468336848
@@ -52348,7 +52185,7 @@ Transform:
   m_LocalScale: {x: .799999952, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 3
+  m_RootOrder: 5
 --- !u!114 &1490380783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53840,7 +53677,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1614892998}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!114 &1540632173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56424,10 +56261,10 @@ Transform:
   m_LocalPosition: {x: -5.42798042, y: -1.02539062, z: -4.60718346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1540632172}
-  - {fileID: 384339212}
   - {fileID: 1097195435}
   - {fileID: 890178948}
+  - {fileID: 1540632172}
+  - {fileID: 384339212}
   m_Father: {fileID: 1915335296}
   m_RootOrder: 10
 --- !u!114 &1614892999
@@ -58708,7 +58545,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.21019745
+      value: -1.01019859
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -58716,7 +58553,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.70060444
+      value: -6.90060425
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -58742,6 +58579,10 @@ Prefab:
       propertyPath: objectList.Array.data[0]
       value: 
       objectReference: {fileID: 100010, guid: 250e3878af72b0f4289674296c56c0ae, type: 2}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: SkellyMage
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
   m_RootGameObject: {fileID: 1171126752}
@@ -58888,7 +58729,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 716263988}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!114 &1658699055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59666,7 +59507,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1675131468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -523.834229, y: 300, z: 1}
+  m_LocalPosition: {x: -525.250854, y: 300, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 885673083}
@@ -60124,7 +59965,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 4
+  m_RootOrder: 1
 --- !u!114 &1689323282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60717,7 +60558,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 1
+  m_RootOrder: 5
 --- !u!114 &1718518163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60858,7 +60699,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!114 &1727505157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61171,7 +61012,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 5
+  m_RootOrder: 2
 --- !u!114 &1758240213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61492,15 +61333,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: .377580643
+      value: .489801407
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.77059436
+      value: -1.78291869
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3.57151699
+      value: -2.40060425
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -61520,7 +61361,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
@@ -61601,7 +61446,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 716263988}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &1775598933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64024,7 +63869,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.61019897
+      value: -3.11019897
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -64061,6 +63906,10 @@ Prefab:
     - target: {fileID: 11400002, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
@@ -64182,7 +64031,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!114 &1828464251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65251,63 +65100,6 @@ Prefab:
   m_RootGameObject: {fileID: 45819052}
   m_IsPrefabParent: 0
   m_IsExploded: 1
---- !u!1 &1887032699
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100010, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1887032700}
-  - 114: {fileID: 1887032702}
-  - 114: {fileID: 1887032701}
-  m_Layer: 0
-  m_Name: PotterySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1887032700
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400010, guid: 0363fe711ba034673b575abe193def5e, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1887032699}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.08942795, y: -1.58291936, z: -5.45775986}
-  m_LocalScale: {x: .800000012, y: .800000012, z: .800000012}
-  m_Children: []
-  m_Father: {fileID: 1340271467}
-  m_RootOrder: 2
---- !u!114 &1887032701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400022, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1887032699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409587b9d77fd0146866a29c51db463c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1887032702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400020, guid: 0363fe711ba034673b575abe193def5e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1887032699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2357eb686df0dfa4bbbef8a97fee7141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectList:
-  - {fileID: 100002, guid: 494013ffb6016994baa6a5f6341b3884, type: 2}
-  randomGroup: 1
-  percentSpawnChance: 100
 --- !u!1001 &1889731340
 Prefab:
   m_ObjectHideFlags: 0
@@ -65480,7 +65272,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1468336847}
-  m_RootOrder: 5
+  m_RootOrder: 1
 --- !u!114 &1894287535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66045,7 +65837,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!114 &1913008031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66532,7 +66324,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 3
+  m_RootOrder: 0
 --- !u!114 &1929070533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66937,7 +66729,7 @@ Transform:
   m_LocalScale: {x: .799999893, y: 1.60000002, z: .399999976}
   m_Children: []
   m_Father: {fileID: 1150620037}
-  m_RootOrder: 3
+  m_RootOrder: 5
 --- !u!114 &1965572897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68019,15 +67811,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.63159943
+      value: -1.01019859
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.7705946
+      value: -1.78291869
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.72896099
+      value: -6.70060444
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -68047,12 +67839,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: objectList.Array.data[0]
       value: 
       objectReference: {fileID: 100010, guid: 250e3878af72b0f4289674296c56c0ae, type: 2}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Mage
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
   m_RootGameObject: {fileID: 1344445495}
@@ -69413,7 +69209,7 @@ Transform:
   m_LocalScale: {x: .800000012, y: 1.60000002, z: .400000006}
   m_Children: []
   m_Father: {fileID: 634859527}
-  m_RootOrder: 0
+  m_RootOrder: 4
 --- !u!114 &2059201364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72594,7 +72390,7 @@ GameObject:
   - 114: {fileID: 2141928953}
   - 114: {fileID: 2141928952}
   m_Layer: 0
-  m_Name: ArenaEnemySpawner
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: -1203168336, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -72607,11 +72403,11 @@ Transform:
   m_PrefabInternal: {fileID: 1768042942}
   m_GameObject: {fileID: 2141928950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .377580643, y: -1.77059436, z: -3.57151699}
+  m_LocalPosition: {x: .489801407, y: -1.78291869, z: -2.40060425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1340271467}
-  m_RootOrder: 7
+  m_RootOrder: 2
 --- !u!114 &2141928952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72651,7 +72447,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: .68980217
+      value: -.910198212
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -72659,7 +72455,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.70060444
+      value: -5.30060482
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -72688,6 +72484,10 @@ Prefab:
     - target: {fileID: 11400002, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}
+      propertyPath: m_Name
+      value: Skelly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37009277cf8ea426f89d07ff8298772f, type: 2}

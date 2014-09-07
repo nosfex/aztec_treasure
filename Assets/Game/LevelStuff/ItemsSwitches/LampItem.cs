@@ -4,9 +4,12 @@ using System.Collections;
 public class LampItem : BaseObject 
 {
 	public GameObject ambush;
+
 	void OnLifted( GameObject src )
 	{
-		ambush.SetActive( true );
+		if ( ambush != null )
+			ambush.SetActive( true );
+
 		GameDirector.i.playerRight.hasLamp = true;
 		Destroy( gameObject );
 	}
