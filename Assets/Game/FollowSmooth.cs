@@ -364,11 +364,106 @@ public class FollowSmooth : MonoBehaviour
 			shake = shakeTo;
 		}
 		 
+		Vector3 adjust = Vector3.zero;
+		float adjustLeft = 0;
+		float adjustUp = 0;
+		float adjustDown = 0;
+		float adjustRight = 0;
+
+		float pointLeft = 0;
+		float pointRight = 0;
+		float pointUp = 0;
+		float pointDown = 0;
+
+		//Left
+		RaycastHit[] rhLeft = Physics.RaycastAll( target.position, Vector3.left, 5.0f );
+		
+		foreach ( RaycastHit r in rhLeft )
+			if ( r.collider.gameObject.name == "CameraBlockLeft" )
+		{
+			adjustLeft = 5.0f - (tempTarget.x - r.point.x);// - (r.collider.transform.position.x + r.collider.bounds.extents.x);
+			//adjustLeft = Mathf.Max ( MAX_ADJUST_SPEED, adjustLeft );
+			pointLeft = r.point.x;
+		}
+
+		//Right
+		RaycastHit[] rhRight = Physics.RaycastAll( target.position, Vector3.right, 5.0f );
+		
+		foreach ( RaycastHit r in rhRight )
+			if ( r.collider.gameObject.name == "CameraBlockRight" )
+		{
+			adjustRight -= 5.0f + (tempTarget.x - r.point.x);// - (r.collider.transform.position.x + r.collider.bounds.extents.x);
+			//adjustRight = Mathf.Min ( -MAX_ADJUST_SPEED, adjustRight );
+			pointRight = r.point.x;
+		}
+
+		//Up
+		RaycastHit[] rhUp = Physics.RaycastAll( target.position, Vector3.forward, 5.0f );
+		
+		foreach ( RaycastHit r in rhUp )
+			if ( r.collider.gameObject.name == "CameraBlockUp" )
+		{
+				adjustUp -= 5.0f + (tempTarget.z - r.point.z);// - (r.collider.transform.position.x + r.collider.bounds.extents.x);
+			//adjustUp = Mathf.Min ( -MAX_ADJUST_SPEED, adjustUp );
+			pointUp = r.point.z;
+		}
+		//Down
+		RaycastHit[] rhDown = Physics.RaycastAll( target.position, Vector3.forward * -1, 5.0f );
+		
+		foreach ( RaycastHit r in rhDown )
+			if ( r.collider.gameObject.name == "CameraBlockDown" )
+		{
+				adjustDown = 5.0f - (tempTarget.z - r.point.z);// - (r.collider.transform.position.x + r.collider.bounds.extents.x);
+			//adjustDown = Mathf.Max ( MAX_ADJUST_SPEED, adjustDown );
+			pointDown = r.point.z;
+		}
+
+
+
+		if ( adjustLeft != 0 && adjustRight != 0 )
+			tempTarget.x = (pointLeft + pointRight) * 0.5f;
+		else 
+			adjust.x = (adjustLeft + adjustRight);
+
+		if ( adjustUp != 0 && adjustDown != 0 )
+			tempTarget.z = (pointUp + pointDown) * 0.5f;
+		else 
+			adjust.z = (adjustUp + adjustDown);
+
+		print ("Adjust L = " + adjustLeft + "... adjust R = " + adjustRight );
+
+
+		tempTarget += adjust;
+
 		Vector3 v = ((tempTarget + offset) - transform.position) * frictionCoef;
 
+		float MAX_ADJUST_SPEED = 0.05f;
+
+		if ( v.z > MAX_ADJUST_SPEED )
+			v.z = MAX_ADJUST_SPEED;
+
+		if ( v.z < -MAX_ADJUST_SPEED )
+			v.z = -MAX_ADJUST_SPEED;
+
+		if ( v.x > MAX_ADJUST_SPEED )
+			v.x = MAX_ADJUST_SPEED;
+
+		if ( v.x < -MAX_ADJUST_SPEED )
+			v.x = -MAX_ADJUST_SPEED;
+		//		if ( adjustUp != 0 && adjustDown != 0 )
+//			v.z = 0;
+
+		if ( GameDirector.i.playerRight.currentFloor == null )
+			v.y = 0;
+		else
+			v.y *= 0.1f;
+
+
+
 		transform.position += v;
-			
-		transform.position = new Vector3( transform.position.x, originalPosition.y, transform.position.z );
+
+
+		//transform.position = new Vector3( transform.position.x, originalPosition.y, transform.position.z );
 		transform.position += shake;
 		//transform.position += offset;
 		

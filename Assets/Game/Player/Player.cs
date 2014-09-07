@@ -282,22 +282,27 @@ public class Player : BaseObject
 			if ( inDarkness )
 				torchOn = true;
 
-			if ( torchOn && torchRatio > 0 )
+			if ( torchOn ) 
 			{
-				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
-				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
-				
-				if ( torchRatio == 0 && inDarkness )
-				{
-					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
-					speed *= 0.7f;				
-				}
+				torchLight.intensity = 0.15f;
 			}
-		
-			if ( torchRatio < 50 )
-				torchLight.intensity = (torchRatio / 50f) * 0.8f;
-			else 
-				torchLight.intensity = 0.8f;
+
+//			if ( torchOn && torchRatio > 0 )
+//			{
+//				torchRatio -= (Time.deltaTime * 100f) / 30f; // / secs
+//				torchRatio = Mathf.Clamp ( torchRatio, 0, 100 );
+//				
+//				if ( torchRatio == 0 && inDarkness )
+//				{
+//					GameDirector.i.ShowTextPopup( gameObject, 0.4f, "Find light... quickly...");
+//					speed *= 0.7f;				
+//				}
+//			}
+//		
+//			if ( torchRatio < 50 )
+//				torchLight.intensity = (torchRatio / 50f) * 0.15f;
+//			else 
+//				torchLight.intensity = 0.15f;
 		}		
 	}
 	
@@ -835,6 +840,9 @@ public class Player : BaseObject
 	
 	public override void OnHit( GameObject other )
 	{
+		if ( other == null )
+			return;
+
 		BaseObject bo = other.GetComponentInChildren<BaseObject>();
 
 		if ( state == State.ATTACKING && attackSensor.IsObjectInside( bo ) )

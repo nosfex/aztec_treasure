@@ -697,7 +697,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.3384438, y: 7.17512798, z: 6.94912195}
+  m_LocalPosition: {x: -24.324461, y: 6.66565132, z: 7.58915329}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -2093,7 +2093,7 @@ MonoBehaviour:
   respawns: 0
   currentFloor: {fileID: 0}
   prefabShadow: {fileID: 0}
-  hasLamp: 1
+  hasLamp: 0
   hasGhostSword: 0
   keysCount: 0
   helperPivot: {fileID: 400066}
