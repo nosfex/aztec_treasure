@@ -32,13 +32,13 @@ public class Bat : Skelly
 		
 		gravityEnabled = true;
 		
-		if ( state != State.DYING )
+		if ( state != State.DYING && GameDirector.i.playerRight.currentFloor != null )
 		{
 			if ( !floorBelow || isGrounded )
 				gravityEnabled = false;
 
 			animator.renderer.enabled = true;
-			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.2f) - transform.position.y) * 0.5f, 0 );
+			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.2f) - transform.position.y) * 0.1f, 0 );
 		}
 
 
