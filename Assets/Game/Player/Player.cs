@@ -325,14 +325,22 @@ public class Player : BaseObject
 			if ( liftSensor != null && liftSensor.sensedObject != null && liftSensor.sensedObject.isLiftable )
 			{
 				Transform lifted = liftSensor.sensedObject.transform;
+				// To keep track.
+				liftedObject = lifted.gameObject.GetComponent<BaseObject>();
+				
+				if(liftedObject.velocity != Vector3.zero)
+				{
+					ResetLiftSensor();
+					return false;
+					
+				}
+				
 				lifted.parent = transform;
 				
 				// Pone el objeto en la cabeza del flaco.
 				iTween.MoveTo( lifted.gameObject, iTween.Hash ( "isLocal", true, "position", new Vector3(0,0.6f,0), "time", 0.2f, "easetype", iTween.EaseType.easeOutCirc ) );
 				
-				// To keep track.
-				liftedObject = lifted.gameObject.GetComponent<BaseObject>();
-				
+				Invoke("OnLiftComplete", 0.2f);
 				// Lo desactiva.
 				liftedObject.gravityEnabled = false;
 				liftedObject.collisionEnabled = false;
@@ -343,7 +351,7 @@ public class Player : BaseObject
 				return true;
 			}
 		}
-		else
+		else if(canThrow)
 		{
 			liftedObject.velocity += (direction * 0.02f) + (velocity * 1.0f); 
 			
@@ -356,7 +364,7 @@ public class Player : BaseObject
 			objectToIgnoreTimer = 0.3f;
 
 			ResetLiftSensor();
-			
+			canThrow = false;
 			return true;
 		}
 		
@@ -1068,5 +1076,12 @@ public class Player : BaseObject
 			}
 		}
 
+	}
+	
+	bool canThrow = false;
+	void OnLiftComplete()
+	{
+		
+		canThrow = true;
 	}
 }

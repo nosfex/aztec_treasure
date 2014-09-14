@@ -25,6 +25,11 @@ public class Cocodrile : Skelly {
 	void Update ()
 	{
 		base.Update();
+		if(state != Skelly.State.ATTACKING)
+		{
+			particles.Stop();
+			
+		}
 		trailP.transform.position = transform.position;
 	}
 	
@@ -111,6 +116,7 @@ public class Cocodrile : Skelly {
 		if(state == State.ATTACKING)
 		{
 			state = State.WALKING;
+			particles.Stop();
 			cooldown = attackCooldown;
 			velocity = Vector3.zero;
 		}
