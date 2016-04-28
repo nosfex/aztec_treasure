@@ -37,7 +37,7 @@ Shader "Custom/Transparent-Diffuse-Ramp-Dithering" {
 
 		CGPROGRAM
 		#pragma target 3.0
-		#pragma surface surf Translucent alpha vertex:vert finalcolor:dither
+		#pragma surface surf Translucent alpha:fade vertex:vert finalcolor:dither
 		#include "CGIncludes/Dithering.cginc"
 
 		sampler2D _MainTex;
@@ -109,25 +109,15 @@ Shader "Custom/Transparent-Diffuse-Ramp-Dithering" {
 
 		inline fixed4 LightingTranslucent (SurfaceOutput s, fixed3 lightDir, fixed3 viewDir, fixed atten)
 		{	
-
-			
 			lightDir.z = max( 0.5, lightDir.z + 0.2);
 			
 			lightDir.y += .5;
 			half NdotL = dot (s.Normal, lightDir);
-        	half diff = NdotL;// * 0.5 + 0.5;//max (0, length(viewDir - lightDir));
-        	//half3 ramp = tex2D (_Ramp, float2(0,diff)).rgb;
-        	//half4 c;
-        //c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten * 2);
-		
-			
-			//fixed diff = max (0, length(viewDir - lightDir));
-		    fixed3 diffAlbedo = (s.Albedo * _LightColor0.rgb * diff) * (atten * 2);
-			// Add the two together.
-			fixed4 c;
-
-			c.rgb = diffAlbedo + (_AddColor * 0.5);
-			c.a = _LightColor0.a * s.Alpha * atten;
+        	half diff = max (0, length(viewDir - lightDir));
+        	fixed4 c;
+        	c.rgb = s.Albedo * _LightColor0.rgb * atten * diff * 1;// * (diff * atten * _LightColor0.a * 2) + (_AddColor.rgb * 0.5);
+			c.rgb += _AddColor.rgb * 0.5;
+			c.a = s.Alpha;
 			
 			return c;
 		}

@@ -148,7 +148,7 @@ public class BaseObject : MonoBehaviour
 				float TECHODELPISO = currentFloor.transform.position.y + currentFloor.bounds.extents.y;
 				
 				if ( TECHODELPISO < floorY + minStairClimb || floorY == -100f )
-					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + collider.bounds.extents.y;
+					floorY = currentFloor.transform.position.y + currentFloor.bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
 			//	else 
 			//		print("wtf");
 			}
@@ -279,7 +279,7 @@ public class BaseObject : MonoBehaviour
 		if ( climbStairs )
 		{
 			float TECHODELPISO = other.transform.position.y + other.bounds.extents.y + other.bounds.center.y;
-			float MISPIES = transform.position.y - collider.bounds.extents.y + collider.bounds.center.y;
+			float MISPIES = transform.position.y - GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.center.y;
 			float yDif = TECHODELPISO - MISPIES;
 			
 			if ( yDif >= minStairClimb ) // Enough to climb
@@ -294,9 +294,9 @@ public class BaseObject : MonoBehaviour
 	
 	virtual protected void TestWalls( Collider other )
 	{
-		Bounds b = ((BoxCollider)collider).bounds;
+		Bounds b = ((BoxCollider)GetComponent<Collider>()).bounds;
 		
-		float margin = ((BoxCollider)collider).bounds.extents.x;// - 0.01f;
+		float margin = ((BoxCollider)GetComponent<Collider>()).bounds.extents.x;// - 0.01f;
 		
 		Vector3 left = other.ClosestPointOnBounds( transform.position + (Vector3.left * 100) ) + (Vector3.left * margin);
 		Vector3 right = other.ClosestPointOnBounds( transform.position + (Vector3.right * 100) ) + (Vector3.right * margin);
@@ -382,7 +382,7 @@ public class BaseObject : MonoBehaviour
 			if ( climbStairs )
 			{
 				float TECHODELPISO = other.transform.position.y + other.bounds.extents.y;
-				float MISPIES = transform.position.y - collider.bounds.extents.y;
+				float MISPIES = transform.position.y - GetComponent<Collider>().bounds.extents.y;
 				float yDif = TECHODELPISO - MISPIES;
 				
 				if ( yDif >= minStairClimb ) // Enough to climb

@@ -573,13 +573,13 @@ public class Player : BaseObject
 			inmuneTimer -= Time.deltaTime;
 
 			if ( inmuneTimer <= 0 )
-				animator.renderer.material.SetColor ( "_AddColor", Color.black );
+				animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 			else 
 			{
 				if ( Time.frameCount % 4 < 2 )
-					animator.renderer.material.SetColor ( "_AddColor", new Color(0.1f,0.1f,0.1f) );
+					animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", new Color(0.1f,0.1f,0.1f) );
 				else 
-					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+					animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 			}
 		}
 		
@@ -781,7 +781,7 @@ public class Player : BaseObject
 	
 	private void reverseInvisibility()
 	{
-		Material mat = animator.renderer.material;
+		Material mat = animator.GetComponent<Renderer>().material;
 		mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invisible = false;
 	}
@@ -798,7 +798,7 @@ public class Player : BaseObject
 				invisibilityCooldown = 20.0f;
 				invisible = true;
 				//renderer.material.SetColor();
-				Material mat = animator.renderer.material;
+				Material mat = animator.GetComponent<Renderer>().material;
 				mat.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 			break;
 			

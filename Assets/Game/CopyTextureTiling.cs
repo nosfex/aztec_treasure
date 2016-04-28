@@ -14,8 +14,8 @@ public class CopyTextureTiling : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		transform.position = p.transform.position + (Vector3.up * 0.2f) + (p.direction * 0.3f);
-		transform.rotation = renderer.transform.rotation;
-		renderer.material.mainTextureOffset = copySource.material.mainTextureOffset;
-		renderer.material.mainTextureScale = copySource.material.mainTextureScale;
+		transform.rotation = GetComponent<Renderer>().transform.rotation;
+		GetComponent<Renderer>().material.mainTextureOffset = copySource.material.mainTextureOffset;
+		GetComponent<Renderer>().material.mainTextureScale = copySource.material.mainTextureScale;
 	}
 }

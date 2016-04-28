@@ -7,7 +7,7 @@ public class TimeLabel : MonoBehaviour {
 	float timer = 0;
 	void StartFade () 
 	{
-		renderer.enabled = true;
+		GetComponent<Renderer>().enabled = true;
 		enabled = false;
 		iTween.MoveFrom( gameObject, iTween.Hash( "oncomplete", "OnFadeInComplete", "y", transform.position.y + 2.0f, "time", 2.0f - delay, "easetype", iTween.EaseType.easeOutQuad ) );
 		iTween.FadeFrom( gameObject, iTween.Hash( "alpha", 0, "time", 2.0f - delay ) );
@@ -15,7 +15,7 @@ public class TimeLabel : MonoBehaviour {
 
 	void Start()
 	{
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 	}
 
 	void OnFadeInComplete()

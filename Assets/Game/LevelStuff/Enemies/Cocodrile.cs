@@ -43,9 +43,9 @@ public class Cocodrile : Skelly {
 		
 		// GH: blink for attack
 		if ( Time.frameCount % 4 < 2 )
-			animator.renderer.material.SetColor ( "_AddColor", Color.red );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.red );
 		else 
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 		// GH: Launch an attack and get back to walking
 		if(stateTimer == 0)
 		{
@@ -55,8 +55,8 @@ public class Cocodrile : Skelly {
 			if(!particles.isPlaying)
 			{
 			
-				particles.renderer.material.mainTextureOffset = animator.renderer.material.mainTextureOffset;
-				particles.renderer.material.mainTextureScale = animator.renderer.material.mainTextureScale;
+				particles.GetComponent<Renderer>().material.mainTextureOffset = animator.GetComponent<Renderer>().material.mainTextureOffset;
+				particles.GetComponent<Renderer>().material.mainTextureScale = animator.GetComponent<Renderer>().material.mainTextureScale;
 
 				particles.Play();
 			}
@@ -73,7 +73,7 @@ public class Cocodrile : Skelly {
 				particles.Stop();
 				
 			}
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 		}
 	}
 	

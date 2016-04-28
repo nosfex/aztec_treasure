@@ -34,8 +34,8 @@ public class GUICompass : MonoBehaviour
 	{
 		Color targetColor = new Color( 1,1,1, arrowVisible ? 1 : 0 );
 		
-		distanceText.renderer.material.color = targetColor;
-		arrow.renderer.material.color = targetColor;
+		distanceText.GetComponent<Renderer>().material.color = targetColor;
+		arrow.GetComponent<Renderer>().material.color = targetColor;
 	}
 	
 	
@@ -75,10 +75,10 @@ public class GUICompass : MonoBehaviour
 		{
 			Color targetColor = new Color( 1,1,1, arrowVisible ? 1 : 0 );
 			
-			distanceText.renderer.material.color = Color.Lerp ( distanceText.renderer.material.color, targetColor, 0.1f );
-			arrow.renderer.material.color = Color.Lerp ( arrow.renderer.material.color, targetColor, 0.1f );
+			distanceText.GetComponent<Renderer>().material.color = Color.Lerp ( distanceText.GetComponent<Renderer>().material.color, targetColor, 0.1f );
+			arrow.GetComponent<Renderer>().material.color = Color.Lerp ( arrow.GetComponent<Renderer>().material.color, targetColor, 0.1f );
 		
-			if ( distanceText.renderer.material.color == targetColor )
+			if ( distanceText.GetComponent<Renderer>().material.color == targetColor )
 				fading = false;
 		}
 		
@@ -95,8 +95,8 @@ public class GUICompass : MonoBehaviour
 		distanceText.transform.position = arrow.transform.position + Vector3.up * 20f;
 		distanceText.text = distance.ToString("N2") + "mts";
 		
-		arrow.renderer.enabled = distance > 3.0f;
-		distanceText.renderer.enabled = distance > 3.0f;
+		arrow.GetComponent<Renderer>().enabled = distance > 3.0f;
+		distanceText.GetComponent<Renderer>().enabled = distance > 3.0f;
 		
 		easeTimer += 0.008f;
 		

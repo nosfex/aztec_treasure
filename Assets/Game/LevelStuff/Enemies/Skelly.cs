@@ -105,9 +105,9 @@ public class Skelly : BaseObject
 		//if ( animator.isPlaying )
 		//	animator.StopAnim();
 		if ( Time.frameCount % 4 < 2 )
-			animator.renderer.material.SetColor ( "_AddColor", Color.red );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.red );
 		else 
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 
 		if ( stateTimer > 0.6f )
 		{ 
@@ -126,7 +126,7 @@ public class Skelly : BaseObject
 
 				if ( isGrounded && gravity.y > 0 )
 				{
-					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+					animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 					jumpAttacking = false;
 
 					state = State.WALKING;
@@ -325,25 +325,25 @@ public class Skelly : BaseObject
 		if ( hitFeedbackTimer > 0 )
 		{
 			if ( Time.frameCount % 4 < 2 )
-				animator.renderer.material.SetColor ( "_AddColor", Color.yellow );
+				animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.yellow );
 			else 
-				animator.renderer.material.SetColor ( "_AddColor", Color.black );
+				animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 
 			hitFeedbackTimer -= Time.deltaTime;
 
 			if ( hitFeedbackTimer <= 0 )
-				animator.renderer.material.SetColor ( "_AddColor", Color.black );
+				animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 		}
 		
 		stateTimer += Time.deltaTime;
 		
 		if ( inmuneTimer > 0 )
 		{
-			animator.renderer.enabled = Time.frameCount % 4 < 2;
+			animator.GetComponent<Renderer>().enabled = Time.frameCount % 4 < 2;
 			inmuneTimer -= Time.deltaTime;
 			
 			if ( inmuneTimer <= 0 )
-				animator.renderer.enabled = true;
+				animator.GetComponent<Renderer>().enabled = true;
 		}
 		
 		if ( controller.GetKey( KeyCode.Keypad0 ) )
@@ -436,7 +436,7 @@ public class Skelly : BaseObject
 				SetVelocity( bounceDirection * -0.05f );
 			}
 
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 			//if ( jumpAttacking )
 			{
 				jumpAttacking = false;
@@ -501,7 +501,7 @@ public class Skelly : BaseObject
 				if ( state != State.DYING )
 				{
 					state = State.WALKING;
-					animator.renderer.material.SetColor ( "_AddColor", Color.black );
+					animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 					jumpAttacking = false;
 				}
 

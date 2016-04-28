@@ -46,7 +46,7 @@ public class AttackObject : MonoBehaviour {
 	{
 		explosionParticles.gameObject.SetActive( true );
 		trailParticles.Stop ();
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 		this.enabled = false;
 
 		// Hack asqueroso... 

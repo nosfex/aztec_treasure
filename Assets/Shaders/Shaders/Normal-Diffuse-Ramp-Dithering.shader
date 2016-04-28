@@ -131,7 +131,7 @@ Shader "Custom/Normal-Diffuse-Ramp-Dithering" {
 			fixed4 c;
 
 			c.rgb = diffAlbedo + (_AddColor * 0.5);
-			c.a = _LightColor0.a * s.Alpha * atten;
+			//c.a = _LightColor0.a * s.Alpha * atten;
 			
 			return c;
 		}

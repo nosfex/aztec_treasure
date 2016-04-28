@@ -72,16 +72,16 @@ public class RangedAI : EnemyController
 				drawTimer = 0;
 				attacking = true;
 				drawAndShoot = false;
-				body.animator.renderer.material.SetColor( "_AddColor", new Color(0,0,0,1) );
+				body.animator.GetComponent<Renderer>().material.SetColor( "_AddColor", new Color(0,0,0,1) );
 			}
 			else 
 			{
 				goingRight = goingLeft = goingUp = goingDown = false;
 				
 				if ( Time.frameCount % 4 < 2 )
-					body.animator.renderer.material.SetColor( "_AddColor", new Color(0.5f,0.5f,0.5f,1) );
+					body.animator.GetComponent<Renderer>().material.SetColor( "_AddColor", new Color(0.5f,0.5f,0.5f,1) );
 				else
-					body.animator.renderer.material.SetColor( "_AddColor", new Color(0,0,0,1) );
+					body.animator.GetComponent<Renderer>().material.SetColor( "_AddColor", new Color(0,0,0,1) );
 			}
 		}
 	}

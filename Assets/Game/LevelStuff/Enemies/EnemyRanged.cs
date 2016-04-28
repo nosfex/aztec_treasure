@@ -279,11 +279,11 @@ public class EnemyRanged : BaseObject {
 		
 		if ( inmuneTimer > 0 )
 		{
-			animator.renderer.enabled = !animator.renderer.enabled;
+			animator.GetComponent<Renderer>().enabled = !animator.GetComponent<Renderer>().enabled;
 			inmuneTimer -= Time.deltaTime;
 			
 			if ( inmuneTimer <= 0 )
-				animator.renderer.enabled = true;
+				animator.GetComponent<Renderer>().enabled = true;
 		}
 		
 		if ( controller.GetKey( KeyCode.Keypad0 ) )

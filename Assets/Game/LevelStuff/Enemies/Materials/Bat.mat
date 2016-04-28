@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Bat
-  m_Shader: {fileID: 4800000, guid: fde97abd3fd089b478c2c1e59a641fc4, type: 3}
-  m_ShaderKeywords: []
-  m_CustomRenderQueue: -1
+  m_Shader: {fileID: 4800000, guid: 2ea2d2a04fc5a46ebbed8cdbe521d142, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -18,8 +20,8 @@ Material:
           name: _MainTex
         second:
           m_Texture: {fileID: 2800000, guid: 7a0770e44395ed84abb3f398408c19fb, type: 3}
-          m_Scale: {x: .5, y: .5}
-          m_Offset: {x: 0, y: .5}
+          m_Scale: {x: 0.5, y: 0.5}
+          m_Offset: {x: 0, y: 0.5}
       data:
         first:
           name: _BumpMap
@@ -27,15 +29,48 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _PaletteTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DitherTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
+          name: _Scale
+        second: 0.5
+      data:
+        first:
           name: _Cutoff
-        second: .673076928
+        second: 0.6730769
       data:
         first:
           name: _Shininess
-        second: .0378518663
+        second: 0.037851866
+      data:
+        first:
+          name: _PaletteHeight
+        second: 128
+      data:
+        first:
+          name: _DitherSize
+        second: 8
       data:
         first:
           name: _Power
@@ -44,10 +79,6 @@ Material:
         first:
           name: _Distortion
         second: 0
-      data:
-        first:
-          name: _Scale
-        second: .5
     m_Colors:
       data:
         first:
@@ -55,16 +86,16 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _Emission
-        second: {r: .25, g: .25, b: .25, a: 0}
-      data:
-        first:
           name: _SpecColor
-        second: {r: .279411793, g: .279411793, b: .279411793, a: 0}
+        second: {r: 0.2794118, g: 0.2794118, b: 0.2794118, a: 0}
       data:
         first:
           name: _AddColor
         second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Emission
+        second: {r: 0.25, g: 0.25, b: 0.25, a: 0}
       data:
         first:
           name: _SubColor

@@ -13,6 +13,6 @@ public class Lamplight : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		renderer.sharedMaterial.SetColor("_TintColor", new Color( 1.0f, 1.0f, 1.0f, Mathf.Clamp01 ( GameDirector.i.playerRight.torchRatio / 100f ) * 0.3f ) );
+		GetComponent<Renderer>().sharedMaterial.SetColor("_TintColor", new Color( 1.0f, 1.0f, 1.0f, Mathf.Clamp01 ( GameDirector.i.playerRight.torchRatio / 100f ) * 0.3f ) );
 	}
 }

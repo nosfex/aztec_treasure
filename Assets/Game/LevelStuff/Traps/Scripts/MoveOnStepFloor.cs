@@ -26,7 +26,7 @@ public class MoveOnStepFloor : MonoBehaviour
 		{
 			Collider other = sensor.sensedObject;
 
-			if ( other == collider )
+			if ( other == GetComponent<Collider>() )
 			{
 				//print ("Error....");
 				return;

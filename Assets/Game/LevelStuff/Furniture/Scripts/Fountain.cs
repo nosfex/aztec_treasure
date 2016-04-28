@@ -74,7 +74,7 @@ public class Fountain : BaseObject
 		{
 			float act = Mathf.Max ( 0, activated - 1.0f );
 			Color c = new Color( 1f,1f,1f, act / (timeToActivate) );
-			flameParticle.renderer.material.SetColor( "_TintColor", c );
+			flameParticle.GetComponent<Renderer>().material.SetColor( "_TintColor", c );
 			flameLight.intensity = act / (timeToActivate);
 		}
 		
@@ -102,7 +102,7 @@ public class Fountain : BaseObject
 				//flame.SetActive( true );
 				Player p = (Player)GameDirector.i.playerRight;
 				Color c = new Color( 1f,1f,1f, 1.0f );
-				flameParticle.renderer.material.SetColor( "_TintColor", c );
+				flameParticle.GetComponent<Renderer>().material.SetColor( "_TintColor", c );
 				flameLight.intensity = 2f;
 				
 			//	int initialBonus = 1000;

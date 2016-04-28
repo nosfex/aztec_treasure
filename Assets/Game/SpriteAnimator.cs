@@ -181,7 +181,7 @@ public class SpriteAnimator : MonoBehaviour
 			
 			if ( myObject != null && myObject.worldOwner != null && myObject.worldOwner.camera != null )
 			{
-				billboardCamera = myObject.worldOwner.camera.camera;
+				billboardCamera = myObject.worldOwner.camera.GetComponent<Camera>();
 				
 			}
 			else
@@ -200,7 +200,7 @@ public class SpriteAnimator : MonoBehaviour
 				
 				if ( myWorld != null )
 				{
-					billboardCamera = myWorld.camera.camera;
+					billboardCamera = myWorld.camera.GetComponent<Camera>();
 					
 					
 				}
@@ -260,8 +260,8 @@ public class SpriteAnimator : MonoBehaviour
 	{
 		float xScale = 1.0f / xcells;
 		float yScale = 1.0f / ycells;
-		renderer.sharedMaterial.mainTextureScale = new Vector2( xScale, yScale );
-		renderer.sharedMaterial.mainTextureOffset = new Vector2( xScale * (frameIndex % xcells), (1.0f - yScale) - (yScale * (frameIndex / xcells)) );
+		GetComponent<Renderer>().sharedMaterial.mainTextureScale = new Vector2( xScale, yScale );
+		GetComponent<Renderer>().sharedMaterial.mainTextureOffset = new Vector2( xScale * (frameIndex % xcells), (1.0f - yScale) - (yScale * (frameIndex / xcells)) );
 		
 //		frameIndex++;
 		//frameIndex %= xcells * ycells;
@@ -360,9 +360,9 @@ public class SpriteAnimator : MonoBehaviour
 
 		
 
-		for ( int i = 0; i < renderer.materials.Length; i++ )
+		for ( int i = 0; i < GetComponent<Renderer>().materials.Length; i++ )
 		{
-			Material m = renderer.materials[i];
+			Material m = GetComponent<Renderer>().materials[i];
 			m.mainTextureScale = new Vector2( xScale * ( currentAnimation.horizontalFlip ? -1 : 1 ), yScale );
 			m.mainTextureOffset = new Vector2( xScale * ((frameSequence[frameIndex] % xcells) - ( currentAnimation.horizontalFlip ? -1 : 0 )), (1.0f - yScale) - (yScale * (frameSequence[frameIndex] / xcells)) );
 		}

@@ -6,12 +6,12 @@ public class Cosa : MonoBehaviour {
 	
 	void OnTriggerEnter( Collider other )
 	{
-		particleSystem.Play();
+		GetComponent<ParticleSystem>().Play();
 	}
 
 	void OnTriggerExit( Collider other )
 	{
-		particleSystem.Stop();
+		GetComponent<ParticleSystem>().Stop();
 	}
 	
 	// Use this for initialization

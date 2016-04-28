@@ -33,9 +33,9 @@ public class SkellyMage : Skelly
 
 		// GH: blink for attack
 		if ( Time.frameCount % 4 < 2 )
-			animator.renderer.material.SetColor ( "_AddColor", Color.red );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.red );
 		else 
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 		// GH: Launch an attack and get back to walking
 		if(stateTimer == 0)
 		{
@@ -63,7 +63,7 @@ public class SkellyMage : Skelly
 		attack.GetComponent<AttackObject>().playerPosition = playerPosition;
 		state = State.WALKING;
 		cooldown = attackCooldown;
-		animator.renderer.material.SetColor ( "_AddColor", Color.black );
+		animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 	}
 }
 

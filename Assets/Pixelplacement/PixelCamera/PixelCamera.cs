@@ -41,8 +41,8 @@ public class PixelCamera : MonoBehaviour {
 	
 	void Awake(){
 		cachedTransform = transform;
-		cachedCamera = camera;	
-		cachedCamera.isOrthoGraphic = true;
+		cachedCamera = GetComponent<Camera>();	
+		cachedCamera.orthographic = true;
 		cachedCamera.nearClipPlane = 0;
 		
 		//set up child content holder ( if there was already one from a previous life of the PixelCamera script lets use that instead of creating a new one ):

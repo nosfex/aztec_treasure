@@ -37,7 +37,7 @@ public class Bat : Skelly
 			if ( !floorBelow || isGrounded )
 				gravityEnabled = false;
 
-			animator.renderer.enabled = true;
+			animator.GetComponent<Renderer>().enabled = true;
 			transform.position += new Vector3( 0, ( (GameDirector.i.playerRight.transform.position.y + 0.2f) - transform.position.y) * 0.1f, 0 );
 		}
 
@@ -72,7 +72,7 @@ public class Bat : Skelly
 		
 		if ( stateTimer > 1.0f )
 		{
-			animator.renderer.enabled = Time.frameCount % 4 < 2;
+			animator.GetComponent<Renderer>().enabled = Time.frameCount % 4 < 2;
 		}
 		
 		if ( stateTimer > 2.0f )
@@ -144,7 +144,7 @@ public class Bat : Skelly
 		else 
 		{
 
-			animator.renderer.material.SetColor ( "_AddColor", Color.black );
+			animator.GetComponent<Renderer>().material.SetColor ( "_AddColor", Color.black );
 			jumpAttacking = false;
 			state = State.WALKING;
 		}

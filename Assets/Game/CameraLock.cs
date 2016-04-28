@@ -36,16 +36,16 @@ public class CameraLock : MonoBehaviour
 		switch ( type )
 		{
 		case LockType.LOCK_LEFT:
-			cameraController.OnTriggerEnterLeft( collider, other );
+			cameraController.OnTriggerEnterLeft( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_RIGHT:
-			cameraController.OnTriggerEnterRight( collider, other );
+			cameraController.OnTriggerEnterRight( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_UP:
-			cameraController.OnTriggerEnterUp( collider, other );
+			cameraController.OnTriggerEnterUp( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_DOWN:
-			cameraController.OnTriggerEnterDown( collider, other );
+			cameraController.OnTriggerEnterDown( GetComponent<Collider>(), other );
 			break;
 		}
 	}
@@ -60,16 +60,16 @@ public class CameraLock : MonoBehaviour
 		switch ( type )
 		{
 		case LockType.LOCK_LEFT:
-			cameraController.OnTriggerEnterLeft( collider, other );
+			cameraController.OnTriggerEnterLeft( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_RIGHT:
-			cameraController.OnTriggerEnterRight( collider, other );
+			cameraController.OnTriggerEnterRight( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_UP:
-			cameraController.OnTriggerEnterUp( collider, other );
+			cameraController.OnTriggerEnterUp( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_DOWN:
-			cameraController.OnTriggerEnterDown( collider, other );
+			cameraController.OnTriggerEnterDown( GetComponent<Collider>(), other );
 			break;
 		}
 	}
@@ -84,16 +84,16 @@ public class CameraLock : MonoBehaviour
 		switch ( type )
 		{
 		case LockType.LOCK_LEFT:
-			cameraController.OnTriggerExitLeft( collider, other );
+			cameraController.OnTriggerExitLeft( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_RIGHT:
-			cameraController.OnTriggerExitRight( collider, other );
+			cameraController.OnTriggerExitRight( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_UP:
-			cameraController.OnTriggerExitUp( collider, other );
+			cameraController.OnTriggerExitUp( GetComponent<Collider>(), other );
 			break;
 		case LockType.LOCK_DOWN:
-			cameraController.OnTriggerExitDown( collider, other );
+			cameraController.OnTriggerExitDown( GetComponent<Collider>(), other );
 			break;
 		}
 	}
